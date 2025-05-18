@@ -12,45 +12,45 @@ const Process = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="relative">
+          <div className="relative flex flex-col items-center md:items-start">
             <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-4">
               <span className="text-2xl font-bold text-primary">1</span>
             </div>
-            <h3 className="text-xl font-bold mb-2 font-heading">Contattaci</h3>
-            <p className="text-gray-600">Compila il modulo di contatto con le tue esigenze e dettagli aziendali.</p>
+            <h3 className="text-xl font-bold mb-2 font-heading text-center md:text-left">Contattaci</h3>
+            <p className="text-gray-600 text-center md:text-left">Compila il modulo di contatto con le tue esigenze e dettagli aziendali.</p>
             <div className="hidden lg:block absolute top-10 right-0 w-3/4 h-0.5 bg-gray-200">
               <div className="absolute right-0 -top-1.5 w-3 h-3 rounded-full bg-primary"></div>
             </div>
           </div>
           
-          <div className="relative">
+          <div className="relative flex flex-col items-center md:items-start">
             <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-4">
               <span className="text-2xl font-bold text-primary">2</span>
             </div>
-            <h3 className="text-xl font-bold mb-2 font-heading">Consulenza</h3>
-            <p className="text-gray-600">Ti contattiamo per discutere il tuo progetto e raccogliere informazioni.</p>
+            <h3 className="text-xl font-bold mb-2 font-heading text-center md:text-left">Consulenza</h3>
+            <p className="text-gray-600 text-center md:text-left">Ti contattiamo per discutere il tuo progetto e raccogliere informazioni.</p>
             <div className="hidden lg:block absolute top-10 right-0 w-3/4 h-0.5 bg-gray-200">
               <div className="absolute right-0 -top-1.5 w-3 h-3 rounded-full bg-primary"></div>
             </div>
           </div>
           
-          <div className="relative">
+          <div className="relative flex flex-col items-center md:items-start">
             <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-4">
               <span className="text-2xl font-bold text-primary">3</span>
             </div>
-            <h3 className="text-xl font-bold mb-2 font-heading">Creazione</h3>
-            <p className="text-gray-600">Sviluppiamo il tuo sito web e logo seguendo le tue specifiche.</p>
+            <h3 className="text-xl font-bold mb-2 font-heading text-center md:text-left">Creazione</h3>
+            <p className="text-gray-600 text-center md:text-left">Sviluppiamo il tuo sito web e logo seguendo le tue specifiche.</p>
             <div className="hidden lg:block absolute top-10 right-0 w-3/4 h-0.5 bg-gray-200">
               <div className="absolute right-0 -top-1.5 w-3 h-3 rounded-full bg-primary"></div>
             </div>
           </div>
           
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mb-4">
               <span className="text-2xl font-bold text-primary">4</span>
             </div>
-            <h3 className="text-xl font-bold mb-2 font-heading">Consegna</h3>
-            <p className="text-gray-600">Ricevi il tuo sito web completo in 7 giorni, pronto all'uso!</p>
+            <h3 className="text-xl font-bold mb-2 font-heading text-center md:text-left">Consegna</h3>
+            <p className="text-gray-600 text-center md:text-left">Ricevi il tuo sito web completo in 7 giorni, pronto all'uso!</p>
           </div>
         </div>
         
