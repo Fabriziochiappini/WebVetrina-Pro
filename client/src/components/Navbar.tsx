@@ -55,9 +55,9 @@ const Navbar = () => {
             Testimonianze
           </button>
           <Link href="/chi-siamo">
-            <a className="hover:text-primary transition-colors cursor-pointer">
+            <span className="hover:text-primary transition-colors cursor-pointer">
               Chi Siamo
-            </a>
+            </span>
           </Link>
           <button 
             onClick={() => scrollToSection('faq')} 
@@ -101,9 +101,9 @@ const Navbar = () => {
                 Testimonianze
               </button>
               <Link href="/chi-siamo">
-                <a className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
+                <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
                   Chi Siamo
-                </a>
+                </span>
               </Link>
               <button 
                 onClick={() => scrollToSection('faq')} 
