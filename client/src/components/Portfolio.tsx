@@ -48,7 +48,7 @@ const Portfolio = ({ scrollToSection }: PortfolioProps) => {
         <div className="text-center mt-10">
           <Button 
             onClick={() => scrollToSection('contatti')} 
-            className="py-3 px-8 bg-primary text-white font-bold rounded-full shadow-md hover:bg-primary/90 transition-all hover:translate-y-[-2px]"
+            className="py-3 px-8 bg-secondary text-white font-bold rounded-full shadow-md hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
           >
             Voglio un Sito Come Questi <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
