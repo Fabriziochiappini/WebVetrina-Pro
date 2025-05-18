@@ -135,8 +135,17 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500">
-          <p>&copy; {new Date().getFullYear()} WebProItalia. Tutti i diritti riservati. P.IVA 12345678901</p>
+        <div className="border-t border-gray-700 mt-8 pt-8 text-gray-500">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p>&copy; {new Date().getFullYear()} WebProItalia. Tutti i diritti riservati. P.IVA 12345678901</p>
+            <a 
+              href="/admin" 
+              className="mt-4 md:mt-0 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-md transition-colors flex items-center"
+            >
+              <i className="fas fa-lock mr-2"></i>
+              Area Admin
+            </a>
+          </div>
         </div>
       </div>
     </footer>
