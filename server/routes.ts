@@ -34,6 +34,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all contacts (for admin page)
+  app.get("/api/contacts", async (req, res) => {
+    try {
+      const contacts = await storage.getContacts();
+      return res.status(200).json(contacts);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il recupero dei contatti." 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

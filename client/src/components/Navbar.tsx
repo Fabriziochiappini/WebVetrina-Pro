@@ -1,15 +1,24 @@
 import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [location] = useLocation();
+  const isHomePage = location === '/';
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Solo nella home page facciamo lo scroll
+    if (isHomePage) {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      // Se non siamo nella home, prima navighiamo alla home e poi aggiungiamo un hash
+      window.location.href = '/#' + id;
     }
     setIsOpen(false);
   };
@@ -18,10 +27,12 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold font-heading">
-            <span className="text-primary">WebPro</span>
-            <span className="text-secondary">Italia</span>
-          </h1>
+          <Link href="/">
+            <span className="text-2xl font-bold font-heading cursor-pointer">
+              <span className="text-primary">WebPro</span>
+              <span className="text-secondary">Italia</span>
+            </span>
+          </Link>
         </div>
         
         <nav className="hidden md:flex space-x-6 font-medium">
@@ -43,6 +54,11 @@ const Navbar = () => {
           >
             Testimonianze
           </button>
+          <Link href="/chi-siamo">
+            <a className="hover:text-primary transition-colors cursor-pointer">
+              Chi Siamo
+            </a>
+          </Link>
           <button 
             onClick={() => scrollToSection('faq')} 
             className="hover:text-primary transition-colors"
@@ -84,6 +100,11 @@ const Navbar = () => {
               >
                 Testimonianze
               </button>
+              <Link href="/chi-siamo">
+                <a className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
+                  Chi Siamo
+                </a>
+              </Link>
               <button 
                 onClick={() => scrollToSection('faq')} 
                 className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"

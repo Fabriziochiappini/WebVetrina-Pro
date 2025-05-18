@@ -41,13 +41,26 @@ export class MemStorage implements IStorage {
 
   async createContact(contactData: Omit<InsertContact, "privacy"> & { createdAt: string }): Promise<Contact> {
     const id = this.contactCurrentId++;
-    const contact: Contact = { ...contactData, id };
+    const contact: Contact = { 
+      id,
+      firstName: contactData.firstName,
+      lastName: contactData.lastName,
+      email: contactData.email,
+      phone: contactData.phone,
+      company: contactData.company || null,
+      businessType: contactData.businessType,
+      message: contactData.message || null,
+      createdAt: contactData.createdAt
+    };
     this.contacts.set(id, contact);
     return contact;
   }
 
   async getContacts(): Promise<Contact[]> {
-    return Array.from(this.contacts.values());
+    // Ordina i contatti dal più recente al meno recente
+    return Array.from(this.contacts.values()).sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
   }
 }
 
