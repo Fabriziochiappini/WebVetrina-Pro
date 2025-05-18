@@ -1,0 +1,107 @@
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Menu } from 'lucide-react';
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setIsOpen(false);
+  };
+
+  return (
+    <header className="sticky top-0 z-50 bg-white shadow-md">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center">
+          <h1 className="text-2xl font-bold font-heading">
+            <span className="text-primary">WebPro</span>
+            <span className="text-secondary">Italia</span>
+          </h1>
+        </div>
+        
+        <nav className="hidden md:flex space-x-6 font-medium">
+          <button 
+            onClick={() => scrollToSection('servizi')} 
+            className="hover:text-primary transition-colors"
+          >
+            Servizi
+          </button>
+          <button 
+            onClick={() => scrollToSection('portfolio')} 
+            className="hover:text-primary transition-colors"
+          >
+            Portfolio
+          </button>
+          <button 
+            onClick={() => scrollToSection('testimonianze')} 
+            className="hover:text-primary transition-colors"
+          >
+            Testimonianze
+          </button>
+          <button 
+            onClick={() => scrollToSection('faq')} 
+            className="hover:text-primary transition-colors"
+          >
+            FAQ
+          </button>
+        </nav>
+        
+        <Button 
+          onClick={() => scrollToSection('contatti')} 
+          className="hidden md:inline-block bg-secondary text-white font-bold rounded-full shadow-md hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
+        >
+          Contattaci
+        </Button>
+        
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="md:hidden text-primary">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <div className="flex flex-col space-y-4 mt-8">
+              <button 
+                onClick={() => scrollToSection('servizi')} 
+                className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"
+              >
+                Servizi
+              </button>
+              <button 
+                onClick={() => scrollToSection('portfolio')} 
+                className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"
+              >
+                Portfolio
+              </button>
+              <button 
+                onClick={() => scrollToSection('testimonianze')} 
+                className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"
+              >
+                Testimonianze
+              </button>
+              <button 
+                onClick={() => scrollToSection('faq')} 
+                className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"
+              >
+                FAQ
+              </button>
+              <Button 
+                onClick={() => scrollToSection('contatti')} 
+                className="bg-secondary text-white font-bold rounded-full shadow-md hover:bg-secondary/90 w-full mt-4"
+              >
+                Contattaci
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </header>
+  );
+};
+
+export default Navbar;
