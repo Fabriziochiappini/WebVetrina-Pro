@@ -15,7 +15,7 @@ const Portfolio = ({ scrollToSection }: PortfolioProps) => {
             I Nostri Lavori Recenti
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Ecco alcuni progetti che abbiamo realizzato per i nostri clienti, ognuno consegnato in 7 giorni.
+            Ecco alcuni progetti che abbiamo realizzato per i nostri clienti, ognuno consegnato in 5 giorni.
           </p>
         </div>
         
