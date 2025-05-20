@@ -58,7 +58,6 @@ const Home = () => {
       <OnlineBenefits />
       <Benefits />
       <Portfolio scrollToSection={scrollToSection} />
-      <LogoGallery />
       <ValueProposition scrollToSection={scrollToSection} />
       <Process />
       <Testimonials />
