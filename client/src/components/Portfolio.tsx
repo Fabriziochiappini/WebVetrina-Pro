@@ -25,12 +25,21 @@ const Portfolio = ({ scrollToSection }: PortfolioProps) => {
               key={index} 
               className="portfolio-item overflow-hidden rounded-xl shadow-md bg-white hover:scale-[1.03] transition-all duration-300"
             >
-              <img 
-                src={item.image} 
-                alt={item.title} 
-                className="w-full h-48 object-cover object-top"
-              />
-              <div className="p-4">
+              <div className="relative portfolio-images-container">
+                <img 
+                  src={item.image} 
+                  alt={`${item.title} business`} 
+                  className="w-full h-48 object-cover object-top"
+                />
+                <div className="p-4 bg-white rounded-t-xl shadow-md absolute left-2 right-2 -bottom-2 border border-gray-100">
+                  <img 
+                    src={item.websiteImage} 
+                    alt={`${item.title} website screenshot`} 
+                    className="w-full h-32 object-contain border border-gray-100 rounded-md"
+                  />
+                </div>
+              </div>
+              <div className="p-4 pt-12 mt-2">
                 <h3 className="font-bold text-lg mb-1 font-heading">{item.title}</h3>
                 <p className="text-gray-600 text-sm mb-3">{item.description}</p>
                 <div className="flex space-x-2">
