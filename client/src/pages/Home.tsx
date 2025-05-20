@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import OnlineBenefits from '@/components/OnlineBenefits';
 import Benefits from '@/components/Benefits';
 import Portfolio from '@/components/Portfolio';
 import LogoGallery from '@/components/LogoGallery';
@@ -54,6 +55,7 @@ const Home = () => {
     <div className="antialiased bg-light text-dark">
       <Navbar />
       <Hero scrollToSection={scrollToSection} />
+      <OnlineBenefits />
       <Benefits />
       <Portfolio scrollToSection={scrollToSection} />
       <LogoGallery />
