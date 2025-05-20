@@ -50,7 +50,7 @@ const Process = () => {
               <span className="text-2xl font-bold text-primary">4</span>
             </div>
             <h3 className="text-xl font-bold mb-2 font-heading text-center md:text-left">Consegna</h3>
-            <p className="text-gray-600 text-center md:text-left">Ricevi il tuo sito web completo in 7 giorni, pronto all'uso!</p>
+            <p className="text-gray-600 text-center md:text-left">Ricevi il tuo sito web completo in 5 giorni, pronto all'uso!</p>
           </div>
         </div>
         

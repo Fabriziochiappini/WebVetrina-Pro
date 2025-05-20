@@ -9,7 +9,7 @@ export const testimonials = [
   {
     name: 'Marco Rossi',
     company: 'Studio Legale Giustizia',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200',
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200',
     rating: 5,
     comment: '"Servizio impeccabile. Il processo è stato semplice e veloce. Il team ha capito perfettamente le nostre esigenze e ha consegnato un sito professionale che ci rappresenta al meglio."'
   },

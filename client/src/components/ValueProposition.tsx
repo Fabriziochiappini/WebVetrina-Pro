@@ -42,7 +42,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Consegna in 7 giorni lavorativi</span>
+                    <span>Consegna in 5 giorni lavorativi</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
