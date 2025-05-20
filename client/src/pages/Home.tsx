@@ -3,8 +3,6 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import OnlineBenefits from '@/components/OnlineBenefits';
 import Benefits from '@/components/Benefits';
-import Portfolio from '@/components/Portfolio';
-import LogoGallery from '@/components/LogoGallery';
 import ValueProposition from '@/components/ValueProposition';
 import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
@@ -57,7 +55,6 @@ const Home = () => {
       <Hero scrollToSection={scrollToSection} />
       <OnlineBenefits />
       <Benefits />
-      <Portfolio scrollToSection={scrollToSection} />
       <ValueProposition scrollToSection={scrollToSection} />
       <Process />
       <Testimonials />
