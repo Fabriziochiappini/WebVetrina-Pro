@@ -18,7 +18,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               Sito Web Professionale a Soli <span className="text-white border border-white px-1 py-0.5 rounded-sm">€299</span>
             </h1>
             <h2 className="text-xl md:text-2xl font-medium opacity-90">
-              Valore reale di €1800 • Consegna in soli 7 giorni
+              Valore reale di €1800 • Consegna in soli 5 giorni
             </h2>
             <ul className="space-y-3 text-lg">
               <li className="flex items-center gap-2">

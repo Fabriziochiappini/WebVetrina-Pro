@@ -14,7 +14,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: process.env.NODE_ENV === 'production',
+    secure: false, // in produzione sarebbe 'true' per utilizzare HTTPS
     maxAge: 24 * 60 * 60 * 1000 // 24 ore
   }
 }));
