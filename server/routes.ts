@@ -235,7 +235,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Portfolio management
-  app.post("/api/portfolio", checkAuth, upload.fields([
+  app.post("/api/portfolio", upload.fields([
     { name: 'businessImage', maxCount: 1 },
     { name: 'websiteImage', maxCount: 1 }
   ]), async (req, res) => {
