@@ -9,12 +9,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Configurazione della sessione
+import pgSession from 'connect-pg-simple';
+const PgSession = pgSession(session);
+
 app.use(session({
+  store: new PgSession({
+    pool: pool,
+    tableName: 'sessions'
+  }),
   secret: process.env.SESSION_SECRET || 'webdesign_secret_key',
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    secure: false, // in produzione sarebbe 'true' per utilizzare HTTPS
+    secure: process.env.NODE_ENV === 'production',
     maxAge: 24 * 60 * 60 * 1000 // 24 ore
   }
 }));

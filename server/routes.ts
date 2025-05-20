@@ -11,7 +11,7 @@ import { createObjectCsvWriter } from "csv-writer";
 // Configurazione di multer per l'upload dei file
 const storage_config = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = path.join(__dirname, "../uploads");
+    const uploadDir = path.join(new URL('../uploads', import.meta.url).pathname);
     if (!fs.existsSync(uploadDir)){
       fs.mkdirSync(uploadDir, { recursive: true });
     }
@@ -33,7 +33,7 @@ const upload = multer({
     const allowedFileTypes = /jpeg|jpg|png|gif|svg/;
     const ext = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedFileTypes.test(file.mimetype);
-    
+
     if (ext && mimetype) {
       return cb(null, true);
     } else {
@@ -52,11 +52,11 @@ const checkAuth = (req: Request, res: Response, next: Function) => {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Crea la directory per gli upload se non esiste
-  const uploadDir = path.join(__dirname, "../uploads");
+  const uploadDir = path.join(new URL('../uploads', import.meta.url).pathname);
   if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir, { recursive: true });
   }
-  
+
   // Servi i file statici dalla directory uploads
   app.use("/uploads", express.static(uploadDir));
 
@@ -64,18 +64,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/contact", async (req, res) => {
     try {
       const result = insertContactSchema.safeParse(req.body);
-      
+
       if (!result.success) {
         return res.status(400).json({ 
           message: "Validazione fallita", 
           errors: result.error.flatten().fieldErrors 
         });
       }
-      
+
       const contact = await storage.createContact({
         ...result.data
       });
-      
+
       return res.status(201).json({
         message: "Richiesta inviata con successo!",
         contact
@@ -106,10 +106,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const startDate = req.query.startDate ? new Date(req.query.startDate as string) : new Date(0);
       const endDate = req.query.endDate ? new Date(req.query.endDate as string) : new Date();
-      
+
       // Set endDate to the end of the day
       endDate.setHours(23, 59, 59, 999);
-      
+
       const contacts = await storage.getContactsByDateRange(startDate, endDate);
       return res.status(200).json(contacts);
     } catch (error) {
@@ -125,14 +125,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const startDate = req.query.startDate ? new Date(req.query.startDate as string) : new Date(0);
       const endDate = req.query.endDate ? new Date(req.query.endDate as string) : new Date();
-      
+
       // Set endDate to the end of the day
       endDate.setHours(23, 59, 59, 999);
-      
+
       const contacts = await storage.getContactsByDateRange(startDate, endDate);
-      
-      const csvFilePath = path.join(uploadDir, `contacts-export-${Date.now()}.csv`);
-      
+
+      const csvFilePath = path.join(new URL('../uploads', import.meta.url).pathname, `contacts-export-${Date.now()}.csv`);
+
       const csvWriter = createObjectCsvWriter({
         path: csvFilePath,
         header: [
@@ -147,9 +147,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           {id: 'createdAt', title: 'Data Creazione'}
         ]
       });
-      
+
       await csvWriter.writeRecords(contacts);
-      
+
       res.download(csvFilePath, `contatti-${new Date().toLocaleDateString('it-IT')}.csv`, (err) => {
         if (err) {
           console.error("Error downloading CSV:", err);
@@ -175,14 +175,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!req.file) {
         return res.status(400).json({ message: "Nessun file caricato" });
       }
-      
+
       const { name, description } = req.body;
       const logoData = {
         name,
         description: description || null,
         imageUrl: `/uploads/${req.file.filename}`
       };
-      
+
       const result = insertLogoSchema.safeParse(logoData);
       if (!result.success) {
         return res.status(400).json({ 
@@ -190,7 +190,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: result.error.flatten().fieldErrors 
         });
       }
-      
+
       const logo = await storage.createLogo(result.data);
       return res.status(201).json(logo);
     } catch (error) {
@@ -219,7 +219,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (isNaN(id)) {
         return res.status(400).json({ message: "ID non valido" });
       }
-      
+
       const success = await storage.deleteLogo(id);
       if (success) {
         return res.status(200).json({ message: "Logo eliminato con successo" });
@@ -241,20 +241,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   ]), async (req, res) => {
     try {
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-      
+
       if (!files.businessImage || !files.websiteImage) {
         return res.status(400).json({ message: "Entrambe le immagini sono richieste" });
       }
-      
+
       const { title, description, tags } = req.body;
       let parsedTags;
-      
+
       try {
         parsedTags = JSON.parse(tags);
       } catch (e) {
         parsedTags = [];
       }
-      
+
       const portfolioData = {
         title,
         description,
@@ -262,7 +262,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         websiteImageUrl: `/uploads/${files.websiteImage[0].filename}`,
         tags: parsedTags
       };
-      
+
       const result = insertPortfolioItemSchema.safeParse(portfolioData);
       if (!result.success) {
         return res.status(400).json({ 
@@ -270,7 +270,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: result.error.flatten().fieldErrors 
         });
       }
-      
+
       const portfolioItem = await storage.createPortfolioItem(result.data);
       return res.status(201).json(portfolioItem);
     } catch (error) {
@@ -299,7 +299,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (isNaN(id)) {
         return res.status(400).json({ message: "ID non valido" });
       }
-      
+
       const success = await storage.deletePortfolioItem(id);
       if (success) {
         return res.status(200).json({ message: "Elemento di portfolio eliminato con successo" });
@@ -336,7 +336,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           errors: result.error.flatten().fieldErrors 
         });
       }
-      
+
       const settings = await storage.updateSiteSettings(result.data);
       return res.status(200).json(settings);
     } catch (error) {
