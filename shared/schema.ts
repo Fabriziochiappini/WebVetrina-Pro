@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -17,7 +17,32 @@ export const contacts = pgTable("contacts", {
   company: text("company"),
   businessType: text("business_type").notNull(),
   message: text("message"),
-  createdAt: text("created_at").notNull()
+  createdAt: timestamp("created_at").notNull().defaultNow()
+});
+
+export const logos = pgTable("logos", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  imageUrl: text("image_url").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const portfolioItems = pgTable("portfolio_items", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  businessImageUrl: text("business_image_url").notNull(),
+  websiteImageUrl: text("website_image_url").notNull(),
+  tags: text("tags").array().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const siteSettings = pgTable("site_settings", {
+  id: serial("id").primaryKey(),
+  metaPixelId: text("meta_pixel_id"),
+  otherTracking: text("other_tracking"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
@@ -33,8 +58,26 @@ export const insertContactSchema = createInsertSchema(contacts)
     }),
   });
 
+export const insertLogoSchema = createInsertSchema(logos)
+  .omit({ id: true, createdAt: true });
+
+export const insertPortfolioItemSchema = createInsertSchema(portfolioItems)
+  .omit({ id: true, createdAt: true });
+
+export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
+  .omit({ id: true, updatedAt: true });
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
 export type InsertContact = z.infer<typeof insertContactSchema>;
 export type Contact = typeof contacts.$inferSelect;
+
+export type InsertLogo = z.infer<typeof insertLogoSchema>;
+export type Logo = typeof logos.$inferSelect;
+
+export type InsertPortfolioItem = z.infer<typeof insertPortfolioItemSchema>;
+export type PortfolioItem = typeof portfolioItems.$inferSelect;
+
+export type UpdateSiteSettings = z.infer<typeof updateSiteSettingsSchema>;
+export type SiteSettings = typeof siteSettings.$inferSelect;
