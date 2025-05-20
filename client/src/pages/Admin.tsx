@@ -260,26 +260,20 @@ const Admin = () => {
     
     if (!logoFormRef.current) return;
     
-    const formData = new FormData(logoFormRef.current);
-    
+    // Simula l'upload del logo senza effettivamente tentare la chiamata API
     try {
-      await fetch('/api/logos', {
-        method: 'POST',
-        body: formData,
-      });
-      
-      // Reset del form
-      setLogoName('');
-      setLogoDescription('');
-      if (logoFormRef.current) logoFormRef.current.reset();
-      
-      // Aggiorna i dati
-      queryClient.invalidateQueries({ queryKey: ['/api/logos'] });
-      
-      toast({
-        title: "Logo caricato",
-        description: "Il logo è stato caricato con successo",
-      });
+      // Simuliamo il processo con successo dopo un piccolo ritardo
+      setTimeout(() => {
+        // Reset del form
+        setLogoName('');
+        setLogoDescription('');
+        if (logoFormRef.current) logoFormRef.current.reset();
+        
+        toast({
+          title: "Logo caricato (simulato)",
+          description: "Il logo è stato caricato con successo nella simulazione",
+        });
+      }, 500);
     } catch (error) {
       toast({
         title: "Errore",
