@@ -50,14 +50,7 @@ const Footer = () => {
                   Servizi
                 </button>
               </li>
-              <li>
-                <button 
-                  onClick={() => scrollToSection('portfolio')} 
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Portfolio
-                </button>
-              </li>
+
               <li>
                 <button 
                   onClick={() => scrollToSection('testimonianze')} 
@@ -121,11 +114,11 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
                 <i className="fas fa-map-marker-alt text-secondary"></i>
-                <span className="text-gray-400">Via Roma 123, Milano</span>
+                <span className="text-gray-400">Via Casilina Sud 116, 03100 Frosinone</span>
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-envelope text-secondary"></i>
-                <span className="text-gray-400">info@webproitalia.it</span>
+                <span className="text-gray-400">info.webproitalia@gmail.com</span>
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-phone text-secondary"></i>
