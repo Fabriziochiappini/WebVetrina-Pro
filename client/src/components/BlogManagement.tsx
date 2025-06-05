@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, Eye, Upload, Link as LinkIcon } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
-import BlogEditor from "./BlogEditor";
+import SimpleEditor from "./SimpleEditor";
 
 interface BlogPost {
   id: number;
@@ -310,7 +310,7 @@ const BlogManagement = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="content">Contenuto *</Label>
-                <BlogEditor
+                <SimpleEditor
                   value={formData.content}
                   onChange={(content) => setFormData({ ...formData, content })}
                   height={400}
