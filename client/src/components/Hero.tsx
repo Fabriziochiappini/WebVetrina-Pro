@@ -18,7 +18,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               Sito Web Professionale a Soli <span className="text-secondary">€299</span>
             </h1>
             <h2 className="text-xl md:text-2xl font-medium opacity-90">
-              Valore reale di €1800 • Consegna in soli 5 giorni
+              Valore reale di €1200 • Consegna in soli 5 giorni
             </h2>
             <ul className="space-y-3 text-lg">
               <li className="flex items-center gap-2">
@@ -27,7 +27,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-check-circle text-accent"></i>
-                <span>Hosting e dominio per 1 anno</span>
+                <span>Design responsive professionale</span>
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-check-circle text-accent"></i>
@@ -61,7 +61,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               className="rounded-xl shadow-2xl w-full h-auto"
             />
             <div className="absolute -bottom-5 -left-5 bg-white text-primary p-4 rounded-lg shadow-lg font-bold">
-              <span className="text-xl line-through text-gray-500">€1800</span>
+              <span className="text-xl line-through text-gray-500">€1200</span>
               <span className="text-3xl ml-2 text-secondary">€299</span>
             </div>
           </div>

@@ -91,7 +91,7 @@ const Process = () => {
               </li>
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
-                <span>Hosting e dominio per 1 anno (valore €200)</span>
+                <span>Supporto tecnico post-lancio</span>
               </li>
             </ul>
           </div>

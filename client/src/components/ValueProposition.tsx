@@ -11,7 +11,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">
-            Risparmia €1500 sul Tuo Sito Web Professionale
+            Risparmia €900 sul Tuo Sito Web Professionale
           </h2>
           
           <div className="bg-white/10 p-8 rounded-2xl mb-10">
@@ -30,11 +30,11 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Hosting per 1 anno incluso</span>
+                    <span>Ottimizzazione SEO completa</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Dominio per 1 anno incluso</span>
+                    <span>Supporto tecnico 1 anno</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
@@ -52,12 +52,12 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
               </div>
               
               <div className="pt-6 md:pt-0 md:pl-8">
-                <div className="text-3xl md:text-4xl font-bold mb-3 line-through opacity-70 font-heading">€1800</div>
+                <div className="text-3xl md:text-4xl font-bold mb-3 line-through opacity-70 font-heading">€1200</div>
                 <h3 className="text-2xl font-bold mb-4 font-heading">Valore di Mercato</h3>
                 <ul className="space-y-3 text-left opacity-80">
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle mt-1"></i>
-                    <span>Sito web professionale: €1000</span>
+                    <span>Sito web professionale: €800</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle mt-1"></i>
@@ -65,19 +65,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle mt-1"></i>
-                    <span>Hosting annuale: €150</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <i className="fas fa-check-circle mt-1"></i>
-                    <span>Dominio annuale: €50</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <i className="fas fa-check-circle mt-1"></i>
-                    <span>Ottimizzazione mobile: €200</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <i className="fas fa-check-circle mt-1"></i>
-                    <span>Consegna rapida: €100</span>
+                    <span>Ottimizzazione SEO: €100</span>
                   </li>
                 </ul>
               </div>
