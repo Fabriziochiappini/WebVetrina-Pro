@@ -130,8 +130,10 @@ const Footer = () => {
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-gray-500">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p>&copy; {new Date().getFullYear()} WebProItalia. Tutti i diritti riservati.<br />
-            WebProItalia è un marchio di IDEALCAR SRLS</p>
+            <div className="text-center md:text-left">
+              <p>&copy; {new Date().getFullYear()} WebProItalia. Tutti i diritti riservati.</p>
+              <p className="text-sm mt-1">WebProItalia è un marchio di IDEALCAR SRLS</p>
+            </div>
             <a 
               href="/admin" 
               className="mt-4 md:mt-0 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-md transition-colors flex items-center"
