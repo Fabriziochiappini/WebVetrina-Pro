@@ -28,6 +28,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
+import BlogManagement from '@/components/BlogManagement';
 
 interface DateFilterProps {
   startDate: string;
@@ -373,8 +374,9 @@ const Admin = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 mb-4">
+          <TabsList className="grid grid-cols-2 md:grid-cols-5 mb-4">
             <TabsTrigger value="lead">Lead</TabsTrigger>
+            <TabsTrigger value="blog">Blog</TabsTrigger>
             <TabsTrigger value="loghi">Loghi</TabsTrigger>
             <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
             <TabsTrigger value="settings">Impostazioni</TabsTrigger>
@@ -437,6 +439,11 @@ const Admin = () => {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+          
+          {/* Tab Blog */}
+          <TabsContent value="blog">
+            <BlogManagement />
           </TabsContent>
           
           {/* Tab Loghi */}
