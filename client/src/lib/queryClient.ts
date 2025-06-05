@@ -12,7 +12,16 @@ export async function apiRequest(
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const headers: Record<string, string> = data ? { "Content-Type": "application/json" } : {};
+  const headers: Record<string, string> = {};
+  let body: string | FormData | undefined;
+
+  // Se i dati sono FormData, non aggiungiamo Content-Type (il browser lo fa automaticamente)
+  if (data instanceof FormData) {
+    body = data;
+  } else if (data) {
+    headers["Content-Type"] = "application/json";
+    body = JSON.stringify(data);
+  }
   
   // Aggiungi automaticamente l'header di autorizzazione per le rotte admin
   if (url.includes('/api/contacts') || url.includes('/api/logos') || url.includes('/api/portfolio') || url.includes('/api/site-settings')) {
@@ -22,7 +31,7 @@ export async function apiRequest(
   const res = await fetch(url, {
     method,
     headers,
-    body: data ? JSON.stringify(data) : undefined,
+    body,
     credentials: "include",
   });
 
