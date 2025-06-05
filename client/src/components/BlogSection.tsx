@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { CalendarDays, ArrowRight, BookOpen } from "lucide-react";
+import { Calendar, ArrowRight, Sparkles, Eye } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 
@@ -28,30 +26,27 @@ const BlogSection = () => {
     }
   });
 
-  // Show only latest 3 posts
   const latestPosts = posts?.slice(0, 3) || [];
 
   if (isLoading) {
     return (
-      <section id="blog" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-heading">
-              Blog & Risorse
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Consigli, guide e novità dal mondo del web design
-            </p>
+      <section id="blog" className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/50 to-slate-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 animate-pulse"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-20">
+            <div className="h-16 bg-white/10 rounded-2xl mx-auto mb-8 w-96 animate-pulse"></div>
+            <div className="h-8 bg-white/5 rounded-xl mx-auto mb-4 w-3/4 animate-pulse"></div>
           </div>
-          
           <div className="grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-lg p-6 animate-pulse">
-                <div className="aspect-video bg-gray-200 rounded-lg mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-                <div className="h-3 bg-gray-200 rounded mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+              <div key={i} className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 animate-pulse">
+                <div className="aspect-[16/10] bg-white/10 rounded-2xl mb-6"></div>
+                <div className="h-7 bg-white/10 rounded-xl mb-4"></div>
+                <div className="h-4 bg-white/5 rounded-lg mb-6"></div>
+                <div className="flex justify-between items-center">
+                  <div className="h-4 bg-white/5 rounded w-20"></div>
+                  <div className="h-8 bg-white/10 rounded-full w-24"></div>
+                </div>
               </div>
             ))}
           </div>
@@ -60,92 +55,106 @@ const BlogSection = () => {
     );
   }
 
+  if (!latestPosts.length) {
+    return (
+      <section id="blog" className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/50 to-slate-900">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center">
+            <h2 className="text-5xl md:text-7xl font-bold mb-8 font-heading bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+              Future Insights
+            </h2>
+            <p className="text-xl text-gray-300">I nostri primi articoli stanno arrivando presto...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section id="blog" className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 font-heading">
-            <BookOpen className="inline-block w-8 h-8 mr-3 text-primary" />
-            Blog & Risorse
+    <section id="blog" className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900/50 to-slate-900">
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 animate-pulse"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm border border-purple-500/30 rounded-full px-6 py-2 mb-8">
+            <Sparkles className="w-4 h-4 text-purple-400" />
+            <span className="text-purple-300 font-medium">Blog & Insights</span>
+            <Sparkles className="w-4 h-4 text-purple-400" />
+          </div>
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 font-heading bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+            Future Insights
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Consigli pratici, guide complete e le ultime novità dal mondo del web design e digital marketing
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Esplora le innovazioni digitali e le tendenze che stanno ridefinendo il futuro del web design
           </p>
         </div>
-
-        {latestPosts.length === 0 ? (
-          <div className="text-center py-12">
-            <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
-              Contenuti in Arrivo
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Stiamo preparando articoli interessanti per te. Torna presto!
-            </p>
-            <Link href="/blog">
-              <Button variant="outline">
-                Vai al Blog
-              </Button>
-            </Link>
-          </div>
-        ) : (
-          <>
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              {latestPosts.map((post) => (
-                <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+        
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {latestPosts.map((post, index) => (
+            <article key={post.id} className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500 group-hover:scale-105"></div>
+              
+              <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:bg-white/10 transition-all duration-500 group-hover:scale-[1.02] group-hover:border-white/20">
+                <div className="aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-purple-500/20 to-blue-500/20">
                   {post.featuredImage ? (
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={post.featuredImage}
-                        alt={post.title}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
+                    <img 
+                      src={post.featuredImage} 
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
                   ) : (
-                    <div className="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-                      <BookOpen className="w-12 h-12 text-primary/60" />
+                    <div className="w-full h-full bg-gradient-to-br from-purple-600/30 to-blue-600/30 flex items-center justify-center">
+                      <Eye className="w-12 h-12 text-white/50" />
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                   
-                  <CardHeader>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                      <CalendarDays className="w-4 h-4" />
-                      {format(new Date(post.publishedAt || post.createdAt), 'dd MMM yyyy', { locale: it })}
+                  <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1">
+                    <span className="text-white text-xs font-medium">
+                      {format(new Date(post.publishedAt || post.createdAt), "d MMM", { locale: it })}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-purple-200 transition-colors duration-300 line-clamp-2">
+                    {post.title}
+                  </h3>
+                  
+                  {post.excerpt && (
+                    <p className="text-gray-300 mb-6 line-clamp-3 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                  )}
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-gray-400 text-sm">
+                      <Calendar className="w-4 h-4" />
+                      <span>{format(new Date(post.publishedAt || post.createdAt), "d MMMM yyyy", { locale: it })}</span>
                     </div>
                     
-                    <CardTitle className="text-lg font-bold line-clamp-2 hover:text-primary transition-colors">
-                      <Link href={`/blog/${post.slug}`}>
-                        {post.title}
-                      </Link>
-                    </CardTitle>
-                  </CardHeader>
-                  
-                  <CardContent>
-                    <p className="text-gray-600 mb-4 line-clamp-3 text-sm">
-                      {post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 120) + '...'}
-                    </p>
-                    
                     <Link href={`/blog/${post.slug}`}>
-                      <div className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all text-sm">
-                        Leggi tutto
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
+                      <button className="group/btn inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white px-6 py-2 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25">
+                        <span className="font-medium">Leggi</span>
+                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                      </button>
                     </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="text-center">
-              <Link href="/blog">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  Vedi Tutti gli Articoli
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-            </div>
-          </>
-        )}
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+        
+        <div className="text-center">
+          <Link href="/blog">
+            <button className="group inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/20 hover:bg-white/10 text-white px-8 py-4 rounded-2xl transition-all duration-500 hover:scale-105 hover:border-white/30">
+              <span className="text-lg font-medium">Scopri tutti gli articoli</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
+            </button>
+          </Link>
+        </div>
       </div>
     </section>
   );
