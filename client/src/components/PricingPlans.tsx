@@ -19,9 +19,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Supporto email"
       ],
       excludes: [
-        "Logo non incluso",
-        "Dominio non incluso", 
-        "Hosting non incluso"
+        "Logo non incluso"
       ],
       buttonText: "Scegli LITE",
       popular: false
@@ -33,8 +31,6 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       features: [
         "Sito web vetrina fino a 5 pagine",
         "Logo professionale incluso",
-        "Dominio .it/.com per 1 anno",
-        "Hosting premium per 1 anno",
         "Ottimizzazione SEO completa",
         "Design completamente personalizzabile",
         "Supporto tecnico 1 anno",
@@ -43,7 +39,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       excludes: [],
       buttonText: "Scegli STANDARD",
       popular: true,
-      originalValue: "1800"
+      originalValue: "1200"
     },
     {
       name: "E-COMMERCE",
@@ -52,8 +48,6 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       features: [
         "Sito e-commerce completo",
         "Logo professionale incluso",
-        "Dominio .it/.com per 1 anno",
-        "Hosting e-commerce per 1 anno",
         "Gestione prodotti illimitati",
         "Sistema pagamenti integrato",
         "Gestione ordini e clienti",
@@ -163,6 +157,12 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         </div>
         
         <div className="text-center mt-10">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
+            <p className="text-blue-800 text-sm font-medium">
+              💡 <strong>Gestione Hosting e Dominio:</strong> Su richiesta, possiamo occuparci anche della gestione del tuo hosting e dominio con tariffe competitive e supporto dedicato.
+            </p>
+          </div>
+          
           <p className="text-gray-600 text-sm mb-4">
             Non sei sicuro quale piano scegliere? Parliamone insieme!
           </p>
