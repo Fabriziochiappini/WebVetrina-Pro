@@ -59,6 +59,11 @@ const Navbar = () => {
               Chi Siamo
             </span>
           </Link>
+          <Link href="/blog">
+            <span className="hover:text-primary transition-colors cursor-pointer">
+              Blog
+            </span>
+          </Link>
           <button 
             onClick={() => scrollToSection('faq')} 
             className="hover:text-primary transition-colors"
@@ -103,6 +108,11 @@ const Navbar = () => {
               <Link href="/chi-siamo">
                 <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
                   Chi Siamo
+                </span>
+              </Link>
+              <Link href="/blog">
+                <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
+                  Blog
                 </span>
               </Link>
               <button 

@@ -2,7 +2,7 @@ import express, { type Express, type Request, type Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema } from "@shared/schema";
+import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema } from "@shared/schema";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -345,6 +345,250 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error updating site settings:", error);
       return res.status(500).json({ 
         message: "Si è verificato un errore durante l'aggiornamento delle impostazioni del sito." 
+      });
+    }
+  });
+
+  // Blog management routes
+  app.post("/api/blog/posts", checkAuth, upload.single('featuredImage'), async (req, res) => {
+    try {
+      const { title, content, excerpt, status, metaTitle, metaDescription } = req.body;
+      
+      // Generate slug from title
+      const slug = title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+
+      const blogData = {
+        title,
+        slug,
+        content,
+        excerpt,
+        status: status || 'draft',
+        metaTitle,
+        metaDescription,
+        featuredImage: req.file ? `/uploads/${req.file.filename}` : undefined
+      };
+
+      const result = insertBlogPostSchema.safeParse(blogData);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Validazione fallita", 
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      const blogPost = await storage.createBlogPost(result.data);
+      return res.status(201).json(blogPost);
+    } catch (error) {
+      console.error("Error creating blog post:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante la creazione dell'articolo." 
+      });
+    }
+  });
+
+  app.get("/api/blog/posts", async (req, res) => {
+    try {
+      const status = req.query.status as "draft" | "published" | undefined;
+      const posts = await storage.getBlogPosts(status);
+      return res.status(200).json(posts);
+    } catch (error) {
+      console.error("Error fetching blog posts:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il recupero degli articoli." 
+      });
+    }
+  });
+
+  app.get("/api/blog/posts/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+
+      const post = await storage.getBlogPost(id);
+      if (!post) {
+        return res.status(404).json({ message: "Articolo non trovato" });
+      }
+
+      return res.status(200).json(post);
+    } catch (error) {
+      console.error("Error fetching blog post:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il recupero dell'articolo." 
+      });
+    }
+  });
+
+  app.get("/api/blog/posts/slug/:slug", async (req, res) => {
+    try {
+      const slug = req.params.slug;
+      const post = await storage.getBlogPostBySlug(slug);
+      if (!post) {
+        return res.status(404).json({ message: "Articolo non trovato" });
+      }
+
+      return res.status(200).json(post);
+    } catch (error) {
+      console.error("Error fetching blog post by slug:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il recupero dell'articolo." 
+      });
+    }
+  });
+
+  app.put("/api/blog/posts/:id", checkAuth, upload.single('featuredImage'), async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+
+      const { title, content, excerpt, status, metaTitle, metaDescription } = req.body;
+      
+      const updateData: any = {
+        title,
+        content,
+        excerpt,
+        status,
+        metaTitle,
+        metaDescription
+      };
+
+      // Update slug if title changed
+      if (title) {
+        updateData.slug = title.toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .trim();
+      }
+
+      // Update featured image if uploaded
+      if (req.file) {
+        updateData.featuredImage = `/uploads/${req.file.filename}`;
+      }
+
+      const result = updateBlogPostSchema.safeParse(updateData);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Validazione fallita", 
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      const blogPost = await storage.updateBlogPost(id, result.data);
+      return res.status(200).json(blogPost);
+    } catch (error) {
+      console.error("Error updating blog post:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante l'aggiornamento dell'articolo." 
+      });
+    }
+  });
+
+  app.delete("/api/blog/posts/:id", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+
+      const success = await storage.deleteBlogPost(id);
+      if (success) {
+        return res.status(200).json({ message: "Articolo eliminato con successo" });
+      } else {
+        return res.status(404).json({ message: "Articolo non trovato" });
+      }
+    } catch (error) {
+      console.error("Error deleting blog post:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante l'eliminazione dell'articolo." 
+      });
+    }
+  });
+
+  app.post("/api/blog/posts/:id/publish", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+
+      const blogPost = await storage.publishBlogPost(id);
+      return res.status(200).json(blogPost);
+    } catch (error) {
+      console.error("Error publishing blog post:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante la pubblicazione dell'articolo." 
+      });
+    }
+  });
+
+  // Blog categories routes
+  app.post("/api/blog/categories", checkAuth, async (req, res) => {
+    try {
+      const { name, description } = req.body;
+      
+      const slug = name.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+
+      const categoryData = { name, slug, description };
+
+      const result = insertBlogCategorySchema.safeParse(categoryData);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Validazione fallita", 
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      const category = await storage.createBlogCategory(result.data);
+      return res.status(201).json(category);
+    } catch (error) {
+      console.error("Error creating blog category:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante la creazione della categoria." 
+      });
+    }
+  });
+
+  app.get("/api/blog/categories", async (req, res) => {
+    try {
+      const categories = await storage.getBlogCategories();
+      return res.status(200).json(categories);
+    } catch (error) {
+      console.error("Error fetching blog categories:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il recupero delle categorie." 
+      });
+    }
+  });
+
+  app.delete("/api/blog/categories/:id", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+
+      const success = await storage.deleteBlogCategory(id);
+      if (success) {
+        return res.status(200).json({ message: "Categoria eliminata con successo" });
+      } else {
+        return res.status(404).json({ message: "Categoria non trovata" });
+      }
+    } catch (error) {
+      console.error("Error deleting blog category:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante l'eliminazione della categoria." 
       });
     }
   });
