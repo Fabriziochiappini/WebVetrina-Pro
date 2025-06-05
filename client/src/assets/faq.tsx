@@ -1,7 +1,7 @@
 export const faq = [
   {
     question: 'Cosa include esattamente il prezzo di €299?',
-    answer: 'Il prezzo include un sito web professionale fino a 5 pagine, design di un logo, dominio e hosting per un anno, ottimizzazione mobile e consegna in 5 giorni lavorativi.'
+    answer: 'Il prezzo include un sito web professionale fino a 5 pagine, design di un logo, ottimizzazione mobile e consegna in 5 giorni lavorativi.'
   },
   {
     question: 'Ci sono costi nascosti?',
@@ -13,7 +13,7 @@ export const faq = [
   },
   {
     question: 'Cosa succede dopo il primo anno?',
-    answer: 'Dopo il primo anno, potrai rinnovare hosting e dominio a tariffe standard (circa €150/anno) o trasferirli dove preferisci senza vincoli.'
+    answer: 'Dopo il primo anno, continuerai ad avere il tuo sito web completo. Su richiesta, possiamo occuparci della gestione di hosting e dominio con tariffe competitive.'
   },
   {
     question: 'Posso modificare il sito da solo?',
