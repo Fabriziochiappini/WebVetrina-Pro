@@ -45,6 +45,35 @@ export const siteSettings = pgTable("site_settings", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+export const blogPosts = pgTable("blog_posts", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  slug: text("slug").notNull().unique(),
+  content: text("content").notNull(),
+  excerpt: text("excerpt"),
+  featuredImage: text("featured_image"),
+  status: text("status", { enum: ["draft", "published"] }).default("draft").notNull(),
+  metaTitle: text("meta_title"),
+  metaDescription: text("meta_description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  publishedAt: timestamp("published_at"),
+});
+
+export const blogCategories = pgTable("blog_categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const blogPostCategories = pgTable("blog_post_categories", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").references(() => blogPosts.id, { onDelete: "cascade" }).notNull(),
+  categoryId: integer("category_id").references(() => blogCategories.id, { onDelete: "cascade" }).notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -67,6 +96,16 @@ export const insertPortfolioItemSchema = createInsertSchema(portfolioItems)
 export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
   .omit({ id: true, updatedAt: true });
 
+export const insertBlogPostSchema = createInsertSchema(blogPosts)
+  .omit({ id: true, createdAt: true, updatedAt: true, publishedAt: true });
+
+export const updateBlogPostSchema = createInsertSchema(blogPosts)
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .partial();
+
+export const insertBlogCategorySchema = createInsertSchema(blogCategories)
+  .omit({ id: true, createdAt: true });
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
@@ -81,3 +120,10 @@ export type PortfolioItem = typeof portfolioItems.$inferSelect;
 
 export type UpdateSiteSettings = z.infer<typeof updateSiteSettingsSchema>;
 export type SiteSettings = typeof siteSettings.$inferSelect;
+
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
+export type UpdateBlogPost = z.infer<typeof updateBlogPostSchema>;
+export type BlogPost = typeof blogPosts.$inferSelect;
+
+export type InsertBlogCategory = z.infer<typeof insertBlogCategorySchema>;
+export type BlogCategory = typeof blogCategories.$inferSelect;
