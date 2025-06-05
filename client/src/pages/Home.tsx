@@ -7,6 +7,7 @@ import PricingPlans from '@/components/PricingPlans';
 import ValueProposition from '@/components/ValueProposition';
 import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
+import BlogSection from '@/components/BlogSection';
 import Faq from '@/components/Faq';
 import Cta from '@/components/Cta';
 import ContactForm from '@/components/ContactForm';
@@ -60,6 +61,7 @@ const Home = () => {
       <ValueProposition scrollToSection={scrollToSection} />
       <Process />
       <Testimonials />
+      <BlogSection />
       <Faq />
       <Cta scrollToSection={scrollToSection} />
       <ContactForm />

@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import ChiSiamo from "@/pages/ChiSiamo";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import FloatingCta from "./components/FloatingCta";
 
 // Import lazy per Admin
@@ -17,6 +19,8 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/chi-siamo" component={ChiSiamo} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/admin">
         <Suspense fallback={<div className="flex items-center justify-center h-screen">Caricamento...</div>}>
           <Admin />
