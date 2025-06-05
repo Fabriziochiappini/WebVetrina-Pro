@@ -593,6 +593,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API endpoint per fornire la chiave TinyMCE
+  app.get("/api/tinymce-key", (req, res) => {
+    const apiKey = process.env.TINYMCE_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: "TinyMCE API key not configured" });
+    }
+    res.json({ apiKey });
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
