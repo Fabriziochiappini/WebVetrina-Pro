@@ -352,7 +352,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Blog management routes
   app.post("/api/blog/posts", upload.single('featuredImage'), async (req, res) => {
     try {
-      const { title, content, excerpt, status, metaTitle, metaDescription } = req.body;
+      console.log("Request body:", req.body);
+      console.log("Request file:", req.file);
+      
+      const { title, content, excerpt, status, metaTitle, metaDescription, featuredImageUrl } = req.body;
+      
+      if (!title || !content) {
+        return res.status(400).json({ 
+          message: "Titolo e contenuto sono obbligatori" 
+        });
+      }
       
       // Generate slug from title
       const slug = title.toLowerCase()
@@ -369,7 +378,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         status: status || 'draft',
         metaTitle,
         metaDescription,
-        featuredImage: req.file ? `/uploads/${req.file.filename}` : undefined
+        featuredImage: req.file ? `/uploads/${req.file.filename}` : (featuredImageUrl || undefined)
       };
 
       const result = insertBlogPostSchema.safeParse(blogData);
