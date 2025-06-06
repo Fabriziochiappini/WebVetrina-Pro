@@ -117,7 +117,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
                     </span>
                   </div>
                 )}
-                <p className={`text-gray-600 ${plan.popular ? 'text-base' : 'text-sm'}`}>
+                <p className={`text-muted-foreground ${plan.popular ? 'text-base' : 'text-sm'}`}>
                   {plan.description}
                 </p>
               </div>
@@ -147,7 +147,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
                 onClick={() => scrollToSection('contatti')} 
                 className={`w-full font-bold transition-all duration-300 ${
                   plan.popular 
-                    ? 'btn-modern-primary text-lg py-4' 
+                    ? 'btn-modern-orange text-lg py-4' 
                     : 'btn-modern-secondary'
                 }`}
               >
