@@ -20,5 +20,6 @@ export const useTranslation = () => {
     return typeof value === 'string' ? value : key;
   };
 
-  return { t, language };
+  // Restituisce direttamente l'oggetto traduzioni per la lingua corrente
+  return translations[language];
 };

@@ -28,22 +28,48 @@ export const useLanguageStore = create<LanguageState>()(
   )
 );
 
-// Funzione per rilevare la posizione dall'IP
+// Funzione per rilevare la posizione dall'IP con geolocalizzazione autentica
 export const detectLanguageFromIP = async (): Promise<Language> => {
   try {
-    const response = await fetch('https://ipapi.co/json/');
+    // Utilizza ipapi.co con chiave API per dati autentici di geolocalizzazione
+    const response = await fetch(`https://ipapi.co/json/?key=${import.meta.env.VITE_GEOLOCATION_API_KEY}`);
     if (!response.ok) {
-      throw new Error('Failed to fetch location data');
+      throw new Error('Failed to fetch geolocation data');
     }
     const data = await response.json();
     
-    // Se l'utente è in Italia, usa italiano, altrimenti inglese
-    return data.country_code === 'IT' ? 'it' : 'en';
-  } catch (error) {
-    console.warn('Failed to detect location from IP, using browser language fallback:', error);
+    console.log('Detected location:', data.country_name, data.country_code);
     
-    // Fallback: usa la lingua del browser
+    // Logica di rilevamento lingua basata su paese reale
+    if (data.country_code === 'IT' || data.country_code === 'SM' || data.country_code === 'VA') {
+      return 'it'; // Italia, San Marino, Vaticano
+    }
+    
+    // Paesi anglofoni
+    if (['US', 'GB', 'CA', 'AU', 'NZ', 'IE', 'ZA'].includes(data.country_code)) {
+      return 'en';
+    }
+    
+    // Europa del Nord (tendenzialmente anglofoni come seconda lingua)
+    if (['NO', 'SE', 'DK', 'FI', 'NL', 'DE', 'AT', 'CH'].includes(data.country_code)) {
+      return 'en';
+    }
+    
+    // Per altri paesi, default a italiano (business italiano)
+    return 'it';
+  } catch (error) {
+    console.warn('Geolocation API failed, using browser language fallback:', error);
+    
+    // Fallback: rileva dalla lingua del browser
     const browserLang = navigator.language.toLowerCase();
-    return browserLang.startsWith('it') ? 'it' : 'en';
+    if (browserLang.startsWith('it')) {
+      return 'it';
+    }
+    if (browserLang.startsWith('en')) {
+      return 'en';
+    }
+    
+    // Default finale: italiano
+    return 'it';
   }
 };
