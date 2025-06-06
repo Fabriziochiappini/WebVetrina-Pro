@@ -8,11 +8,8 @@ import Home from "@/pages/Home";
 import ChiSiamo from "@/pages/ChiSiamo";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
+import Admin from "@/pages/Admin";
 import FloatingCta from "./components/FloatingCta";
-
-// Import lazy per Admin
-import { lazy, Suspense } from "react";
-const Admin = lazy(() => import("@/pages/Admin"));
 
 function Router() {
   return (
@@ -21,11 +18,7 @@ function Router() {
       <Route path="/chi-siamo" component={ChiSiamo} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
-      <Route path="/admin">
-        <Suspense fallback={<div className="flex items-center justify-center h-screen">Caricamento...</div>}>
-          <Admin />
-        </Suspense>
-      </Route>
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
