@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sito Web Professionale | WEB PRO ITALIA</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="antialiased bg-white text-gray-900">
+    <!-- Navbar -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="text-2xl font-bold">
+                <span class="text-blue-600">WebPro</span>
+                <span class="text-orange-500">Italia</span>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <button onclick="scrollToSection('servizi')" class="hover:text-blue-600 transition-colors">Servizi</button>
+                <button onclick="scrollToSection('offerte')" class="hover:text-blue-600 transition-colors">Offerte</button>
+                <button onclick="scrollToSection('contatti')" class="hover:text-blue-600 transition-colors">Contatti</button>
+                <a href="/blog" class="hover:text-blue-600 transition-colors">Blog</a>
+            </nav>
+            <div class="md:hidden">
+                <button class="text-gray-600 hover:text-blue-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Siti Web Professionali<br>
+                <span class="text-orange-400">per la Tua Azienda</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90">
+                Crea la tua presenza online con i nostri pacchetti completi
+            </p>
+            <button onclick="scrollToSection('offerte')" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
+                Scopri le Nostre Offerte
+            </button>
+        </div>
+    </section>
+
+    <!-- Benefici Online -->
+    <section id="servizi" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">Perché Avere un Sito Web?</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-globe text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Visibilità Online</h3>
+                    <p class="text-gray-600">Raggiungi clienti 24/7 e espandi la tua presenza sul web</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-orange-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Crescita del Business</h3>
+                    <p class="text-gray-600">Aumenta le vendite e fidelizza i tuoi clienti</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-star text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Credibilità</h3>
+                    <p class="text-gray-600">Mostra professionalità e costruisci fiducia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prezzi -->
+    <section id="offerte" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">I Nostri Pacchetti</h2>
+            <p class="text-center text-gray-600 mb-12">Scegli la soluzione perfetta per le tue esigenze</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- LITE -->
+                <div class="bg-white rounded-lg shadow-lg p-8 text-center border">
+                    <h3 class="text-2xl font-bold mb-4">LITE</h3>
+                    <div class="text-4xl font-bold text-blue-600 mb-4">€197</div>
+                    <ul class="text-left space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sito web responsive</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>5 pagine incluse</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Ottimizzazione SEO base</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Modulo contatti</li>
+                        <li class="flex items-center"><i class="fas fa-times text-red-500 mr-3"></i>Logo personalizzato</li>
+                    </ul>
+                    <button onclick="scrollToSection('contatti')" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        Scegli LITE
+                    </button>
+                </div>
+
+                <!-- STANDARD -->
+                <div class="bg-white rounded-lg shadow-lg p-8 text-center border-4 border-orange-500 relative transform scale-105">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+                        PIÙ SCELTO
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">STANDARD</h3>
+                    <div class="text-4xl font-bold text-orange-500 mb-4">€299</div>
+                    <ul class="text-left space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sito web responsive</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>8 pagine incluse</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Ottimizzazione SEO avanzata</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Modulo contatti</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Logo personalizzato</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Integrazione social</li>
+                    </ul>
+                    <button onclick="scrollToSection('contatti')" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                        Scegli STANDARD
+                    </button>
+                </div>
+
+                <!-- E-COMMERCE -->
+                <div class="bg-white rounded-lg shadow-lg p-8 text-center border">
+                    <h3 class="text-2xl font-bold mb-4">E-COMMERCE</h3>
+                    <div class="text-4xl font-bold text-purple-600 mb-4">€699</div>
+                    <ul class="text-left space-y-3 mb-8">
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Negozio online completo</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Pagine illimitate</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sistema di pagamento</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Gestione ordini</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Logo personalizzato</li>
+                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Formazione completa</li>
+                    </ul>
+                    <button onclick="scrollToSection('contatti')" class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors">
+                        Scegli E-COMMERCE
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contatti -->
+    <section id="contatti" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">Richiedi un Preventivo</h2>
+            <div class="max-w-2xl mx-auto">
+                <form id="contactForm" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <input type="text" name="nome" placeholder="Nome" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+                        <input type="text" name="cognome" placeholder="Cognome" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+                    </div>
+                    <input type="email" name="email" placeholder="Email" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+                    <input type="tel" name="telefono" placeholder="Telefono" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+                    <select name="pacchetto" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+                        <option value="">Seleziona un pacchetto</option>
+                        <option value="lite">LITE - €197</option>
+                        <option value="standard">STANDARD - €299</option>
+                        <option value="ecommerce">E-COMMERCE - €699</option>
+                    </select>
+                    <textarea name="messaggio" placeholder="Descrivi il tuo progetto..." rows="4" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"></textarea>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold">
+                        Invia Richiesta
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="text-2xl font-bold mb-4">
+                        <span class="text-blue-400">WebPro</span>
+                        <span class="text-orange-400">Italia</span>
+                    </div>
+                    <p class="text-gray-400">Soluzioni web professionali per la tua azienda</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Servizi</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Siti Web</li>
+                        <li>E-commerce</li>
+                        <li>SEO</li>
+                        <li>Logo Design</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Azienda</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/chi-siamo" class="hover:text-white">Chi Siamo</a></li>
+                        <li><a href="/blog" class="hover:text-white">Blog</a></li>
+                        <li>Contatti</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contatti</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-envelope mr-2"></i>info@webproitalia.com</p>
+                        <p><i class="fas fa-phone mr-2"></i>+39 123 456 7890</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>WEB PRO ITALIA è un marchio di IDEALCAR SRLS</p>
+                <p>© 2024 Tutti i diritti riservati</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CTA Floating -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button onclick="scrollToSection('contatti')" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full shadow-lg transition-colors">
+            <i class="fas fa-phone mr-2"></i>Contattaci
+        </button>
+    </div>
+
+    <script>
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    alert('Richiesta inviata con successo!');
+                    this.reset();
+                } else {
+                    alert('Errore nell\'invio. Riprova più tardi.');
+                }
+            } catch (error) {
+                alert('Errore nell\'invio. Riprova più tardi.');
+            }
+        });
+    </script>
+</body>
+</html>

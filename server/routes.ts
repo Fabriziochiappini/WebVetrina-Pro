@@ -62,6 +62,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Servi i file statici dalla directory uploads
   app.use("/uploads", express.static(uploadDir));
 
+  // Route per servire direttamente il sito HTML statico
+  app.get("/static", (req, res) => {
+    const htmlPath = path.join(new URL('../server/public.html', import.meta.url).pathname);
+    res.sendFile(htmlPath);
+  });
+
   // Contact form submission route
   app.post("/api/contact", async (req, res) => {
     try {
