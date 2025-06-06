@@ -97,22 +97,22 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
               
               <div className="text-center mb-6">
                 <h3 className={`font-bold mb-2 font-heading ${
-                  plan.popular ? 'text-2xl text-secondary' : 'text-xl text-primary'
+                  plan.popular ? 'text-2xl text-gradient-orange' : 'text-xl text-primary'
                 }`}>
                   {plan.name}
                 </h3>
                 <div className={`mb-2 ${plan.popular ? 'text-lg' : 'text-base'}`}>
                   <span className={`font-bold font-heading ${
-                    plan.popular ? 'text-4xl' : 'text-3xl'
+                    plan.popular ? 'text-4xl text-gradient-orange' : 'text-3xl text-primary'
                   }`}>
                     €{plan.price}
                   </span>
-                  <span className="text-gray-500 ml-1">una tantum</span>
+                  <span className="text-muted-foreground ml-1">una tantum</span>
                 </div>
                 {plan.originalValue && (
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-muted-foreground">
                     <span className="line-through">Valore €{plan.originalValue}</span>
-                    <span className="text-green-600 font-semibold ml-2">
+                    <span className="text-secondary font-semibold ml-2">
                       Risparmi €{parseInt(plan.originalValue) - parseInt(plan.price)}
                     </span>
                   </div>

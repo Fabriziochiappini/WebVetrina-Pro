@@ -16,41 +16,41 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               OFFERTA LIMITATA
             </span>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
-              Sito Web Professionale a Soli <span className="text-gradient bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">€299</span>
+              Sito Web Professionale a Soli <span className="text-gradient-orange">€299</span>
             </h1>
             <h2 className="text-xl md:text-2xl font-medium opacity-95 leading-relaxed">
               Valore reale di €1200 • Consegna in soli 5 giorni
             </h2>
             <ul className="space-y-4 text-lg slide-up">
               <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
+                  <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span>Logo professionale incluso</span>
+                <span className="text-white font-medium">Logo professionale incluso</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
+                  <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span>Design responsive professionale</span>
+                <span className="text-white font-medium">Design responsive professionale</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
+                  <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span>Sito ottimizzato per mobile</span>
+                <span className="text-white font-medium">Sito ottimizzato per mobile</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
+                  <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span>Nessun costo nascosto</span>
+                <span className="text-white font-medium">Nessun costo nascosto</span>
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-6 pt-6 scale-in">
               <Button 
                 onClick={() => scrollToSection('contatti')} 
-                className="btn-modern-primary text-lg font-bold py-4 px-8 rounded-2xl"
+                className="btn-modern-orange text-lg font-bold py-4 px-8 rounded-2xl"
               >
                 Voglio il Mio Sito Web <ArrowRight className="ml-2 h-5 w-5" />
               </Button>

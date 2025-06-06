@@ -15,10 +15,10 @@
 --input: 214.3 31.8% 91.4%;
 --primary: 262 83% 58%;
 --primary-foreground: 210 40% 98%;
---secondary: 220 14% 96%;
---secondary-foreground: 222.2 84% 4.9%;
---accent: 221.2 83.2% 53.3%;
---accent-foreground: 210 40% 98%;
+--secondary: 25 95% 53%;
+--secondary-foreground: 0 0% 100%;
+--accent: 34 100% 50%;
+--accent-foreground: 0 0% 100%;
 --destructive: 0 84.2% 60.2%;
 --destructive-foreground: 210 40% 98%;
 --ring: 262 83% 58%;
@@ -64,7 +64,11 @@
   }
   
   .gradient-secondary {
-    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--muted)) 100%);
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--accent)) 100%);
+  }
+  
+  .gradient-orange {
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--accent)) 50%, hsl(25 100% 45%) 100%);
   }
   
   /* Modern card styles with shadows */
@@ -82,7 +86,11 @@
   }
   
   .btn-modern-secondary {
-    @apply bg-gradient-to-r from-secondary/80 to-muted text-secondary-foreground font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+    @apply bg-gradient-to-r from-secondary to-accent text-secondary-foreground font-medium px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+  }
+  
+  .btn-modern-orange {
+    @apply gradient-orange text-white font-medium px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105;
   }
   
   /* Modern input styles */
@@ -116,6 +124,13 @@
   /* Text gradients */
   .text-gradient {
     background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .text-gradient-orange {
+    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--accent)) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
