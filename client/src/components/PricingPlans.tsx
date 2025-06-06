@@ -64,11 +64,11 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
   ];
 
   return (
-    <section id="offerte" className="section-modern gradient-secondary">
+    <section id="offerte" className="section-modern bg-gradient-to-br from-background to-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
-            Le Nostre Offerte
+            Le Nostre <span className="text-gradient-orange">Offerte</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Scegli il piano perfetto per la tua attività. Tutti i nostri siti sono responsive e ottimizzati per i motori di ricerca.
@@ -88,8 +88,8 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                  <div className="gradient-primary text-white px-6 py-2 rounded-full text-sm font-bold flex items-center gap-1 shadow-lg">
-                    <Star className="h-4 w-4 fill-current" />
+                  <div className="bg-primary text-white px-6 py-2 rounded-full text-sm font-bold flex items-center gap-1 shadow-lg border-2 border-secondary/30">
+                    <Star className="h-4 w-4 fill-current text-secondary" />
                     PIÙ VENDUTO
                   </div>
                 </div>
@@ -97,7 +97,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
               
               <div className="text-center mb-6">
                 <h3 className={`font-bold mb-2 font-heading ${
-                  plan.popular ? 'text-2xl text-gradient-orange' : 'text-xl text-primary'
+                  plan.popular ? 'text-2xl text-primary' : 'text-xl text-primary'
                 }`}>
                   {plan.name}
                 </h3>
