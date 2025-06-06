@@ -7,48 +7,56 @@ interface HeroProps {
 
 const Hero = ({ scrollToSection }: HeroProps) => {
   return (
-    <section className="relative bg-primary text-white py-16 md:py-24">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="md:w-1/2 space-y-6">
-            <span className="bg-secondary text-white text-sm font-bold py-1 px-4 rounded-full">
+    <section className="relative gradient-primary text-white py-20 md:py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary to-accent/80"></div>
+      <div className="relative container mx-auto px-4">
+        <div className="flex flex-col md:flex-row items-center gap-12">
+          <div className="md:w-1/2 space-y-8 fade-in">
+            <span className="inline-block bg-white/20 backdrop-blur-sm text-white text-sm font-bold py-2 px-6 rounded-full border border-white/30">
               OFFERTA LIMITATA
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight font-heading">
-              Sito Web Professionale a Soli <span className="text-secondary">€299</span>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
+              Sito Web Professionale a Soli <span className="text-gradient bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">€299</span>
             </h1>
-            <h2 className="text-xl md:text-2xl font-medium opacity-90">
+            <h2 className="text-xl md:text-2xl font-medium opacity-95 leading-relaxed">
               Valore reale di €1200 • Consegna in soli 5 giorni
             </h2>
-            <ul className="space-y-3 text-lg">
-              <li className="flex items-center gap-2">
-                <i className="fas fa-check-circle text-accent"></i>
+            <ul className="space-y-4 text-lg slide-up">
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                </div>
                 <span>Logo professionale incluso</span>
               </li>
-              <li className="flex items-center gap-2">
-                <i className="fas fa-check-circle text-accent"></i>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                </div>
                 <span>Design responsive professionale</span>
               </li>
-              <li className="flex items-center gap-2">
-                <i className="fas fa-check-circle text-accent"></i>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                </div>
                 <span>Sito ottimizzato per mobile</span>
               </li>
-              <li className="flex items-center gap-2">
-                <i className="fas fa-check-circle text-accent"></i>
+              <li className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
+                  <i className="fas fa-check text-yellow-300 text-sm"></i>
+                </div>
                 <span>Nessun costo nascosto</span>
               </li>
             </ul>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-6 pt-6 scale-in">
               <Button 
                 onClick={() => scrollToSection('contatti')} 
-                className="py-7 px-8 bg-secondary text-white text-lg font-bold rounded-full shadow-lg hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
+                className="btn-modern-primary text-lg font-bold py-4 px-8 rounded-2xl"
               >
                 Voglio il Mio Sito Web <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button 
                 onClick={() => scrollToSection('come-funziona')} 
-                variant="outline"
-                className="py-7 px-8 bg-white/10 text-white text-lg font-medium rounded-full border border-white/30 hover:bg-white/20 transition-all"
+                className="glass text-white border-white/30 hover:bg-white/20 py-4 px-8 rounded-2xl font-medium transition-all"
               >
                 Scopri di più <Info className="ml-2 h-5 w-5" />
               </Button>

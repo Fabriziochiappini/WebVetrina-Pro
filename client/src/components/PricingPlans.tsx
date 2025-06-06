@@ -64,18 +64,18 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
   ];
 
   return (
-    <section id="offerte" className="py-16 bg-gray-50">
+    <section id="offerte" className="section-modern gradient-secondary">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-primary font-heading">
+        <div className="text-center mb-16 fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
             Le Nostre Offerte
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Scegli il piano perfetto per la tua attività. Tutti i nostri siti sono responsive e ottimizzati per i motori di ricerca.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {plans.map((plan, index) => (
             <div 
               key={index} 
