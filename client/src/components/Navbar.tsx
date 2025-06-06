@@ -24,57 +24,63 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 glass bg-white/80 backdrop-blur-md border-b border-white/20 shadow-lg">
+      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
-            <span className="text-2xl font-bold font-heading cursor-pointer">
-              <span className="text-primary">WebPro</span>
-              <span className="text-secondary">Italia</span>
+            <span className="text-3xl font-bold font-heading cursor-pointer hover:scale-105 transition-transform">
+              <span className="text-gradient">WebPro</span>
+              <span className="text-accent">Italia</span>
             </span>
           </Link>
         </div>
         
-        <nav className="hidden md:flex space-x-6 font-medium">
+        <nav className="hidden md:flex space-x-8 font-medium">
           <button 
             onClick={() => scrollToSection('servizi')} 
-            className="hover:text-primary transition-colors"
+            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
           >
             Servizi
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
           <button 
             onClick={() => scrollToSection('offerte')} 
-            className="hover:text-primary transition-colors"
+            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
           >
             Offerte
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
           <button 
             onClick={() => scrollToSection('testimonianze')} 
-            className="hover:text-primary transition-colors"
+            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
           >
             Testimonianze
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
           <Link href="/chi-siamo">
-            <span className="hover:text-primary transition-colors cursor-pointer">
+            <span className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
               Chi Siamo
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
           <Link href="/blog">
-            <span className="hover:text-primary transition-colors cursor-pointer">
+            <span className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
               Blog
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
           <button 
             onClick={() => scrollToSection('faq')} 
-            className="hover:text-primary transition-colors"
+            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
           >
             FAQ
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
         </nav>
         
         <Button 
           onClick={() => scrollToSection('contatti')} 
-          className="hidden md:inline-block bg-secondary text-white font-bold rounded-full shadow-md hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
+          className="hidden md:inline-block btn-modern-primary"
         >
           Contattaci
         </Button>

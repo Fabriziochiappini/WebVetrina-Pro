@@ -79,15 +79,16 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
           {plans.map((plan, index) => (
             <div 
               key={index} 
-              className={`relative bg-white rounded-2xl shadow-lg p-8 border-2 transition-all duration-300 hover:shadow-xl ${
+              className={`relative modern-card-hover p-8 slide-up ${
                 plan.popular 
-                  ? 'border-secondary scale-105 md:scale-110' 
-                  : 'border-gray-200 hover:border-primary'
+                  ? 'border-primary/50 ring-2 ring-primary/20 scale-105 md:scale-110 bg-gradient-to-br from-white to-primary/5' 
+                  : 'hover:border-primary/30'
               }`}
+              style={{ animationDelay: `${index * 0.2}s` }}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-secondary text-white px-6 py-2 rounded-full text-sm font-bold flex items-center gap-1">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="gradient-primary text-white px-6 py-2 rounded-full text-sm font-bold flex items-center gap-1 shadow-lg">
                     <Star className="h-4 w-4 fill-current" />
                     PIÙ VENDUTO
                   </div>
@@ -144,10 +145,10 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
               
               <Button 
                 onClick={() => scrollToSection('contatti')} 
-                className={`w-full py-3 font-bold rounded-full shadow-md transition-all hover:translate-y-[-2px] ${
+                className={`w-full font-bold transition-all duration-300 ${
                   plan.popular 
-                    ? 'bg-secondary text-white hover:bg-secondary/90 text-lg py-4' 
-                    : 'bg-primary text-white hover:bg-primary/90'
+                    ? 'btn-modern-primary text-lg py-4' 
+                    : 'btn-modern-secondary'
                 }`}
               >
                 {plan.buttonText}
