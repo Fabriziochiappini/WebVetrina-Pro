@@ -71,7 +71,7 @@ const Navbar = () => {
             onClick={() => scrollToSection('servizi')} 
             className="hover:text-primary transition-colors"
           >
-            {t.nav.services}
+            {translations.nav.services}
           </button>
           <button 
             onClick={() => scrollToSection('offerte')} 
@@ -83,11 +83,11 @@ const Navbar = () => {
             onClick={() => scrollToSection('testimonianze')} 
             className="hover:text-primary transition-colors"
           >
-            {t.nav.testimonials}
+            {translations.nav.testimonials}
           </button>
           <Link href="/chi-siamo">
             <span className="hover:text-primary transition-colors cursor-pointer">
-              {t.nav.about}
+              {translations.nav.about}
             </span>
           </Link>
           <Link href="/blog">
@@ -99,7 +99,7 @@ const Navbar = () => {
             onClick={() => scrollToSection('faq')} 
             className="hover:text-primary transition-colors"
           >
-            {t.nav.faq}
+            {translations.nav.faq}
           </button>
           
           {/* Language Selector */}
@@ -142,7 +142,7 @@ const Navbar = () => {
           onClick={() => scrollToSection('contatti')} 
           className="hidden md:inline-block bg-secondary text-white font-bold rounded-full shadow-md hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
         >
-          {t.nav.contact}
+          {translations.nav.contact}
         </Button>
         
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
