@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Sito Web Professionale a Soli €299 | Offerta Speciale</title>
+    <meta name="description" content="Ottieni il tuo sito web professionale a soli €299 invece di €1800. Include logo, hosting e dominio per un anno. Consegna in 5 giorni!" />
+    <meta property="og:title" content="Sito Web Professionale a Soli €299 | Offerta Speciale" />
+    <meta property="og:description" content="Ottieni il tuo sito web professionale a soli €299 invece di €1800. Include logo, hosting e dominio per un anno. Consegna in 5 giorni!" />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Meta Pixel Code - Verranno inseriti dinamicamente i tuoi ID -->
+    <script id="meta-pixel-script">
+      function initMetaPixel(pixelId) {
+        if (!pixelId) return;
+        
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', pixelId);
+        fbq('track', 'PageView');
+      }
+      
+      // Carica le impostazioni dal server
+      fetch('/api/site-settings')
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.metaPixelId) {
+            initMetaPixel(data.metaPixelId);
+          }
+          
+          // Inserisce altri codici di tracciamento
+          if (data && data.otherTracking) {
+            const otherTrackingContainer = document.getElementById('other-tracking-container');
+            if (otherTrackingContainer) {
+              otherTrackingContainer.innerHTML = data.otherTracking;
+            }
+          }
+        })
+        .catch(err => console.error('Errore nel caricamento delle impostazioni:', err));
+    </script>
+    
+    <!-- Container per altri codici di tracciamento -->
+    <div id="other-tracking-container"></div>
+    <script type="module" crossorigin src="/assets/index-CjAVDgXQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-P1WcWKeo.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>

@@ -2,12 +2,40 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sito Web Professionale | WEB PRO ITALIA</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Sito Web Professionale a Soli €299 | Offerta Speciale</title>
+    <meta name="description" content="Ottieni il tuo sito web professionale a soli €299 invece di €1800. Include logo, hosting e dominio per un anno. Consegna in 5 giorni!">
+    <meta property="og:title" content="Sito Web Professionale a Soli €299 | Offerta Speciale">
+    <meta property="og:description" content="Ottieni il tuo sito web professionale a soli €299 invece di €1800. Include logo, hosting e dominio per un anno. Consegna in 5 giorni!">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: 207 90% 54%;
+            --secondary: 30 85% 55%;
+            --accent: 30 85% 55%;
+            --background: 0 0% 100%;
+            --foreground: 20 14.3% 4.1%;
+            --muted: 25 30% 95%;
+            --card: 0 0% 100%;
+            --border: 20 5.9% 90%;
+        }
+        body { font-family: 'Open Sans', sans-serif; }
+        .font-heading { font-family: 'Montserrat', sans-serif; }
+        .bg-primary { background-color: hsl(var(--primary)); }
+        .bg-secondary { background-color: hsl(var(--secondary)); }
+        .bg-accent { background-color: hsl(var(--accent)); }
+        .text-primary { color: hsl(var(--primary)); }
+        .text-secondary { color: hsl(var(--secondary)); }
+        .text-accent { color: hsl(var(--accent)); }
+        .bg-light { background-color: hsl(var(--muted)); }
+        .border { border: 1px solid hsl(var(--border)); }
+    </style>
 </head>
-<body class="antialiased bg-white text-gray-900">
+<body class="antialiased bg-light text-gray-900">
     <!-- Navbar -->
     <header class="sticky top-0 z-50 bg-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
@@ -30,19 +58,58 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6">
-                Siti Web Professionali<br>
-                <span class="text-orange-400">per la Tua Azienda</span>
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 opacity-90">
-                Crea la tua presenza online con i nostri pacchetti completi
-            </p>
-            <button onclick="scrollToSection('offerte')" class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
-                Scopri le Nostre Offerte
-            </button>
+    <section class="relative bg-primary text-white py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 space-y-6">
+                    <span class="bg-secondary text-white text-sm font-bold py-1 px-4 rounded-full">
+                        OFFERTA LIMITATA
+                    </span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight font-heading">
+                        Sito Web Professionale a Soli <span class="text-secondary">€299</span>
+                    </h1>
+                    <h2 class="text-xl md:text-2xl font-medium opacity-90">
+                        Valore reale di €1200 • Consegna in soli 5 giorni
+                    </h2>
+                    <ul class="space-y-3 text-lg">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span>Logo professionale incluso</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span>Design responsive professionale</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span>Sito ottimizzato per mobile</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span>Nessun costo nascosto</span>
+                        </li>
+                    </ul>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <button onclick="scrollToSection('contatti')" class="py-4 px-8 bg-secondary text-white text-lg font-bold rounded-full shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1">
+                            Voglio il Mio Sito Web <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                        <button onclick="scrollToSection('come-funziona')" class="py-4 px-8 bg-white bg-opacity-10 text-white text-lg font-medium rounded-full border border-white border-opacity-30 hover:bg-opacity-20 transition-all">
+                            Scopri di più <i class="fas fa-info-circle ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
+                         alt="Anteprima di un sito web professionale su laptop" 
+                         class="rounded-xl shadow-2xl w-full h-auto">
+                    <div class="absolute -bottom-5 -left-5 bg-white text-primary p-4 rounded-lg shadow-lg font-bold">
+                        <span class="text-xl line-through text-gray-500">€1200</span>
+                        <span class="text-3xl ml-2 text-secondary">€299</span>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-white" style="clip-path: polygon(0 100%, 100% 100%, 100% 0);"></div>
     </section>
 
     <!-- Benefici Online -->
@@ -76,61 +143,160 @@
     </section>
 
     <!-- Prezzi -->
-    <section id="offerte" class="py-20">
+    <section id="offerte" class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-4">I Nostri Pacchetti</h2>
-            <p class="text-center text-gray-600 mb-12">Scegli la soluzione perfetta per le tue esigenze</p>
-            <div class="grid md:grid-cols-3 gap-8">
-                
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-primary font-heading">
+                    Le Nostre Offerte
+                </h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Scegli il piano perfetto per la tua attività. Tutti i nostri siti sono responsive e ottimizzati per i motori di ricerca.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 <!-- LITE -->
-                <div class="bg-white rounded-lg shadow-lg p-8 text-center border">
-                    <h3 class="text-2xl font-bold mb-4">LITE</h3>
-                    <div class="text-4xl font-bold text-blue-600 mb-4">€197</div>
-                    <ul class="text-left space-y-3 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sito web responsive</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>5 pagine incluse</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Ottimizzazione SEO base</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Modulo contatti</li>
-                        <li class="flex items-center"><i class="fas fa-times text-red-500 mr-3"></i>Logo personalizzato</li>
+                <div class="relative bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-primary transition-all duration-300 hover:shadow-xl">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl text-primary font-bold mb-2 font-heading">LITE</h3>
+                        <p class="text-gray-600 mb-4">Ideale per piccole attività</p>
+                        <div class="mb-4">
+                            <span class="text-4xl font-bold text-primary">€197</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Sito web vetrina fino a 3 pagine</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Design responsive</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Ottimizzazione base SEO</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Personalizzazioni limitate</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Supporto email</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-times w-5 h-5 text-red-500"></i>
+                            <span class="text-gray-500">Logo non incluso</span>
+                        </li>
                     </ul>
-                    <button onclick="scrollToSection('contatti')" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    
+                    <button onclick="scrollToSection('contatti')" class="w-full py-3 px-6 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
                         Scegli LITE
                     </button>
                 </div>
 
                 <!-- STANDARD -->
-                <div class="bg-white rounded-lg shadow-lg p-8 text-center border-4 border-orange-500 relative transform scale-105">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold">
-                        PIÙ SCELTO
+                <div class="relative bg-white rounded-2xl shadow-lg p-8 border-2 border-secondary scale-105 md:scale-110 transition-all duration-300 hover:shadow-xl">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <div class="bg-secondary text-white px-6 py-2 rounded-full text-sm font-bold flex items-center gap-1">
+                            <i class="fas fa-star text-yellow-300"></i>
+                            PIÙ VENDUTO
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">STANDARD</h3>
-                    <div class="text-4xl font-bold text-orange-500 mb-4">€299</div>
-                    <ul class="text-left space-y-3 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sito web responsive</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>8 pagine incluse</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Ottimizzazione SEO avanzata</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Modulo contatti</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Logo personalizzato</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Integrazione social</li>
+                    
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl text-secondary font-bold mb-2 font-heading">STANDARD</h3>
+                        <p class="text-gray-600 mb-4">Il più scelto dai nostri clienti</p>
+                        <div class="mb-4">
+                            <span class="text-sm text-gray-500 line-through">€1200</span>
+                            <span class="text-4xl font-bold text-secondary ml-2">€299</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Sito web vetrina fino a 5 pagine</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Logo professionale incluso</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Ottimizzazione SEO completa</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Design completamente personalizzabile</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Supporto tecnico 1 anno</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Consegna in 5 giorni</span>
+                        </li>
                     </ul>
-                    <button onclick="scrollToSection('contatti')" class="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                    
+                    <button onclick="scrollToSection('contatti')" class="w-full py-3 px-6 bg-secondary text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
                         Scegli STANDARD
                     </button>
                 </div>
 
                 <!-- E-COMMERCE -->
-                <div class="bg-white rounded-lg shadow-lg p-8 text-center border">
-                    <h3 class="text-2xl font-bold mb-4">E-COMMERCE</h3>
-                    <div class="text-4xl font-bold text-purple-600 mb-4">€699</div>
-                    <ul class="text-left space-y-3 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Negozio online completo</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Pagine illimitate</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Sistema di pagamento</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Gestione ordini</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Logo personalizzato</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-3"></i>Formazione completa</li>
+                <div class="relative bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-primary transition-all duration-300 hover:shadow-xl">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl text-primary font-bold mb-2 font-heading">E-COMMERCE</h3>
+                        <p class="text-gray-600 mb-4">Per vendere online</p>
+                        <div class="mb-4">
+                            <span class="text-4xl font-bold text-primary">€699</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Sito e-commerce completo</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Logo professionale incluso</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Gestione prodotti illimitati</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Sistema pagamenti integrato</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Gestione ordini e clienti</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Ottimizzazione SEO avanzata</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Supporto prioritario 1 anno</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
+                            <span class="text-gray-700">Consegna in 7 giorni</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-times w-5 h-5 text-red-500"></i>
+                            <span class="text-gray-500">Caricamento prodotti non incluso</span>
+                        </li>
                     </ul>
-                    <button onclick="scrollToSection('contatti')" class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors">
+                    
+                    <button onclick="scrollToSection('contatti')" class="w-full py-3 px-6 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
                         Scegli E-COMMERCE
                     </button>
                 </div>
