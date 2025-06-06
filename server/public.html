@@ -23,7 +23,17 @@
             --card: 0 0% 100%;
             --border: 20 5.9% 90%;
         }
-        body { font-family: 'Open Sans', sans-serif; }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            margin: 0;
+            overflow-x: hidden;
+        }
+        
         .font-heading { font-family: 'Montserrat', sans-serif; }
         .bg-primary { background-color: hsl(var(--primary)); }
         .bg-secondary { background-color: hsl(var(--secondary)); }
@@ -33,83 +43,266 @@
         .text-accent { color: hsl(var(--accent)); }
         .bg-light { background-color: hsl(var(--muted)); }
         .border { border: 1px solid hsl(var(--border)); }
+        
+        /* Animazioni moderne */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(207, 154, 54, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(207, 154, 54, 0.6);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        /* Gradients moderni */
+        .gradient-primary {
+            background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 80% 45%) 100%);
+        }
+        
+        .gradient-secondary {
+            background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(40 90% 60%) 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Hover effects */
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: hsl(var(--primary));
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: hsl(var(--secondary));
+        }
+        
+        /* Utility classes */
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .clip-path-wave {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
     </style>
 </head>
 <body class="antialiased bg-light text-gray-900">
     <!-- Navbar -->
-    <header class="sticky top-0 z-50 bg-white shadow-md">
-        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="text-2xl font-bold">
-                <span class="text-blue-600">WebPro</span>
-                <span class="text-orange-500">Italia</span>
-            </div>
-            <nav class="hidden md:flex space-x-6">
-                <button onclick="scrollToSection('servizi')" class="hover:text-blue-600 transition-colors">Servizi</button>
-                <button onclick="scrollToSection('offerte')" class="hover:text-blue-600 transition-colors">Offerte</button>
-                <button onclick="scrollToSection('contatti')" class="hover:text-blue-600 transition-colors">Contatti</button>
-                <a href="/blog" class="hover:text-blue-600 transition-colors">Blog</a>
-            </nav>
-            <div class="md:hidden">
-                <button class="text-gray-600 hover:text-blue-600">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
+    <header class="sticky top-0 z-50 glass backdrop-blur-md border-b border-white/20 animate-fade-in-up">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-3xl font-bold font-heading animate-pulse">
+                    <span class="gradient-text">WebPro</span><span class="text-secondary">Italia</span>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <button onclick="scrollToSection('servizi')" class="relative group text-gray-700 hover:text-primary transition-all duration-300 font-medium">
+                        Servizi
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                    <button onclick="scrollToSection('offerte')" class="relative group text-gray-700 hover:text-primary transition-all duration-300 font-medium">
+                        Offerte
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                    <button onclick="scrollToSection('contatti')" class="relative group text-gray-700 hover:text-primary transition-all duration-300 font-medium">
+                        Contatti
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                    <a href="/blog" class="relative group text-gray-700 hover:text-primary transition-all duration-300 font-medium">
+                        Blog
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <button onclick="scrollToSection('contatti')" class="gradient-secondary text-white px-6 py-2 rounded-full font-semibold hover-lift shadow-lg">
+                        <i class="fas fa-rocket mr-2"></i>Inizia Ora
+                    </button>
+                </nav>
+                <div class="md:hidden">
+                    <button class="text-gray-600 hover:text-primary transition-colors">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-primary text-white py-16 md:py-24">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="md:w-1/2 space-y-6">
-                    <span class="bg-secondary text-white text-sm font-bold py-1 px-4 rounded-full">
+    <section class="relative gradient-primary text-white py-20 md:py-32 overflow-hidden">
+        <!-- Background particles effect -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-10 w-2 h-2 bg-white rounded-full animate-float"></div>
+            <div class="absolute top-40 right-20 w-3 h-3 bg-white rounded-full animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-40 left-1/4 w-1 h-1 bg-white rounded-full animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/3 right-1/3 w-2 h-2 bg-white rounded-full animate-float" style="animation-delay: 0.5s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 space-y-8 animate-fade-in-up">
+                    <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-bold py-3 px-6 rounded-full animate-glow">
+                        <i class="fas fa-fire text-orange-400"></i>
                         OFFERTA LIMITATA
-                    </span>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight font-heading">
-                        Sito Web Professionale a Soli <span class="text-secondary">€299</span>
+                        <i class="fas fa-clock text-orange-400 ml-2"></i>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight font-heading text-shadow">
+                        Sito Web<br>
+                        <span class="gradient-text bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Professionale</span><br>
+                        a Soli <span class="text-yellow-400 animate-pulse">€299</span>
                     </h1>
-                    <h2 class="text-xl md:text-2xl font-medium opacity-90">
-                        Valore reale di €1200 • Consegna in soli 5 giorni
-                    </h2>
-                    <ul class="space-y-3 text-lg">
-                        <li class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-accent"></i>
+                    
+                    <div class="flex items-center gap-4 text-xl md:text-2xl font-medium opacity-95">
+                        <span class="line-through text-gray-300">€1200</span>
+                        <i class="fas fa-arrow-right text-yellow-400"></i>
+                        <span class="text-yellow-400 font-bold">€299</span>
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">-75%</span>
+                    </div>
+                    
+                    <p class="text-xl md:text-2xl opacity-90 leading-relaxed">
+                        🚀 Consegna in soli <strong>5 giorni</strong><br>
+                        💎 Logo professionale incluso<br>
+                        📱 Design responsive moderno
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg">
+                        <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
                             <span>Logo professionale incluso</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-accent"></i>
-                            <span>Design responsive professionale</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-accent"></i>
-                            <span>Sito ottimizzato per mobile</span>
-                        </li>
-                        <li class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-accent"></i>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                            <i class="fas fa-mobile-alt text-blue-400 text-xl"></i>
+                            <span>Design responsive</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                            <i class="fas fa-search text-purple-400 text-xl"></i>
+                            <span>Ottimizzazione SEO</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-lg p-3">
+                            <i class="fas fa-shield-alt text-green-400 text-xl"></i>
                             <span>Nessun costo nascosto</span>
-                        </li>
-                    </ul>
-                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <button onclick="scrollToSection('contatti')" class="py-4 px-8 bg-secondary text-white text-lg font-bold rounded-full shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1">
-                            Voglio il Mio Sito Web <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-6 pt-6">
+                        <button onclick="scrollToSection('contatti')" class="group relative overflow-hidden gradient-secondary text-white text-xl font-bold py-6 px-10 rounded-2xl shadow-2xl hover-lift animate-glow transition-all duration-300">
+                            <span class="relative z-10 flex items-center gap-3">
+                                <i class="fas fa-rocket"></i>
+                                Voglio il Mio Sito Web
+                                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                            </span>
                         </button>
-                        <button onclick="scrollToSection('come-funziona')" class="py-4 px-8 bg-white bg-opacity-10 text-white text-lg font-medium rounded-full border border-white border-opacity-30 hover:bg-opacity-20 transition-all">
-                            Scopri di più <i class="fas fa-info-circle ml-2"></i>
+                        <button onclick="scrollToSection('offerte')" class="glass text-white text-lg font-medium py-6 px-8 rounded-2xl border border-white/30 hover:bg-white/20 transition-all duration-300 hover-lift">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Scopri di più
                         </button>
                     </div>
                 </div>
-                <div class="md:w-1/2 relative">
-                    <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
-                         alt="Anteprima di un sito web professionale su laptop" 
-                         class="rounded-xl shadow-2xl w-full h-auto">
-                    <div class="absolute -bottom-5 -left-5 bg-white text-primary p-4 rounded-lg shadow-lg font-bold">
-                        <span class="text-xl line-through text-gray-500">€1200</span>
-                        <span class="text-3xl ml-2 text-secondary">€299</span>
+                
+                <div class="lg:w-1/2 relative animate-float">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
+                             alt="Anteprima di un sito web professionale su laptop" 
+                             class="rounded-3xl shadow-2xl w-full h-auto hover-lift">
+                        
+                        <!-- Price badge -->
+                        <div class="absolute -bottom-8 -left-8 bg-white text-gray-800 p-6 rounded-2xl shadow-2xl font-bold hover-lift animate-pulse">
+                            <div class="text-center">
+                                <div class="text-lg text-gray-500 line-through">€1200</div>
+                                <div class="text-4xl text-primary font-black">€299</div>
+                                <div class="text-sm text-green-600 font-bold">RISPARMI €901!</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating elements -->
+                        <div class="absolute -top-4 -right-4 bg-green-500 text-white p-3 rounded-full animate-float" style="animation-delay: 1s;">
+                            <i class="fas fa-check text-xl"></i>
+                        </div>
+                        <div class="absolute top-1/2 -right-6 bg-blue-500 text-white p-3 rounded-full animate-float" style="animation-delay: 2s;">
+                            <i class="fas fa-star text-xl"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="absolute bottom-0 left-0 right-0 h-16 bg-white" style="clip-path: polygon(0 100%, 100% 100%, 100% 0);"></div>
+        
+        <!-- Wave separator -->
+        <div class="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-16 md:h-24 fill-white">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"></path>
+            </svg>
+        </div>
     </section>
 
     <!-- Benefici Online -->
@@ -143,162 +336,232 @@
     </section>
 
     <!-- Prezzi -->
-    <section id="offerte" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-primary font-heading">
+    <section id="offerte" class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        <!-- Background elements -->
+        <div class="absolute top-0 left-0 w-full h-full opacity-5">
+            <div class="absolute top-10 left-10 w-32 h-32 bg-primary rounded-full animate-float"></div>
+            <div class="absolute bottom-20 right-20 w-24 h-24 bg-secondary rounded-full animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-accent rounded-full animate-float" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 animate-fade-in-up">
+                <div class="inline-block bg-primary/10 text-primary px-6 py-2 rounded-full text-sm font-bold mb-6">
+                    <i class="fas fa-crown mr-2"></i>PACCHETTI PROFESSIONALI
+                </div>
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-heading gradient-text">
                     Le Nostre Offerte
                 </h2>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
                     Scegli il piano perfetto per la tua attività. Tutti i nostri siti sono responsive e ottimizzati per i motori di ricerca.
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                 <!-- LITE -->
-                <div class="relative bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-primary transition-all duration-300 hover:shadow-xl">
-                    <div class="text-center mb-6">
-                        <h3 class="text-xl text-primary font-bold mb-2 font-heading">LITE</h3>
-                        <p class="text-gray-600 mb-4">Ideale per piccole attività</p>
-                        <div class="mb-4">
-                            <span class="text-4xl font-bold text-primary">€197</span>
+                <div class="relative group hover-lift animate-fade-in-up">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-16 translate-x-16"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="text-center mb-8">
+                                <div class="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
+                                    <i class="fas fa-rocket text-primary text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-primary mb-2 font-heading">LITE</h3>
+                                <p class="text-gray-600 mb-6">Ideale per piccole attività</p>
+                                <div class="text-5xl font-black text-primary mb-2">€197</div>
+                                <div class="text-sm text-gray-500">Una tantum</div>
+                            </div>
+                            
+                            <ul class="space-y-4 mb-8">
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Sito web vetrina fino a 3 pagine</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Design responsive</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Ottimizzazione base SEO</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Supporto email</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-times text-red-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-500">Logo non incluso</span>
+                                </li>
+                            </ul>
+                            
+                            <button onclick="scrollToSection('contatti')" class="w-full py-4 px-6 bg-primary text-white font-bold rounded-xl hover:bg-primary/90 transition-all duration-300 group-hover:shadow-lg">
+                                Scegli LITE
+                            </button>
                         </div>
                     </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Sito web vetrina fino a 3 pagine</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Design responsive</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Ottimizzazione base SEO</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Personalizzazioni limitate</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Supporto email</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-times w-5 h-5 text-red-500"></i>
-                            <span class="text-gray-500">Logo non incluso</span>
-                        </li>
-                    </ul>
-                    
-                    <button onclick="scrollToSection('contatti')" class="w-full py-3 px-6 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
-                        Scegli LITE
-                    </button>
                 </div>
 
                 <!-- STANDARD -->
-                <div class="relative bg-white rounded-2xl shadow-lg p-8 border-2 border-secondary scale-105 md:scale-110 transition-all duration-300 hover:shadow-xl">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <div class="bg-secondary text-white px-6 py-2 rounded-full text-sm font-bold flex items-center gap-1">
-                            <i class="fas fa-star text-yellow-300"></i>
+                <div class="relative group hover-lift animate-fade-in-up transform lg:scale-110" style="animation-delay: 0.2s;">
+                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
+                        <div class="gradient-secondary text-white px-8 py-3 rounded-full text-sm font-bold shadow-lg animate-pulse">
+                            <i class="fas fa-crown text-yellow-300 mr-2"></i>
                             PIÙ VENDUTO
                         </div>
                     </div>
                     
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl text-secondary font-bold mb-2 font-heading">STANDARD</h3>
-                        <p class="text-gray-600 mb-4">Il più scelto dai nostri clienti</p>
-                        <div class="mb-4">
-                            <span class="text-sm text-gray-500 line-through">€1200</span>
-                            <span class="text-4xl font-bold text-secondary ml-2">€299</span>
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 border-2 border-secondary relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-secondary/10 rounded-full -translate-y-20 translate-x-20"></div>
+                        <div class="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 rounded-full translate-y-16 -translate-x-16"></div>
+                        
+                        <div class="relative z-10 pt-4">
+                            <div class="text-center mb-8">
+                                <div class="inline-flex items-center justify-center w-20 h-20 gradient-secondary rounded-2xl mb-4 animate-glow">
+                                    <i class="fas fa-star text-white text-3xl"></i>
+                                </div>
+                                <h3 class="text-3xl font-bold text-secondary mb-2 font-heading">STANDARD</h3>
+                                <p class="text-gray-600 mb-6">Il più scelto dai nostri clienti</p>
+                                <div class="flex items-center justify-center gap-3 mb-2">
+                                    <span class="text-lg text-gray-500 line-through">€1200</span>
+                                    <div class="text-6xl font-black text-secondary">€299</div>
+                                </div>
+                                <div class="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-bold inline-block">
+                                    RISPARMI €901!
+                                </div>
+                            </div>
+                            
+                            <ul class="space-y-4 mb-8">
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Sito web vetrina fino a 5 pagine</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Logo professionale incluso</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Ottimizzazione SEO completa</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Design personalizzabile</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Supporto tecnico 1 anno</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Consegna in 5 giorni</span>
+                                </li>
+                            </ul>
+                            
+                            <button onclick="scrollToSection('contatti')" class="w-full py-5 px-6 gradient-secondary text-white font-bold rounded-xl hover:shadow-2xl transition-all duration-300 animate-glow text-lg">
+                                <i class="fas fa-rocket mr-2"></i>
+                                Scegli STANDARD
+                            </button>
                         </div>
                     </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Sito web vetrina fino a 5 pagine</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Logo professionale incluso</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Ottimizzazione SEO completa</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Design completamente personalizzabile</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Supporto tecnico 1 anno</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Consegna in 5 giorni</span>
-                        </li>
-                    </ul>
-                    
-                    <button onclick="scrollToSection('contatti')" class="w-full py-3 px-6 bg-secondary text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
-                        Scegli STANDARD
-                    </button>
                 </div>
 
                 <!-- E-COMMERCE -->
-                <div class="relative bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-primary transition-all duration-300 hover:shadow-xl">
-                    <div class="text-center mb-6">
-                        <h3 class="text-xl text-primary font-bold mb-2 font-heading">E-COMMERCE</h3>
-                        <p class="text-gray-600 mb-4">Per vendere online</p>
-                        <div class="mb-4">
-                            <span class="text-4xl font-bold text-primary">€699</span>
+                <div class="relative group hover-lift animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 rounded-full -translate-y-16 translate-x-16"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="text-center mb-8">
+                                <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-2xl mb-4">
+                                    <i class="fas fa-shopping-cart text-purple-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-purple-600 mb-2 font-heading">E-COMMERCE</h3>
+                                <p class="text-gray-600 mb-6">Per vendere online</p>
+                                <div class="text-5xl font-black text-purple-600 mb-2">€699</div>
+                                <div class="text-sm text-gray-500">Una tantum</div>
+                            </div>
+                            
+                            <ul class="space-y-4 mb-8">
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Sito e-commerce completo</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Logo professionale incluso</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Prodotti illimitati</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Sistema pagamenti integrato</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Gestione ordini e clienti</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">SEO avanzata</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-700 font-medium">Supporto prioritario 1 anno</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <div class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-times text-red-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-gray-500">Caricamento prodotti escluso</span>
+                                </li>
+                            </ul>
+                            
+                            <button onclick="scrollToSection('contatti')" class="w-full py-4 px-6 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition-all duration-300 group-hover:shadow-lg">
+                                Scegli E-COMMERCE
+                            </button>
                         </div>
                     </div>
-                    
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Sito e-commerce completo</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Logo professionale incluso</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Gestione prodotti illimitati</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Sistema pagamenti integrato</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Gestione ordini e clienti</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Ottimizzazione SEO avanzata</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Supporto prioritario 1 anno</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-check w-5 h-5 text-green-500"></i>
-                            <span class="text-gray-700">Consegna in 7 giorni</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-times w-5 h-5 text-red-500"></i>
-                            <span class="text-gray-500">Caricamento prodotti non incluso</span>
-                        </li>
-                    </ul>
-                    
-                    <button onclick="scrollToSection('contatti')" class="w-full py-3 px-6 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition-colors">
-                        Scegli E-COMMERCE
-                    </button>
                 </div>
             </div>
         </div>
