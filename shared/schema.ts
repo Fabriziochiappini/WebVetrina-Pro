@@ -31,10 +31,14 @@ export const logos = pgTable("logos", {
 export const portfolioItems = pgTable("portfolio_items", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
-  description: text("description").notNull(),
-  businessImageUrl: text("business_image_url").notNull(),
-  websiteImageUrl: text("website_image_url").notNull(),
-  tags: text("tags").array().notNull(),
+  description: text("description"),
+  type: text("type", { enum: ["video", "image", "link"] }).notNull(),
+  url: text("url").notNull(), // Video URL, Image URL, or Website URL
+  thumbnailUrl: text("thumbnail_url"), // For videos and images
+  websiteUrl: text("website_url"), // For link type items
+  tags: text("tags").array(),
+  featured: boolean("featured").default(false), // For home page display
+  sortOrder: integer("sort_order").default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

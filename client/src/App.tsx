@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import ChiSiamo from "@/pages/ChiSiamo";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
+import Portfolio from "@/pages/Portfolio";
 import Admin from "@/pages/Admin";
 import FloatingCta from "./components/FloatingCta";
 
@@ -16,6 +17,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/chi-siamo" component={ChiSiamo} />
+      <Route path="/portfolio" component={Portfolio} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
       <Route path="/admin" component={Admin} />

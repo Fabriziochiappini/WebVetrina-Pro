@@ -30,6 +30,9 @@ export interface IStorage {
   // Portfolio management
   createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem>;
   getPortfolioItems(): Promise<PortfolioItem[]>;
+  getPortfolioItem(id: number): Promise<PortfolioItem | undefined>;
+  getFeaturedPortfolioItems(): Promise<PortfolioItem[]>;
+  updatePortfolioItem(id: number, item: Partial<InsertPortfolioItem>): Promise<PortfolioItem>;
   deletePortfolioItem(id: number): Promise<boolean>;
   
   // Site settings
