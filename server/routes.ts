@@ -314,9 +314,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/portfolio", checkAuth, async (req, res) => {
+  app.post("/api/portfolio", upload.single('thumbnailFile'), checkAuth, async (req, res) => {
     try {
-      const { title, description, type, url, thumbnailUrl, websiteUrl, tags, featured } = req.body;
+      const { title, description, type, url, websiteUrl, tags, featured, sortOrder } = req.body;
+      
+      let thumbnailUrl = undefined;
+      if (req.file) {
+        thumbnailUrl = `/uploads/${req.file.filename}`;
+      }
       
       const portfolioData = {
         title,
@@ -327,7 +332,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         websiteUrl,
         tags: tags ? tags.split(',').map((tag: string) => tag.trim()) : [],
         featured: featured === 'true' || featured === true,
-        sortOrder: 0
+        sortOrder: sortOrder ? parseInt(sortOrder) : 0
       };
 
       const result = insertPortfolioItemSchema.safeParse(portfolioData);
