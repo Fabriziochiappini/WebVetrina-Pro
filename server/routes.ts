@@ -374,6 +374,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch("/api/portfolio/:id", upload.single('thumbnailFile'), checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { title, description, type, url, websiteUrl, tags, featured, sortOrder } = req.body;
+      
+      let thumbnailUrl = undefined;
+      if (req.file) {
+        thumbnailUrl = `/uploads/${req.file.filename}`;
+      }
+      
+      const portfolioData: any = {
+        title,
+        description,
+        type,
+        url,
+        websiteUrl,
+        tags: tags ? tags.split(',').map((tag: string) => tag.trim()) : [],
+        featured: featured === 'true' || featured === true,
+        sortOrder: sortOrder ? parseInt(sortOrder) : 0
+      };
+
+      if (thumbnailUrl) {
+        portfolioData.thumbnailUrl = thumbnailUrl;
+      }
+
+      const portfolioItem = await storage.updatePortfolioItem(id, portfolioData);
+      return res.status(200).json(portfolioItem);
+    } catch (error) {
+      console.error("Error updating portfolio item:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante l'aggiornamento dell'elemento di portfolio." 
+      });
+    }
+  });
+
   app.delete("/api/portfolio/:id", checkAuth, async (req, res) => {
     try {
       const id = parseInt(req.params.id);

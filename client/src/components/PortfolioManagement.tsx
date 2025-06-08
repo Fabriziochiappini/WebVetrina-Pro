@@ -39,10 +39,7 @@ const PortfolioManagement = () => {
 
   const createMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      return await apiRequest("/api/portfolio", {
-        method: "POST",
-        body: data,
-      });
+      return await apiRequest("POST", "/api/portfolio", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
@@ -58,10 +55,7 @@ const PortfolioManagement = () => {
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: FormData }) => {
-      return await apiRequest(`/api/portfolio/${id}`, {
-        method: "PATCH",
-        body: data,
-      });
+      return await apiRequest("PATCH", `/api/portfolio/${id}`, data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
@@ -77,9 +71,7 @@ const PortfolioManagement = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/portfolio/${id}`, {
-        method: "DELETE",
-      });
+      return await apiRequest("DELETE", `/api/portfolio/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
