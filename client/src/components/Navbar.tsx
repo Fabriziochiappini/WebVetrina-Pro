@@ -35,53 +35,39 @@ const Navbar = () => {
           </Link>
         </div>
         
-        <nav className="hidden md:flex space-x-8 font-medium">
+        <nav className="hidden md:flex space-x-6 font-medium text-sm">
           <button 
             onClick={() => scrollToSection('servizi')} 
-            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
+            className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
           >
             Servizi
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
           <button 
             onClick={() => scrollToSection('offerte')} 
-            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
+            className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
           >
             Offerte
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
-          <button 
-            onClick={() => scrollToSection('testimonianze')} 
-            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
-          >
-            Testimonianze
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-          </button>
           <Link href="/chi-siamo">
-            <span className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
               Chi Siamo
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
           <Link href="/portfolio">
-            <span className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
               Portfolio
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
           <Link href="/blog">
-            <span className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
               Blog
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
-          <button 
-            onClick={() => scrollToSection('faq')} 
-            className="px-4 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
-          >
-            FAQ
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-          </button>
         </nav>
         
         <Button 
@@ -111,15 +97,14 @@ const Navbar = () => {
               >
                 Offerte
               </button>
-              <button 
-                onClick={() => scrollToSection('testimonianze')} 
-                className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"
-              >
-                Testimonianze
-              </button>
               <Link href="/chi-siamo">
                 <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
                   Chi Siamo
+                </span>
+              </Link>
+              <Link href="/portfolio">
+                <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
+                  Portfolio
                 </span>
               </Link>
               <Link href="/blog">
@@ -127,12 +112,6 @@ const Navbar = () => {
                   Blog
                 </span>
               </Link>
-              <button 
-                onClick={() => scrollToSection('faq')} 
-                className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"
-              >
-                FAQ
-              </button>
               <Button 
                 onClick={() => scrollToSection('contatti')} 
                 className="bg-secondary text-white font-bold rounded-full shadow-md hover:bg-secondary/90 w-full mt-4"
