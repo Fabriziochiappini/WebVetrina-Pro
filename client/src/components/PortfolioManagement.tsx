@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ExternalLink, Play, Plus, Trash2, Edit } from "lucide-react";
+import { Loader2, Plus, Edit, Trash2, ExternalLink, Play, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -26,25 +27,29 @@ interface PortfolioItem {
 }
 
 const PortfolioManagement = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<PortfolioItem | null>(null);
-  const [activeTab, setActiveTab] = useState("all");
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<PortfolioItem | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const { data: portfolioItems = [], isLoading } = useQuery<PortfolioItem[]>({
     queryKey: ["/api/portfolio"],
   });
 
   const createMutation = useMutation({
-    mutationFn: async (data: any) => {
-      return await apiRequest("/api/portfolio", "POST", data);
+    mutationFn: async (data: FormData) => {
+      return await apiRequest("/api/portfolio", {
+        method: "POST",
+        body: data,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
       setIsDialogOpen(false);
       setEditingItem(null);
-      toast({ title: "Portfolio item creato con successo" });
+      formRef.current?.reset();
+      toast({ title: "Elemento portfolio creato con successo" });
     },
     onError: (error: any) => {
       toast({ title: "Errore", description: error.message, variant: "destructive" });
@@ -52,14 +57,18 @@ const PortfolioManagement = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: number; data: any }) => {
-      return await apiRequest(`/api/portfolio/${id}`, "PUT", data);
+    mutationFn: async ({ id, data }: { id: number; data: FormData }) => {
+      return await apiRequest(`/api/portfolio/${id}`, {
+        method: "PATCH",
+        body: data,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
       setIsDialogOpen(false);
       setEditingItem(null);
-      toast({ title: "Portfolio item aggiornato con successo" });
+      formRef.current?.reset();
+      toast({ title: "Elemento portfolio aggiornato con successo" });
     },
     onError: (error: any) => {
       toast({ title: "Errore", description: error.message, variant: "destructive" });
@@ -68,11 +77,13 @@ const PortfolioManagement = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/portfolio/${id}`, "DELETE");
+      return await apiRequest(`/api/portfolio/${id}`, {
+        method: "DELETE",
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
-      toast({ title: "Portfolio item eliminato" });
+      toast({ title: "Elemento portfolio eliminato con successo" });
     },
     onError: (error: any) => {
       toast({ title: "Errore", description: error.message, variant: "destructive" });
@@ -83,21 +94,10 @@ const PortfolioManagement = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
-    const data = {
-      title: formData.get('title'),
-      description: formData.get('description'),
-      type: formData.get('type'),
-      url: formData.get('url'),
-      thumbnailUrl: formData.get('thumbnailUrl'),
-      websiteUrl: formData.get('websiteUrl'),
-      tags: formData.get('tags'),
-      featured: formData.get('featured') === 'on'
-    };
-    
     if (editingItem) {
-      updateMutation.mutate({ id: editingItem.id, data });
+      updateMutation.mutate({ id: editingItem.id, data: formData });
     } else {
-      createMutation.mutate(data);
+      createMutation.mutate(formData);
     }
   };
 
@@ -106,351 +106,275 @@ const PortfolioManagement = () => {
     setIsDialogOpen(true);
   };
 
-  const filteredItems = portfolioItems.filter(item => {
-    if (activeTab === "all") return true;
-    return item.type === activeTab;
-  });
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+    setEditingItem(null);
+    formRef.current?.reset();
+  };
 
-  const videoItems = filteredItems.filter(item => item.type === "video");
-  const imageItems = filteredItems.filter(item => item.type === "image");
-  const linkItems = filteredItems.filter(item => item.type === "link");
-
-  if (isLoading) {
+  const renderPortfolioCard = (item: PortfolioItem) => {
     return (
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Gestione Portfolio</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="modern-card p-4">
-              <div className="aspect-video bg-muted animate-pulse rounded mb-4"></div>
-              <div className="h-4 bg-muted rounded animate-pulse mb-2"></div>
-              <div className="h-4 bg-muted rounded animate-pulse w-2/3"></div>
+      <div key={item.id} className="border rounded-lg p-4 relative">
+        <div className="flex items-start gap-4">
+          {/* Thumbnail/Preview */}
+          <div className="w-24 h-24 flex-shrink-0">
+            {item.type === 'video' && (
+              <div className="w-full h-full bg-gray-100 rounded flex items-center justify-center">
+                <Play className="h-8 w-8 text-gray-400" />
+              </div>
+            )}
+            {item.type === 'image' && item.thumbnailUrl && (
+              <img 
+                src={item.thumbnailUrl} 
+                alt={item.title}
+                className="w-full h-full object-cover rounded"
+              />
+            )}
+            {item.type === 'link' && (
+              <div className="w-full h-full bg-gray-100 rounded flex items-center justify-center">
+                <ExternalLink className="h-8 w-8 text-gray-400" />
+              </div>
+            )}
+          </div>
+
+          {/* Content */}
+          <div className="flex-1">
+            <h3 className="font-semibold text-lg">{item.title}</h3>
+            {item.description && (
+              <p className="text-gray-600 text-sm mt-1">{item.description}</p>
+            )}
+            
+            {/* Tags */}
+            {item.tags && item.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1 mt-2">
+                {item.tags.map((tag, idx) => (
+                  <Badge key={idx} variant="secondary" className="text-xs">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            {/* Featured badge */}
+            {item.featured && (
+              <Badge className="mt-2" variant="default">
+                In Evidenza
+              </Badge>
+            )}
+
+            {/* Links */}
+            <div className="flex gap-2 mt-3">
+              {item.url && (
+                <Button variant="outline" size="sm" asChild>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="h-4 w-4 mr-1" />
+                    {item.type === 'video' ? 'Video' : item.type === 'image' ? 'Immagine' : 'Link'}
+                  </a>
+                </Button>
+              )}
+              {item.websiteUrl && (
+                <Button variant="outline" size="sm" asChild>
+                  <a href={item.websiteUrl} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="h-4 w-4 mr-1" />
+                    Sito Web
+                  </a>
+                </Button>
+              )}
             </div>
-          ))}
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => openEditDialog(item)}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => deleteMutation.mutate(item.id)}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Gestione Portfolio</h2>
-        
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="btn-modern-primary" onClick={() => setEditingItem(null)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Aggiungi Item
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>
-                {editingItem ? "Modifica" : "Aggiungi"} Portfolio Item
-              </DialogTitle>
-            </DialogHeader>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium">Titolo</label>
-                  <Input 
-                    name="title" 
-                    defaultValue={editingItem?.title}
-                    required 
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Tipo</label>
-                  <Select name="type" defaultValue={editingItem?.type || "image"}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="video">Video</SelectItem>
-                      <SelectItem value="image">Screenshot</SelectItem>
-                      <SelectItem value="link">Link</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium">Descrizione</label>
-                <Textarea 
-                  name="description" 
-                  defaultValue={editingItem?.description}
-                  rows={3}
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium">URL Principale</label>
+      {/* Add New Item Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button onClick={() => setIsDialogOpen(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Aggiungi Elemento Portfolio
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>
+              {editingItem ? 'Modifica Elemento Portfolio' : 'Nuovo Elemento Portfolio'}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Titolo</Label>
                 <Input 
-                  name="url" 
-                  defaultValue={editingItem?.url}
-                  placeholder="URL del video, immagine o sito web"
+                  id="title" 
+                  name="title" 
                   required 
+                  defaultValue={editingItem?.title || ""}
                 />
               </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="type">Tipo</Label>
+                <Select name="type" defaultValue={editingItem?.type || "image"}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleziona tipo" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="image">Immagine</SelectItem>
+                    <SelectItem value="video">Video</SelectItem>
+                    <SelectItem value="link">Link</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-              <div>
-                <label className="text-sm font-medium">URL Thumbnail (opzionale)</label>
+            <div className="space-y-2">
+              <Label htmlFor="description">Descrizione</Label>
+              <Textarea 
+                id="description" 
+                name="description" 
+                defaultValue={editingItem?.description || ""}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="url">URL Principale</Label>
                 <Input 
-                  name="thumbnailUrl" 
-                  defaultValue={editingItem?.thumbnailUrl}
-                  placeholder="Per video: immagine di anteprima"
+                  id="url" 
+                  name="url" 
+                  type="url"
+                  required
+                  defaultValue={editingItem?.url || ""}
                 />
               </div>
-
-              <div>
-                <label className="text-sm font-medium">URL Sito Web (opzionale)</label>
+              
+              <div className="space-y-2">
+                <Label htmlFor="websiteUrl">URL Sito Web (opzionale)</Label>
                 <Input 
+                  id="websiteUrl" 
                   name="websiteUrl" 
-                  defaultValue={editingItem?.websiteUrl}
-                  placeholder="Link al sito web del progetto"
+                  type="url"
+                  defaultValue={editingItem?.websiteUrl || ""}
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="text-sm font-medium">Tag (separati da virgola)</label>
+            <div className="space-y-2">
+              <Label htmlFor="thumbnailFile">Immagine Thumbnail (opzionale)</Label>
+              <Input 
+                id="thumbnailFile" 
+                name="thumbnailFile" 
+                type="file" 
+                accept="image/*"
+              />
+              {editingItem?.thumbnailUrl && (
+                <p className="text-sm text-gray-500">
+                  Thumbnail esistente: {editingItem.thumbnailUrl}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="tags">Tag (separati da virgola)</Label>
+              <Input 
+                id="tags" 
+                name="tags" 
+                placeholder="es: Responsive, E-commerce, Vue.js"
+                defaultValue={editingItem?.tags?.join(', ') || ""}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="featured">In Evidenza</Label>
+                <Select name="featured" defaultValue={editingItem?.featured ? "true" : "false"}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="false">No</SelectItem>
+                    <SelectItem value="true">Sì</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="sortOrder">Ordine di Visualizzazione</Label>
                 <Input 
-                  name="tags" 
-                  defaultValue={editingItem?.tags?.join(", ")}
-                  placeholder="e-commerce, responsive, business"
+                  id="sortOrder" 
+                  name="sortOrder" 
+                  type="number"
+                  defaultValue={editingItem?.sortOrder || 0}
                 />
               </div>
-
-              <div className="flex items-center gap-4">
-                <label className="flex items-center gap-2">
-                  <input 
-                    type="checkbox" 
-                    name="featured" 
-                    defaultChecked={editingItem?.featured}
-                  />
-                  <span className="text-sm">In evidenza (homepage)</span>
-                </label>
-              </div>
-
-              <div className="flex justify-end gap-4">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Annulla
-                </Button>
-                <Button 
-                  type="submit" 
-                  className="btn-modern-orange"
-                  disabled={createMutation.isPending || updateMutation.isPending}
-                >
-                  {editingItem ? "Aggiorna" : "Crea"}
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="all">Tutti ({portfolioItems.length})</TabsTrigger>
-          <TabsTrigger value="video">Video ({videoItems.length})</TabsTrigger>
-          <TabsTrigger value="image">Screenshot ({imageItems.length})</TabsTrigger>
-          <TabsTrigger value="link">Link ({linkItems.length})</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="all" className="space-y-8">
-          {/* Video Section */}
-          {videoItems.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-primary">Video Dimostrativi</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {videoItems.map(item => (
-                  <PortfolioCard 
-                    key={item.id} 
-                    item={item} 
-                    onEdit={openEditDialog} 
-                    onDelete={deleteMutation.mutate} 
-                  />
-                ))}
-              </div>
             </div>
-          )}
 
-          {/* Image Section */}
-          {imageItems.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-primary">Screenshot Progetti</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {imageItems.map(item => (
-                  <PortfolioCard 
-                    key={item.id} 
-                    item={item} 
-                    onEdit={openEditDialog} 
-                    onDelete={deleteMutation.mutate} 
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Link Section */}
-          {linkItems.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-primary">Siti Web Realizzati</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {linkItems.map(item => (
-                  <PortfolioCard 
-                    key={item.id} 
-                    item={item} 
-                    onEdit={openEditDialog} 
-                    onDelete={deleteMutation.mutate} 
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {portfolioItems.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Nessun progetto disponibile. Aggiungi il primo elemento!</p>
-            </div>
-          )}
-        </TabsContent>
-
-        <TabsContent value="video">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {videoItems.map(item => (
-              <PortfolioCard 
-                key={item.id} 
-                item={item} 
-                onEdit={openEditDialog} 
-                onDelete={deleteMutation.mutate} 
-              />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="image">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {imageItems.map(item => (
-              <PortfolioCard 
-                key={item.id} 
-                item={item} 
-                onEdit={openEditDialog} 
-                onDelete={deleteMutation.mutate} 
-              />
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="link">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {linkItems.map(item => (
-              <PortfolioCard 
-                key={item.id} 
-                item={item} 
-                onEdit={openEditDialog} 
-                onDelete={deleteMutation.mutate} 
-              />
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-interface PortfolioCardProps {
-  item: PortfolioItem;
-  onEdit: (item: PortfolioItem) => void;
-  onDelete: (id: number) => void;
-}
-
-const PortfolioCard = ({ item, onEdit, onDelete }: PortfolioCardProps) => {
-  return (
-    <div className="modern-card p-0 overflow-hidden group">
-      <div className="relative aspect-video">
-        {item.type === "video" ? (
-          <div className="relative w-full h-full">
-            <img 
-              src={item.thumbnailUrl || item.url} 
-              alt={item.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <Play className="h-12 w-12 text-white" />
-            </div>
-          </div>
-        ) : item.type === "image" ? (
-          <img 
-            src={item.url} 
-            alt={item.title}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-            <ExternalLink className="h-12 w-12 text-primary" />
-          </div>
-        )}
-        
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1">
-          <Button 
-            size="sm" 
-            variant="secondary"
-            onClick={() => onEdit(item)}
-          >
-            <Edit className="h-3 w-3" />
-          </Button>
-          <Button 
-            size="sm" 
-            variant="destructive"
-            onClick={() => onDelete(item.id)}
-          >
-            <Trash2 className="h-3 w-3" />
-          </Button>
-          {item.websiteUrl && (
-            <Button 
-              size="sm" 
-              className="btn-modern-orange"
-              onClick={() => window.open(item.websiteUrl, '_blank')}
-            >
-              <ExternalLink className="h-3 w-3" />
-            </Button>
-          )}
-        </div>
-        
-        {item.featured && (
-          <Badge className="absolute top-2 left-2 bg-secondary text-xs">
-            In Evidenza
-          </Badge>
-        )}
-      </div>
-      
-      <div className="p-4">
-        <h4 className="font-semibold text-primary mb-1">{item.title}</h4>
-        {item.description && (
-          <p className="text-muted-foreground text-xs mb-2 line-clamp-2">{item.description}</p>
-        )}
-        {item.tags && item.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1">
-            {item.tags.slice(0, 3).map((tag, tagIndex) => (
-              <span 
-                key={tagIndex}
-                className="px-2 py-1 bg-secondary/20 text-secondary text-xs rounded"
+            <div className="flex gap-2 pt-4">
+              <Button 
+                type="submit" 
+                disabled={createMutation.isPending || updateMutation.isPending}
               >
-                {tag}
-              </span>
-            ))}
-            {item.tags.length > 3 && (
-              <span className="text-xs text-muted-foreground">+{item.tags.length - 3}</span>
-            )}
-          </div>
-        )}
-      </div>
+                {(createMutation.isPending || updateMutation.isPending) && (
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                )}
+                {editingItem ? 'Aggiorna' : 'Crea'}
+              </Button>
+              <Button type="button" variant="outline" onClick={closeDialog}>
+                Annulla
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Portfolio Items List */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Elementi Portfolio</CardTitle>
+          <CardDescription>
+            Gestisci tutti gli elementi del tuo portfolio
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="flex justify-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : portfolioItems.length > 0 ? (
+            <div className="space-y-4">
+              {portfolioItems
+                .sort((a, b) => a.sortOrder - b.sortOrder)
+                .map(renderPortfolioCard)}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-gray-500">
+              Nessun elemento nel portfolio. Aggiungi il primo elemento per iniziare.
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -87,7 +87,6 @@ const Admin = () => {
   
   // Riferimenti ai form di upload
   const logoFormRef = useRef<HTMLFormElement>(null);
-  const portfolioFormRef = useRef<HTMLFormElement>(null);
   
   // Stato per i pixel
   const [metaPixelId, setMetaPixelId] = useState('');
@@ -96,11 +95,6 @@ const Admin = () => {
   // Stati per il form di caricamento loghi
   const [logoName, setLogoName] = useState('');
   const [logoDescription, setLogoDescription] = useState('');
-  
-  // Stati per il form di caricamento portfolio
-  const [portfolioTitle, setPortfolioTitle] = useState('');
-  const [portfolioDescription, setPortfolioDescription] = useState('');
-  const [portfolioTags, setPortfolioTags] = useState('');
 
   // Query per i dati
   const { data: contacts, isLoading: isLoadingContacts } = useQuery<Contact[]>({
@@ -285,39 +279,7 @@ const Admin = () => {
     }
   };
   
-  // Funzione per caricare un nuovo elemento del portfolio
-  const handlePortfolioUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!portfolioFormRef.current) return;
-    
-    // Validazione dei tag (dovrebbero essere una lista separata da virgole)
-    const tagsArray = portfolioTags.split(',').map(tag => tag.trim()).filter(Boolean);
-    
-    // Per semplicità in questo momento simuliamo il successo dell'operazione
-    // poiché abbiamo problemi con l'upload dei file
-    try {
-      // Simula una richiesta di successo
-      setTimeout(() => {
-        // Reset del form
-        setPortfolioTitle('');
-        setPortfolioDescription('');
-        setPortfolioTags('');
-        if (portfolioFormRef.current) portfolioFormRef.current.reset();
-        
-        toast({
-          title: "Elemento aggiunto (simulato)",
-          description: "L'elemento sarebbe stato aggiunto al portfolio con successo",
-        });
-      }, 500);
-    } catch (error) {
-      toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante l'aggiunta dell'elemento al portfolio",
-        variant: "destructive",
-      });
-    }
-  };
+
   
   // Funzione per salvare le impostazioni del sito
   const handleSaveSettings = () => {
@@ -549,145 +511,7 @@ const Admin = () => {
           
           {/* Tab Portfolio */}
           <TabsContent value="portfolio">
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Form per caricamento nuovo elemento portfolio */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Aggiungi al portfolio</CardTitle>
-                  <CardDescription>
-                    Aggiungi un nuovo progetto al tuo portfolio
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form ref={portfolioFormRef} onSubmit={handlePortfolioUpload} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="portfolioTitle">Titolo</Label>
-                      <Input 
-                        id="portfolioTitle" 
-                        name="title" 
-                        required 
-                        value={portfolioTitle}
-                        onChange={(e) => setPortfolioTitle(e.target.value)}
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="portfolioDescription">Descrizione</Label>
-                      <Textarea 
-                        id="portfolioDescription" 
-                        name="description" 
-                        required
-                        value={portfolioDescription}
-                        onChange={(e) => setPortfolioDescription(e.target.value)}
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="portfolioTags">Tag (separati da virgola)</Label>
-                      <Input 
-                        id="portfolioTags" 
-                        name="portfolioTags" 
-                        placeholder="es: Responsive, E-commerce"
-                        value={portfolioTags}
-                        onChange={(e) => setPortfolioTags(e.target.value)}
-                      />
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="businessImage">Immagine Business</Label>
-                        <Input 
-                          id="businessImage" 
-                          name="businessImage" 
-                          type="file" 
-                          accept="image/*" 
-                          required 
-                        />
-                        <p className="text-xs text-gray-500">Immagine dell'attività</p>
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="websiteImage">Immagine Sito</Label>
-                        <Input 
-                          id="websiteImage" 
-                          name="websiteImage" 
-                          type="file" 
-                          accept="image/*" 
-                          required 
-                        />
-                        <p className="text-xs text-gray-500">Screenshot del sito</p>
-                      </div>
-                    </div>
-                    
-                    <Button type="submit" className="w-full">
-                      <PlusIcon className="mr-2 h-4 w-4" />
-                      Aggiungi al Portfolio
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-              
-              {/* Portfolio esistente */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Portfolio esistente</CardTitle>
-                  <CardDescription>
-                    Gestisci i progetti nel tuo portfolio
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {isLoadingPortfolio ? (
-                    <div className="flex justify-center py-8">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    </div>
-                  ) : portfolio && portfolio.length > 0 ? (
-                    <div className="space-y-4">
-                      {portfolio.map((item) => (
-                        <div key={item.id} className="border rounded-md p-4 relative">
-                          <div className="flex flex-wrap gap-2 mb-2">
-                            <div className="w-20 h-20">
-                              <img 
-                                src={item.businessImageUrl} 
-                                alt={`Business: ${item.title}`} 
-                                className="w-full h-full object-cover rounded" 
-                              />
-                            </div>
-                            <div className="w-20 h-20">
-                              <img 
-                                src={item.websiteImageUrl} 
-                                alt={`Website: ${item.title}`} 
-                                className="w-full h-full object-cover rounded" 
-                              />
-                            </div>
-                          </div>
-                          <h3 className="font-bold">{item.title}</h3>
-                          <p className="text-sm text-gray-600 mb-2">{item.description}</p>
-                          <div className="flex flex-wrap gap-2">
-                            {item.tags.map((tag, idx) => (
-                              <span key={idx} className="bg-gray-100 px-2 py-1 rounded text-xs">
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                          <Button 
-                            variant="destructive" 
-                            size="sm"
-                            className="absolute top-2 right-2"
-                            onClick={() => deletePortfolioItem.mutate(item.id)}
-                          >
-                            <TrashIcon className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8 text-gray-500">
-                      Nessun progetto nel portfolio finora.
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
+            <PortfolioManagement />
           </TabsContent>
           
           {/* Tab Impostazioni */}
