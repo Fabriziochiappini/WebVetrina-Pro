@@ -1,3 +1,7 @@
+// WebPro Italia - Express.js Server
+// RESTful API backend with PostgreSQL database and session management
+// Built with Express.js, TypeScript, and modern web standards
+
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
