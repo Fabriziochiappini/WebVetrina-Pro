@@ -123,6 +123,26 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(portfolioItems).orderBy(desc(portfolioItems.createdAt));
   }
 
+  async getPortfolioItem(id: number): Promise<PortfolioItem | undefined> {
+    const [item] = await db.select().from(portfolioItems).where(eq(portfolioItems.id, id));
+    return item || undefined;
+  }
+
+  async getFeaturedPortfolioItems(): Promise<PortfolioItem[]> {
+    return await db.select().from(portfolioItems)
+      .where(eq(portfolioItems.featured, true))
+      .orderBy(portfolioItems.sortOrder, desc(portfolioItems.createdAt))
+      .limit(6);
+  }
+
+  async updatePortfolioItem(id: number, item: Partial<InsertPortfolioItem>): Promise<PortfolioItem> {
+    const [updated] = await db.update(portfolioItems)
+      .set(item)
+      .where(eq(portfolioItems.id, id))
+      .returning();
+    return updated;
+  }
+
   async deletePortfolioItem(id: number): Promise<boolean> {
     const result = await db.delete(portfolioItems).where(eq(portfolioItems.id, id)).returning();
     return result.length > 0;

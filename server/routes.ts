@@ -289,6 +289,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Portfolio routes
   app.get("/api/portfolio", async (req, res) => {
     try {
       const items = await storage.getPortfolioItems();
@@ -297,6 +298,96 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error fetching portfolio items:", error);
       return res.status(500).json({ 
         message: "Si è verificato un errore durante il recupero degli elementi di portfolio." 
+      });
+    }
+  });
+
+  app.get("/api/portfolio/featured", async (req, res) => {
+    try {
+      const items = await storage.getFeaturedPortfolioItems();
+      return res.status(200).json(items);
+    } catch (error) {
+      console.error("Error fetching featured portfolio items:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il recupero degli elementi in evidenza." 
+      });
+    }
+  });
+
+  app.post("/api/portfolio", checkAuth, async (req, res) => {
+    try {
+      const { title, description, type, url, thumbnailUrl, websiteUrl, tags, featured } = req.body;
+      
+      const portfolioData = {
+        title,
+        description,
+        type,
+        url,
+        thumbnailUrl,
+        websiteUrl,
+        tags: tags ? tags.split(',').map((tag: string) => tag.trim()) : [],
+        featured: featured === 'true' || featured === true,
+        sortOrder: 0
+      };
+
+      const result = insertPortfolioItemSchema.safeParse(portfolioData);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Validazione fallita", 
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      const portfolioItem = await storage.createPortfolioItem(result.data);
+      return res.status(201).json(portfolioItem);
+    } catch (error) {
+      console.error("Error creating portfolio item:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante la creazione dell'elemento di portfolio." 
+      });
+    }
+  });
+
+  app.put("/api/portfolio/:id", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { title, description, type, url, thumbnailUrl, websiteUrl, tags, featured } = req.body;
+      
+      const portfolioData = {
+        title,
+        description,
+        type,
+        url,
+        thumbnailUrl,
+        websiteUrl,
+        tags: tags ? tags.split(',').map((tag: string) => tag.trim()) : [],
+        featured: featured === 'true' || featured === true
+      };
+
+      const portfolioItem = await storage.updatePortfolioItem(id, portfolioData);
+      return res.status(200).json(portfolioItem);
+    } catch (error) {
+      console.error("Error updating portfolio item:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante l'aggiornamento dell'elemento di portfolio." 
+      });
+    }
+  });
+
+  app.delete("/api/portfolio/:id", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deletePortfolioItem(id);
+      
+      if (!success) {
+        return res.status(404).json({ message: "Elemento di portfolio non trovato" });
+      }
+      
+      return res.status(200).json({ message: "Elemento di portfolio eliminato con successo" });
+    } catch (error) {
+      console.error("Error deleting portfolio item:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante l'eliminazione dell'elemento di portfolio." 
       });
     }
   });

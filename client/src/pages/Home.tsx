@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import OnlineBenefits from '@/components/OnlineBenefits';
 import Benefits from '@/components/Benefits';
 import PricingPlans from '@/components/PricingPlans';
+import PortfolioSimple from '@/components/PortfolioSimple';
 import ValueProposition from '@/components/ValueProposition';
 import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
@@ -58,6 +59,7 @@ const Home = () => {
       <OnlineBenefits />
       <Benefits />
       <PricingPlans scrollToSection={scrollToSection} />
+      <PortfolioSimple />
       <ValueProposition scrollToSection={scrollToSection} />
       <Process />
       <Testimonials />
