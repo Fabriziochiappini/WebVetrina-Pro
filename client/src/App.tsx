@@ -8,7 +8,7 @@ import Home from "@/pages/Home";
 import ChiSiamo from "@/pages/ChiSiamo";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
-import Portfolio from "@/pages/Portfolio";
+import Portfolio from "@/pages/PortfolioPublic";
 import Admin from "@/pages/Admin";
 import FloatingCta from "./components/FloatingCta";
 

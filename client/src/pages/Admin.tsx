@@ -29,6 +29,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import BlogManagement from '@/components/BlogManagement';
+import PortfolioManagement from '@/components/PortfolioManagement';
 
 interface DateFilterProps {
   startDate: string;
