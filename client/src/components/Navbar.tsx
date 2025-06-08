@@ -35,35 +35,35 @@ const Navbar = () => {
           </Link>
         </div>
         
-        <nav className="hidden md:flex space-x-6 font-medium text-sm">
+        <nav className="hidden md:flex items-center space-x-6 font-medium text-sm">
           <button 
             onClick={() => scrollToSection('servizi')} 
-            className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
+            className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group flex items-center h-10"
           >
             Servizi
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
           <button 
             onClick={() => scrollToSection('offerte')} 
-            className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group"
+            className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group flex items-center h-10"
           >
             Offerte
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
           </button>
           <Link href="/chi-siamo">
-            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group flex items-center h-10">
               Chi Siamo
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
           <Link href="/portfolio">
-            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group flex items-center h-10">
               Portfolio
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
           <Link href="/blog">
-            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group flex items-center h-10">
               Blog
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
