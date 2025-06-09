@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
 import { ChevronRight } from 'lucide-react';
-import { portfolio } from '@/assets/portfolio';
+import { portfolio } from '../assets/portfolio';
 
 interface PortfolioProps {
   scrollToSection: (id: string) => void;

@@ -1,0 +1,44 @@
+==> Cloning from https://github.com/Fabriziochiappini/WebVetrina-Pro
+==> Checking out commit a314c75592429b43b705df8d25daaec5d073aeaf in branch main
+==> Using Node.js version 22.14.0 (default)
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+==> Using Bun version 1.1.0 (default)
+==> Docs on specifying a bun version: https://render.com/docs/bun-version
+==> Running build command 'npm install; npm run build'...
+added 486 packages, and audited 487 packages in 9s
+66 packages are looking for funding
+  run `npm fund` for details
+5 vulnerabilities (4 moderate, 1 high)
+To address issues that do not require attention, run:
+  npm audit fix
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+Run `npm audit` for details.
+> rest-express@1.0.0 build
+> cd client && npx vite build --outDir ../dist/public && cd .. && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+vite v5.4.19 building for production...
+(!) outDir /opt/render/project/src/dist/public is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+transforming...
+Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+warn - The `content` option in your Tailwind CSS configuration is missing or empty.
+warn - Configure your content sources or your generated CSS will be missing styles.
+warn - https://tailwindcss.com/docs/content-configuration
+✓ 5 modules transformed.
+x Build failed in 507ms
+error during build:
+[vite]: Rollup failed to resolve import "@/components/ui/tooltip" from "/opt/render/project/src/client/src/App.tsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`
+    at viteWarn (file:///opt/render/project/src/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:65839:17)
+    at onRollupWarning (file:///opt/render/project/src/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:65871:5)
+    at onwarn (file:///opt/render/project/src/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:65534:7)
+    at file:///opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:19452:13
+    at Object.logger [as onLog] (file:///opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:21178:9)
+    at ModuleLoader.handleInvalidResolvedId (file:///opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:20067:26)
+    at file:///opt/render/project/src/node_modules/rollup/dist/es/shared/node-entry.js:20025:26
+==> Build failed 😞
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys

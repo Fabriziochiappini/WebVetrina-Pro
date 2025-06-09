@@ -1,4 +1,4 @@
-import { benefits } from '@/assets/benefits';
+import { benefits } from '../assets/benefits';
 
 const Benefits = () => {
   return (

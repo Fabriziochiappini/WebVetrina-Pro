@@ -1,4 +1,4 @@
-import { testimonials } from '@/assets/testimonials';
+import { testimonials } from '../assets/testimonials';
 
 const Testimonials = () => {
   return (

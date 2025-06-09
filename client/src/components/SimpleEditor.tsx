@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from '../components/ui/button';
+import { Textarea } from '../components/ui/textarea';
 import { 
   Bold, Italic, Underline, List, ListOrdered, 
   Link, Image, Eye, Code 

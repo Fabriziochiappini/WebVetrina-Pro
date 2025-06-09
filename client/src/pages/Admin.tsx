@@ -12,7 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '../components/ui/table';
 import {
   Card,
   CardContent,
@@ -20,16 +20,16 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { apiRequest } from '@/lib/queryClient';
-import { useToast } from '@/hooks/use-toast';
-import BlogManagement from '@/components/BlogManagement';
-import PortfolioManagement from '@/components/PortfolioManagement';
+} from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Label } from '../components/ui/label';
+import { Textarea } from '../components/ui/textarea';
+import { apiRequest } from '../lib/queryClient';
+import { useToast } from '../hooks/use-toast';
+import BlogManagement from '../components/BlogManagement';
+import PortfolioManagement from '../components/PortfolioManagement';
 
 interface DateFilterProps {
   startDate: string;

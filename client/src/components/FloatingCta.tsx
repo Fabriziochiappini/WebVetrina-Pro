@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
 import { Rocket } from 'lucide-react';
 
 const FloatingCta = () => {

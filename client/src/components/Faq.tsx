@@ -1,4 +1,4 @@
-import { faq } from '@/assets/faq';
+import { faq } from '../assets/faq';
 
 const Faq = () => {
   return (

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
 import { Link } from "wouter";
 import { ArrowLeft, CalendarDays, User, Share2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 
