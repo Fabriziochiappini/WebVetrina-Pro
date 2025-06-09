@@ -1,0 +1,38 @@
+==> Cloning from https://github.com/Fabriziochiappini/WebVetrina-Pro
+==> Checking out commit 29f8c27a07e342ee1ec1b6ae2e5250001e8c8b7b in branch main
+==> Using Node.js version 22.14.0 (default)
+==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+==> Using Bun version 1.1.0 (default)
+==> Docs on specifying a bun version: https://render.com/docs/bun-version
+==> Running build command 'npm install; npm run build'...
+added 422 packages, and audited 423 packages in 7s
+56 packages are looking for funding
+  run `npm fund` for details
+1 high severity vulnerability
+To address all issues, run:
+  npm audit fix
+Run `npm audit` for details.
+> rest-express@1.0.0 build
+> cd client && npx vite build --outDir ../dist/public && cd .. && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+vite v6.3.5 building for production...
+(!) outDir /opt/render/project/src/dist/public is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+transforming...
+✓ 3 modules transformed.
+✗ Build failed in 625ms
+error during build:
+[vite:css] Failed to load PostCSS config (searchPath: /opt/render/project/src/client): [Error] Loading PostCSS Plugin failed: Cannot find module 'autoprefixer'
+Require stack:
+- /opt/render/project/src/postcss.config.js
+(@/opt/render/project/src/postcss.config.js)
+Error: Loading PostCSS Plugin failed: Cannot find module 'autoprefixer'
+Require stack:
+- /opt/render/project/src/postcss.config.js
+(@/opt/render/project/src/postcss.config.js)
+    at load (file:///opt/render/.cache/_npx/9ed06546b0653f96/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:11776:11)
+    at async Promise.all (index 1)
+    at async plugins (file:///opt/render/.cache/_npx/9ed06546b0653f96/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:11805:12)
+    at async processResult (file:///opt/render/.cache/_npx/9ed06546b0653f96/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:11876:14)
+file: /opt/render/project/src/client/src/index.css
+==> Build failed 😞
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
