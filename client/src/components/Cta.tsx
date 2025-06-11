@@ -13,7 +13,7 @@ const Cta = ({ scrollToSection }: CtaProps) => {
           Pronto a Far Crescere la Tua Attività Online?
         </h2>
         <p className="text-xl mb-8 max-w-3xl mx-auto">
-          Non perdere questa opportunità unica: un sito web professionale, un logo personalizzato e tutto ciò che ti serve per avere successo online a soli €299.
+          Non perdere questa opportunità unica: un sito web professionale e tutto ciò che ti serve per avere successo online a partire da soli €197.
         </p>
         
         <div className="flex flex-wrap justify-center gap-4 mb-10">
@@ -23,7 +23,7 @@ const Cta = ({ scrollToSection }: CtaProps) => {
             </div>
             <div className="text-left">
               <strong className="block">Consegna Rapida</strong>
-              <span className="text-sm opacity-90">In soli 7 giorni</span>
+              <span className="text-sm opacity-90">In soli 5 giorni</span>
             </div>
           </div>
           
@@ -33,7 +33,7 @@ const Cta = ({ scrollToSection }: CtaProps) => {
             </div>
             <div className="text-left">
               <strong className="block">Tutto Incluso</strong>
-              <span className="text-sm opacity-90">Logo, hosting, dominio</span>
+              <span className="text-sm opacity-90">Hosting e dominio</span>
             </div>
           </div>
           

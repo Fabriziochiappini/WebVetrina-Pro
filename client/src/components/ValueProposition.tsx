@@ -11,7 +11,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 font-heading">
-            Risparmia €900 sul Tuo Sito Web Professionale
+            Il Tuo Sito Web Professionale a Prezzo Imbattibile
           </h2>
           
           <div className="bg-white/10 p-8 rounded-2xl mb-10">
@@ -26,15 +26,15 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Design logo personalizzato</span>
+                    <span>Ottimizzazione SEO base</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Ottimizzazione SEO completa</span>
+                    <span>Hosting e dominio inclusi</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Supporto tecnico 1 anno</span>
+                    <span>Supporto email</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
@@ -42,7 +42,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Consegna in 5 giorni lavorativi</span>
+                    <span>Consegna rapida</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
@@ -52,16 +52,16 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
               </div>
               
               <div className="pt-6 md:pt-0 md:pl-8">
-                <div className="text-3xl md:text-4xl font-bold mb-3 line-through opacity-70 font-heading">€1200</div>
+                <div className="text-3xl md:text-4xl font-bold mb-3 line-through opacity-70 font-heading">€600</div>
                 <h3 className="text-2xl font-bold mb-4 font-heading">Valore di Mercato</h3>
                 <ul className="space-y-3 text-left opacity-80">
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle mt-1"></i>
-                    <span>Sito web professionale: €800</span>
+                    <span>Sito web professionale: €400</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle mt-1"></i>
-                    <span>Design logo: €300</span>
+                    <span>Hosting e dominio: €100</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle mt-1"></i>
