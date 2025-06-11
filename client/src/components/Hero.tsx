@@ -16,23 +16,23 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               OFFERTA LIMITATA
             </span>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
-              Sito Web Professionale a Soli <span className="text-gradient-orange">€299</span>
+              Sito Web Professionale a Soli <span className="text-gradient-orange">€197</span>
             </h1>
             <h2 className="text-xl md:text-2xl font-medium opacity-95 leading-relaxed">
-              Valore reale di €1200 • Consegna in soli 5 giorni
+              Valore reale di €1200 • Sito pronto in 5 giorni
             </h2>
             <ul className="space-y-4 text-lg slide-up">
               <li className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
                   <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span className="text-white font-medium">Logo professionale incluso</span>
+                <span className="text-white font-medium">Design responsive professionale</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
                   <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span className="text-white font-medium">Design responsive professionale</span>
+                <span className="text-white font-medium">LOGO</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
@@ -44,7 +44,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
                   <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span className="text-white font-medium">Nessun costo nascosto</span>
+                <span className="text-white font-medium">Hosting e dominio</span>
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-6 pt-6 scale-in">
@@ -70,7 +70,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
             />
             <div className="absolute -bottom-5 -left-5 bg-white text-primary p-4 rounded-lg shadow-lg font-bold">
               <span className="text-xl line-through text-gray-500">€1200</span>
-              <span className="text-3xl ml-2 text-secondary">€299</span>
+              <span className="text-3xl ml-2 text-secondary">€197</span>
             </div>
           </div>
         </div>
