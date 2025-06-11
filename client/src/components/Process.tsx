@@ -62,12 +62,12 @@ const Process = () => {
           />
           <div>
             <h3 className="text-2xl font-bold mb-4 text-primary font-heading">
-              Cosa include il pacchetto da €299:
+              Cosa include il pacchetto da €197:
             </h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
-                <span>Fino a 5 pagine di contenuto (Home, Chi siamo, Servizi, Portfolio, Contatti)</span>
+                <span>Da 5 a 10 pagine di contenuto (Home, Chi siamo, Servizi, Portfolio, Contatti)</span>
               </li>
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
@@ -75,7 +75,7 @@ const Process = () => {
               </li>
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
-                <span>Logo aziendale in formato vettoriale</span>
+                <span>Design professionale responsive</span>
               </li>
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
@@ -87,11 +87,11 @@ const Process = () => {
               </li>
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
-                <span>Integrazione con i social media</span>
+                <span>Hosting e dominio</span>
               </li>
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
-                <span>Supporto tecnico post-lancio</span>
+                <span>Certificato SSL incluso</span>
               </li>
             </ul>
           </div>

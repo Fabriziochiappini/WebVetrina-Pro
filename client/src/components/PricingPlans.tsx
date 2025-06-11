@@ -12,10 +12,9 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       price: "197",
       description: "Ideale per piccole attività",
       features: [
-        "Sito web vetrina fino a 3 pagine",
+        "Sito web vetrina",
         "Design responsive",
         "Ottimizzazione base SEO",
-        "Personalizzazioni limitate",
         "Supporto email"
       ],
       excludes: [
@@ -29,7 +28,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       price: "299",
       description: "Il più scelto dai nostri clienti",
       features: [
-        "Sito web vetrina fino a 5 pagine",
+        "Sito web vetrina",
         "Logo professionale incluso",
         "Ottimizzazione SEO completa",
         "Design completamente personalizzabile",
@@ -48,9 +47,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       features: [
         "Sito e-commerce completo",
         "Logo professionale incluso",
-        "Gestione prodotti illimitati",
         "Sistema pagamenti integrato",
-        "Gestione ordini e clienti",
         "Ottimizzazione SEO avanzata",
         "Supporto prioritario 1 anno",
         "Consegna in 7 giorni"
