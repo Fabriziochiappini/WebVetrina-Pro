@@ -1,124 +1,99 @@
 import { Button } from "../components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+
+interface PortfolioItem {
+  id: number;
+  title: string;
+  description?: string;
+  websiteUrl: string;
+  coverImage: string;
+  featured: boolean;
+  sortOrder: number;
+  createdAt: string;
+}
 
 const PortfolioSimple = () => {
-  // Portfolio items con dati di esempio per dimostrare il layout
-  const portfolioItems = [
-    {
-      id: 1,
-      title: "E-commerce Moda",
-      description: "Piattaforma e-commerce completa per boutique di moda",
-      imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=400&fit=crop",
-      websiteUrl: "https://example-fashion.com",
-      tags: ["E-commerce", "Responsive", "SEO"]
-    },
-    {
-      id: 2,
-      title: "Studio Legale",
-      description: "Sito istituzionale per studio legale con area riservata",
-      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-      websiteUrl: "https://example-law.com",
-      tags: ["Business", "Professionale", "Sicuro"]
-    },
-    {
-      id: 3,
-      title: "Ristorante Gourmet",
-      description: "Sito vetrina con menu digitale e prenotazioni online",
-      imageUrl: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=400&fit=crop",
-      websiteUrl: "https://example-restaurant.com",
-      tags: ["Ristorante", "Prenotazioni", "Menu"]
-    },
-    {
-      id: 4,
-      title: "Agenzia Immobiliare",
-      description: "Portale immobiliare con ricerca avanzata proprietà",
-      imageUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=400&fit=crop",
-      websiteUrl: "https://example-real-estate.com",
-      tags: ["Immobiliare", "Ricerca", "CRM"]
-    },
-    {
-      id: 5,
-      title: "Palestra Fitness",
-      description: "Sito con booking classi e area membri",
-      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop",
-      websiteUrl: "https://example-gym.com",
-      tags: ["Fitness", "Booking", "Membership"]
-    },
-    {
-      id: 6,
-      title: "Azienda Tecnologica",
-      description: "Sito corporate con portfolio servizi IT",
-      imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=400&fit=crop",
-      websiteUrl: "https://example-tech.com",
-      tags: ["Corporate", "IT Services", "Portfolio"]
-    }
-  ];
+  const { data: allPortfolioItems = [] } = useQuery<PortfolioItem[]>({
+    queryKey: ["/api/portfolio"],
+  });
+
+  // Filtra solo gli elementi in evidenza per la homepage
+  const portfolioItems = allPortfolioItems.filter(item => item.featured);
 
   return (
-    <section id="portfolio" className="section-modern bg-gradient-to-br from-muted/20 to-background">
+    <section id="portfolio" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16 fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
-            I Nostri <span className="text-gradient-orange">Lavori</span>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-primary font-heading">
+            I Nostri Lavori Recenti
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Scopri alcuni dei progetti che abbiamo realizzato per i nostri clienti
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Ecco alcuni progetti che abbiamo realizzato per i nostri clienti, ognuno consegnato in 5 giorni.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-          {portfolioItems.map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {portfolioItems.map((item) => (
             <div 
               key={item.id} 
-              className="modern-card-hover p-0 overflow-hidden slide-up group"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="group relative aspect-square overflow-hidden rounded-xl shadow-md bg-white hover:scale-[1.03] transition-all duration-300"
             >
-              <div className="relative aspect-square">
-                <img 
-                  src={item.imageUrl} 
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <Button 
-                      size="sm" 
-                      className="btn-modern-orange w-full"
-                      onClick={() => window.open(item.websiteUrl, '_blank')}
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Visita Sito
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-primary mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {item.tags.map((tag, tagIndex) => (
-                    <span 
-                      key={tagIndex}
-                      className="px-3 py-1 bg-secondary/20 text-secondary text-xs rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+              <img 
+                src={item.coverImage} 
+                alt={item.title} 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                <div className="p-4 text-white w-full">
+                  <h3 className="font-bold text-lg mb-1">{item.title}</h3>
+                  {item.description && (
+                    <p className="text-white/90 text-sm mb-3 line-clamp-2">{item.description}</p>
+                  )}
+                  <a 
+                    href={item.websiteUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-white text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Visualizza Sito
+                  </a>
                 </div>
               </div>
             </div>
           ))}
         </div>
         
-        <div className="text-center">
-          <Link href="/portfolio">
-            <Button className="btn-modern-primary text-lg py-3 px-8">
-              Vedi Tutti i Progetti
+        {portfolioItems.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500">Progetti in arrivo...</p>
+          </div>
+        )}
+        
+        <div className="text-center mt-10">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/portfolio" className="inline-block">
+              <Button 
+                variant="outline"
+                className="py-3 px-8 border-primary text-primary font-bold rounded-full hover:bg-primary hover:text-white transition-all"
+              >
+                Vedi Tutti i Progetti
+              </Button>
+            </Link>
+            <Button 
+              onClick={() => {
+                const element = document.getElementById('contatti');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="py-3 px-8 bg-secondary text-white font-bold rounded-full shadow-md hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
+            >
+              Voglio un Sito Come Questi <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
-          </Link>
+          </div>
         </div>
       </div>
     </section>
