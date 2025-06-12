@@ -1,12 +1,27 @@
 import { Button } from '../components/ui/button';
-import { ChevronRight } from 'lucide-react';
-import { portfolio } from '../assets/portfolio';
+import { ChevronRight, ExternalLink } from 'lucide-react';
+import { useQuery } from "@tanstack/react-query";
+
+interface PortfolioItem {
+  id: number;
+  title: string;
+  description?: string;
+  websiteUrl: string;
+  coverImage: string;
+  featured: boolean;
+  sortOrder: number;
+  createdAt: string;
+}
 
 interface PortfolioProps {
   scrollToSection: (id: string) => void;
 }
 
 const Portfolio = ({ scrollToSection }: PortfolioProps) => {
+  const { data: portfolioItems = [] } = useQuery<PortfolioItem[]>({
+    queryKey: ["/api/portfolio/featured"],
+  });
+
   return (
     <section id="portfolio" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -20,39 +35,46 @@ const Portfolio = ({ scrollToSection }: PortfolioProps) => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {portfolio.map((item, index) => (
+          {portfolioItems.map((item) => (
             <div 
-              key={index} 
+              key={item.id} 
               className="portfolio-item overflow-hidden rounded-xl shadow-md bg-white hover:scale-[1.03] transition-all duration-300"
             >
-              <div className="relative portfolio-images-container">
+              <div className="relative aspect-square">
                 <img 
-                  src={item.image} 
-                  alt={`${item.title} business`} 
-                  className="w-full h-48 object-cover object-top"
+                  src={item.coverImage} 
+                  alt={item.title} 
+                  className="w-full h-full object-cover"
                 />
-                <div className="p-4 bg-white rounded-t-xl shadow-md absolute left-2 right-2 -bottom-2 border border-gray-100">
-                  <img 
-                    src={item.websiteImage} 
-                    alt={`${item.title} website screenshot`} 
-                    className="w-full h-32 object-contain border border-gray-100 rounded-md"
-                  />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end">
+                  <div className="p-4 text-white w-full">
+                    <a 
+                      href={item.websiteUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-white text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      Visualizza Sito
+                    </a>
+                  </div>
                 </div>
               </div>
-              <div className="p-4 pt-12 mt-2">
+              <div className="p-4">
                 <h3 className="font-bold text-lg mb-1 font-heading">{item.title}</h3>
-                <p className="text-gray-600 text-sm mb-3">{item.description}</p>
-                <div className="flex space-x-2">
-                  {item.tags.map((tag, idx) => (
-                    <span key={idx} className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                {item.description && (
+                  <p className="text-gray-600 text-sm mb-3">{item.description}</p>
+                )}
               </div>
             </div>
           ))}
         </div>
+        
+        {portfolioItems.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500">Progetti in arrivo...</p>
+          </div>
+        )}
         
         <div className="text-center mt-10">
           <Button 

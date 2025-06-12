@@ -304,94 +304,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/portfolio", upload.single('thumbnailFile'), checkAuth, async (req, res) => {
-    try {
-      const { title, description, type, url, websiteUrl, tags, featured, sortOrder } = req.body;
-      
-      let thumbnailUrl = undefined;
-      if (req.file) {
-        thumbnailUrl = `/uploads/${req.file.filename}`;
-      }
-      
-      const portfolioData = {
-        title,
-        description,
-        type,
-        url,
-        thumbnailUrl,
-        websiteUrl,
-        tags: tags ? tags.split(',').map((tag: string) => tag.trim()) : [],
-        featured: featured === 'true' || featured === true,
-        sortOrder: sortOrder ? parseInt(sortOrder) : 0
-      };
 
-      const result = insertPortfolioItemSchema.safeParse(portfolioData);
-      if (!result.success) {
-        return res.status(400).json({ 
-          message: "Validazione fallita", 
-          errors: result.error.flatten().fieldErrors 
-        });
-      }
 
-      const portfolioItem = await storage.createPortfolioItem(result.data);
-      return res.status(201).json(portfolioItem);
-    } catch (error) {
-      console.error("Error creating portfolio item:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante la creazione dell'elemento di portfolio." 
-      });
-    }
-  });
-
-  app.put("/api/portfolio/:id", checkAuth, async (req, res) => {
+  app.put("/api/portfolio/:id", upload.single('coverImage'), checkAuth, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const { title, description, type, url, thumbnailUrl, websiteUrl, tags, featured } = req.body;
-      
-      const portfolioData = {
-        title,
-        description,
-        type,
-        url,
-        thumbnailUrl,
-        websiteUrl,
-        tags: tags ? tags.split(',').map((tag: string) => tag.trim()) : [],
-        featured: featured === 'true' || featured === true
-      };
-
-      const portfolioItem = await storage.updatePortfolioItem(id, portfolioData);
-      return res.status(200).json(portfolioItem);
-    } catch (error) {
-      console.error("Error updating portfolio item:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante l'aggiornamento dell'elemento di portfolio." 
-      });
-    }
-  });
-
-  app.patch("/api/portfolio/:id", upload.single('thumbnailFile'), checkAuth, async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const { title, description, type, url, websiteUrl, tags, featured, sortOrder } = req.body;
-      
-      let thumbnailUrl = undefined;
-      if (req.file) {
-        thumbnailUrl = `/uploads/${req.file.filename}`;
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
       }
+
+      const { title, description, websiteUrl, featured } = req.body;
       
       const portfolioData: any = {
         title,
         description,
-        type,
-        url,
         websiteUrl,
-        tags: tags ? tags.split(',').map((tag: string) => tag.trim()) : [],
-        featured: featured === 'true' || featured === true,
-        sortOrder: sortOrder ? parseInt(sortOrder) : 0
+        featured: featured === 'on' || featured === 'true'
       };
 
-      if (thumbnailUrl) {
-        portfolioData.thumbnailUrl = thumbnailUrl;
+      // Se è stata caricata una nuova immagine, aggiorna anche quella
+      if (req.file) {
+        portfolioData.coverImage = `/uploads/${req.file.filename}`;
       }
 
       const portfolioItem = await storage.updatePortfolioItem(id, portfolioData);
@@ -399,7 +332,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating portfolio item:", error);
       return res.status(500).json({ 
-        message: "Si è verificato un errore durante l'aggiornamento dell'elemento di portfolio." 
+        message: "Si è verificato un errore durante l'aggiornamento del progetto." 
+      });
+    }
+  });
+
+  app.delete("/api/portfolio/:id", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+
+      const success = await storage.deletePortfolioItem(id);
+      if (success) {
+        return res.status(200).json({ message: "Progetto eliminato con successo" });
+      } else {
+        return res.status(404).json({ message: "Progetto non trovato" });
+      }
+    } catch (error) {
+      console.error("Error deleting portfolio item:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante l'eliminazione del progetto." 
       });
     }
   });
