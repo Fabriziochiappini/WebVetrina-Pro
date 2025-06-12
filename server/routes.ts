@@ -243,32 +243,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Portfolio management
-  app.post("/api/portfolio", upload.fields([
-    { name: 'businessImage', maxCount: 1 },
-    { name: 'websiteImage', maxCount: 1 }
-  ]), async (req, res) => {
+  app.post("/api/portfolio", upload.single('coverImage'), async (req, res) => {
     try {
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      const file = req.file;
 
-      if (!files.businessImage || !files.websiteImage) {
-        return res.status(400).json({ message: "Entrambe le immagini sono richieste" });
+      if (!file) {
+        return res.status(400).json({ message: "Foto di copertina richiesta" });
       }
 
-      const { title, description, tags } = req.body;
-      let parsedTags;
-
-      try {
-        parsedTags = JSON.parse(tags);
-      } catch (e) {
-        parsedTags = [];
-      }
+      const { title, description, websiteUrl, featured } = req.body;
 
       const portfolioData = {
         title,
         description,
-        businessImageUrl: `/uploads/${files.businessImage[0].filename}`,
-        websiteImageUrl: `/uploads/${files.websiteImage[0].filename}`,
-        tags: parsedTags
+        websiteUrl,
+        coverImage: `/uploads/${file.filename}`,
+        featured: featured === 'on' || featured === 'true'
       };
 
       const result = insertPortfolioItemSchema.safeParse(portfolioData);
@@ -284,7 +274,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating portfolio item:", error);
       return res.status(500).json({ 
-        message: "Si è verificato un errore durante la creazione dell'elemento di portfolio." 
+        message: "Si è verificato un errore durante la creazione del progetto." 
       });
     }
   });

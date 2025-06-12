@@ -9,7 +9,7 @@ import {
   blogPostCategories
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, gte, lte } from "drizzle-orm";
+import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
 
 export interface IStorage {
   // User management
@@ -115,7 +115,14 @@ export class DatabaseStorage implements IStorage {
 
   // Portfolio management
   async createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem> {
-    const [newItem] = await db.insert(portfolioItems).values(item).returning();
+    // Calcolo automatico del sortOrder
+    const maxOrder = await db.select({ max: sql<number>`max(${portfolioItems.sortOrder})` }).from(portfolioItems);
+    const nextOrder = (maxOrder[0]?.max || 0) + 1;
+    
+    const [newItem] = await db.insert(portfolioItems).values({
+      ...item,
+      sortOrder: nextOrder
+    }).returning();
     return newItem;
   }
 

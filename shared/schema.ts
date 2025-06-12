@@ -32,12 +32,9 @@ export const portfolioItems = pgTable("portfolio_items", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
-  type: text("type", { enum: ["video", "image", "link"] }).notNull(),
-  url: text("url").notNull(), // Video URL, Image URL, or Website URL
-  thumbnailUrl: text("thumbnail_url"), // For videos and images
-  websiteUrl: text("website_url"), // For link type items
-  tags: text("tags").array(),
-  featured: boolean("featured").default(false), // For home page display
+  websiteUrl: text("website_url").notNull(), // Link al sito realizzato
+  coverImage: text("cover_image").notNull(), // Foto di copertina
+  featured: boolean("featured").default(false), // Per visualizzazione in home
   sortOrder: integer("sort_order").default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
@@ -95,7 +92,7 @@ export const insertLogoSchema = createInsertSchema(logos)
   .omit({ id: true, createdAt: true });
 
 export const insertPortfolioItemSchema = createInsertSchema(portfolioItems)
-  .omit({ id: true, createdAt: true });
+  .omit({ id: true, createdAt: true, sortOrder: true });
 
 export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
   .omit({ id: true, updatedAt: true });
