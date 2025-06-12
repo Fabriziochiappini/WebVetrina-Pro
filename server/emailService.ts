@@ -21,7 +21,7 @@ export async function sendContactNotification(formData: ContactFormData): Promis
     const msg = {
       to: 'info@webproitalia.com',
       from: 'info@webproitalia.com', // Verified sender
-      subject: `Nuovo contatto da ${formData.name} - ${formData.businessType}`,
+      subject: `Nuovo contatto da ${formData.firstName} ${formData.lastName} - ${formData.businessType}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
@@ -30,7 +30,7 @@ export async function sendContactNotification(formData: ContactFormData): Promis
           
           <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3 style="margin-top: 0; color: #334155;">Informazioni Cliente</h3>
-            <p><strong>Nome:</strong> ${formData.name}</p>
+            <p><strong>Nome:</strong> ${formData.firstName} ${formData.lastName}</p>
             <p><strong>Email:</strong> <a href="mailto:${formData.email}">${formData.email}</a></p>
             <p><strong>Telefono:</strong> <a href="tel:${formData.phone}">${formData.phone}</a></p>
             ${formData.company ? `<p><strong>Azienda:</strong> ${formData.company}</p>` : ''}
@@ -57,7 +57,7 @@ export async function sendContactNotification(formData: ContactFormData): Promis
       text: `
         Nuovo Contatto dal Sito Web
         
-        Nome: ${formData.name}
+        Nome: ${formData.firstName} ${formData.lastName}
         Email: ${formData.email}
         Telefono: ${formData.phone}
         ${formData.company ? `Azienda: ${formData.company}` : ''}
@@ -71,7 +71,7 @@ export async function sendContactNotification(formData: ContactFormData): Promis
     await sgMail.send(msg);
     console.log('Email notification sent successfully to info@webproitalia.com');
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('SendGrid email error:', error);
     if (error.response) {
       console.error('SendGrid response:', error.response.body);
@@ -80,7 +80,7 @@ export async function sendContactNotification(formData: ContactFormData): Promis
   }
 }
 
-export async function sendAutoReply(userEmail: string, userName: string): Promise<boolean> {
+export async function sendAutoReply(userEmail: string, firstName: string, lastName: string): Promise<boolean> {
   try {
     const msg = {
       to: userEmail,
@@ -94,7 +94,7 @@ export async function sendAutoReply(userEmail: string, userName: string): Promis
           </div>
           
           <div style="padding: 30px;">
-            <h2 style="color: #2563eb; margin-top: 0;">Ciao ${userName},</h2>
+            <h2 style="color: #2563eb; margin-top: 0;">Ciao ${firstName},</h2>
             
             <p>Grazie per averci contattato! Abbiamo ricevuto la tua richiesta e il nostro team la esaminerà con attenzione.</p>
             
@@ -134,7 +134,7 @@ export async function sendAutoReply(userEmail: string, userName: string): Promis
         </div>
       `,
       text: `
-        Ciao ${userName},
+        Ciao ${firstName},
         
         Grazie per averci contattato! Abbiamo ricevuto la tua richiesta e il nostro team la esaminerà con attenzione.
         

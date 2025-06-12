@@ -88,14 +88,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Invia email di notifica e auto-risposta
       const [notificationSent, autoReplySent] = await Promise.all([
         sendContactNotification({
-          name: result.data.name,
+          firstName: result.data.firstName,
+          lastName: result.data.lastName,
           email: result.data.email,
           phone: result.data.phone,
-          company: result.data.company,
+          company: result.data.company || undefined,
           businessType: result.data.businessType,
-          message: result.data.message
+          message: result.data.message || ''
         }),
-        sendAutoReply(result.data.email, result.data.name)
+        sendAutoReply(result.data.email, result.data.firstName, result.data.lastName)
       ]);
 
       console.log(`Contact form processed - Notification: ${notificationSent}, Auto-reply: ${autoReplySent}`);
