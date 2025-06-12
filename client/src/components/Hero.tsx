@@ -28,12 +28,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                 </div>
                 <span className="text-white font-medium">Design responsive professionale</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
-                  <i className="fas fa-check text-white text-sm font-bold"></i>
-                </div>
-                <span className="text-white font-medium">LOGO</span>
-              </li>
+
               <li className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
                   <i className="fas fa-check text-white text-sm font-bold"></i>
