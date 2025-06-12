@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema } from "@shared/schema";
+import { sendContactNotification, sendAutoReply } from "./emailService";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -84,9 +85,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...result.data
       });
 
+      // Invia email di notifica e auto-risposta
+      const [notificationSent, autoReplySent] = await Promise.all([
+        sendContactNotification({
+          name: result.data.name,
+          email: result.data.email,
+          phone: result.data.phone,
+          company: result.data.company,
+          businessType: result.data.businessType,
+          message: result.data.message
+        }),
+        sendAutoReply(result.data.email, result.data.name)
+      ]);
+
+      console.log(`Contact form processed - Notification: ${notificationSent}, Auto-reply: ${autoReplySent}`);
+
       return res.status(201).json({
         message: "Richiesta inviata con successo!",
-        contact
+        contact,
+        emailSent: notificationSent && autoReplySent
       });
     } catch (error) {
       console.error("Error processing contact form:", error);
