@@ -18,9 +18,12 @@ interface PortfolioProps {
 }
 
 const Portfolio = ({ scrollToSection }: PortfolioProps) => {
-  const { data: portfolioItems = [] } = useQuery<PortfolioItem[]>({
-    queryKey: ["/api/portfolio/featured"],
+  const { data: allPortfolioItems = [] } = useQuery<PortfolioItem[]>({
+    queryKey: ["/api/portfolio"],
   });
+
+  // Filtra solo gli elementi in evidenza per la homepage
+  const portfolioItems = allPortfolioItems.filter(item => item.featured);
 
   return (
     <section id="portfolio" className="py-16 bg-gray-50">
