@@ -68,8 +68,9 @@ export async function sendContactNotification(formData: ContactFormData): Promis
       `
     };
 
-    await sgMail.send(msg);
+    const response = await sgMail.send(msg);
     console.log('Email notification sent successfully to info@webproitalia.com');
+    console.log('SendGrid response:', response[0].statusCode, response[0].headers);
     return true;
   } catch (error: any) {
     console.error('SendGrid email error:', error);

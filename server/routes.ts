@@ -114,6 +114,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test email endpoint for debugging
+  app.post("/api/test-email", async (req, res) => {
+    try {
+      const { testEmail } = req.body;
+      
+      if (!testEmail) {
+        return res.status(400).json({ message: "testEmail è richiesto" });
+      }
+
+      const success = await sendContactNotification({
+        firstName: "Test",
+        lastName: "Email",
+        email: testEmail,
+        phone: "+39 123 456 7890",
+        company: "Test Company",
+        businessType: "Test",
+        message: "Questo è un test per verificare la consegna delle email."
+      });
+
+      return res.json({
+        message: success ? "Email di test inviata con successo" : "Errore nell'invio dell'email",
+        success,
+        sentTo: testEmail
+      });
+    } catch (error) {
+      console.error("Error sending test email:", error);
+      return res.status(500).json({ message: "Errore nel test email" });
+    }
+  });
+
   // Get all contacts (for admin page)
   app.get("/api/contacts", checkAuth, async (req, res) => {
     try {
