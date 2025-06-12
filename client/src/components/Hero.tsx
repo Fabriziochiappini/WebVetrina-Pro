@@ -46,12 +46,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                 </div>
                 <span className="text-white font-medium">Gestione Dominio, Hosting e SSL</span>
               </li>
-              <li className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
-                  <i className="fas fa-check text-white text-sm font-bold"></i>
-                </div>
-                <span className="text-white font-medium">Consegna in 5 giorni Online</span>
-              </li>
+
             </ul>
             <div className="flex flex-col sm:flex-row gap-6 pt-6 scale-in">
               <Button 
