@@ -20,7 +20,11 @@ export async function sendContactNotification(formData: ContactFormData): Promis
   try {
     const msg = {
       to: 'info@webproitalia.com',
-      from: 'info@webproitalia.com', // Verified sender
+      from: {
+        email: 'seofibra@gmail.com', // Mittente con reputazione migliore
+        name: 'WebProItalia - Nuovo Contatto'
+      },
+      replyTo: 'info@webproitalia.com',
       subject: `Nuovo contatto da ${formData.firstName} ${formData.lastName} - ${formData.businessType}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
