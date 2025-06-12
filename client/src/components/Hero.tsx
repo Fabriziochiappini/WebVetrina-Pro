@@ -26,20 +26,25 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
                   <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span className="text-white font-medium">Design responsive professionale</span>
-              </li>
-
-              <li className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
-                  <i className="fas fa-check text-white text-sm font-bold"></i>
-                </div>
-                <span className="text-white font-medium">Sito ottimizzato per mobile</span>
+                <span className="text-white font-medium">Design full responsive</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
                   <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span className="text-white font-medium">Hosting e dominio</span>
+                <span className="text-white font-medium">Sito ottimizzato per SEO e motori di ricerca</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
+                  <i className="fas fa-check text-white text-sm font-bold"></i>
+                </div>
+                <span className="text-white font-medium">Alta velocità di caricamento</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
+                  <i className="fas fa-check text-white text-sm font-bold"></i>
+                </div>
+                <span className="text-white font-medium">Consegna in 5 giorni Online</span>
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-6 pt-6 scale-in">
