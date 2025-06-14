@@ -124,6 +124,17 @@ const Footer = () => {
                 <i className="fas fa-phone text-secondary"></i>
                 <span className="text-gray-400">+39 347 3479942321</span>
               </li>
+              <li className="flex items-center gap-2">
+                <i className="fab fa-whatsapp text-green-500"></i>
+                <a 
+                  href="https://wa.me/393473479942321?text=Salve,%20vorrei%20realizzare%20un%20sito%20per%20la%20mia%20attività" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-green-500 transition-colors"
+                >
+                  WhatsApp
+                </a>
+              </li>
             </ul>
           </div>
         </div>

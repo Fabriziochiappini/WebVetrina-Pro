@@ -18,7 +18,6 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Admin from "./pages/Admin";
 import FloatingCta from "./components/FloatingCta";
 import CookieBanner from "./components/CookieBanner";
-import WhatsAppButton from "./components/WhatsAppButton";
 
 // Componente per scroll automatico all'inizio di ogni pagina
 function ScrollToTop() {
@@ -55,7 +54,6 @@ function App() {
       <TooltipProvider>
         <Router />
         <FloatingCta />
-        <WhatsAppButton />
         <CookieBanner />
         <Toaster />
       </TooltipProvider>

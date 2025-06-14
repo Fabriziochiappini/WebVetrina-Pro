@@ -72,6 +72,23 @@ const ChiSiamo = () => {
                     <p className="text-gray-600">+39 347 3479942321</p>
                   </div>
                 </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 mt-1 flex items-center justify-center">
+                    <i className="fab fa-whatsapp text-green-500 text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-bold">WhatsApp</h4>
+                    <a 
+                      href="https://wa.me/393473479942321?text=Salve,%20vorrei%20realizzare%20un%20sito%20per%20la%20mia%20attività" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-green-500 transition-colors"
+                    >
+                      Chatta con noi
+                    </a>
+                  </div>
+                </div>
               </div>
               
               <Button 
