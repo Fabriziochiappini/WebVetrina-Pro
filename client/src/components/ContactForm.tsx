@@ -19,13 +19,7 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Button } from '../components/ui/button';
 import { Checkbox } from '../components/ui/checkbox';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../components/ui/select';
+
 
 const formSchema = z.object({
   firstName: z.string().min(2, { message: 'Il nome è obbligatorio' }),
@@ -33,7 +27,7 @@ const formSchema = z.object({
   email: z.string().email({ message: 'Email non valida' }),
   phone: z.string().min(5, { message: 'Numero di telefono non valido' }),
   company: z.string().optional(),
-  businessType: z.string().min(1, { message: 'Seleziona il tipo di attività' }),
+  businessType: z.string().min(1, { message: 'Il tipo di attività è obbligatorio' }),
   message: z.string().optional(),
   privacy: z.boolean().refine(val => val === true, {
     message: 'Devi accettare la privacy policy',
@@ -257,20 +251,13 @@ const ContactForm = () => {
                       render={({ field }) => (
                         <FormItem className="mb-4">
                           <FormLabel>Tipo di Attività*</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                                <SelectValue placeholder="Seleziona il tipo di attività" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="ristorante">Ristorante/Bar</SelectItem>
-                              <SelectItem value="negozio">Negozio al dettaglio</SelectItem>
-                              <SelectItem value="servizi">Servizi professionali</SelectItem>
-                              <SelectItem value="bellezza">Bellezza e benessere</SelectItem>
-                              <SelectItem value="altro">Altro</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <FormControl>
+                            <Input 
+                              {...field} 
+                              placeholder="Es. Ristorante, Negozio, Studio Professionale..." 
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" 
+                            />
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
