@@ -327,11 +327,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Portfolio routes
+  // Portfolio routes with image validation
   app.get("/api/portfolio", async (req, res) => {
     try {
       const items = await storage.getPortfolioItems();
-      return res.status(200).json(items);
+      
+      // Check if images exist for each portfolio item
+      const itemsWithImageStatus = items.map(item => {
+        const imagePath = path.join(new URL('../uploads', import.meta.url).pathname, path.basename(item.coverImage));
+        const imageExists = fs.existsSync(imagePath);
+        
+        return {
+          ...item,
+          imageExists
+        };
+      });
+      
+      return res.status(200).json(itemsWithImageStatus);
     } catch (error) {
       console.error("Error fetching portfolio items:", error);
       return res.status(500).json({ 

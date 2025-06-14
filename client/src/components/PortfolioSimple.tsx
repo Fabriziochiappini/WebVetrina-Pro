@@ -13,6 +13,7 @@ interface PortfolioItem {
   featured: boolean;
   sortOrder: number;
   createdAt: string;
+  imageExists?: boolean;
 }
 
 const PortfolioSimple = () => {
@@ -29,12 +30,64 @@ const PortfolioSimple = () => {
     setImageErrors(prev => new Set(prev).add(itemId));
   };
 
-  const getImageSrc = (item: PortfolioItem) => {
-    if (imageErrors.has(item.id)) {
-      // Fallback: genera un'immagine placeholder basata sul titolo
-      return `https://via.placeholder.com/400x400/2563eb/ffffff?text=${encodeURIComponent(item.title.slice(0, 20))}`;
-    }
-    return item.coverImage;
+  const renderPortfolioCard = (item: PortfolioItem) => {
+    const hasImageError = imageErrors.has(item.id);
+    
+    return (
+      <div 
+        key={item.id} 
+        className="group relative aspect-square overflow-hidden rounded-xl shadow-md bg-gradient-to-br from-primary to-secondary hover:scale-[1.03] transition-all duration-300"
+      >
+        {!hasImageError ? (
+          <img 
+            src={item.coverImage} 
+            alt={item.title} 
+            className="w-full h-full object-cover"
+            onError={() => handleImageError(item.id)}
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center p-6 relative">
+            <div className="text-center text-white">
+              <div className="w-16 h-16 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
+                <ExternalLink className="w-8 h-8" />
+              </div>
+              <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+              {item.description && (
+                <p className="text-white/90 text-sm mb-4">{item.description}</p>
+              )}
+              <span className="text-white/80 text-xs">Sito Web Professionale</span>
+            </div>
+            <div className="absolute top-2 right-2">
+              <div className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">
+                Immagine mancante
+              </div>
+            </div>
+          </div>
+        )}
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+          <div className="p-4 text-white w-full">
+            {!hasImageError && (
+              <>
+                <h3 className="font-bold text-lg mb-1">{item.title}</h3>
+                {item.description && (
+                  <p className="text-white/90 text-sm mb-3 line-clamp-2">{item.description}</p>
+                )}
+              </>
+            )}
+            <a 
+              href={item.websiteUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Visualizza Sito
+            </a>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -50,36 +103,7 @@ const PortfolioSimple = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {portfolioItems.map((item) => (
-            <div 
-              key={item.id} 
-              className="group relative aspect-square overflow-hidden rounded-xl shadow-md bg-white hover:scale-[1.03] transition-all duration-300"
-            >
-              <img 
-                src={getImageSrc(item)} 
-                alt={item.title} 
-                className="w-full h-full object-cover"
-                onError={() => handleImageError(item.id)}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                <div className="p-4 text-white w-full">
-                  <h3 className="font-bold text-lg mb-1">{item.title}</h3>
-                  {item.description && (
-                    <p className="text-white/90 text-sm mb-3 line-clamp-2">{item.description}</p>
-                  )}
-                  <a 
-                    href={item.websiteUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-white text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Visualizza Sito
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
+          {portfolioItems.map((item) => renderPortfolioCard(item))}
         </div>
         
         {portfolioItems.length === 0 && (
