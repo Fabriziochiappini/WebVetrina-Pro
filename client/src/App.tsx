@@ -13,8 +13,10 @@ import ChiSiamo from "./pages/ChiSiamo";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Portfolio from "./pages/PortfolioPublic";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Admin from "./pages/Admin";
 import FloatingCta from "./components/FloatingCta";
+import CookieBanner from "./components/CookieBanner";
 
 function Router() {
   return (
@@ -24,6 +26,7 @@ function Router() {
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
@@ -36,6 +39,7 @@ function App() {
       <TooltipProvider>
         <Router />
         <FloatingCta />
+        <CookieBanner />
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
