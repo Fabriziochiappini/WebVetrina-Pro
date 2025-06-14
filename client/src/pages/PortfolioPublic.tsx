@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ExternalLink } from "lucide-react";
 import { Button } from "../components/ui/button";
 import Navbar from "../components/Navbar";
+import { useState } from "react";
 
 interface PortfolioItem {
   id: number;

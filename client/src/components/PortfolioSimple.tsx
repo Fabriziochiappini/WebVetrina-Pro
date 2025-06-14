@@ -2,6 +2,7 @@ import { Button } from "../components/ui/button";
 import { ExternalLink, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 interface PortfolioItem {
   id: number;
@@ -15,12 +16,26 @@ interface PortfolioItem {
 }
 
 const PortfolioSimple = () => {
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+  
   const { data: allPortfolioItems = [] } = useQuery<PortfolioItem[]>({
     queryKey: ["/api/portfolio"],
   });
 
   // Filtra solo gli elementi in evidenza per la homepage
   const portfolioItems = allPortfolioItems.filter(item => item.featured);
+
+  const handleImageError = (itemId: number) => {
+    setImageErrors(prev => new Set(prev).add(itemId));
+  };
+
+  const getImageSrc = (item: PortfolioItem) => {
+    if (imageErrors.has(item.id)) {
+      // Fallback: genera un'immagine placeholder basata sul titolo
+      return `https://via.placeholder.com/400x400/2563eb/ffffff?text=${encodeURIComponent(item.title.slice(0, 20))}`;
+    }
+    return item.coverImage;
+  };
 
   return (
     <section id="portfolio" className="py-16 bg-gray-50">
@@ -41,9 +56,10 @@ const PortfolioSimple = () => {
               className="group relative aspect-square overflow-hidden rounded-xl shadow-md bg-white hover:scale-[1.03] transition-all duration-300"
             >
               <img 
-                src={item.coverImage} 
+                src={getImageSrc(item)} 
                 alt={item.title} 
                 className="w-full h-full object-cover"
+                onError={() => handleImageError(item.id)}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                 <div className="p-4 text-white w-full">
