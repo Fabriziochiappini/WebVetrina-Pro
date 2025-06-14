@@ -21,10 +21,13 @@ export async function sendContactNotification(formData: ContactFormData): Promis
     const msg = {
       to: 'info@webproitalia.com',
       from: {
-        email: 'seofibra@gmail.com', // Mittente con reputazione migliore
-        name: 'WebProItalia - Nuovo Contatto'
+        email: 'seofibra@gmail.com',
+        name: 'WebProItalia - Sistema Contatti'
       },
-      replyTo: 'info@webproitalia.com',
+      replyTo: {
+        email: formData.email,
+        name: `${formData.firstName} ${formData.lastName}`
+      },
       subject: `Nuovo contatto da ${formData.firstName} ${formData.lastName} - ${formData.businessType}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -89,7 +92,11 @@ export async function sendAutoReply(userEmail: string, firstName: string, lastNa
   try {
     const msg = {
       to: userEmail,
-      from: 'info@webproitalia.com',
+      from: {
+        email: 'seofibra@gmail.com',
+        name: 'WebProItalia'
+      },
+      replyTo: 'info@webproitalia.com',
       subject: 'Grazie per averci contattato - WebProItalia',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
