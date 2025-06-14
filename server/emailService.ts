@@ -152,14 +152,14 @@ export async function sendAutoReply(userEmail: string, firstName: string, lastNa
         
         Ti risponderemo entro 24 ore con un preventivo personalizzato.
         
-        Se hai domande urgenti, chiamaci al +39 347 9942321.
+        Se hai domande urgenti, chiamaci al +39 347 3479942321.
         
         A presto!
         Il Team WebProItalia
         
         WebProItalia
         Via Casilina Sud 116, Frosinone
-        +39 347 9942321 | info@webproitalia.com
+        +39 347 3479942321 | info@webproitalia.com
       `
     };
 

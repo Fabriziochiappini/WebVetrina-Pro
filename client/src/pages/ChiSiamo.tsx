@@ -69,7 +69,7 @@ const ChiSiamo = () => {
                   <Phone className="text-primary w-5 h-5 mt-1" />
                   <div>
                     <h4 className="font-bold">Telefono</h4>
-                    <p className="text-gray-600">+39 0775 123456</p>
+                    <p className="text-gray-600">+39 347 3479942321</p>
                   </div>
                 </div>
               </div>
