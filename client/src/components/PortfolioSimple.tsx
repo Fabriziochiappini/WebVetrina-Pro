@@ -31,7 +31,7 @@ const PortfolioSimple = () => {
   };
 
   const renderPortfolioCard = (item: PortfolioItem) => {
-    const hasImageError = imageErrors.has(item.id);
+    const hasImageError = imageErrors.has(item.id) || item.imageExists === false;
     
     return (
       <div 
