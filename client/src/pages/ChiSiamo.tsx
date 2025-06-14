@@ -69,7 +69,9 @@ const ChiSiamo = () => {
                   <Phone className="text-primary w-5 h-5 mt-1" />
                   <div>
                     <h4 className="font-bold">Telefono</h4>
-                    <p className="text-gray-600">+39 347 3479942321</p>
+                    <a href="tel:+393479942321" className="text-gray-600 hover:text-primary transition-colors">
+                      +39 347 9942321
+                    </a>
                   </div>
                 </div>
                 
@@ -80,7 +82,7 @@ const ChiSiamo = () => {
                   <div>
                     <h4 className="font-bold">WhatsApp</h4>
                     <a 
-                      href="https://wa.me/393473479942321?text=Salve,%20vorrei%20realizzare%20un%20sito%20per%20la%20mia%20attività" 
+                      href="https://wa.me/393479942321?text=Salve,%20vorrei%20realizzare%20un%20sito%20per%20la%20mia%20attività" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-green-500 transition-colors"

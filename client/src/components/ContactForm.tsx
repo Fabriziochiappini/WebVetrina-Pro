@@ -120,7 +120,24 @@ const ContactForm = () => {
                     <div className="text-primary mt-1"><i className="fas fa-phone"></i></div>
                     <div>
                       <h4 className="font-bold">Telefono</h4>
-                      <p className="text-gray-600">+39 02 1234567</p>
+                      <a href="tel:+393479942321" className="text-gray-600 hover:text-primary transition-colors">
+                        +39 347 9942321
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="text-green-500 mt-1"><i className="fab fa-whatsapp"></i></div>
+                    <div>
+                      <h4 className="font-bold">WhatsApp</h4>
+                      <a 
+                        href="https://wa.me/393479942321?text=Salve,%20vorrei%20realizzare%20un%20sito%20per%20la%20mia%20attività" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-gray-600 hover:text-green-500 transition-colors"
+                      >
+                        Chatta con noi
+                      </a>
                     </div>
                   </div>
                 </div>
