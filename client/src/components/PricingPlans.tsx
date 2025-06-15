@@ -18,10 +18,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Ottimizzazione base SEO",
         "Supporto email"
       ],
-      excludes: [
-        "Logo non incluso",
-        "Hosting e dominio non inclusi"
-      ],
+      excludes: [],
       buttonText: "VOGLIO IL MIO SITO",
       popular: false
     },
