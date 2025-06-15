@@ -58,9 +58,6 @@ const Cta = ({ scrollToSection }: CtaProps) => {
         >
           VOGLIO IL MIO SITO <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
-        <p className="text-sm mt-4 opacity-80">
-          Offerta a tempo limitato • Solo 5 posti disponibili questo mese
-        </p>
       </div>
     </section>
   );
