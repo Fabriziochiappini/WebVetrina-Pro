@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../lib/queryClient';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import { trackBusinessEvent } from '../lib/analytics';
 
 import {
   Form,
@@ -77,6 +78,8 @@ const ContactForm = () => {
   });
 
   const onSubmit = (data: FormValues) => {
+    // Track form submission with business type
+    trackBusinessEvent.contactFormSubmit(data.businessType);
     mutate(data);
   };
 

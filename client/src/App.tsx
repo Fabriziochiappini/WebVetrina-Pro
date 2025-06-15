@@ -8,6 +8,8 @@ import { queryClient } from "./lib/queryClient";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { Toaster } from "./components/ui/toaster";
 import { useEffect } from "react";
+import { initGA, initScrollTracking } from "./lib/analytics";
+import { useAnalytics } from "./hooks/use-analytics";
 import NotFound from "./pages/not-found";
 import Home from "./pages/Home";
 import ChiSiamo from "./pages/ChiSiamo";
@@ -31,6 +33,9 @@ function ScrollToTop() {
 }
 
 function Router() {
+  // Initialize Google Analytics page tracking
+  useAnalytics();
+  
   return (
     <>
       <ScrollToTop />
@@ -49,6 +54,17 @@ function Router() {
 }
 
 function App() {
+  // Initialize Google Analytics when app loads
+  useEffect(() => {
+    // Verify required environment variable is present
+    if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
+      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
+    } else {
+      initGA();
+      initScrollTracking();
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
