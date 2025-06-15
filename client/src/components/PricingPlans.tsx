@@ -19,7 +19,8 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Supporto email"
       ],
       excludes: [
-        "Logo non incluso"
+        "Logo non incluso",
+        "Hosting e dominio non inclusi"
       ],
       buttonText: "VOGLIO IL MIO SITO",
       popular: false
