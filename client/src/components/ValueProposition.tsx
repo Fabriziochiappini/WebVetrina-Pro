@@ -1,5 +1,6 @@
 import { Button } from '../components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { trackBusinessEvent } from '../lib/analytics';
 
 interface ValuePropositionProps {
   scrollToSection: (id: string) => void;

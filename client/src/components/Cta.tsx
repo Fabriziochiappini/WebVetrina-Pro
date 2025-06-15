@@ -1,5 +1,6 @@
 import { Button } from '../components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { trackBusinessEvent } from '../lib/analytics';
 
 interface CtaProps {
   scrollToSection: (id: string) => void;
@@ -13,7 +14,7 @@ const Cta = ({ scrollToSection }: CtaProps) => {
           Pronto a Far Crescere la Tua Attività Online?
         </h2>
         <p className="text-xl mb-8 max-w-3xl mx-auto">
-          Non perdere questa opportunità unica: un sito web professionale e tutto ciò che ti serve per avere successo online a partire da soli €197.
+          Non perdere questa opportunità unica: un sito web professionale e tutto ciò che ti serve per avere successo online con le nostre soluzioni personalizzate.
         </p>
         
         <div className="flex flex-wrap justify-center gap-4 mb-10">
@@ -49,10 +50,13 @@ const Cta = ({ scrollToSection }: CtaProps) => {
         </div>
         
         <Button 
-          onClick={() => scrollToSection('contatti')} 
+          onClick={() => {
+            trackBusinessEvent.ctaClick('main_cta', 'contact');
+            scrollToSection('contatti');
+          }} 
           className="py-7 px-10 bg-secondary text-white text-xl font-bold rounded-full shadow-lg hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
         >
-          Voglio il Mio Sito a €299 <ArrowRight className="ml-2 h-5 w-5" />
+          VOGLIO IL MIO SITO <ArrowRight className="ml-2 h-5 w-5" />
         </Button>
         <p className="text-sm mt-4 opacity-80">
           Offerta a tempo limitato • Solo 5 posti disponibili questo mese

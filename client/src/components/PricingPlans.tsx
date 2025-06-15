@@ -1,5 +1,6 @@
 import { Button } from '../components/ui/button';
 import { Check, Star } from 'lucide-react';
+import { trackBusinessEvent } from '../lib/analytics';
 
 interface PricingPlansProps {
   scrollToSection: (id: string) => void;
@@ -141,7 +142,10 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
               </ul>
               
               <Button 
-                onClick={() => scrollToSection('contatti')} 
+                onClick={() => {
+                  trackBusinessEvent.ctaClick(`pricing_${plan.name.toLowerCase()}`, 'contact');
+                  scrollToSection('contatti');
+                }} 
                 className={`w-full font-bold transition-all duration-300 ${
                   plan.popular 
                     ? 'btn-modern-orange text-lg py-4' 

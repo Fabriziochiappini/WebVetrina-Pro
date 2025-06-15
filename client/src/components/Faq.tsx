@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { trackBusinessEvent } from '../lib/analytics';
 
 const faqData = [
   {
@@ -92,7 +93,10 @@ const Faq = ({ scrollToSection }: FaqProps) => {
               e a fornirti un preventivo personalizzato gratuito.
             </p>
             <button
-              onClick={() => scrollToSection('contatti')}
+              onClick={() => {
+                trackBusinessEvent.ctaClick('faq_section', 'contact');
+                scrollToSection('contatti');
+              }}
               className="bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 hover:scale-105 shadow-lg"
             >
               VOGLIO IL MIO SITO
