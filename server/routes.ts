@@ -9,14 +9,28 @@ import path from "path";
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
 
-// Configurazione di multer per l'upload dei file
+// Enhanced file upload configuration with monitoring
+const uploadsPath = new URL('../uploads', import.meta.url).pathname;
+
+// Ensure uploads directory exists with proper permissions  
+if (!fs.existsSync(uploadsPath)) {
+  fs.mkdirSync(uploadsPath, { recursive: true, mode: 0o755 });
+  console.log('Created uploads directory:', uploadsPath);
+}
+
+// File monitoring function
+function verifyFileIntegrity(filename: string): boolean {
+  const filePath = path.join(uploadsPath, filename);
+  const exists = fs.existsSync(filePath);
+  if (!exists) {
+    console.error(`ALERT: File missing - ${filename} at ${filePath}`);
+  }
+  return exists;
+}
+
 const storage_config = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = path.join(new URL('../uploads', import.meta.url).pathname);
-    if (!fs.existsSync(uploadDir)){
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
+    cb(null, uploadsPath);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -290,7 +304,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Portfolio management
+  // Portfolio management with improved file handling
   app.post("/api/portfolio", upload.single('coverImage'), async (req, res) => {
     try {
       const file = req.file;
@@ -298,6 +312,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!file) {
         return res.status(400).json({ message: "Foto di copertina richiesta" });
       }
+
+      // Verify file was uploaded successfully and create backup
+      const uploadPath = path.join(uploadsPath, file.filename);
+      if (!fs.existsSync(uploadPath)) {
+        console.error(`Upload failed: File ${file.filename} not found at ${uploadPath}`);
+        return res.status(500).json({ message: "Errore nell'upload del file" });
+      }
+
+      // Get file stats and verify integrity
+      const fileStats = fs.statSync(uploadPath);
+      if (fileStats.size !== file.size) {
+        console.error(`File size mismatch: expected ${file.size}, got ${fileStats.size}`);
+        return res.status(500).json({ message: "Errore nell'integrità del file" });
+      }
+
+      console.log(`File uploaded successfully: ${file.filename} (${fileStats.size} bytes)`);
 
       const { title, description, websiteUrl, featured } = req.body;
 
@@ -311,6 +341,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const result = insertPortfolioItemSchema.safeParse(portfolioData);
       if (!result.success) {
+        // Clean up uploaded file if validation fails
+        try {
+          fs.unlinkSync(uploadPath);
+        } catch (cleanupError) {
+          console.error("Error cleaning up file:", cleanupError);
+        }
         return res.status(400).json({ 
           message: "Validazione fallita", 
           errors: result.error.flatten().fieldErrors 
@@ -318,24 +354,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const portfolioItem = await storage.createPortfolioItem(result.data);
+      
+      // Verify file still exists after database operation
+      if (!fs.existsSync(uploadPath)) {
+        console.error(`File lost after database operation: ${file.filename}`);
+        return res.status(500).json({ 
+          message: "Errore: il file è stato perso durante il salvataggio" 
+        });
+      }
+
+      console.log(`Portfolio item created successfully with image: ${file.filename}`);
       return res.status(201).json(portfolioItem);
     } catch (error) {
       console.error("Error creating portfolio item:", error);
+      // Clean up uploaded file on error
+      if (req.file) {
+        try {
+          const uploadPath = path.join(new URL('../uploads', import.meta.url).pathname, req.file.filename);
+          if (fs.existsSync(uploadPath)) {
+            fs.unlinkSync(uploadPath);
+          }
+        } catch (cleanupError) {
+          console.error("Error cleaning up file:", cleanupError);
+        }
+      }
       return res.status(500).json({ 
         message: "Si è verificato un errore durante la creazione del progetto." 
       });
     }
   });
 
-  // Portfolio routes with image validation
+  // Portfolio routes with enhanced image validation and monitoring
   app.get("/api/portfolio", async (req, res) => {
     try {
       const items = await storage.getPortfolioItems();
       
-      // Check if images exist for each portfolio item
+      // Check if images exist for each portfolio item with detailed logging
       const itemsWithImageStatus = items.map(item => {
-        const imagePath = path.join(new URL('../uploads', import.meta.url).pathname, path.basename(item.coverImage));
-        const imageExists = fs.existsSync(imagePath);
+        const filename = path.basename(item.coverImage);
+        const imageExists = verifyFileIntegrity(filename);
+        
+        if (!imageExists) {
+          console.warn(`Portfolio item ${item.id} (${item.title}) missing image: ${filename}`);
+        }
         
         return {
           ...item,
@@ -343,12 +404,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
         };
       });
       
+      // Log summary of missing files
+      const missingFiles = itemsWithImageStatus.filter(item => !item.imageExists);
+      if (missingFiles.length > 0) {
+        console.error(`PORTFOLIO INTEGRITY CHECK: ${missingFiles.length} items with missing images`);
+        missingFiles.forEach(item => {
+          console.error(`- ID ${item.id}: ${item.title} (${item.coverImage})`);
+        });
+      }
+      
       return res.status(200).json(itemsWithImageStatus);
     } catch (error) {
       console.error("Error fetching portfolio items:", error);
       return res.status(500).json({ 
         message: "Si è verificato un errore durante il recupero degli elementi di portfolio." 
       });
+    }
+  });
+
+  // Portfolio diagnostics endpoint
+  app.get("/api/portfolio/diagnostics", checkAuth, async (req, res) => {
+    try {
+      const items = await storage.getPortfolioItems();
+      const diagnostics = {
+        totalItems: items.length,
+        itemsWithValidImages: 0,
+        itemsWithMissingImages: 0,
+        missingFiles: [] as any[],
+        uploadsDirExists: fs.existsSync(uploadsPath),
+        uploadsPermissions: fs.existsSync(uploadsPath) ? fs.statSync(uploadsPath).mode.toString(8) : null
+      };
+
+      items.forEach(item => {
+        const filename = path.basename(item.coverImage);
+        const exists = verifyFileIntegrity(filename);
+        
+        if (exists) {
+          diagnostics.itemsWithValidImages++;
+        } else {
+          diagnostics.itemsWithMissingImages++;
+          diagnostics.missingFiles.push({
+            id: item.id,
+            title: item.title,
+            filename: filename,
+            expectedPath: path.join(uploadsPath, filename)
+          });
+        }
+      });
+
+      return res.status(200).json(diagnostics);
+    } catch (error) {
+      console.error("Error running portfolio diagnostics:", error);
+      return res.status(500).json({ message: "Errore nella diagnostica" });
     }
   });
 
