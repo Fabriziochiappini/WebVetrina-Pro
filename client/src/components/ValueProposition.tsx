@@ -29,10 +29,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
                     <i className="fas fa-check-circle text-accent mt-1"></i>
                     <span>Ottimizzazione SEO base</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Hosting e dominio inclusi</span>
-                  </li>
+
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
                     <span>Supporto email</span>
