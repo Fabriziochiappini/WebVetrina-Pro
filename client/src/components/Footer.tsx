@@ -1,5 +1,8 @@
+import { trackBusinessEvent } from '../lib/analytics';
+
 const Footer = () => {
   const scrollToSection = (id: string) => {
+    trackBusinessEvent.menuClick(id);
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -122,7 +125,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <i className="fas fa-phone text-secondary"></i>
-                <a href="tel:+393479942321" className="text-gray-400 hover:text-white transition-colors">
+                <a 
+                  href="tel:+393479942321" 
+                  className="text-gray-400 hover:text-white transition-colors"
+                  onClick={() => trackBusinessEvent.phoneClick()}
+                >
                   +39 347 9942321
                 </a>
               </li>
@@ -133,6 +140,7 @@ const Footer = () => {
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-green-500 transition-colors"
+                  onClick={() => trackBusinessEvent.whatsappClick()}
                 >
                   WhatsApp
                 </a>

@@ -123,7 +123,11 @@ const ContactForm = () => {
                     <div className="text-primary mt-1"><i className="fas fa-phone"></i></div>
                     <div>
                       <h4 className="font-bold">Telefono</h4>
-                      <a href="tel:+393479942321" className="text-gray-600 hover:text-primary transition-colors">
+                      <a 
+                        href="tel:+393479942321" 
+                        className="text-gray-600 hover:text-primary transition-colors"
+                        onClick={() => trackBusinessEvent.phoneClick()}
+                      >
                         +39 347 9942321
                       </a>
                     </div>
@@ -138,6 +142,7 @@ const ContactForm = () => {
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="text-gray-600 hover:text-green-500 transition-colors"
+                        onClick={() => trackBusinessEvent.whatsappClick()}
                       >
                         Chatta con noi
                       </a>

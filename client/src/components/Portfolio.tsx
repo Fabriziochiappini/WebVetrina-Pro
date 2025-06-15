@@ -1,6 +1,7 @@
 import { Button } from '../components/ui/button';
 import { ChevronRight, ExternalLink } from 'lucide-react';
 import { useQuery } from "@tanstack/react-query";
+import { trackBusinessEvent } from "../lib/analytics";
 
 interface PortfolioItem {
   id: number;
@@ -56,6 +57,7 @@ const Portfolio = ({ scrollToSection }: PortfolioProps) => {
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-white text-primary px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition-colors"
+                      onClick={() => trackBusinessEvent.portfolioClick(item.title, item.websiteUrl)}
                     >
                       <ExternalLink className="h-4 w-4" />
                       Visualizza Sito

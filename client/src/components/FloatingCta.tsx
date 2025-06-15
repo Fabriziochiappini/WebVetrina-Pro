@@ -1,8 +1,12 @@
 import { Button } from '../components/ui/button';
 import { Rocket } from 'lucide-react';
+import { trackBusinessEvent } from '../lib/analytics';
 
 const FloatingCta = () => {
   const scrollToContatti = () => {
+    // Track CTA click with location
+    trackBusinessEvent.ctaClick('floating_button', 'contact');
+    
     const element = document.getElementById('contatti');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
