@@ -74,7 +74,10 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
           </div>
           
           <Button 
-            onClick={() => scrollToSection('contatti')} 
+            onClick={() => {
+              trackBusinessEvent.ctaClick('value_proposition', 'contact');
+              scrollToSection('contatti');
+            }} 
             className="py-7 px-10 bg-secondary text-white text-xl font-bold rounded-full shadow-lg hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
           >
             VOGLIO IL MIO SITO <ArrowRight className="ml-2 h-5 w-5" />
