@@ -127,4 +127,6 @@ Preferred communication style: Simple, everyday language.
 ## Changelog
 
 Changelog:
+- June 15, 2025. Completed FAQ section with 8 professional questions and updated all CTA texts from price-specific to generic "VOGLIO IL MIO SITO" messaging across all pricing tiers
+- June 15, 2025. Implemented comprehensive Google Analytics 4 tracking system with complete business event monitoring for conversions, form submissions, portfolio clicks, and user interactions
 - June 14, 2025. Initial setup

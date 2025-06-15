@@ -21,7 +21,7 @@ const faqData = [
   },
   {
     question: "Il dominio e l'hosting sono inclusi nel prezzo?",
-    answer: "Il primo anno di hosting è incluso nei nostri pacchetti. Per il dominio, ti aiutiamo nella registrazione e configurazione. Dal secondo anno in poi, i costi di mantenimento sono minimi (circa €50-80 annui)."
+    answer: "Dipende dal pacchetto scelto. I pacchetti STANDARD ed E-COMMERCE includono hosting e supporto per il dominio, mentre il pacchetto LITE richiede gestione separata. Ti aiutiamo sempre nella configurazione e ti offriamo tariffe competitive per hosting e dominio quando necessario."
   },
   {
     question: "Il sito sarà ottimizzato per i motori di ricerca (SEO)?",
