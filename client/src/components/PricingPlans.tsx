@@ -20,7 +20,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       excludes: [
         "Logo non incluso"
       ],
-      buttonText: "Scegli LITE",
+      buttonText: "VOGLIO IL MIO SITO",
       popular: false
     },
     {
@@ -36,7 +36,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Consegna in 5 giorni"
       ],
       excludes: [],
-      buttonText: "Scegli STANDARD",
+      buttonText: "VOGLIO IL MIO SITO",
       popular: true,
       originalValue: "1200"
     },
@@ -55,7 +55,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       excludes: [
         "Caricamento prodotti non incluso"
       ],
-      buttonText: "Scegli E-COMMERCE",
+      buttonText: "VOGLIO IL MIO SITO",
       popular: false
     }
   ];

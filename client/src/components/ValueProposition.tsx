@@ -76,7 +76,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
             onClick={() => scrollToSection('contatti')} 
             className="py-7 px-10 bg-secondary text-white text-xl font-bold rounded-full shadow-lg hover:bg-secondary/90 transition-all hover:translate-y-[-2px]"
           >
-            Approfitta dell'Offerta Ora <ArrowRight className="ml-2 h-5 w-5" />
+            VOGLIO IL MIO SITO <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
       </div>

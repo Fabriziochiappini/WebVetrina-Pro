@@ -64,7 +64,7 @@ const Home = () => {
       <Process />
       <Testimonials />
       <BlogSection />
-      <Faq />
+      <Faq scrollToSection={scrollToSection} />
       <Cta scrollToSection={scrollToSection} />
       <ContactForm />
       <Footer />
