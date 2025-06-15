@@ -85,10 +85,7 @@ const Process = () => {
                 <i className="fas fa-check text-accent mt-1"></i>
                 <span>Modulo di contatto funzionante</span>
               </li>
-              <li className="flex items-start gap-2">
-                <i className="fas fa-check text-accent mt-1"></i>
-                <span>Hosting e dominio</span>
-              </li>
+
               <li className="flex items-start gap-2">
                 <i className="fas fa-check text-accent mt-1"></i>
                 <span>Certificato SSL incluso</span>
