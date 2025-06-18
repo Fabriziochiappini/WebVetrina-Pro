@@ -107,7 +107,20 @@ export const updateBlogPostSchema = createInsertSchema(blogPosts)
 export const insertBlogCategorySchema = createInsertSchema(blogCategories)
   .omit({ id: true, createdAt: true });
 
-// Landing gallery schema sarà implementato in futuro
+export const landingGalleryImages = pgTable("landing_gallery_images", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  imageUrl: varchar("image_url", { length: 500 }).notNull(),
+  altText: varchar("alt_text", { length: 255 }),
+  sortOrder: integer("sort_order").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertLandingGalleryImageSchema = createInsertSchema(landingGalleryImages)
+  .omit({ id: true, createdAt: true, updatedAt: true });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -131,4 +144,5 @@ export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogCategory = z.infer<typeof insertBlogCategorySchema>;
 export type BlogCategory = typeof blogCategories.$inferSelect;
 
-// Types per landing gallery saranno implementati in futuro
+export type InsertLandingGalleryImage = z.infer<typeof insertLandingGalleryImageSchema>;
+export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;

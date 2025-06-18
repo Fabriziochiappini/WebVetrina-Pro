@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface GalleryImage {
@@ -79,9 +80,12 @@ const LandingGallery = () => {
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
 
-  // Usa immagini demo per ora (il backend verrà implementato dopo)
-  const images = demoImages;
-  const isLoading = false;
+  const { data: apiImages = [], isLoading } = useQuery<GalleryImage[]>({
+    queryKey: ['/api/landing-gallery'],
+  });
+
+  // Usa immagini demo se API è vuota o in errore, altrimenti usa i dati dal backend
+  const images = apiImages.length > 0 ? apiImages : demoImages;
 
   // Auto-scroll functionality
   useEffect(() => {

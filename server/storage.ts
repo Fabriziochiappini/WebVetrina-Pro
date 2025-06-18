@@ -7,7 +7,7 @@ import {
   blogPosts, type BlogPost, type InsertBlogPost, type UpdateBlogPost,
   blogCategories, type BlogCategory, type InsertBlogCategory,
   blogPostCategories,
-  // landingGalleryImages verrà implementato in futuro
+  landingGalleryImages, type LandingGalleryImage, type InsertLandingGalleryImage
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
@@ -54,7 +54,11 @@ export interface IStorage {
   getBlogCategories(): Promise<BlogCategory[]>;
   deleteBlogCategory(id: number): Promise<boolean>;
   
-  // Landing gallery methods verranno implementati in futuro
+  // Landing gallery management
+  createLandingGalleryImage(image: InsertLandingGalleryImage): Promise<LandingGalleryImage>;
+  getLandingGalleryImages(): Promise<LandingGalleryImage[]>;
+  updateLandingGalleryImage(id: number, image: Partial<InsertLandingGalleryImage>): Promise<LandingGalleryImage>;
+  deleteLandingGalleryImage(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -250,7 +254,36 @@ export class DatabaseStorage implements IStorage {
     return (result.rowCount || 0) > 0;
   }
 
-  // Metodi per landing gallery verranno implementati in futuro
+  // Landing gallery management
+  async createLandingGalleryImage(image: InsertLandingGalleryImage): Promise<LandingGalleryImage> {
+    const [newImage] = await db
+      .insert(landingGalleryImages)
+      .values(image)
+      .returning();
+    return newImage;
+  }
+
+  async getLandingGalleryImages(): Promise<LandingGalleryImage[]> {
+    return await db
+      .select()
+      .from(landingGalleryImages)
+      .where(eq(landingGalleryImages.isActive, true))
+      .orderBy(landingGalleryImages.sortOrder, landingGalleryImages.createdAt);
+  }
+
+  async updateLandingGalleryImage(id: number, image: Partial<InsertLandingGalleryImage>): Promise<LandingGalleryImage> {
+    const [updatedImage] = await db
+      .update(landingGalleryImages)
+      .set({ ...image, updatedAt: new Date() })
+      .where(eq(landingGalleryImages.id, id))
+      .returning();
+    return updatedImage;
+  }
+
+  async deleteLandingGalleryImage(id: number): Promise<boolean> {
+    const result = await db.delete(landingGalleryImages).where(eq(landingGalleryImages.id, id));
+    return (result.rowCount || 0) > 0;
+  }
 }
 
 export const storage = new DatabaseStorage();
