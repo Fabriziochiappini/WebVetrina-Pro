@@ -81,8 +81,6 @@ const Admin = () => {
   const [logoName, setLogoName] = useState('');
   const [logoDescription, setLogoDescription] = useState('');
 
-  const displayedContacts = filteredContacts && filteredContacts.length > 0 ? filteredContacts : contacts || [];
-
   // Query per i dati
   const { data: contacts, isLoading: isLoadingContacts } = useQuery<Contact[]>({
     queryKey: ['/api/contacts'],
@@ -124,6 +122,8 @@ const Admin = () => {
       setOtherTracking(siteSettings.otherTracking || '');
     }
   }, [siteSettings]);
+
+  const displayedContacts = filteredContacts && filteredContacts.length > 0 ? filteredContacts : contacts || [];
   
   // Mutation per l'eliminazione dei loghi
   const deleteLogo = useMutation({
@@ -580,6 +580,10 @@ const Admin = () => {
                 </Button>
               </CardFooter>
             </Card>
+          </TabsContent>
+          
+          <TabsContent value="gallery">
+            <LandingGalleryManagement />
           </TabsContent>
         </Tabs>
       </div>
