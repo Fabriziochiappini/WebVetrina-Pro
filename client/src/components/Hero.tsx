@@ -1,5 +1,7 @@
 import { Button } from '../components/ui/button';
 import { ArrowRight, Info } from 'lucide-react';
+import { Link } from 'wouter';
+import { trackBusinessEvent } from '../lib/analytics';
 
 interface HeroProps {
   scrollToSection: (id: string) => void;
@@ -69,10 +71,16 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               alt="Anteprima di un sito web professionale su laptop" 
               className="rounded-xl shadow-2xl w-full h-auto"
             />
-            <div className="absolute -bottom-5 -left-5 bg-white text-primary p-4 rounded-lg shadow-lg font-bold">
-              <span className="text-xl line-through text-gray-500">€1200</span>
-              <span className="text-3xl ml-2 text-secondary">€197</span>
-            </div>
+            <Link href="/offerta-197">
+              <div 
+                className="absolute -bottom-5 -left-5 bg-white text-primary p-4 rounded-lg shadow-lg font-bold cursor-pointer hover:scale-105 transition-transform"
+                onClick={() => trackBusinessEvent.ctaClick('hero_price_badge', 'landing_197')}
+              >
+                <span className="text-xl line-through text-gray-500">€1200</span>
+                <span className="text-3xl ml-2 text-secondary">€197</span>
+                <div className="text-xs text-center text-gray-600 mt-1">Clicca qui!</div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
