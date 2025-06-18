@@ -389,19 +389,47 @@ const Offerta197 = () => {
       </section>
 
       {/* Portfolio Gallery */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4 text-gray-800">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
                 I Nostri Lavori Più Recenti
               </h2>
-              <p className="text-gray-600 text-lg">
-                Scopri alcuni dei siti web che abbiamo realizzato per i nostri clienti
+              <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
+                Oltre 150 siti web realizzati per aziende di ogni settore. 
+                Scorri per vedere alcuni dei nostri progetti più belli.
               </p>
+              <div className="mt-8 flex items-center justify-center gap-4 text-sm text-gray-500">
+                <span className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  Scorri con il dito
+                </span>
+                <span className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-secondary rounded-full"></div>
+                  Clicca per navigare
+                </span>
+              </div>
             </div>
             
             <LandingGallery />
+            
+            <div className="text-center mt-12">
+              <p className="text-gray-600 text-lg mb-6">
+                Vuoi vedere il tuo business online con un sito così bello?
+              </p>
+              <button 
+                onClick={() => {
+                  const element = document.getElementById('contatto-landing');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+                className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg"
+              >
+                Richiedi Il Tuo Sito Ora
+              </button>
+            </div>
           </div>
         </div>
       </section>

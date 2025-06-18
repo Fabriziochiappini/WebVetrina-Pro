@@ -2,7 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState, useRef } from 'react';
 import { 
   Loader2, Download, Calendar, Upload, Image, 
-  FileImage, Settings, TrashIcon, PlusIcon 
+  FileImage, Settings, TrashIcon, PlusIcon,
+  Users, Briefcase, FileText, LogOut
 } from 'lucide-react';
 import { Contact, Logo, PortfolioItem, SiteSettings } from '@shared/schema';
 import {
@@ -30,7 +31,7 @@ import { apiRequest } from '../lib/queryClient';
 import { useToast } from '../hooks/use-toast';
 import BlogManagement from '../components/BlogManagement';
 import PortfolioManagement from '../components/PortfolioManagement';
-import LandingGalleryManagement from '../components/LandingGalleryManagement';
+// import LandingGalleryManagement from '../components/LandingGalleryManagement';
 
 interface DateFilterProps {
   startDate: string;

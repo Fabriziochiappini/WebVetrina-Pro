@@ -107,6 +107,8 @@ export const updateBlogPostSchema = createInsertSchema(blogPosts)
 export const insertBlogCategorySchema = createInsertSchema(blogCategories)
   .omit({ id: true, createdAt: true });
 
+// Landing gallery schema sarà implementato in futuro
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
@@ -129,5 +131,4 @@ export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogCategory = z.infer<typeof insertBlogCategorySchema>;
 export type BlogCategory = typeof blogCategories.$inferSelect;
 
-export type InsertLandingGalleryImage = z.infer<typeof insertLandingGalleryImageSchema>;
-export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;
+// Types per landing gallery saranno implementati in futuro

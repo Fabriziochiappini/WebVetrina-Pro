@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface GalleryImage {
@@ -14,6 +13,65 @@ interface GalleryImage {
   updatedAt: string;
 }
 
+// Immagini demo per sviluppo
+const demoImages: GalleryImage[] = [
+  {
+    id: 1,
+    title: "Ristorante La Tavola",
+    description: "Sito web per ristorante con menu e prenotazioni online",
+    imageUrl: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop",
+    altText: "Screenshot sito ristorante",
+    sortOrder: 1,
+    isActive: true,
+    createdAt: "2024-01-01",
+    updatedAt: "2024-01-01"
+  },
+  {
+    id: 2,
+    title: "Studio Legale Rossi",
+    description: "Sito professionale per studio legale con area riservata clienti",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+    altText: "Screenshot sito studio legale",
+    sortOrder: 2,
+    isActive: true,
+    createdAt: "2024-01-02",
+    updatedAt: "2024-01-02"
+  },
+  {
+    id: 3,
+    title: "Parrucchiera Bellezza",
+    description: "Sito web moderno per salone di bellezza con prenotazioni",
+    imageUrl: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop",
+    altText: "Screenshot sito parrucchiera",
+    sortOrder: 3,
+    isActive: true,
+    createdAt: "2024-01-03",
+    updatedAt: "2024-01-03"
+  },
+  {
+    id: 4,
+    title: "Idraulico Express",
+    description: "Landing page per servizi idraulici con chiamata emergenza",
+    imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+    altText: "Screenshot sito idraulico",
+    sortOrder: 4,
+    isActive: true,
+    createdAt: "2024-01-04",
+    updatedAt: "2024-01-04"
+  },
+  {
+    id: 5,
+    title: "Farmacia del Centro",
+    description: "E-commerce per farmacia con catalogo prodotti",
+    imageUrl: "https://images.unsplash.com/photo-1576602976047-174e57a47881?w=400&h=300&fit=crop",
+    altText: "Screenshot sito farmacia",
+    sortOrder: 5,
+    isActive: true,
+    createdAt: "2024-01-05",
+    updatedAt: "2024-01-05"
+  }
+];
+
 const LandingGallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -21,9 +79,9 @@ const LandingGallery = () => {
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
 
-  const { data: images = [], isLoading } = useQuery<GalleryImage[]>({
-    queryKey: ['/api/landing-gallery'],
-  });
+  // Usa immagini demo per ora (il backend verrà implementato dopo)
+  const images = demoImages;
+  const isLoading = false;
 
   // Auto-scroll functionality
   useEffect(() => {
@@ -31,7 +89,7 @@ const LandingGallery = () => {
 
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % images.length);
-    }, 4000);
+    }, 5000); // Cambiato a 5 secondi per vedere meglio le immagini
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, images.length]);
@@ -123,7 +181,7 @@ const LandingGallery = () => {
         {/* Scrollable container */}
         <div
           ref={scrollContainerRef}
-          className="flex overflow-x-auto scrollbar-hide gap-4 pb-4 scroll-smooth"
+          className="flex overflow-x-auto scrollbar-hide gap-6 pb-4 scroll-smooth px-4"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -131,25 +189,31 @@ const LandingGallery = () => {
           {images.map((image, index) => (
             <div
               key={image.id}
-              className={`flex-shrink-0 w-4/5 md:w-1/3 lg:w-1/4 transition-all duration-300 ${
-                index === currentIndex ? 'scale-105 shadow-xl' : 'scale-95 opacity-80'
+              className={`flex-shrink-0 w-80 md:w-72 lg:w-80 transition-all duration-500 cursor-pointer ${
+                index === currentIndex ? 'scale-105 shadow-2xl' : 'scale-95 opacity-75 hover:opacity-90'
               }`}
+              onClick={() => {
+                setCurrentIndex(index);
+                setIsAutoPlaying(false);
+                setTimeout(() => setIsAutoPlaying(true), 5000);
+              }}
             >
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div className="aspect-[4/3] overflow-hidden">
+              <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                <div className="aspect-[4/3] overflow-hidden relative">
                   <img
                     src={image.imageUrl}
                     alt={image.altText || image.title}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                     loading="lazy"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div className="p-4">
-                  <h3 className="font-semibold text-gray-800 text-sm mb-1 line-clamp-1">
+                  <h3 className="font-bold text-gray-800 text-base mb-2 line-clamp-1">
                     {image.title}
                   </h3>
                   {image.description && (
-                    <p className="text-gray-600 text-xs line-clamp-2">
+                    <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
                       {image.description}
                     </p>
                   )}

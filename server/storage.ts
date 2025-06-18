@@ -6,7 +6,8 @@ import {
   siteSettings, type SiteSettings, type UpdateSiteSettings,
   blogPosts, type BlogPost, type InsertBlogPost, type UpdateBlogPost,
   blogCategories, type BlogCategory, type InsertBlogCategory,
-  blogPostCategories
+  blogPostCategories,
+  // landingGalleryImages verrà implementato in futuro
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
@@ -53,11 +54,7 @@ export interface IStorage {
   getBlogCategories(): Promise<BlogCategory[]>;
   deleteBlogCategory(id: number): Promise<boolean>;
   
-  // Landing gallery images
-  createLandingGalleryImage(image: InsertLandingGalleryImage): Promise<LandingGalleryImage>;
-  getLandingGalleryImages(): Promise<LandingGalleryImage[]>;
-  updateLandingGalleryImage(id: number, image: Partial<InsertLandingGalleryImage>): Promise<LandingGalleryImage>;
-  deleteLandingGalleryImage(id: number): Promise<boolean>;
+  // Landing gallery methods verranno implementati in futuro
 }
 
 export class DatabaseStorage implements IStorage {
@@ -250,8 +247,10 @@ export class DatabaseStorage implements IStorage {
 
   async deleteBlogCategory(id: number): Promise<boolean> {
     const result = await db.delete(blogCategories).where(eq(blogCategories.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount || 0) > 0;
   }
+
+  // Metodi per landing gallery verranno implementati in futuro
 }
 
 export const storage = new DatabaseStorage();
