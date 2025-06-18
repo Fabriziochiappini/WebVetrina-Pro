@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Button } from '../components/ui/button';
 import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart } from 'lucide-react';
 import { trackBusinessEvent } from '../lib/analytics';
+import SalesPopup from '../components/SalesPopup';
 
 const Offerta197 = () => {
   useEffect(() => {
@@ -456,6 +457,9 @@ const Offerta197 = () => {
           </div>
         </div>
       </section>
+
+      {/* Sales Popup */}
+      <SalesPopup />
     </div>
   );
 };
