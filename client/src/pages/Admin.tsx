@@ -3,7 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Download, FileText, Trash2, Upload, Users, Briefcase, Settings, PlusCircle, Edit2, Eye, CheckCircle, XCircle, Search, Image } from "lucide-react";
+import { Calendar, Download, FileText, Trash2, Upload, Users, Briefcase, Settings, PlusCircle, Edit2, Eye, CheckCircle, XCircle, Search, Image, Loader2, TrashIcon } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -79,6 +80,8 @@ const Admin = () => {
   // Stati per il form di caricamento loghi
   const [logoName, setLogoName] = useState('');
   const [logoDescription, setLogoDescription] = useState('');
+
+  const displayedContacts = filteredContacts && filteredContacts.length > 0 ? filteredContacts : contacts || [];
 
   // Query per i dati
   const { data: contacts, isLoading: isLoadingContacts } = useQuery<Contact[]>({
@@ -328,20 +331,34 @@ const Admin = () => {
           </Button>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-2 md:grid-cols-5 mb-4">
-            <TabsTrigger value="lead">Lead</TabsTrigger>
-            <TabsTrigger value="blog">Blog</TabsTrigger>
-            <TabsTrigger value="loghi">Loghi</TabsTrigger>
-            <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-            <TabsTrigger value="settings">Impostazioni</TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="lead">
+              <Users className="mr-2 h-4 w-4" />
+              Contatti
+            </TabsTrigger>
+            <TabsTrigger value="portfolio">
+              <Briefcase className="mr-2 h-4 w-4" />
+              Portfolio
+            </TabsTrigger>
+            <TabsTrigger value="blog">
+              <FileText className="mr-2 h-4 w-4" />
+              Blog
+            </TabsTrigger>
+            <TabsTrigger value="gallery">
+              <Image className="mr-2 h-4 w-4" />
+              Galleria Landing
+            </TabsTrigger>
+            <TabsTrigger value="impostazioni">
+              <Settings className="mr-2 h-4 w-4" />
+              Impostazioni
+            </TabsTrigger>
           </TabsList>
           
-          {/* Tab Lead */}
           <TabsContent value="lead">
             <Card>
               <CardHeader>
-                <CardTitle>Lead Raccolti</CardTitle>
+                <CardTitle>Contatti Raccolti</CardTitle>
                 <CardDescription>
                   Visualizza e scarica le richieste inviate dai visitatori del sito
                 </CardDescription>
@@ -360,7 +377,7 @@ const Admin = () => {
                   <div className="flex justify-center py-8">
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
                   </div>
-                ) : (filteredContacts || contacts) && (filteredContacts || contacts).length > 0 ? (
+                ) : displayedContacts && displayedContacts.length > 0 ? (
                   <div className="overflow-x-auto">
                     <Table>
                       <TableHeader>
@@ -374,7 +391,7 @@ const Admin = () => {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {(filteredContacts || contacts).map((contact) => (
+                        {displayedContacts.map((contact) => (
                           <TableRow key={contact.id}>
                             <TableCell className="font-medium">{`${contact.firstName} ${contact.lastName}`}</TableCell>
                             <TableCell>{contact.email}</TableCell>
