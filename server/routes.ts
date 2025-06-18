@@ -870,7 +870,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/landing-gallery', checkAuth, upload.single('image'), async (req, res) => {
+  app.post('/api/landing-gallery', upload.single('image'), async (req, res) => {
     try {
       const { title, description, altText, sortOrder, isActive } = req.body;
       
@@ -896,7 +896,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/landing-gallery/:id', checkAuth, upload.single('image'), async (req, res) => {
+  app.put('/api/landing-gallery/:id', upload.single('image'), async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const { title, description, altText, sortOrder, isActive } = req.body;
@@ -923,7 +923,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/landing-gallery/:id', checkAuth, async (req, res) => {
+  app.delete('/api/landing-gallery/:id', async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const success = await storage.deleteLandingGalleryImage(id);
