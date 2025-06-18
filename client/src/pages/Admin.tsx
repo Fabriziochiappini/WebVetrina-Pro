@@ -30,6 +30,7 @@ import { apiRequest } from '../lib/queryClient';
 import { useToast } from '../hooks/use-toast';
 import BlogManagement from '../components/BlogManagement';
 import PortfolioManagement from '../components/PortfolioManagement';
+import LandingGalleryManagement from '../components/LandingGalleryManagement';
 
 interface DateFilterProps {
   startDate: string;

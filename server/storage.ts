@@ -52,6 +52,12 @@ export interface IStorage {
   createBlogCategory(category: InsertBlogCategory): Promise<BlogCategory>;
   getBlogCategories(): Promise<BlogCategory[]>;
   deleteBlogCategory(id: number): Promise<boolean>;
+  
+  // Landing gallery images
+  createLandingGalleryImage(image: InsertLandingGalleryImage): Promise<LandingGalleryImage>;
+  getLandingGalleryImages(): Promise<LandingGalleryImage[]>;
+  updateLandingGalleryImage(id: number, image: Partial<InsertLandingGalleryImage>): Promise<LandingGalleryImage>;
+  deleteLandingGalleryImage(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {

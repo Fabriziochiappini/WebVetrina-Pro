@@ -128,3 +128,6 @@ export type BlogPost = typeof blogPosts.$inferSelect;
 
 export type InsertBlogCategory = z.infer<typeof insertBlogCategorySchema>;
 export type BlogCategory = typeof blogCategories.$inferSelect;
+
+export type InsertLandingGalleryImage = z.infer<typeof insertLandingGalleryImageSchema>;
+export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;
