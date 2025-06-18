@@ -24,10 +24,10 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    <!-- Meta Pixel Code - Verranno inseriti dinamicamente i tuoi ID -->
+    <!-- Meta Pixel Code - Caricato dinamicamente dal database -->
     <script id="meta-pixel-script">
       function initMetaPixel(pixelId) {
-        if (!pixelId) return;
+        if (!pixelId || window.fbq) return; // Evita inizializzazioni multiple
         
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -37,31 +37,59 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
+        
         fbq('init', pixelId);
         fbq('track', 'PageView');
+        
+        console.log('Meta Pixel inizializzato:', pixelId);
       }
       
-      // Carica le impostazioni dal server
-      fetch('/api/site-settings')
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.metaPixelId) {
-            initMetaPixel(data.metaPixelId);
-          }
-          
-          // Inserisce altri codici di tracciamento
-          if (data && data.otherTracking) {
-            const otherTrackingContainer = document.getElementById('other-tracking-container');
-            if (otherTrackingContainer) {
-              otherTrackingContainer.innerHTML = data.otherTracking;
+      function loadTrackingCodes() {
+        fetch('/api/site-settings')
+          .then(res => res.json())
+          .then(data => {
+            console.log('Impostazioni caricate:', data);
+            
+            // Inizializza Meta Pixel
+            if (data && data.metaPixelId && data.metaPixelId.trim()) {
+              initMetaPixel(data.metaPixelId.trim());
             }
-          }
-        })
-        .catch(err => console.error('Errore nel caricamento delle impostazioni:', err));
+            
+            // Inserisce altri codici di tracciamento
+            if (data && data.otherTracking && data.otherTracking.trim()) {
+              const head = document.head;
+              const scriptContainer = document.createElement('div');
+              scriptContainer.innerHTML = data.otherTracking.trim();
+              
+              // Sposta gli script nel head per eseguirli
+              Array.from(scriptContainer.children).forEach(element => {
+                if (element.tagName === 'SCRIPT') {
+                  const newScript = document.createElement('script');
+                  if (element.src) {
+                    newScript.src = element.src;
+                    newScript.async = true;
+                  } else {
+                    newScript.innerHTML = element.innerHTML;
+                  }
+                  head.appendChild(newScript);
+                } else {
+                  head.appendChild(element);
+                }
+              });
+              
+              console.log('Altri codici di tracciamento caricati');
+            }
+          })
+          .catch(err => console.error('Errore nel caricamento delle impostazioni:', err));
+      }
+      
+      // Carica i codici quando il DOM è pronto
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadTrackingCodes);
+      } else {
+        loadTrackingCodes();
+      }
     </script>
-    
-    <!-- Container per altri codici di tracciamento -->
-    <div id="other-tracking-container"></div>
   </head>
   <body>
     <div id="root"></div>
