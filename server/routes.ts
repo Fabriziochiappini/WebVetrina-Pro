@@ -2,7 +2,7 @@ import express, { type Express, type Request, type Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema } from "@shared/schema";
+import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema } from "@shared/schema";
 import { sendContactNotification, sendAutoReply } from "./emailService";
 import multer from "multer";
 import path from "path";

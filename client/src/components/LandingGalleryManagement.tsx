@@ -74,10 +74,12 @@ export default function LandingGalleryManagement() {
         formDataObj.append('imageUrl', data.imageUrl);
       }
 
-      return apiRequest('/api/landing-gallery', {
+      const response = await fetch('/api/landing-gallery', {
         method: 'POST',
         body: formDataObj,
       });
+      if (!response.ok) throw new Error('Failed to create image');
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/landing-gallery'] });
@@ -112,10 +114,12 @@ export default function LandingGalleryManagement() {
         formDataObj.append('imageUrl', data.imageUrl);
       }
 
-      return apiRequest(`/api/landing-gallery/${id}`, {
+      const response = await fetch(`/api/landing-gallery/${id}`, {
         method: 'PUT',
         body: formDataObj,
       });
+      if (!response.ok) throw new Error('Failed to update image');
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/landing-gallery'] });
@@ -137,9 +141,11 @@ export default function LandingGalleryManagement() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      return apiRequest(`/api/landing-gallery/${id}`, {
+      const response = await fetch(`/api/landing-gallery/${id}`, {
         method: 'DELETE',
       });
+      if (!response.ok) throw new Error('Failed to delete image');
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/landing-gallery'] });
@@ -216,14 +222,32 @@ export default function LandingGalleryManagement() {
     const targetImage = sortedImages[targetIndex];
 
     // Scambia i sortOrder
+    const currentFormData: FormData = {
+      title: currentImage.title,
+      description: currentImage.description || '',
+      imageUrl: currentImage.imageUrl,
+      altText: currentImage.altText || '',
+      sortOrder: targetImage.sortOrder,
+      isActive: currentImage.isActive
+    };
+    
+    const targetFormData: FormData = {
+      title: targetImage.title,
+      description: targetImage.description || '',
+      imageUrl: targetImage.imageUrl,
+      altText: targetImage.altText || '',
+      sortOrder: currentImage.sortOrder,
+      isActive: targetImage.isActive
+    };
+    
     updateMutation.mutate({
       id: currentImage.id,
-      data: { ...currentImage, sortOrder: targetImage.sortOrder }
+      data: currentFormData
     });
     
     updateMutation.mutate({
       id: targetImage.id,
-      data: { ...targetImage, sortOrder: currentImage.sortOrder }
+      data: targetFormData
     });
   };
 
