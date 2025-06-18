@@ -53,10 +53,17 @@ const LandingGalleryManagement = () => {
 
   const createMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      return await apiRequest('/api/landing-gallery', {
+      const response = await fetch('/api/landing-gallery', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
       });
+      if (!response.ok) {
+        throw new Error('Failed to create image');
+      }
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/landing-gallery'] });
@@ -79,10 +86,17 @@ const LandingGalleryManagement = () => {
 
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: FormData }) => {
-      return await apiRequest(`/api/landing-gallery/${id}`, {
+      const response = await fetch(`/api/landing-gallery/${id}`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
       });
+      if (!response.ok) {
+        throw new Error('Failed to update image');
+      }
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/landing-gallery'] });
@@ -106,9 +120,13 @@ const LandingGalleryManagement = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      return await apiRequest(`/api/landing-gallery/${id}`, {
+      const response = await fetch(`/api/landing-gallery/${id}`, {
         method: 'DELETE',
       });
+      if (!response.ok) {
+        throw new Error('Failed to delete image');
+      }
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/landing-gallery'] });
