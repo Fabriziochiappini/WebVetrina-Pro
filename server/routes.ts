@@ -951,14 +951,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/site-settings", checkAuth, async (req, res) => {
+  app.post("/api/site-settings", async (req, res) => {
     try {
       const { metaPixelId, otherTracking } = req.body;
       
-      const updateData = updateSiteSettingsSchema.parse({
-        metaPixelId: metaPixelId || null,
-        otherTracking: otherTracking || null
-      });
+      const updateData = {
+        metaPixelId: metaPixelId?.trim() || null,
+        otherTracking: otherTracking?.trim() || null
+      };
 
       const settings = await storage.updateSiteSettings(updateData);
       return res.status(200).json(settings);
