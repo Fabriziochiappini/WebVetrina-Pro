@@ -938,6 +938,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Site settings routes
+  app.get("/api/site-settings", async (req, res) => {
+    try {
+      const settings = await storage.getSiteSettings();
+      return res.status(200).json(settings || { metaPixelId: null, otherTracking: null });
+    } catch (error) {
+      console.error("Error fetching site settings:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il recupero delle impostazioni." 
+      });
+    }
+  });
+
+  app.post("/api/site-settings", checkAuth, async (req, res) => {
+    try {
+      const { metaPixelId, otherTracking } = req.body;
+      
+      const updateData = updateSiteSettingsSchema.parse({
+        metaPixelId: metaPixelId || null,
+        otherTracking: otherTracking || null
+      });
+
+      const settings = await storage.updateSiteSettings(updateData);
+      return res.status(200).json(settings);
+    } catch (error) {
+      console.error("Error updating site settings:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante il salvataggio delle impostazioni." 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

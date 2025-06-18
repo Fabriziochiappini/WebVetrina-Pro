@@ -14,10 +14,6 @@ import { Textarea } from "@/components/ui/textarea";
 import PortfolioManagement from "@/components/PortfolioManagement";
 import BlogManagement from "@/components/BlogManagement";
 import LandingGalleryManagement from "@/components/LandingGalleryManagement";
-import { useToast } from '../hooks/use-toast';
-import BlogManagement from '../components/BlogManagement';
-import PortfolioManagement from '../components/PortfolioManagement';
-import LandingGalleryManagement from '../components/LandingGalleryManagement';
 
 interface DateFilterProps {
   startDate: string;
