@@ -126,7 +126,8 @@ Preferred communication style: Simple, everyday language.
 
 ## Changelog
 
-Changelog:
+- June 18, 2025. Completed landing gallery management system with full CRUD operations, image upload, and admin panel integration. Fixed all TypeScript errors and validated API endpoints functionality.
+- June 18, 2025. Fixed routing issues and component import errors. All pages now load correctly including admin dashboard with galleria landing tab.
 - June 15, 2025. Created high-conversion landing page for €197 offer with problem/solution psychology, urgency elements, and strategic menu placement for advertising campaigns
 - June 15, 2025. Refined LITE package presentation by removing all hosting/dominio references from Process and ValueProposition sections, maintaining marketing focus on included benefits only
 - June 15, 2025. Completed FAQ section with 8 professional questions and updated all CTA texts from price-specific to generic "VOGLIO IL MIO SITO" messaging across all pricing tiers
