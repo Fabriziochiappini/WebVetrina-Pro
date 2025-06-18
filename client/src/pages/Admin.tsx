@@ -600,51 +600,62 @@ const Admin = () => {
               <CardHeader>
                 <CardTitle>Impostazioni del Sito</CardTitle>
                 <CardDescription>
-                  Configura i codici di tracciamento e analytics
+                  Configura i codici di tracciamento direttamente nel file HTML
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="metaPixelId">Meta Pixel ID</Label>
-                    <Input
-                      id="metaPixelId"
-                      value={metaPixelId}
-                      onChange={(e) => setMetaPixelId(e.target.value)}
-                      placeholder="123456789012345"
-                    />
+                <div className="space-y-6">
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <h4 className="font-semibold text-blue-900 mb-2">Meta Pixel Facebook</h4>
+                    <p className="text-sm text-blue-700 mb-3">
+                      Per aggiungere il Meta Pixel, modifica il file <code className="bg-blue-100 px-1 rounded">client/index.html</code> e sostituisci <code className="bg-blue-100 px-1 rounded">1234567890</code> con il tuo Pixel ID.
+                    </p>
+                    <pre className="text-xs bg-blue-100 p-2 rounded overflow-x-auto">
+{`<!-- Decommenta e sostituisci 1234567890 -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'TUO_PIXEL_ID');
+fbq('track', 'PageView');
+</script>`}
+                    </pre>
                   </div>
-                  <div>
-                    <Label htmlFor="otherTracking">Altri Codici di Tracciamento</Label>
-                    <Textarea
-                      id="otherTracking"
-                      value={otherTracking}
-                      onChange={(e) => setOtherTracking(e.target.value)}
-                      placeholder="Inserisci qui altri codici di tracciamento (Google Analytics, etc.)"
-                      rows={5}
-                    />
+                  
+                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <h4 className="font-semibold text-green-900 mb-2">Google Analytics 4</h4>
+                    <p className="text-sm text-green-700 mb-3">
+                      Per aggiungere Google Analytics 4, modifica il file <code className="bg-green-100 px-1 rounded">client/index.html</code> e sostituisci <code className="bg-green-100 px-1 rounded">G-XXXXXXXXXX</code> con il tuo Measurement ID.
+                    </p>
+                    <pre className="text-xs bg-green-100 p-2 rounded overflow-x-auto">
+{`<!-- Decommenta e sostituisci G-XXXXXXXXXX -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>`}
+                    </pre>
+                  </div>
+                  
+                  <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <h4 className="font-semibold text-gray-900 mb-2">Istruzioni</h4>
+                    <ol className="text-sm text-gray-700 space-y-1">
+                      <li>1. Apri il file <code className="bg-gray-100 px-1 rounded">client/index.html</code></li>
+                      <li>2. Trova la sezione con i commenti dei codici di tracciamento</li>
+                      <li>3. Decommenta il codice che ti serve</li>
+                      <li>4. Sostituisci gli ID di esempio con i tuoi veri ID</li>
+                      <li>5. Salva il file - le modifiche saranno attive immediatamente</li>
+                    </ol>
                   </div>
                 </div>
               </CardContent>
-              <CardFooter>
-                <Button 
-                  onClick={handleSaveSettings} 
-                  disabled={saveSettings.isPending}
-                  className="w-full"
-                >
-                  {saveSettings.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Salvataggio in corso...
-                    </>
-                  ) : (
-                    <>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Salva Impostazioni
-                    </>
-                  )}
-                </Button>
-              </CardFooter>
             </Card>
           </TabsContent>
         </Tabs>
