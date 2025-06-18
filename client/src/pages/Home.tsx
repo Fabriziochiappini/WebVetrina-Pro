@@ -13,6 +13,7 @@ import Faq from '../components/Faq';
 import Cta from '../components/Cta';
 import ContactForm from '../components/ContactForm';
 import Footer from '../components/Footer';
+import FloatingCta from '../components/FloatingCta';
 
 const Home = () => {
   const scrollToSection = (id: string) => {
@@ -68,6 +69,7 @@ const Home = () => {
       <Cta scrollToSection={scrollToSection} />
       <ContactForm />
       <Footer />
+      <FloatingCta />
     </div>
   );
 };
