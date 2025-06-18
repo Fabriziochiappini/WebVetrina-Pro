@@ -48,10 +48,10 @@ const SalesPopup = () => {
       setCurrentSale(randomSale);
       setIsVisible(true);
 
-      // Nascondi il popup dopo 5 secondi
+      // Nascondi il popup dopo 8 secondi
       setTimeout(() => {
         setIsVisible(false);
-      }, 5000);
+      }, 8000);
     };
 
     // Mostra il primo popup immediatamente

@@ -3,6 +3,7 @@ import { Button } from '../components/ui/button';
 import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart } from 'lucide-react';
 import { trackBusinessEvent } from '../lib/analytics';
 import SalesPopup from '../components/SalesPopup';
+import AnnouncementBar from '../components/AnnouncementBar';
 
 const Offerta197 = () => {
   useEffect(() => {
@@ -48,6 +49,9 @@ const Offerta197 = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Announcement Bar */}
+      <AnnouncementBar />
+      
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary to-primary/80 text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
