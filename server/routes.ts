@@ -577,25 +577,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/site-settings", checkAuth, async (req, res) => {
-    try {
-      const result = updateSiteSettingsSchema.safeParse(req.body);
-      if (!result.success) {
-        return res.status(400).json({ 
-          message: "Validazione fallita", 
-          errors: result.error.flatten().fieldErrors 
-        });
-      }
 
-      const settings = await storage.updateSiteSettings(result.data);
-      return res.status(200).json(settings);
-    } catch (error) {
-      console.error("Error updating site settings:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante l'aggiornamento delle impostazioni del sito." 
-      });
-    }
-  });
 
   // Blog management routes
   app.post("/api/blog/posts", upload.single('featuredImage'), async (req, res) => {
