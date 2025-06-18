@@ -1,33 +1,19 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState, useRef } from 'react';
-import { 
-  Loader2, Download, Calendar, Upload, Image, 
-  FileImage, Settings, TrashIcon, PlusIcon,
-  Users, Briefcase, FileText, LogOut
-} from 'lucide-react';
-import { Contact, Logo, PortfolioItem, SiteSettings } from '@shared/schema';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../components/ui/table';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from '../components/ui/card';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
-import { Label } from '../components/ui/label';
-import { Textarea } from '../components/ui/textarea';
-import { apiRequest } from '../lib/queryClient';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar, Download, FileText, Trash2, Upload, Users, Briefcase, Settings, PlusCircle, Edit2, Eye, CheckCircle, XCircle, Search, Image } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState, useRef, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import type { Contact, Logo, PortfolioItem, SiteSettings } from "@shared/schema";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import PortfolioManagement from "@/components/PortfolioManagement";
+import BlogManagement from "@/components/BlogManagement";
+import LandingGalleryManagement from "@/components/LandingGalleryManagement";
 import { useToast } from '../hooks/use-toast';
 import BlogManagement from '../components/BlogManagement';
 import PortfolioManagement from '../components/PortfolioManagement';
@@ -111,7 +97,9 @@ const Admin = () => {
       const params = new URLSearchParams();
       if (startDate) params.append('startDate', startDate);
       if (endDate) params.append('endDate', endDate);
-      return apiRequest(`/api/contacts/filter?${params.toString()}`);
+      const response = await fetch(`/api/contacts/filter?${params.toString()}`);
+      if (!response.ok) throw new Error('Failed to fetch filtered contacts');
+      return response.json();
     }
   });
   
@@ -127,21 +115,25 @@ const Admin = () => {
   
   const { data: siteSettings, isLoading: isLoadingSettings } = useQuery<SiteSettings>({
     queryKey: ['/api/site-settings'],
-    enabled: isAuthenticated && activeTab === "settings",
-    onSuccess: (data) => {
-      if (data) {
-        setMetaPixelId(data.metaPixelId || '');
-        setOtherTracking(data.otherTracking || '');
-      }
-    }
+    enabled: isAuthenticated && activeTab === "impostazioni",
   });
+
+  // Effect per aggiornare i campi quando arrivano i dati
+  useEffect(() => {
+    if (siteSettings) {
+      setMetaPixelId(siteSettings.metaPixelId || '');
+      setOtherTracking(siteSettings.otherTracking || '');
+    }
+  }, [siteSettings]);
   
   // Mutation per l'eliminazione dei loghi
   const deleteLogo = useMutation({
     mutationFn: async (id: number) => {
-      return apiRequest(`/api/logos/${id}`, {
+      const response = await fetch(`/api/logos/${id}`, {
         method: 'DELETE'
       });
+      if (!response.ok) throw new Error('Failed to delete logo');
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/logos'] });
@@ -185,13 +177,15 @@ const Admin = () => {
   // Mutation per il salvataggio delle impostazioni del sito
   const saveSettings = useMutation({
     mutationFn: async (data: { metaPixelId?: string, otherTracking?: string }) => {
-      return apiRequest('/api/site-settings', {
+      const response = await fetch('/api/site-settings', {
         method: 'POST',
-        body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify(data),
       });
+      if (!response.ok) throw new Error('Failed to save settings');
+      return response.json();
     },
     onSuccess: () => {
       toast({
