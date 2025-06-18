@@ -278,9 +278,18 @@ const Admin = () => {
   
   // Funzione per salvare le impostazioni del sito
   const handleSaveSettings = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Errore",
+        description: "Devi essere autenticato per salvare le impostazioni",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     saveSettings.mutate({
-      metaPixelId,
-      otherTracking
+      metaPixelId: metaPixelId.trim(),
+      otherTracking: otherTracking.trim()
     });
   };
 
