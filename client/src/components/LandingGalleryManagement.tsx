@@ -61,25 +61,47 @@ export default function LandingGalleryManagement() {
 
   const createMutation = useMutation({
     mutationFn: async (data: FormData) => {
+      if (!data.title.trim()) {
+        throw new Error('Il titolo è obbligatorio');
+      }
+      
+      if (!selectedFile && !data.imageUrl.trim()) {
+        throw new Error('Devi caricare un file o inserire un URL immagine');
+      }
+      
       const formDataObj = new FormData();
-      formDataObj.append('title', data.title);
-      formDataObj.append('description', data.description);
-      formDataObj.append('altText', data.altText);
+      formDataObj.append('title', data.title.trim());
+      formDataObj.append('description', data.description || '');
+      formDataObj.append('altText', data.altText || '');
       formDataObj.append('sortOrder', data.sortOrder.toString());
       formDataObj.append('isActive', data.isActive.toString());
       
       if (selectedFile) {
         formDataObj.append('image', selectedFile);
+        console.log('Uploading file:', selectedFile.name, selectedFile.type, selectedFile.size);
       } else if (data.imageUrl) {
-        formDataObj.append('imageUrl', data.imageUrl);
+        formDataObj.append('imageUrl', data.imageUrl.trim());
+        console.log('Using image URL:', data.imageUrl);
       }
 
+      console.log('Form data entries:', Object.fromEntries(formDataObj.entries()));
+      
       const response = await fetch('/api/landing-gallery', {
         method: 'POST',
         body: formDataObj,
       });
-      if (!response.ok) throw new Error('Failed to create image');
-      return response.json();
+      
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Server error response:', errorText);
+        throw new Error(`Errore ${response.status}: ${errorText}`);
+      }
+      
+      const result = await response.json();
+      console.log('Success response:', result);
+      return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/landing-gallery'] });
