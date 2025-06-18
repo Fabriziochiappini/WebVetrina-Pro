@@ -99,6 +99,107 @@ const Offerta197 = () => {
         </div>
       </section>
 
+      {/* Problem/Solution Section */}
+      <section className="py-20 bg-gray-900 text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-red-400">
+                Stai Perdendo Clienti Ogni Giorno!
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
+                Nel 2024, <strong className="text-white">il 97% delle persone</strong> cerca prodotti e servizi online prima di acquistare.
+                <br />Se non hai un sito web, <strong className="text-red-400">semplicemente non esisti</strong> per loro.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+              {/* Problem Side */}
+              <div className="bg-red-900/20 border border-red-500/30 p-8 rounded-xl">
+                <h3 className="text-2xl font-bold mb-6 text-red-400 flex items-center">
+                  <span className="text-3xl mr-3">❌</span>
+                  SENZA Sito Web
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 text-xl">💸</span>
+                    <span>Perdi <strong>clienti ogni giorno</strong> che vanno dai concorrenti online</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 text-xl">👻</span>
+                    <span>La tua attività è <strong>invisibile</strong> su Google e social</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 text-xl">📞</span>
+                    <span>Devi sempre <strong>cercare</strong> nuovi clienti invece che farli arrivare a te</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 text-xl">🏚️</span>
+                    <span>Sembri <strong>poco professionale</strong> rispetto alla concorrenza</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 text-xl">⏰</span>
+                    <span>Lavori solo <strong>negli orari di apertura</strong> - zero vendite di notte</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Solution Side */}
+              <div className="bg-green-900/20 border border-green-500/30 p-8 rounded-xl">
+                <h3 className="text-2xl font-bold mb-6 text-green-400 flex items-center">
+                  <span className="text-3xl mr-3">✅</span>
+                  CON il Tuo Sito Web
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <span className="text-green-400 text-xl">🎯</span>
+                    <span><strong>Nuovi clienti ti trovano</strong> automaticamente su Google</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-green-400 text-xl">🏆</span>
+                    <span>Appari <strong>professionale e affidabile</strong> come i grandi brand</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-green-400 text-xl">🤖</span>
+                    <span>Lavora per te <strong>24 ore su 24</strong>, anche mentre dormi</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-green-400 text-xl">📱</span>
+                    <span>I clienti ti <strong>contattano direttamente</strong> interessati ai tuoi servizi</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-green-400 text-xl">💰</span>
+                    <span><strong>ROI garantito</strong>: il sito si ripaga da solo in 2-3 mesi</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Statistics */}
+            <div className="bg-gradient-to-r from-secondary/20 to-primary/20 border border-secondary/30 p-8 rounded-xl text-center">
+              <h3 className="text-3xl font-bold mb-6 text-secondary">I Numeri Non Mentono</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                  <div className="text-4xl font-bold text-secondary mb-2">84%</div>
+                  <p className="text-gray-300">delle persone non si fida di aziende senza sito web</p>
+                </div>
+                <div>
+                  <div className="text-4xl font-bold text-secondary mb-2">75%</div>
+                  <p className="text-gray-300">giudica la credibilità dall'aspetto del sito</p>
+                </div>
+                <div>
+                  <div className="text-4xl font-bold text-secondary mb-2">67%</div>
+                  <p className="text-gray-300">preferisce aziende facilmente trovabili online</p>
+                </div>
+              </div>
+              <p className="text-xl mt-6 text-white font-semibold">
+                Ogni giorno che rimandi, <span className="text-red-400">perdi opportunità di business</span> che vanno ai tuoi concorrenti.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Urgency Section */}
       <section className="py-16 bg-red-50 border-t-4 border-red-500">
         <div className="container mx-auto px-4">
