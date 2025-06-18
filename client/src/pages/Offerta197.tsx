@@ -108,7 +108,7 @@ const Offerta197 = () => {
                 Stai Perdendo Clienti Ogni Giorno!
               </h2>
               <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
-                Nel 2024, <strong className="text-white">il 97% delle persone</strong> cerca prodotti e servizi online prima di acquistare.
+                Nel 2025, <strong className="text-white">il 97% delle persone</strong> cerca prodotti e servizi online prima di acquistare.
                 <br />Se non hai un sito web, <strong className="text-red-400">semplicemente non esisti</strong> per loro.
               </p>
             </div>
