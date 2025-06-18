@@ -189,8 +189,10 @@ const LandingGallery = () => {
           {images.map((image, index) => (
             <div
               key={image.id}
-              className={`flex-shrink-0 w-80 md:w-72 lg:w-80 transition-all duration-500 cursor-pointer ${
-                index === currentIndex ? 'scale-105 shadow-2xl' : 'scale-95 opacity-75 hover:opacity-90'
+              className={`flex-shrink-0 w-72 md:w-80 lg:w-84 transition-all duration-700 cursor-pointer ${
+                index === currentIndex 
+                  ? 'scale-105 shadow-2xl ring-2 ring-primary/20' 
+                  : 'scale-95 opacity-70 hover:opacity-95 hover:scale-100'
               }`}
               onClick={() => {
                 setCurrentIndex(index);
@@ -198,25 +200,41 @@ const LandingGallery = () => {
                 setTimeout(() => setIsAutoPlaying(true), 5000);
               }}
             >
-              <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-                <div className="aspect-[4/3] overflow-hidden relative">
+              <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hover:border-primary/20 transition-all duration-300">
+                <div className="aspect-[4/3] overflow-hidden relative group">
                   <img
                     src={image.imageUrl}
                     alt={image.altText || image.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Badge "Realizzato" */}
+                  <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                    ✓ Realizzato
+                  </div>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-gray-800 text-base mb-2 line-clamp-1">
+                
+                <div className="p-5">
+                  <h3 className="font-bold text-gray-800 text-lg mb-2 line-clamp-1">
                     {image.title}
                   </h3>
                   {image.description && (
-                    <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed">
+                    <p className="text-gray-600 text-sm line-clamp-2 leading-relaxed mb-3">
                       {image.description}
                     </p>
                   )}
+                  
+                  {/* Settore badge */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">
+                      Cliente soddisfatto
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      2025
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
