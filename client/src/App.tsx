@@ -20,7 +20,7 @@ import PortfolioPublic from "./pages/PortfolioPublic";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Admin from "./pages/Admin";
 import Offerta197 from "./pages/Offerta197";
-import FloatingCta from "./components/FloatingCta";
+
 import CookieBanner from "./components/CookieBanner";
 
 // Componente per scroll automatico all'inizio di ogni pagina
@@ -73,7 +73,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Router />
-        <FloatingCta />
         <CookieBanner />
         <Toaster />
       </TooltipProvider>
