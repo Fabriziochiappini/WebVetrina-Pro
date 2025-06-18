@@ -585,6 +585,59 @@ const Admin = () => {
           <TabsContent value="gallery">
             <LandingGalleryManagement />
           </TabsContent>
+
+          <TabsContent value="impostazioni">
+            <Card>
+              <CardHeader>
+                <CardTitle>Impostazioni del Sito</CardTitle>
+                <CardDescription>
+                  Configura i codici di tracciamento e analytics
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="metaPixelId">Meta Pixel ID</Label>
+                    <Input
+                      id="metaPixelId"
+                      value={metaPixelId}
+                      onChange={(e) => setMetaPixelId(e.target.value)}
+                      placeholder="123456789012345"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="otherTracking">Altri Codici di Tracciamento</Label>
+                    <Textarea
+                      id="otherTracking"
+                      value={otherTracking}
+                      onChange={(e) => setOtherTracking(e.target.value)}
+                      placeholder="Inserisci qui altri codici di tracciamento (Google Analytics, etc.)"
+                      rows={5}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  onClick={handleSaveSettings} 
+                  disabled={saveSettings.isPending}
+                  className="w-full"
+                >
+                  {saveSettings.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Salvataggio in corso...
+                    </>
+                  ) : (
+                    <>
+                      <Settings className="mr-2 h-4 w-4" />
+                      Salva Impostazioni
+                    </>
+                  )}
+                </Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
