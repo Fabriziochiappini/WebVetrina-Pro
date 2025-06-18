@@ -120,7 +120,11 @@ export const landingGalleryImages = pgTable("landing_gallery_images", {
 });
 
 export const insertLandingGalleryImageSchema = createInsertSchema(landingGalleryImages)
-  .omit({ id: true, createdAt: true, updatedAt: true });
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    sortOrder: z.number().default(0),
+    isActive: z.boolean().default(true)
+  });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;

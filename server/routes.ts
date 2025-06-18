@@ -859,6 +859,85 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ apiKey });
   });
 
+  // Landing gallery routes
+  app.get('/api/landing-gallery', async (req, res) => {
+    try {
+      const images = await storage.getLandingGalleryImages();
+      res.json(images);
+    } catch (error) {
+      console.error('Error fetching landing gallery images:', error);
+      res.status(500).json({ error: 'Failed to fetch landing gallery images' });
+    }
+  });
+
+  app.post('/api/landing-gallery', checkAuth, upload.single('image'), async (req, res) => {
+    try {
+      const { title, description, altText, sortOrder, isActive } = req.body;
+      
+      let imageUrl = req.body.imageUrl || '';
+      if (req.file) {
+        imageUrl = `/uploads/${req.file.filename}`;
+      }
+
+      const imageData = insertLandingGalleryImageSchema.parse({
+        title,
+        description: description || null,
+        imageUrl,
+        altText: altText || null,
+        sortOrder: parseInt(sortOrder) || 0,
+        isActive: isActive === 'true'
+      });
+
+      const image = await storage.createLandingGalleryImage(imageData);
+      res.json(image);
+    } catch (error) {
+      console.error('Error creating landing gallery image:', error);
+      res.status(400).json({ error: 'Failed to create landing gallery image' });
+    }
+  });
+
+  app.put('/api/landing-gallery/:id', checkAuth, upload.single('image'), async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { title, description, altText, sortOrder, isActive } = req.body;
+      
+      const updateData: any = {
+        title,
+        description: description || null,
+        altText: altText || null,
+        sortOrder: parseInt(sortOrder) || 0,
+        isActive: isActive === 'true'
+      };
+
+      if (req.file) {
+        updateData.imageUrl = `/uploads/${req.file.filename}`;
+      } else if (req.body.imageUrl) {
+        updateData.imageUrl = req.body.imageUrl;
+      }
+
+      const image = await storage.updateLandingGalleryImage(id, updateData);
+      res.json(image);
+    } catch (error) {
+      console.error('Error updating landing gallery image:', error);
+      res.status(400).json({ error: 'Failed to update landing gallery image' });
+    }
+  });
+
+  app.delete('/api/landing-gallery/:id', checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const success = await storage.deleteLandingGalleryImage(id);
+      if (success) {
+        res.json({ message: 'Landing gallery image deleted successfully' });
+      } else {
+        res.status(404).json({ error: 'Landing gallery image not found' });
+      }
+    } catch (error) {
+      console.error('Error deleting landing gallery image:', error);
+      res.status(500).json({ error: 'Failed to delete landing gallery image' });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
