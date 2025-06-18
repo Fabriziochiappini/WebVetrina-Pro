@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Button } from '../components/ui/button';
-import { ArrowRight, Check, Clock, Star, Zap, Shield, Award } from 'lucide-react';
+import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart } from 'lucide-react';
 import { trackBusinessEvent } from '../lib/analytics';
 
 const Offerta197 = () => {
