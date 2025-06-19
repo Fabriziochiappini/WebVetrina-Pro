@@ -434,6 +434,143 @@ const Offerta197 = () => {
         </div>
       </section>
 
+      {/* Slot Booking System */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                🔥 Solo 3 Slot Disponibili su 15!
+              </h2>
+              <p className="text-xl text-gray-600 mb-8">
+                Prenota subito il tuo posto per assicurarti questa offerta esclusiva
+              </p>
+            </div>
+
+            {/* Slot Visual Grid */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg mb-8">
+              <h3 className="text-xl font-semibold text-center mb-6">Disponibilità Slot in Tempo Reale</h3>
+              <div className="grid grid-cols-5 gap-3 max-w-md mx-auto mb-6">
+                {Array.from({ length: 15 }, (_, i) => (
+                  <div
+                    key={i}
+                    className={`w-12 h-12 rounded-lg flex items-center justify-center text-sm font-medium ${
+                      i < 12 
+                        ? 'bg-red-500 text-white' 
+                        : 'bg-green-500 text-white animate-pulse'
+                    }`}
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-center gap-6 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-red-500 rounded"></div>
+                  <span>Occupato</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-green-500 rounded"></div>
+                  <span>Disponibile</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Booking Explanation */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 mb-8">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+                  <Clock className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Come Funziona la Prenotazione
+                </h3>
+                <div className="max-w-2xl mx-auto text-gray-700 space-y-4">
+                  <p className="text-lg">
+                    <strong>Prenoti con soli €17</strong> per riservare il nostro tempo dedicato al tuo progetto.
+                  </p>
+                  <p>
+                    Questo piccolo anticipo ci permette di bloccare uno slot nel nostro calendario 
+                    e iniziare subito a pianificare il tuo sito web professionale.
+                  </p>
+                  <p>
+                    <strong>Il saldo di €180</strong> verrà versato solo alla consegna del sito completato, 
+                    quando sarai completamente soddisfatto del risultato.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* What's Included Highlight */}
+            <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-secondary">
+              <h3 className="text-2xl font-bold text-center text-gray-900 mb-6">
+                ✨ Tutto Incluso nell'Offerta €197
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Sito web professionale completo</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Hosting incluso per 1 anno</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Dominio incluso per 1 anno</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Certificato SSL di sicurezza</span>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Design responsive per mobile</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Ottimizzazione SEO di base</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Modulo di contatto funzionante</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Check className="h-5 w-5 text-green-500 flex-shrink-0" />
+                    <span>Supporto post-lancio</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p className="text-center text-yellow-800 font-medium">
+                  ⚠️ Questa offerta completa è valida SOLO in questa pagina
+                </p>
+              </div>
+            </div>
+
+            {/* Booking CTA */}
+            <div className="text-center mt-8">
+              <Button 
+                onClick={() => {
+                  trackBusinessEvent.ctaClick('slot_booking', 'reservation');
+                  window.open('https://wa.me/393479942321?text=Voglio%20prenotare%20uno%20slot%20per%20il%20sito%20web%20a%20197%20euro', '_blank');
+                }}
+                className="bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-full text-xl transition-all hover:scale-105 shadow-lg"
+              >
+                🚀 PRENOTA IL TUO SLOT CON €17
+              </Button>
+              <p className="text-sm text-gray-600 mt-4">
+                Prenotazione sicura • Saldo alla consegna • Garanzia soddisfatti o rimborsati
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section id="contatto-landing" className="py-20 bg-gradient-to-br from-primary to-primary/80 text-white">
         <div className="container mx-auto px-4">
