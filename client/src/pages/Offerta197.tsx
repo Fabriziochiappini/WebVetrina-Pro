@@ -559,9 +559,22 @@ const Offerta197 = () => {
               >
                 🚀 PRENOTA IL TUO SLOT CON €17
               </Button>
-              <p className="text-sm text-gray-600 mt-4">
-                Prenotazione sicura • Saldo alla consegna • Garanzia soddisfatti o rimborsati
-              </p>
+              <div className="mt-6 flex flex-col items-center">
+                <p className="text-sm text-gray-600 mb-4">
+                  Prenotazione sicura • Saldo alla consegna • Garanzia soddisfatti o rimborsati
+                </p>
+                
+                {/* PayPal Security Badge - Bottom */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-sm">
+                  <div className="flex items-center gap-3 text-blue-900">
+                    <Shield className="h-5 w-5 text-blue-600" />
+                    <div className="text-sm">
+                      <p className="font-medium">Pagamenti Sicuri PayPal</p>
+                      <p className="text-xs text-blue-700">Rimborso garantito in qualsiasi momento</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -635,9 +648,20 @@ const Offerta197 = () => {
               </Button>
             </div>
 
-            <p className="text-sm mt-6 opacity-90">
-              ⚡ Risposta garantita entro 2 ore • Preventivo gratuito
-            </p>
+            <div className="mt-6 space-y-4">
+              <p className="text-sm opacity-90">
+                ⚡ Risposta garantita entro 2 ore • Preventivo gratuito
+              </p>
+              
+              {/* PayPal Security Badge - Final CTA */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20 inline-block">
+                <div className="flex items-center gap-2 text-white text-sm">
+                  <Shield className="h-4 w-4 text-blue-300" />
+                  <span className="font-medium">Pagamenti Sicuri PayPal</span>
+                  <span className="opacity-75">• Rimborso Garantito</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
