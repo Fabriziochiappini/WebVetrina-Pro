@@ -954,6 +954,106 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Payment Routes for Landing Page
+
+  // Create Stripe Payment Intent for €17 slot booking
+  app.post("/api/payments/stripe/create-intent", async (req, res) => {
+    try {
+      const { email, name } = req.body;
+      
+      if (!email || !name) {
+        return res.status(400).json({ error: "Email e nome sono richiesti" });
+      }
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 1700, // €17 in centesimi
+        currency: "eur",
+        description: "Prenotazione slot sito web - WebPro Italia",
+        receipt_email: email,
+        metadata: {
+          customer_name: name,
+          customer_email: email,
+          service: "slot_booking_197"
+        }
+      });
+
+      res.json({ 
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id
+      });
+    } catch (error) {
+      console.error("Stripe payment intent error:", error);
+      res.status(500).json({ error: "Errore nella creazione del pagamento" });
+    }
+  });
+
+  // Create PayPal Order for €17 slot booking
+  app.post("/api/payments/paypal/create-order", async (req, res) => {
+    try {
+      const { email, name } = req.body;
+      
+      if (!email || !name) {
+        return res.status(400).json({ error: "Email e nome sono richiesti" });
+      }
+
+      const orderRequest = {
+        intent: "CAPTURE",
+        purchase_units: [{
+          amount: {
+            currency_code: "EUR",
+            value: "17.00"
+          },
+          description: "Prenotazione slot sito web - WebPro Italia",
+          custom_id: `slot_booking_${Date.now()}`,
+          soft_descriptor: "WebPro Italia"
+        }],
+        application_context: {
+          brand_name: "WebPro Italia",
+          landing_page: "BILLING",
+          user_action: "PAY_NOW",
+          return_url: `${req.protocol}://${req.get('host')}/offerta-197?payment=success`,
+          cancel_url: `${req.protocol}://${req.get('host')}/offerta-197?payment=cancelled`
+        }
+      };
+
+      const { body, statusCode } = await paypalOrdersController.createOrder({
+        body: orderRequest,
+        prefer: "return=representation"
+      });
+
+      if (statusCode === 201) {
+        res.json({ orderId: JSON.parse(body as string).id });
+      } else {
+        res.status(statusCode).json({ error: "Errore nella creazione dell'ordine PayPal" });
+      }
+    } catch (error) {
+      console.error("PayPal order creation error:", error);
+      res.status(500).json({ error: "Errore nella creazione dell'ordine PayPal" });
+    }
+  });
+
+  // Capture PayPal Order
+  app.post("/api/payments/paypal/capture/:orderId", async (req, res) => {
+    try {
+      const { orderId } = req.params;
+
+      const { body, statusCode } = await paypalOrdersController.captureOrder({
+        id: orderId,
+        prefer: "return=representation"
+      });
+
+      if (statusCode === 201) {
+        const orderData = JSON.parse(body as string);
+        res.json(orderData);
+      } else {
+        res.status(statusCode).json({ error: "Errore nella cattura del pagamento PayPal" });
+      }
+    } catch (error) {
+      console.error("PayPal capture error:", error);
+      res.status(500).json({ error: "Errore nella cattura del pagamento PayPal" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

@@ -1,12 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../components/ui/button';
 import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart } from 'lucide-react';
 import { trackBusinessEvent } from '../lib/analytics';
 import SalesPopup from '../components/SalesPopup';
 import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
+import PaymentModal from '../components/PaymentModal';
 
 const Offerta197 = () => {
+  const [paymentModal, setPaymentModal] = useState<{ isOpen: boolean; type: 'stripe' | 'paypal' }>({
+    isOpen: false,
+    type: 'stripe'
+  });
+
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
@@ -564,7 +570,7 @@ const Offerta197 = () => {
                 <Button 
                   onClick={() => {
                     trackBusinessEvent.ctaClick('paypal_booking', 'reservation');
-                    window.open('https://wa.me/393479942321?text=Voglio%20prenotare%20uno%20slot%20con%20PayPal%20per%20il%20sito%20web%20a%20197%20euro', '_blank');
+                    setPaymentModal({ isOpen: true, type: 'paypal' });
                   }}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all hover:scale-105 shadow-lg flex items-center gap-3"
                 >
@@ -577,7 +583,7 @@ const Offerta197 = () => {
                 <Button 
                   onClick={() => {
                     trackBusinessEvent.ctaClick('card_booking', 'reservation');
-                    window.open('https://wa.me/393479942321?text=Voglio%20prenotare%20uno%20slot%20con%20carta%20per%20il%20sito%20web%20a%20197%20euro', '_blank');
+                    setPaymentModal({ isOpen: true, type: 'stripe' });
                   }}
                   className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all hover:scale-105 shadow-lg flex items-center gap-3"
                 >
@@ -746,6 +752,13 @@ const Offerta197 = () => {
           </div>
         </div>
       </section>
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={paymentModal.isOpen}
+        onClose={() => setPaymentModal({ ...paymentModal, isOpen: false })}
+        paymentType={paymentModal.type}
+      />
 
       {/* Sales Popup */}
       <SalesPopup />
