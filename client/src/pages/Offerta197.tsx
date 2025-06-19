@@ -75,8 +75,8 @@ const Offerta197 = () => {
             </h1>
             
             <p className="text-xl md:text-2xl mb-8 opacity-95 leading-relaxed max-w-3xl mx-auto">
-              Un'opportunità unica per avere un sito web aziendale di <strong>alta qualità</strong> 
-              al prezzo più conveniente d'Italia. Non ricapiterà.
+              Un'opportunità unica per avere un sito web aziendale di <strong>alta qualità</strong><br />
+              al prezzo più conveniente d'Italia.
             </p>
 
             <div className="flex items-center justify-center gap-4 text-xl md:text-2xl font-medium opacity-95 mb-8">
