@@ -14,64 +14,7 @@ interface GalleryImage {
   updatedAt: string;
 }
 
-// Immagini demo per sviluppo
-const demoImages: GalleryImage[] = [
-  {
-    id: 1,
-    title: "Ristorante La Tavola",
-    description: "Sito web per ristorante con menu e prenotazioni online",
-    imageUrl: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=300&fit=crop",
-    altText: "Screenshot sito ristorante",
-    sortOrder: 1,
-    isActive: true,
-    createdAt: "2024-01-01",
-    updatedAt: "2024-01-01"
-  },
-  {
-    id: 2,
-    title: "Studio Legale Rossi",
-    description: "Sito professionale per studio legale con area riservata clienti",
-    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
-    altText: "Screenshot sito studio legale",
-    sortOrder: 2,
-    isActive: true,
-    createdAt: "2024-01-02",
-    updatedAt: "2024-01-02"
-  },
-  {
-    id: 3,
-    title: "Parrucchiera Bellezza",
-    description: "Sito web moderno per salone di bellezza con prenotazioni",
-    imageUrl: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop",
-    altText: "Screenshot sito parrucchiera",
-    sortOrder: 3,
-    isActive: true,
-    createdAt: "2024-01-03",
-    updatedAt: "2024-01-03"
-  },
-  {
-    id: 4,
-    title: "Idraulico Express",
-    description: "Landing page per servizi idraulici con chiamata emergenza",
-    imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-    altText: "Screenshot sito idraulico",
-    sortOrder: 4,
-    isActive: true,
-    createdAt: "2024-01-04",
-    updatedAt: "2024-01-04"
-  },
-  {
-    id: 5,
-    title: "Farmacia del Centro",
-    description: "E-commerce per farmacia con catalogo prodotti",
-    imageUrl: "https://images.unsplash.com/photo-1576602976047-174e57a47881?w=400&h=300&fit=crop",
-    altText: "Screenshot sito farmacia",
-    sortOrder: 5,
-    isActive: true,
-    createdAt: "2024-01-05",
-    updatedAt: "2024-01-05"
-  }
-];
+
 
 const LandingGallery = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -84,8 +27,8 @@ const LandingGallery = () => {
     queryKey: ['/api/landing-gallery'],
   });
 
-  // Usa immagini demo se API è vuota o in errore, altrimenti usa i dati dal backend
-  const images = apiImages.length > 0 ? apiImages : demoImages;
+  // Usa solo immagini attive dal database, ordinate correttamente
+  const images = apiImages || [];
 
   // Auto-scroll functionality
   useEffect(() => {
@@ -161,7 +104,11 @@ const LandingGallery = () => {
   }
 
   if (images.length === 0) {
-    return null;
+    return (
+      <div className="w-full max-w-6xl mx-auto text-center py-8">
+        <p className="text-gray-500">Nessuna immagine nella galleria al momento.</p>
+      </div>
+    );
   }
 
   return (
