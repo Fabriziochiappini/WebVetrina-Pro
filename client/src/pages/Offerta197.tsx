@@ -7,8 +7,7 @@ import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
 import PaymentModal from '../components/PaymentModal';
 import WhatsAppFloat from '../components/WhatsAppFloat';
-// Hero image path
-const heroImagePath = "/attached_assets/ChatGPT Image 19 giu 2025, 14_13_21_1750335379108.png";
+
 
 const Offerta197 = () => {
   const [paymentModal, setPaymentModal] = useState<{ isOpen: boolean; type: 'stripe' | 'paypal' }>({
@@ -84,7 +83,7 @@ const Offerta197 = () => {
             {/* Hero Image */}
             <div className="mb-8 flex justify-center">
               <img 
-                src={heroImagePath} 
+                src="/attached_assets/ChatGPT%20Image%2019%20giu%202025,%2014_13_21_1750335379108.png"
                 alt="Sito Web Professionale a 197€ - Dominio + Hosting + Design incluso" 
                 className="max-w-full h-auto rounded-lg shadow-2xl"
                 style={{ maxHeight: '400px' }}
