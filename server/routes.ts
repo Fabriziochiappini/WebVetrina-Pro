@@ -80,6 +80,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Servi i file statici dalla directory uploads
   app.use("/uploads", express.static(uploadDir));
+  
+  // Servi i file statici dalla directory attached_assets
+  const attachedAssetsDir = path.join(process.cwd(), 'attached_assets');
+  app.use("/attached_assets", express.static(attachedAssetsDir));
 
   // Route per servire direttamente il sito HTML statico
   app.get("/static", (req, res) => {
