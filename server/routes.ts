@@ -9,7 +9,6 @@ import path from "path";
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
 import Stripe from "stripe";
-import { Client, Environment, OrdersController } from "@paypal/paypal-server-sdk";
 
 // Enhanced file upload configuration with monitoring
 const uploadsPath = new URL('../uploads', import.meta.url).pathname;
@@ -63,17 +62,6 @@ const upload = multer({
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-10-16",
 });
-
-// Initialize PayPal
-const paypalClient = new Client({
-  clientCredentialsAuthCredentials: {
-    oAuthClientId: process.env.PAYPAL_CLIENT_ID!,
-    oAuthClientSecret: process.env.PAYPAL_CLIENT_SECRET!,
-  },
-  environment: process.env.NODE_ENV === "production" ? Environment.Production : Environment.Sandbox,
-});
-
-const paypalOrdersController = new OrdersController(paypalClient);
 
 // Funzione per verificare l'autenticazione dell'utente
 const checkAuth = (req: Request, res: Response, next: Function) => {
@@ -1003,7 +991,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Create PayPal Order for €17 slot booking
+  // PayPal redirect for €17 slot booking (simplified)
   app.post("/api/payments/paypal/create-order", async (req, res) => {
     try {
       const { email, name } = req.body;
@@ -1012,61 +1000,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Email e nome sono richiesti" });
       }
 
-      const orderRequest = {
-        intent: "CAPTURE",
-        purchase_units: [{
-          amount: {
-            currency_code: "EUR",
-            value: "17.00"
-          },
-          description: "Prenotazione slot sito web - WebPro Italia",
-          custom_id: `slot_booking_${Date.now()}`,
-          soft_descriptor: "WebPro Italia"
-        }],
-        application_context: {
-          brand_name: "WebPro Italia",
-          landing_page: "BILLING",
-          user_action: "PAY_NOW",
-          return_url: `${req.protocol}://${req.get('host')}/offerta-197?payment=success`,
-          cancel_url: `${req.protocol}://${req.get('host')}/offerta-197?payment=cancelled`
-        }
-      };
-
-      const { body, statusCode } = await paypalOrdersController.createOrder({
-        body: orderRequest,
-        prefer: "return=representation"
-      });
-
-      if (statusCode === 201) {
-        res.json({ orderId: JSON.parse(body as string).id });
-      } else {
-        res.status(statusCode).json({ error: "Errore nella creazione dell'ordine PayPal" });
-      }
+      // For now, redirect to WhatsApp with PayPal preference
+      const message = `Ciao! Voglio prenotare uno slot per il sito web a 197 euro. Preferisco pagare con PayPal. I miei dati: Nome: ${name}, Email: ${email}`;
+      const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
+      
+      res.json({ redirectUrl: whatsappUrl });
     } catch (error) {
       console.error("PayPal order creation error:", error);
       res.status(500).json({ error: "Errore nella creazione dell'ordine PayPal" });
-    }
-  });
-
-  // Capture PayPal Order
-  app.post("/api/payments/paypal/capture/:orderId", async (req, res) => {
-    try {
-      const { orderId } = req.params;
-
-      const { body, statusCode } = await paypalOrdersController.captureOrder({
-        id: orderId,
-        prefer: "return=representation"
-      });
-
-      if (statusCode === 201) {
-        const orderData = JSON.parse(body as string);
-        res.json(orderData);
-      } else {
-        res.status(statusCode).json({ error: "Errore nella cattura del pagamento PayPal" });
-      }
-    } catch (error) {
-      console.error("PayPal capture error:", error);
-      res.status(500).json({ error: "Errore nella cattura del pagamento PayPal" });
     }
   });
 

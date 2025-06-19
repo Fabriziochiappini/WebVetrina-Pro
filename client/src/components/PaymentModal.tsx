@@ -133,10 +133,11 @@ const PayPalForm = ({ onSuccess, onError }: { onSuccess: () => void; onError: (e
         body: JSON.stringify(formData)
       });
 
-      const { orderId } = await response.json();
+      const { redirectUrl } = await response.json();
       
-      // Redirect to PayPal
-      window.location.href = `https://www.sandbox.paypal.com/checkoutnow?token=${orderId}`;
+      // Redirect to WhatsApp for PayPal payment
+      window.open(redirectUrl, '_blank');
+      onSuccess();
     } catch (error) {
       onError('Errore nella creazione dell\'ordine PayPal');
     } finally {
