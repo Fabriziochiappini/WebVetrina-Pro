@@ -7,6 +7,7 @@ import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
 import PaymentModal from '../components/PaymentModal';
 import WhatsAppFloat from '../components/WhatsAppFloat';
+import heroImage from "@assets/ChatGPT Image 19 giu 2025, 14_13_21_1750335379108.png";
 
 const Offerta197 = () => {
   const [paymentModal, setPaymentModal] = useState<{ isOpen: boolean; type: 'stripe' | 'paypal' }>({
@@ -78,6 +79,16 @@ const Offerta197 = () => {
               Un'opportunità unica per avere un sito web aziendale di <strong>alta qualità</strong><br />
               al prezzo più conveniente d'Italia.
             </p>
+
+            {/* Hero Image */}
+            <div className="mb-8 flex justify-center">
+              <img 
+                src={heroImage} 
+                alt="Sito Web Professionale a 197€ - Dominio + Hosting + Design incluso" 
+                className="max-w-full h-auto rounded-lg shadow-2xl"
+                style={{ maxHeight: '400px' }}
+              />
+            </div>
 
             <div className="flex items-center justify-center gap-4 text-xl md:text-2xl font-medium opacity-95 mb-8">
               <span className="line-through text-gray-300">€1200</span>
