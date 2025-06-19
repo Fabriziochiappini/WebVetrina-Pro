@@ -4,7 +4,7 @@ import { trackEvent } from '../lib/analytics';
 const WhatsAppFloat = () => {
   const handleWhatsAppClick = () => {
     trackEvent('whatsapp_click', 'engagement', 'floating_button');
-    const message = "Ciao! Vorrei informazioni sui vostri servizi per siti web.";
+    const message = "Ciao, siamo qui per aiutarvi";
     const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -13,7 +13,7 @@ const WhatsAppFloat = () => {
     <div className="fixed bottom-6 right-6 z-50">
       <button
         onClick={handleWhatsAppClick}
-        className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 animate-pulse"
+        className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
         aria-label="Contattaci su WhatsApp"
       >
         <MessageCircle className="w-6 h-6" />
