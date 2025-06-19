@@ -868,6 +868,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (req.file) {
         imageUrl = `/uploads/${req.file.filename}`;
         console.log(`File caricato: ${req.file.filename} per immagine: ${title}`);
+        
+        // Crea backup del file immediatamente
+        const { backupImage } = require('./imageBackup');
+        const originalPath = path.join(uploadsPath, req.file.filename);
+        backupImage(originalPath, req.file.filename);
       }
 
       const imageData = insertLandingGalleryImageSchema.parse({
