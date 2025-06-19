@@ -750,6 +750,17 @@ const Offerta197 = () => {
                   Normalmente un sito così costa €1200+. Approfittane finché ci sono slot disponibili!
                 </p>
               </div>
+
+              {/* FAQ Item 9 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  9. Perché questo anticipo di €17?
+                </h3>
+                <p className="text-gray-700">
+                  Per selezionare clienti realmente interessati a realizzare un sito web professionale 
+                  per la loro azienda/attività.
+                </p>
+              </div>
             </div>
 
             {/* CTA after FAQ */}
