@@ -989,7 +989,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // PayPal redirect for €17 slot booking (simplified)
+  // PayPal redirect for €17 slot booking (using custom URL)
   app.post("/api/payments/paypal/create-order", async (req, res) => {
     try {
       const { email, name } = req.body;
@@ -998,11 +998,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Email e nome sono richiesti" });
       }
 
-      // For now, redirect to WhatsApp with PayPal preference
-      const message = `Ciao! Voglio prenotare uno slot per il sito web a 197 euro. Preferisco pagare con PayPal. I miei dati: Nome: ${name}, Email: ${email}`;
-      const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
+      // Get PayPal URL from site settings
+      const settings = await storage.getSiteSettings();
+      const paypalUrl = settings?.paypalPaymentUrl;
       
-      res.json({ redirectUrl: whatsappUrl });
+      if (!paypalUrl) {
+        // Fallback to WhatsApp if no PayPal URL is set
+        const message = `Ciao! Voglio prenotare uno slot per il sito web a 197 euro. Preferisco pagare con PayPal. I miei dati: Nome: ${name}, Email: ${email}`;
+        const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
+        return res.json({ redirectUrl: whatsappUrl });
+      }
+      
+      // Use custom PayPal URL
+      res.json({ redirectUrl: paypalUrl });
     } catch (error) {
       console.error("PayPal order creation error:", error);
       res.status(500).json({ error: "Errore nella creazione dell'ordine PayPal" });

@@ -76,6 +76,7 @@ const Admin = () => {
   // Stato per i pixel
   const [metaPixelId, setMetaPixelId] = useState('');
   const [otherTracking, setOtherTracking] = useState('');
+  const [paypalPaymentUrl, setPaypalPaymentUrl] = useState('');
   
   // Stati per il form di caricamento loghi
   const [logoName, setLogoName] = useState('');
@@ -600,7 +601,7 @@ const Admin = () => {
               <CardHeader>
                 <CardTitle>Impostazioni del Sito</CardTitle>
                 <CardDescription>
-                  Configura i codici di tracciamento e analytics
+                  Configura i codici di tracciamento, analytics e pagamenti
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -623,6 +624,19 @@ const Admin = () => {
                       placeholder="Inserisci qui altri codici di tracciamento (Google Analytics, etc.)"
                       rows={5}
                     />
+                  </div>
+                  <div>
+                    <Label htmlFor="paypalPaymentUrl">Link Pagamento PayPal</Label>
+                    <Input
+                      id="paypalPaymentUrl"
+                      type="url"
+                      value={paypalPaymentUrl}
+                      onChange={(e) => setPaypalPaymentUrl(e.target.value)}
+                      placeholder="https://paypal.me/tuoaccount o link personalizzato PayPal"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Inserisci il tuo link PayPal personalizzato per i pagamenti di €17. Se vuoto, verrà usato WhatsApp.
+                    </p>
                   </div>
                 </div>
               </CardContent>
