@@ -222,6 +222,9 @@ const Offerta197 = () => {
               <p className="text-lg font-semibold text-gray-800">
                 ⚡ Solo <span className="text-red-500 font-bold">3 posti rimasti</span> questo mese
               </p>
+              <p className="text-xl font-bold text-secondary mt-4">
+                Prenota oggi con soli 17€
+              </p>
             </div>
           </div>
         </div>
