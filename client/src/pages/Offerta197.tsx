@@ -573,6 +573,13 @@ const Offerta197 = () => {
                       <p className="text-xs text-blue-700">Transazione sicura e garantita</p>
                     </div>
                   </div>
+                  <div className="mt-3 flex justify-center">
+                    <img 
+                      src="/attached_assets/badge paypal_1750321528802.png" 
+                      alt="PayPal, Visa, MasterCard, Maestro, American Express"
+                      className="h-10 object-contain"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -655,10 +662,17 @@ const Offerta197 = () => {
               
               {/* PayPal Security Badge - Final CTA */}
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20 inline-block">
-                <div className="flex items-center gap-2 text-white text-sm">
+                <div className="flex items-center gap-2 text-white text-sm mb-2">
                   <Shield className="h-4 w-4 text-blue-300" />
                   <span className="font-medium">Pagamento sicuro tramite Paypal e carta Visa, Mastercard</span>
                   <span className="opacity-75">• Transazione sicura e garantita</span>
+                </div>
+                <div className="flex justify-center">
+                  <img 
+                    src="/attached_assets/badge paypal_1750321528802.png" 
+                    alt="PayPal, Visa, MasterCard, Maestro, American Express"
+                    className="h-8 object-contain opacity-90"
+                  />
                 </div>
               </div>
             </div>
