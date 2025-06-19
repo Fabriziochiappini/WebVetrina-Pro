@@ -500,7 +500,7 @@ const Offerta197 = () => {
                 </h3>
                 <div className="max-w-2xl mx-auto text-gray-700 space-y-4">
                   <p className="text-lg">
-                    <strong>Prenoti con soli €17</strong> per riservare il nostro tempo dedicato al tuo progetto.
+                    <strong>Prenoti con soli €17</strong> per riservare uno slot dedicato al tuo progetto.
                   </p>
                   <p>
                     Questo piccolo anticipo ci permette di bloccare uno slot nel nostro calendario 
@@ -509,6 +509,9 @@ const Offerta197 = () => {
                   <p>
                     <strong>Il saldo di €180</strong> verrà versato solo alla consegna del sito completato, 
                     quando sarai completamente soddisfatto del risultato.
+                  </p>
+                  <p>
+                    <strong>Verrete ricontattati</strong> non appena versato l'anticipo di €17.
                   </p>
                 </div>
               </div>
