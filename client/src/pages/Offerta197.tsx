@@ -858,11 +858,10 @@ const Offerta197 = () => {
               {/* FAQ Item 9 */}
               <div className="bg-white rounded-xl shadow-lg p-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  9. Perché questo anticipo di €17?
+                  9. Perché devo versare un anticipo di €17?
                 </h3>
                 <p className="text-gray-700">
-                  Per selezionare clienti realmente interessati a realizzare un sito web professionale 
-                  per la loro azienda/attività.
+                  Per permetterci di riservarti il tempo necessario a lavorare sul tuo progetto senza prendere altri impegni.
                 </p>
               </div>
             </div>
