@@ -952,6 +952,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Reservation endpoint for landing page
+  app.post("/api/reservations", async (req, res) => {
+    try {
+      const { firstName, lastName, email, phone, company, websiteType, notes, offer, reservationFee } = req.body;
+      
+      if (!firstName || !lastName || !email || !phone) {
+        return res.status(400).json({ 
+          message: "Nome, cognome, email e telefono sono obbligatori" 
+        });
+      }
+
+      // Store reservation in contacts table with special flag
+      const reservationData = {
+        firstName,
+        lastName,
+        email,
+        phone,
+        company: company || '',
+        businessType: `PRENOTAZIONE: ${offer || 'offerta-197'}`,
+        message: `PRENOTAZIONE SLOT - Tipo sito: ${websiteType || 'Non specificato'}\nNote: ${notes || 'Nessuna nota'}\nImporto prenotazione: €${reservationFee || 17}`,
+        privacy: true
+      };
+
+      const reservation = await storage.createContact(reservationData);
+      
+      // Here you could integrate with payment processor for the €17 reservation fee
+      // For now, we'll just save the data
+      
+      return res.status(201).json({ 
+        message: "Prenotazione ricevuta con successo",
+        reservationId: reservation.id
+      });
+    } catch (error) {
+      console.error("Error creating reservation:", error);
+      return res.status(500).json({ 
+        message: "Si è verificato un errore durante la prenotazione." 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

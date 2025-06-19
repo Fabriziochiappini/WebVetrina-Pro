@@ -126,6 +126,7 @@ Preferred communication style: Simple, everyday language.
 
 ## Changelog
 
+- June 19, 2025. Implemented dynamic slot reservation system for €197 landing page with real-time availability tracking, €17 booking fee, progress bars, and modal reservation form. Added complete hosting/domain/SSL inclusion messaging exclusively for this offer.
 - June 18, 2025. Completed landing gallery management system with full CRUD operations, image upload, and admin panel integration. Fixed all TypeScript errors and validated API endpoints functionality.
 - June 18, 2025. Fixed routing issues and component import errors. All pages now load correctly including admin dashboard with galleria landing tab.
 - June 15, 2025. Created high-conversion landing page for €197 offer with problem/solution psychology, urgency elements, and strategic menu placement for advertising campaigns

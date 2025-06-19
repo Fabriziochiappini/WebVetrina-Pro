@@ -1,22 +1,101 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../components/ui/button';
-import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart } from 'lucide-react';
+import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart, Calendar, Users, Timer } from 'lucide-react';
 import { trackBusinessEvent } from '../lib/analytics';
 import SalesPopup from '../components/SalesPopup';
 import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Textarea } from '../components/ui/textarea';
+import { useToast } from '../hooks/use-toast';
 
 const Offerta197 = () => {
+  const { toast } = useToast();
+  const [slotsRemaining, setSlotsRemaining] = useState(3);
+  const [showReservationForm, setShowReservationForm] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    company: '',
+    websiteType: '',
+    notes: ''
+  });
+
   useEffect(() => {
     // Scroll to top on mount
     window.scrollTo(0, 0);
-  }, []);
+    
+    // Simula variazione dinamica degli slot (opzionale)
+    const interval = setInterval(() => {
+      const shouldDecrease = Math.random() > 0.95; // 5% di possibilità ogni 30 secondi
+      if (shouldDecrease && slotsRemaining > 1) {
+        setSlotsRemaining(prev => prev - 1);
+      }
+    }, 30000);
+    
+    return () => clearInterval(interval);
+  }, [slotsRemaining]);
 
   const scrollToContact = () => {
     trackBusinessEvent.ctaClick('landing_197', 'contact');
     const element = document.getElementById('contatto-landing');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleReservation = () => {
+    trackBusinessEvent.ctaClick('reservation_button', 'landing_197');
+    setShowReservationForm(true);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('/api/reservations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          offer: 'sito-197-euro',
+          reservationFee: 17
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Prenotazione Confermata!",
+          description: "Hai riservato il tuo slot. Ti contatteremo entro 2 ore per i dettagli.",
+        });
+        
+        setSlotsRemaining(prev => Math.max(0, prev - 1));
+        setShowReservationForm(false);
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          company: '',
+          websiteType: '',
+          notes: ''
+        });
+        
+        trackBusinessEvent.ctaClick('reservation_completed', 'landing_197');
+      } else {
+        throw new Error('Errore nella prenotazione');
+      }
+    } catch (error) {
+      toast({
+        title: "Errore",
+        description: "Si è verificato un errore. Riprova o contattaci direttamente.",
+        variant: "destructive",
+      });
     }
   };
 
