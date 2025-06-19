@@ -575,7 +575,7 @@ const Offerta197 = () => {
                   </div>
                   <div className="mt-3 flex justify-center">
                     <img 
-                      src="/attached_assets/badge paypal_1750321528802.png" 
+                      src="/paypal-badge.png" 
                       alt="PayPal, Visa, MasterCard, Maestro, American Express"
                       className="h-10 object-contain"
                     />
@@ -669,7 +669,7 @@ const Offerta197 = () => {
                 </div>
                 <div className="flex justify-center">
                   <img 
-                    src="/attached_assets/badge paypal_1750321528802.png" 
+                    src="/paypal-badge.png" 
                     alt="PayPal, Visa, MasterCard, Maestro, American Express"
                     className="h-8 object-contain opacity-90"
                   />
