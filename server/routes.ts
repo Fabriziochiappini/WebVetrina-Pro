@@ -867,6 +867,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let imageUrl = req.body.imageUrl || '';
       if (req.file) {
         imageUrl = `/uploads/${req.file.filename}`;
+        console.log(`File caricato: ${req.file.filename} per immagine: ${title}`);
       }
 
       const imageData = insertLandingGalleryImageSchema.parse({
