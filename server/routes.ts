@@ -59,6 +59,22 @@ const upload = multer({
   }
 });
 
+// Initialize Stripe
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2023-10-16",
+});
+
+// Initialize PayPal
+const paypalClient = new Client({
+  clientCredentialsAuthCredentials: {
+    oAuthClientId: process.env.PAYPAL_CLIENT_ID!,
+    oAuthClientSecret: process.env.PAYPAL_CLIENT_SECRET!,
+  },
+  environment: process.env.NODE_ENV === "production" ? Environment.Production : Environment.Sandbox,
+});
+
+const paypalOrdersController = new OrdersController(paypalClient);
+
 // Funzione per verificare l'autenticazione dell'utente
 const checkAuth = (req: Request, res: Response, next: Function) => {
   // Per semplicità, accetta una password fissa nell'header Authorization
