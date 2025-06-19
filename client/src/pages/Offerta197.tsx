@@ -565,12 +565,12 @@ const Offerta197 = () => {
                 </p>
                 
                 {/* PayPal Security Badge - Bottom */}
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-sm">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md">
                   <div className="flex items-center gap-3 text-blue-900">
                     <Shield className="h-5 w-5 text-blue-600" />
                     <div className="text-sm">
-                      <p className="font-medium">Pagamenti Sicuri PayPal</p>
-                      <p className="text-xs text-blue-700">Rimborso garantito in qualsiasi momento</p>
+                      <p className="font-medium">Pagamento sicuro tramite Paypal e carta Visa, Mastercard</p>
+                      <p className="text-xs text-blue-700">Transazione sicura e garantita</p>
                     </div>
                   </div>
                 </div>
@@ -657,8 +657,8 @@ const Offerta197 = () => {
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20 inline-block">
                 <div className="flex items-center gap-2 text-white text-sm">
                   <Shield className="h-4 w-4 text-blue-300" />
-                  <span className="font-medium">Pagamenti Sicuri PayPal</span>
-                  <span className="opacity-75">• Rimborso Garantito</span>
+                  <span className="font-medium">Pagamento sicuro tramite Paypal e carta Visa, Mastercard</span>
+                  <span className="opacity-75">• Transazione sicura e garantita</span>
                 </div>
               </div>
             </div>
