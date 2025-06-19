@@ -292,6 +292,99 @@ const Offerta197 = () => {
         </div>
       </section>
 
+      {/* Why Website is Important Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-12 text-primary">
+              Perché è importante e necessario avere un sito web oggi:
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">🔎</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Visibilità online 24/7</h3>
+                  <p className="text-gray-600">Il tuo business sempre accessibile</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">🌐</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Credibilità e fiducia</h3>
+                  <p className="text-gray-600">Professionalità che convince</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">💼</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Controllo totale sull'immagine del brand</h3>
+                  <p className="text-gray-600">La tua identità come la vuoi tu</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">📱</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Accessibile da ovunque</h3>
+                  <p className="text-gray-600">Mobile, tablet, desktop</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">🧠</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Punto di riferimento informativo</h3>
+                  <p className="text-gray-600">Tutte le info sui tuoi servizi</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">💸</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Più facile vendere (anche in automatico)</h3>
+                  <p className="text-gray-600">Conversioni mentre dormi</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">📊</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Analisi e dati utili</h3>
+                  <p className="text-gray-600">Comprendi i tuoi clienti</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">🏆</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Vantaggio competitivo</h3>
+                  <p className="text-gray-600">Supera la concorrenza</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">📣</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Base per campagne pubblicitarie</h3>
+                  <p className="text-gray-600">Facebook Ads, Google Ads efficaci</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
+                <span className="text-2xl">🤝</span>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Facilita il contatto e la conversione</h3>
+                  <p className="text-gray-600">Da visitatore a cliente</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Social Proof */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
