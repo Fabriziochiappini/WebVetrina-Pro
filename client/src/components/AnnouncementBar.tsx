@@ -33,7 +33,7 @@ const AnnouncementBar = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 relative">
+    <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 relative sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto flex items-center justify-center text-center">
         <div className="flex items-center space-x-3">
           <Clock className="w-5 h-5 animate-bounce" />
