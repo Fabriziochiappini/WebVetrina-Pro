@@ -225,6 +225,9 @@ const Offerta197 = () => {
               <p className="text-xl font-bold text-secondary mt-4">
                 Prenota oggi con soli 17€
               </p>
+              <p className="text-sm text-gray-600 mt-2">
+                Il resto alla consegna del progetto dopo averlo approvato
+              </p>
             </div>
           </div>
         </div>
