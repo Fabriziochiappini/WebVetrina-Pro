@@ -568,9 +568,31 @@ const Offerta197 = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                 <Button 
-                  onClick={() => {
+                  onClick={async () => {
                     trackEvent('cta_click', 'paypal_booking', 'reservation');
-                    setPaymentModal({ isOpen: true, type: 'paypal' });
+                    
+                    // Ottieni il link PayPal dal backend
+                    try {
+                      const response = await fetch('/api/site-settings');
+                      const settings = await response.json();
+                      const paypalUrl = settings.paypalPaymentUrl;
+                      
+                      if (paypalUrl) {
+                        // Apri direttamente il link PayPal
+                        window.open(paypalUrl, '_blank');
+                      } else {
+                        // Fallback a WhatsApp se non configurato
+                        const message = `Ciao! Voglio prenotare uno slot per il sito web a 197 euro. Preferisco pagare con PayPal.`;
+                        const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
+                        window.open(whatsappUrl, '_blank');
+                      }
+                    } catch (error) {
+                      console.error('Errore nel recupero impostazioni PayPal:', error);
+                      // Fallback a WhatsApp in caso di errore
+                      const message = `Ciao! Voglio prenotare uno slot per il sito web a 197 euro. Preferisco pagare con PayPal.`;
+                      const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappUrl, '_blank');
+                    }
                   }}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all hover:scale-105 shadow-lg flex items-center gap-3"
                 >
