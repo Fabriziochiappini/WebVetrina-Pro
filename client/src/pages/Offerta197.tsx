@@ -6,6 +6,7 @@ import SalesPopup from '../components/SalesPopup';
 import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
 import PaymentModal from '../components/PaymentModal';
+import WhatsAppFloat from '../components/WhatsAppFloat';
 
 const Offerta197 = () => {
   const [paymentModal, setPaymentModal] = useState<{ isOpen: boolean; type: 'stripe' | 'paypal' }>({
