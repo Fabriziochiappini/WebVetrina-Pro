@@ -133,11 +133,15 @@ const PayPalForm = ({ onSuccess, onError }: { onSuccess: () => void; onError: (e
         body: JSON.stringify(formData)
       });
 
-      const { redirectUrl } = await response.json();
+      const data = await response.json();
       
-      // Redirect to WhatsApp for PayPal payment
-      window.open(redirectUrl, '_blank');
-      onSuccess();
+      if (data.redirectUrl) {
+        // Apri il link PayPal personalizzato o WhatsApp come fallback
+        window.open(data.redirectUrl, '_blank');
+        onSuccess();
+      } else {
+        onError('Errore nella configurazione del pagamento PayPal');
+      }
     } catch (error) {
       onError('Errore nella creazione dell\'ordine PayPal');
     } finally {
