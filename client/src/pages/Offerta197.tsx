@@ -785,6 +785,9 @@ const Offerta197 = () => {
 
       {/* Sales Popup */}
       <SalesPopup />
+
+      {/* WhatsApp Floating Button */}
+      <WhatsAppFloat />
     </div>
   );
 };
