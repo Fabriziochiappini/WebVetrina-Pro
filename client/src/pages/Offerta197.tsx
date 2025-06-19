@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '../components/ui/button';
 import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart } from 'lucide-react';
-import { trackBusinessEvent } from '../lib/analytics';
+import { trackEvent } from '../lib/analytics';
 import SalesPopup from '../components/SalesPopup';
 import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
@@ -19,7 +19,7 @@ const Offerta197 = () => {
   }, []);
 
   const scrollToContact = () => {
-    trackBusinessEvent.ctaClick('landing_197', 'contact');
+    trackEvent('cta_click', 'landing_197', 'contact');
     const element = document.getElementById('slot-booking');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -569,7 +569,7 @@ const Offerta197 = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
                 <Button 
                   onClick={() => {
-                    trackBusinessEvent.ctaClick('paypal_booking', 'reservation');
+                    trackEvent('cta_click', 'paypal_booking', 'reservation');
                     setPaymentModal({ isOpen: true, type: 'paypal' });
                   }}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all hover:scale-105 shadow-lg flex items-center gap-3"
@@ -582,7 +582,7 @@ const Offerta197 = () => {
                 
                 <Button 
                   onClick={() => {
-                    trackBusinessEvent.ctaClick('card_booking', 'reservation');
+                    trackEvent('cta_click', 'card_booking', 'reservation');
                     setPaymentModal({ isOpen: true, type: 'stripe' });
                   }}
                   className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all hover:scale-105 shadow-lg flex items-center gap-3"
@@ -737,7 +737,7 @@ const Offerta197 = () => {
                 </p>
                 <Button 
                   onClick={() => {
-                    trackBusinessEvent.ctaClick('faq_cta', 'contact');
+                    trackEvent('cta_click', 'faq_cta', 'contact');
                     const element = document.getElementById('slot-booking');
                     if (element) {
                       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
