@@ -43,6 +43,7 @@ export const siteSettings = pgTable("site_settings", {
   id: serial("id").primaryKey(),
   metaPixelId: text("meta_pixel_id"),
   otherTracking: text("other_tracking"),
+  paypalPaymentUrl: text("paypal_payment_url"),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 

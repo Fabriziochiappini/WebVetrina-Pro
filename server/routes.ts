@@ -939,11 +939,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/site-settings", async (req, res) => {
     try {
-      const { metaPixelId, otherTracking } = req.body;
+      const { metaPixelId, otherTracking, paypalPaymentUrl } = req.body;
       
       const updateData = {
         metaPixelId: metaPixelId?.trim() || null,
-        otherTracking: otherTracking?.trim() || null
+        otherTracking: otherTracking?.trim() || null,
+        paypalPaymentUrl: paypalPaymentUrl?.trim() || null
       };
 
       const settings = await storage.updateSiteSettings(updateData);

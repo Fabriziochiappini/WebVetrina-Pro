@@ -121,6 +121,7 @@ const Admin = () => {
     if (siteSettings) {
       setMetaPixelId(siteSettings.metaPixelId || '');
       setOtherTracking(siteSettings.otherTracking || '');
+      setPaypalPaymentUrl(siteSettings.paypalPaymentUrl || '');
     }
   }, [siteSettings]);
 
@@ -154,9 +155,7 @@ const Admin = () => {
   // Mutation per l'eliminazione degli elementi del portfolio
   const deletePortfolioItem = useMutation({
     mutationFn: async (id: number) => {
-      return apiRequest(`/api/portfolio/${id}`, {
-        method: 'DELETE'
-      });
+      return apiRequest('DELETE', `/api/portfolio/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/portfolio'] });
@@ -176,7 +175,7 @@ const Admin = () => {
   
   // Mutation per il salvataggio delle impostazioni del sito
   const saveSettings = useMutation({
-    mutationFn: async (data: { metaPixelId?: string, otherTracking?: string }) => {
+    mutationFn: async (data: { metaPixelId?: string, otherTracking?: string, paypalPaymentUrl?: string }) => {
       const response = await fetch('/api/site-settings', {
         method: 'POST',
         headers: {
@@ -290,7 +289,8 @@ const Admin = () => {
     
     saveSettings.mutate({
       metaPixelId: metaPixelId.trim(),
-      otherTracking: otherTracking.trim()
+      otherTracking: otherTracking.trim(),
+      paypalPaymentUrl: paypalPaymentUrl.trim()
     });
   };
 
