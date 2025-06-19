@@ -556,16 +556,40 @@ const Offerta197 = () => {
 
             {/* Booking CTA */}
             <div className="text-center mt-8">
-              <Button 
-                onClick={() => {
-                  trackBusinessEvent.ctaClick('slot_booking', 'reservation');
-                  window.open('https://wa.me/393479942321?text=Voglio%20prenotare%20uno%20slot%20per%20il%20sito%20web%20a%20197%20euro', '_blank');
-                }}
-                className="bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-full text-xl transition-all hover:scale-105 shadow-lg"
-              >
-                🚀 PRENOTA IL TUO SLOT CON €17
-              </Button>
-              <div className="mt-6 flex flex-col items-center">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                Prenota Subito il Tuo Slot
+              </h3>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+                <Button 
+                  onClick={() => {
+                    trackBusinessEvent.ctaClick('paypal_booking', 'reservation');
+                    window.open('https://wa.me/393479942321?text=Voglio%20prenotare%20uno%20slot%20con%20PayPal%20per%20il%20sito%20web%20a%20197%20euro', '_blank');
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all hover:scale-105 shadow-lg flex items-center gap-3"
+                >
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h8.418c2.508 0 4.514.893 5.836 2.478 1.411 1.693 1.625 3.815.574 5.972-.91 1.866-2.573 3.24-4.605 3.786C9.5 1.4 7.076 21.337 7.076 21.337z"/>
+                  </svg>
+                  Prenota con PayPal
+                </Button>
+                
+                <Button 
+                  onClick={() => {
+                    trackBusinessEvent.ctaClick('card_booking', 'reservation');
+                    window.open('https://wa.me/393479942321?text=Voglio%20prenotare%20uno%20slot%20con%20carta%20per%20il%20sito%20web%20a%20197%20euro', '_blank');
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-lg transition-all hover:scale-105 shadow-lg flex items-center gap-3"
+                >
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                  </svg>
+                  Prenota con Carta
+                </Button>
+              </div>
+              
+              <div className="flex flex-col items-center">
                 <p className="text-sm text-gray-600 mb-4">
                   Prenotazione sicura • Saldo alla consegna • Garanzia soddisfatti o rimborsati
                 </p>
@@ -575,7 +599,7 @@ const Offerta197 = () => {
                   <div className="flex items-center gap-3 text-blue-900">
                     <Shield className="h-5 w-5 text-blue-600" />
                     <div className="text-sm">
-                      <p className="font-medium">Pagamento sicuro tramite Paypal e carta Visa, Mastercard</p>
+                      <p className="font-medium">Pagamento sicuro tramite PayPal e carte Visa, MasterCard</p>
                       <p className="text-xs text-blue-700">Transazione sicura e garantita</p>
                     </div>
                   </div>
@@ -593,93 +617,106 @@ const Offerta197 = () => {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section id="contatto-landing" className="py-20 bg-gradient-to-br from-primary to-primary/80 text-white">
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Non Perdere Questa Opportunità Unica!
-            </h2>
-            <p className="text-xl mb-8">
-              Trasforma la tua attività con un sito web professionale che attira nuovi clienti ogni giorno.
-            </p>
-            
-            <div className="bg-white/10 p-8 rounded-2xl mb-10">
-              <div className="text-6xl font-bold text-secondary mb-4">€197</div>
-              <p className="text-xl mb-6">Prezzo tutto incluso • Nessun costo aggiuntivo</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
-                <div className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-green-400" />
-                  <span>Consegna in 5 giorni</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-green-400" />
-                  <span>Design personalizzato</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-green-400" />
-                  <span>Mobile responsive</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-green-400" />
-                  <span>Supporto incluso</span>
-                </div>
-              </div>
-            </div>
-
-            <Button 
-              onClick={() => {
-                trackBusinessEvent.ctaClick('final_cta_197', 'contact');
-                window.location.href = 'tel:+393479942321';
-              }}
-              className="bg-secondary hover:bg-secondary/90 text-white font-bold py-6 px-12 rounded-full text-2xl transition-all duration-300 hover:scale-105 shadow-2xl mb-6"
-            >
-              CHIAMA SUBITO: +39 347 9942321
-            </Button>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                onClick={() => {
-                  trackBusinessEvent.whatsappClick();
-                  window.open('https://wa.me/393479942321?text=Salve,%20voglio%20il%20sito%20web%20a%20197%20euro', '_blank');
-                }}
-                className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-full text-lg transition-all"
-              >
-                <i className="fab fa-whatsapp mr-2"></i>
-                Scrivici su WhatsApp
-              </Button>
-              <Button 
-                onClick={() => {
-                  trackBusinessEvent.ctaClick('email_cta_197', 'contact');
-                  window.location.href = 'mailto:info.webproitalia@gmail.com?subject=Voglio il sito web a 197 euro';
-                }}
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-primary font-bold py-4 px-8 rounded-full text-lg transition-all"
-              >
-                <i className="fas fa-envelope mr-2"></i>
-                Invia Email
-              </Button>
-            </div>
-
-            <div className="mt-6 space-y-4">
-              <p className="text-sm opacity-90">
-                ⚡ Risposta garantita entro 2 ore • Preventivo gratuito
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Domande Frequenti
+              </h2>
+              <p className="text-xl text-gray-600">
+                Risolviamo tutti i tuoi dubbi sulla nostra offerta
               </p>
-              
-              {/* PayPal Security Badge - Final CTA */}
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 border border-white/20 inline-block">
-                <div className="flex items-center gap-2 text-white text-sm mb-2">
-                  <Shield className="h-4 w-4 text-blue-300" />
-                  <span className="font-medium">Pagamento sicuro tramite Paypal e carta Visa, Mastercard</span>
-                  <span className="opacity-75">• Transazione sicura e garantita</span>
-                </div>
-                <div className="flex justify-center">
-                  <img 
-                    src="/paypal-badge.png" 
-                    alt="PayPal, Visa, MasterCard, Maestro, American Express"
-                    className="h-8 object-contain opacity-90"
-                  />
-                </div>
+            </div>
+
+            <div className="space-y-6">
+              {/* FAQ Item 1 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  1. Come funziona il pagamento di €17 di anticipo?
+                </h3>
+                <p className="text-gray-700">
+                  Versi solo €17 per bloccare il tuo slot nel nostro calendario. Il resto (€180) lo paghi solo 
+                  alla consegna del sito completato e dopo la tua approvazione. Nessun rischio per te!
+                </p>
+              </div>
+
+              {/* FAQ Item 2 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  2. Cosa succede se non sono soddisfatto del risultato?
+                </h3>
+                <p className="text-gray-700">
+                  Offriamo garanzia "soddisfatti o rimborsati". Se il sito non rispetta le specifiche concordate, 
+                  puoi richiedere modifiche gratuite o il rimborso completo dell'anticipo.
+                </p>
+              </div>
+
+              {/* FAQ Item 3 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  3. I 5 giorni di consegna sono davvero garantiti?
+                </h3>
+                <p className="text-gray-700">
+                  Sì, garantiamo la consegna in 5 giorni lavorativi dalla conferma del progetto. 
+                  In caso contrario, ricevi un rimborso del 50% come penale per il ritardo.
+                </p>
+              </div>
+
+              {/* FAQ Item 4 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  4. Il prezzo di €197 include davvero tutto?
+                </h3>
+                <p className="text-gray-700">
+                  Assolutamente sì! Include design, sviluppo, hosting per 1 anno, dominio, certificato SSL, 
+                  ottimizzazione SEO base e supporto. Nessun costo nascosto o aggiuntivo.
+                </p>
+              </div>
+
+              {/* FAQ Item 5 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  5. Posso vedere esempi di siti realizzati da voi?
+                </h3>
+                <p className="text-gray-700">
+                  Certamente! Scorri in alto per vedere la nostra galleria con oltre 150 progetti completati. 
+                  Ogni sito è unico e personalizzato per il settore specifico del cliente.
+                </p>
+              </div>
+
+              {/* FAQ Item 6 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  6. Dopo la consegna, avrò supporto tecnico?
+                </h3>
+                <p className="text-gray-700">
+                  Sì, includiamo 30 giorni di supporto gratuito post-consegna per piccole modifiche e assistenza. 
+                  Dopo questo periodo, offriamo piani di manutenzione convenienti.
+                </p>
+              </div>
+
+              {/* FAQ Item 7 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  7. Il sito sarà ottimizzato per mobile?
+                </h3>
+                <p className="text-gray-700">
+                  Tutti i nostri siti sono completamente responsive e ottimizzati per mobile, tablet e desktop. 
+                  Oltre il 60% del traffico web oggi arriva da mobile, quindi è fondamentale!
+                </p>
+              </div>
+
+              {/* FAQ Item 8 */}
+              <div className="bg-white rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  8. Perché questa offerta costa così poco rispetto al mercato?
+                </h3>
+                <p className="text-gray-700">
+                  È un'offerta promozionale limitata per acquisire nuovi clienti e mostrare la qualità del nostro lavoro. 
+                  Normalmente un sito così costa €1200+. Approfittane finché ci sono slot disponibili!
+                </p>
               </div>
             </div>
           </div>
