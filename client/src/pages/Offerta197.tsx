@@ -14,7 +14,7 @@ const Offerta197 = () => {
 
   const scrollToContact = () => {
     trackBusinessEvent.ctaClick('landing_197', 'contact');
-    const element = document.getElementById('contatto-landing');
+    const element = document.getElementById('slot-booking');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -423,7 +423,7 @@ const Offerta197 = () => {
               </p>
               <button 
                 onClick={() => {
-                  const element = document.getElementById('contatto-landing');
+                  const element = document.getElementById('slot-booking');
                   if (element) {
                     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
@@ -438,7 +438,7 @@ const Offerta197 = () => {
       </section>
 
       {/* Slot Booking System */}
-      <section className="py-16 bg-gray-50">
+      <section id="slot-booking" className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
