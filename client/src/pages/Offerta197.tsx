@@ -660,7 +660,7 @@ const Offerta197 = () => {
                 </h3>
                 <p className="text-gray-700">
                   Sì, garantiamo la consegna in 5 giorni lavorativi dalla conferma del progetto. 
-                  In caso contrario, ricevi un rimborso del 50% come penale per il ritardo.
+                  Rispettiamo sempre i tempi concordati per la massima affidabilità.
                 </p>
               </div>
 
@@ -681,7 +681,7 @@ const Offerta197 = () => {
                   5. Posso vedere esempi di siti realizzati da voi?
                 </h3>
                 <p className="text-gray-700">
-                  Certamente! Scorri in alto per vedere la nostra galleria con oltre 150 progetti completati. 
+                  Certamente! Scorri in alto per vedere la nostra galleria con progetti completati. 
                   Ogni sito è unico e personalizzato per il settore specifico del cliente.
                 </p>
               </div>
@@ -692,7 +692,7 @@ const Offerta197 = () => {
                   6. Dopo la consegna, avrò supporto tecnico?
                 </h3>
                 <p className="text-gray-700">
-                  Sì, includiamo 30 giorni di supporto gratuito post-consegna per piccole modifiche e assistenza. 
+                  Sì, includiamo supporto tecnico per 1 anno post-consegna per piccole modifiche e assistenza. 
                   Dopo questo periodo, offriamo piani di manutenzione convenienti.
                 </p>
               </div>
