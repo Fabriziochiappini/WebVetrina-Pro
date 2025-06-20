@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import PortfolioManagement from "@/components/PortfolioManagement";
 import BlogManagement from "@/components/BlogManagement";
-import LandingGalleryManagement from "@/components/LandingGalleryManagement";
+import LandingGalleryManagementNew from "@/components/LandingGalleryManagementNew";
 
 interface DateFilterProps {
   startDate: string;
