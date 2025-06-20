@@ -7,6 +7,7 @@ import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
 import PaymentModal from '../components/PaymentModal';
 import WhatsAppFloat from '../components/WhatsAppFloat';
+import ContactForm from '../components/ContactForm';
 
 const Offerta197Form = () => {
   const [paymentModal, setPaymentModal] = useState<{ isOpen: boolean; type: 'stripe' | 'paypal' }>({
@@ -618,104 +619,10 @@ const Offerta197Form = () => {
                 </p>
               </div>
 
-              {/* Form di contatto */}
+              {/* Form di contatto - Copia esatta da ContactForm.tsx */}
               <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 mt-6">
                 <h4 className="text-xl font-bold mb-4 text-white">Contattaci per Prenotare</h4>
-                <form className="space-y-4" onSubmit={async (e) => {
-                  e.preventDefault();
-                  const form = e.target as HTMLFormElement;
-                  const formData = new FormData(form);
-                  const data = {
-                    firstName: formData.get('firstName'),
-                    lastName: formData.get('lastName'),
-                    email: formData.get('email'),
-                    phone: formData.get('phone'),
-                    businessType: formData.get('businessType'),
-                    message: formData.get('message')
-                  };
-                  
-                  try {
-                    const response = await fetch('/api/contacts', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify(data)
-                    });
-                    
-                    if (!response.ok) {
-                      throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                      alert('✅ Richiesta inviata con successo! Ti ricontatteremo entro 2 ore.');
-                      form.reset();
-                      trackEvent('form_submit', 'landing', 'offerta-197form');
-                    } else {
-                      alert('❌ Errore nell\'invio. Riprova o chiamaci direttamente.');
-                    }
-                  } catch (error) {
-                    console.error('Errore invio form:', error);
-                    alert('❌ Errore nell\'invio. Riprova o chiamaci al +39 347 994 2321.');
-                  }
-                }}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      name="firstName"
-                      placeholder="Nome"
-                      required
-                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
-                    />
-                    <input
-                      type="text"
-                      name="lastName"
-                      placeholder="Cognome"
-                      required
-                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      required
-                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
-                    />
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="Telefono"
-                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
-                    />
-                  </div>
-                  <select
-                    name="businessType"
-                    required
-                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary"
-                  >
-                    <option value="">Seleziona tipo di attività</option>
-                    <option value="ristorante">Ristorante/Bar</option>
-                    <option value="negozio">Negozio/Retail</option>
-                    <option value="servizi">Servizi professionali</option>
-                    <option value="artigiano">Artigiano</option>
-                    <option value="consulente">Consulente</option>
-                    <option value="altro">Altro</option>
-                  </select>
-                  <textarea
-                    name="message"
-                    rows={3}
-                    placeholder="Raccontaci del tuo progetto..."
-                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
-                  ></textarea>
-                  <button
-                    type="submit"
-                    className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105"
-                  >
-                    INVIA RICHIESTA
-                  </button>
-                </form>
+                <ContactForm />
               </div>
             </div>
 
