@@ -641,17 +641,22 @@ const Offerta197Form = () => {
                       body: JSON.stringify(data)
                     });
                     
+                    if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
                     const result = await response.json();
                     
-                    if (response.ok) {
+                    if (result.success) {
                       alert('✅ Richiesta inviata con successo! Ti ricontatteremo entro 2 ore.');
                       form.reset();
+                      trackEvent('form_submit', 'landing', 'offerta-197form');
                     } else {
                       alert('❌ Errore nell\'invio. Riprova o chiamaci direttamente.');
                     }
                   } catch (error) {
-                    console.error('Errore:', error);
-                    alert('❌ Errore di connessione. Riprova o chiamaci direttamente.');
+                    console.error('Errore invio form:', error);
+                    alert('❌ Errore nell\'invio. Riprova o chiamaci al +39 347 994 2321.');
                   }
                 }}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
