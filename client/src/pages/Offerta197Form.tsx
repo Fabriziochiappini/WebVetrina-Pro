@@ -575,38 +575,6 @@ const Offerta197Form = () => {
                 </p>
               </div>
 
-              {/* FAQ Item 9 */}
-              <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  9. Perché devo versare un anticipo di €17?
-                </h3>
-                <p className="text-gray-700">
-                  Per permetterci di riservarti il tempo necessario a lavorare sul tuo progetto senza prendere altri impegni.
-                </p>
-              </div>
-            </div>
-
-            {/* CTA after FAQ */}
-            <div className="text-center bg-primary text-white p-8 rounded-xl">
-              <h3 className="text-2xl font-bold mb-4">Non Hai Trovato la Risposta?</h3>
-              <p className="text-xl mb-6 opacity-90">
-                Contattaci subito! Siamo qui per aiutarti.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  onClick={scrollToContact}
-                  className="bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 hover:scale-105"
-                >
-                  PRENOTA ADESSO
-                </Button>
-                <a 
-                  href="tel:+393479942321" 
-                  className="bg-white text-primary hover:bg-gray-100 font-bold py-3 px-6 rounded-full transition-all duration-300 hover:scale-105 inline-flex items-center justify-center"
-                >
-                  <Phone className="mr-2 h-5 w-5" />
-                  CHIAMA ORA
-                </a>
-              </div>
             </div>
           </div>
         </div>
