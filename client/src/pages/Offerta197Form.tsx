@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '../components/ui/button';
 import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart, Phone } from 'lucide-react';
 import { trackEvent } from '../lib/analytics';
@@ -14,6 +15,14 @@ const Offerta197Form = () => {
     isOpen: false,
     type: 'stripe'
   });
+
+  // Fetch current spots status
+  const { data: spotsData, refetch: refetchSpots } = useQuery({
+    queryKey: ['/api/landing-spots'],
+    staleTime: 0, // Always fetch fresh data
+  });
+
+  const currentSpots = spotsData || { totalSpots: 10, reservedSpots: 7 };
 
   const [faqOpen, setFaqOpen] = useState<{ [key: number]: boolean }>({});
 
