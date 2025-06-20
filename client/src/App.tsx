@@ -20,6 +20,7 @@ import PortfolioPublic from "./pages/PortfolioPublic";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Admin from "./pages/Admin";
 import Offerta197 from "./pages/Offerta197";
+import Offerta197Form from "./pages/Offerta197Form";
 
 import CookieBanner from "./components/CookieBanner";
 
@@ -49,6 +50,7 @@ function Router() {
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/offerta-197" component={Offerta197} />
+        <Route path="/offerta-197form" component={Offerta197Form} />
         <Route path="/privacy" component={PrivacyPolicy} />
         <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
