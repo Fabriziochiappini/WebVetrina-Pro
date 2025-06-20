@@ -146,7 +146,7 @@ const LandingContactForm = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 font-semibold">Email*</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-black bg-white placeholder-gray-500" />
+                  <Input {...field} type="email" className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-white bg-gray-800 placeholder-gray-300" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,7 +160,7 @@ const LandingContactForm = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 font-semibold">Telefono*</FormLabel>
                 <FormControl>
-                  <Input {...field} type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-black bg-white placeholder-gray-500" />
+                  <Input {...field} type="tel" className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-white bg-gray-800 placeholder-gray-300" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -175,7 +175,7 @@ const LandingContactForm = () => {
             <FormItem>
               <FormLabel className="text-gray-800 font-semibold">Nome Azienda</FormLabel>
               <FormControl>
-                <Input {...field} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-black bg-white placeholder-gray-500" />
+                <Input {...field} className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-white bg-gray-800 placeholder-gray-300" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -192,7 +192,7 @@ const LandingContactForm = () => {
                 <Input 
                   {...field} 
                   placeholder="Es. Ristorante, Negozio, Studio Professionale..." 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-black bg-white placeholder-gray-500" 
+                  className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-white bg-gray-800 placeholder-gray-300" 
                 />
               </FormControl>
               <FormMessage />
@@ -210,7 +210,7 @@ const LandingContactForm = () => {
                 <Textarea 
                   {...field} 
                   rows={3} 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-black bg-white placeholder-gray-500" 
+                  className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-white bg-gray-800 placeholder-gray-300" 
                 />
               </FormControl>
               <FormMessage />
