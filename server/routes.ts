@@ -107,27 +107,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ...result.data
       });
 
-      // Invia email di notifica e auto-risposta
-      const [notificationSent, autoReplySent] = await Promise.all([
-        sendContactNotification({
-          firstName: result.data.firstName,
-          lastName: result.data.lastName,
-          email: result.data.email,
-          phone: result.data.phone,
-          company: result.data.company || undefined,
-          businessType: result.data.businessType,
-          message: result.data.message || ''
-        }),
-        sendAutoReply(result.data.email, result.data.firstName, result.data.lastName)
-      ]);
+      // Invia solo email di notifica (no auto-reply per ora)
+      console.log('Invio email per contatto:', result.data.firstName, result.data.lastName);
+      
+      const notificationSent = await sendContactNotification({
+        firstName: result.data.firstName,
+        lastName: result.data.lastName,
+        email: result.data.email,
+        phone: result.data.phone,
+        company: result.data.company || undefined,
+        businessType: result.data.businessType,
+        message: result.data.message || ''
+      });
 
-      console.log(`Contact form processed - Notification: ${notificationSent}, Auto-reply: ${autoReplySent}`);
+      console.log(`Email notification sent: ${notificationSent}`);
 
       return res.status(200).json({
         success: true,
         message: "Richiesta inviata con successo!",
         contact,
-        emailSent: notificationSent && autoReplySent
+        emailSent: notificationSent
       });
     } catch (error) {
       console.error("Error processing contact form:", error);

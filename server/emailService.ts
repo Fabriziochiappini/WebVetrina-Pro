@@ -5,6 +5,7 @@ if (!process.env.SENDGRID_API_KEY) {
 }
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+console.log('SendGrid configurato con API key');
 
 interface ContactFormData {
   firstName: string;
@@ -18,6 +19,8 @@ interface ContactFormData {
 
 export async function sendContactNotification(formData: ContactFormData): Promise<boolean> {
   try {
+    console.log('Tentativo invio email a info@webproitalia.com per:', formData.firstName, formData.lastName);
+    
     const msg = {
       to: 'info@webproitalia.com',
       from: {
@@ -28,7 +31,7 @@ export async function sendContactNotification(formData: ContactFormData): Promis
         email: formData.email,
         name: `${formData.firstName} ${formData.lastName}`
       },
-      subject: `Nuovo contatto da ${formData.firstName} ${formData.lastName} - ${formData.businessType}`,
+      subject: `Landing €197 - ${formData.firstName} ${formData.lastName} (${formData.businessType})`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
