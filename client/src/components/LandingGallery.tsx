@@ -6,7 +6,8 @@ interface GalleryImage {
   id: number;
   title: string;
   description?: string;
-  imageUrl: string;
+  fileName: string;
+  filePath: string;
   altText?: string;
   sortOrder: number;
   isActive: boolean;
