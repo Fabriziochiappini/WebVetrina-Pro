@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../lib/queryClient';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
-import { trackBusinessEvent } from '../lib/analytics';
+// Analytics import removed
 
 import {
   Form,
