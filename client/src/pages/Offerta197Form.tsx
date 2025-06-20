@@ -7,7 +7,7 @@ import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
 import PaymentModal from '../components/PaymentModal';
 import WhatsAppFloat from '../components/WhatsAppFloat';
-import ContactForm from '../components/ContactForm';
+import LandingContactForm from '../components/LandingContactForm';
 
 const Offerta197Form = () => {
   const [paymentModal, setPaymentModal] = useState<{ isOpen: boolean; type: 'stripe' | 'paypal' }>({
@@ -619,10 +619,9 @@ const Offerta197Form = () => {
                 </p>
               </div>
 
-              {/* Form di contatto - Copia esatta da ContactForm.tsx */}
-              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 mt-6">
-                <h4 className="text-xl font-bold mb-4 text-white">Contattaci per Prenotare</h4>
-                <ContactForm />
+              {/* Form di contatto semplificato */}
+              <div className="mt-6">
+                <LandingContactForm />
               </div>
             </div>
 
