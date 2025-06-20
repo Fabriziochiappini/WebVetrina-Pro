@@ -621,9 +621,10 @@ const Offerta197Form = () => {
               {/* Form di contatto */}
               <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 mt-6">
                 <h4 className="text-xl font-bold mb-4 text-white">Contattaci per Prenotare</h4>
-                <form className="space-y-4" onSubmit={(e) => {
+                <form className="space-y-4" onSubmit={async (e) => {
                   e.preventDefault();
-                  const formData = new FormData(e.target as HTMLFormElement);
+                  const form = e.target as HTMLFormElement;
+                  const formData = new FormData(form);
                   const data = {
                     firstName: formData.get('firstName'),
                     lastName: formData.get('lastName'),
@@ -633,14 +634,25 @@ const Offerta197Form = () => {
                     message: formData.get('message')
                   };
                   
-                  fetch('/api/contacts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                  }).then(() => {
-                    alert('Messaggio inviato! Ti ricontatteremo presto.');
-                    (e.target as HTMLFormElement).reset();
-                  });
+                  try {
+                    const response = await fetch('/api/contacts', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                      alert('✅ Richiesta inviata con successo! Ti ricontatteremo entro 2 ore.');
+                      form.reset();
+                    } else {
+                      alert('❌ Errore nell\'invio. Riprova o chiamaci direttamente.');
+                    }
+                  } catch (error) {
+                    console.error('Errore:', error);
+                    alert('❌ Errore di connessione. Riprova o chiamaci direttamente.');
+                  }
                 }}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
