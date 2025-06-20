@@ -15,8 +15,9 @@ interface LandingGalleryImage {
   id: number;
   title: string;
   description?: string;
-  fileName: string;
-  filePath: string;
+  fileName?: string;
+  filePath?: string;
+  imageUrl?: string; // Backward compatibility
   altText?: string;
   sortOrder: number;
   isActive: boolean;
@@ -389,15 +390,15 @@ export default function LandingGalleryManagementNew() {
             <CardContent>
               <div className="aspect-square bg-gray-100 rounded-lg mb-2 flex items-center justify-center overflow-hidden">
                 <img
-                  src={image.filePath}
+                  src={image.filePath || image.imageUrl}
                   alt={image.altText || image.title}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';
                     target.parentElement!.innerHTML = `
-                      <div class="text-gray-500 text-center p-4">
-                        <Image class="w-8 h-8 mx-auto mb-2" />
+                      <div class="text-gray-500 text-center p-4 flex flex-col items-center">
+                        <div class="w-8 h-8 mb-2 text-gray-400">📷</div>
                         <p class="text-xs">Immagine non trovata</p>
                       </div>
                     `;
@@ -406,7 +407,7 @@ export default function LandingGalleryManagementNew() {
               </div>
               <p className="text-xs text-gray-600 truncate">{image.description}</p>
               <p className="text-xs text-gray-500 mt-1">Ordine: {image.sortOrder}</p>
-              <p className="text-xs text-gray-500">File: {image.fileName}</p>
+              <p className="text-xs text-gray-500">File: {image.fileName || 'N/A'}</p>
             </CardContent>
           </Card>
         ))}

@@ -95,8 +95,25 @@ export const insertLogoSchema = createInsertSchema(logos)
 export const insertPortfolioItemSchema = createInsertSchema(portfolioItems)
   .omit({ id: true, createdAt: true, sortOrder: true });
 
+export const landingGalleryImages = pgTable("landing_gallery_images", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  fileName: varchar("file_name", { length: 255 }),
+  filePath: varchar("file_path", { length: 500 }),
+  imageUrl: varchar("image_url", { length: 500 }), // Backward compatibility
+  altText: varchar("alt_text", { length: 255 }),
+  sortOrder: integer("sort_order").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
   .omit({ id: true, updatedAt: true });
+
+export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;
+export type InsertLandingGalleryImage = typeof landingGalleryImages.$inferInsert;
 
 export const insertBlogPostSchema = createInsertSchema(blogPosts)
   .omit({ id: true, createdAt: true, updatedAt: true, publishedAt: true });
@@ -107,18 +124,6 @@ export const updateBlogPostSchema = createInsertSchema(blogPosts)
 
 export const insertBlogCategorySchema = createInsertSchema(blogCategories)
   .omit({ id: true, createdAt: true });
-
-export const landingGalleryImages = pgTable("landing_gallery_images", {
-  id: serial("id").primaryKey(),
-  title: varchar("title", { length: 255 }).notNull(),
-  description: text("description"),
-  imageUrl: varchar("image_url", { length: 500 }).notNull(),
-  altText: varchar("alt_text", { length: 255 }),
-  sortOrder: integer("sort_order").notNull().default(0),
-  isActive: boolean("is_active").notNull().default(true),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
 
 export const insertLandingGalleryImageSchema = createInsertSchema(landingGalleryImages)
   .omit({ id: true, createdAt: true, updatedAt: true })
