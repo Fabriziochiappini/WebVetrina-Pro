@@ -7,7 +7,8 @@ import {
   blogPosts, type BlogPost, type InsertBlogPost, type UpdateBlogPost,
   blogCategories, type BlogCategory, type InsertBlogCategory,
   blogPostCategories,
-  landingGalleryImages, type LandingGalleryImage, type InsertLandingGalleryImage
+  landingGalleryImages, type LandingGalleryImage, type InsertLandingGalleryImage,
+  landingSpots, type LandingSpot, type InsertLandingSpot
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
