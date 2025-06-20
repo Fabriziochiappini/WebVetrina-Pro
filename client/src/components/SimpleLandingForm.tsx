@@ -52,12 +52,17 @@ export default function SimpleLandingForm() {
     },
   });
 
+  const [spotInfo, setSpotInfo] = useState<{totalSpots: number; reservedSpots: number} | null>(null);
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormValues) => {
       return apiRequest('POST', '/api/contact', data);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
       setSubmitted(true);
+      if (response.spotInfo) {
+        setSpotInfo(response.spotInfo);
+      }
       toast({
         title: "Richiesta inviata con successo!",
         description: "Ti contatteremo al più presto.",
@@ -86,14 +91,21 @@ export default function SimpleLandingForm() {
   };
 
   if (submitted) {
+    const remainingSpots = spotInfo ? spotInfo.totalSpots - spotInfo.reservedSpots : 2;
+    
     return (
       <div className="text-center py-8 bg-green-50 rounded-lg border border-green-200">
         <div className="text-green-600 text-xl font-semibold mb-2">
-          ✅ Richiesta Inviata!
+          🎉 COMPLIMENTI! Il tuo posto è riservato
         </div>
-        <p className="text-green-700">
+        <p className="text-green-700 mb-4">
           Ti contatteremo entro 24 ore per discutere il tuo progetto.
         </p>
+        <div className="bg-orange-100 border border-orange-300 rounded-lg p-4 mt-4">
+          <p className="text-orange-800 font-semibold">
+            ⚠️ Solo {remainingSpots} posti rimasti a disposizione a €197!
+          </p>
+        </div>
       </div>
     );
   }
