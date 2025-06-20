@@ -146,7 +146,7 @@ const LandingContactForm = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 font-semibold">Email*</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary" />
+                  <Input {...field} type="email" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-gray-900 bg-white" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,7 +160,7 @@ const LandingContactForm = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 font-semibold">Telefono*</FormLabel>
                 <FormControl>
-                  <Input {...field} type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary" />
+                  <Input {...field} type="tel" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-gray-900 bg-white" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -192,7 +192,7 @@ const LandingContactForm = () => {
                 <Input 
                   {...field} 
                   placeholder="Es. Ristorante, Negozio, Studio Professionale..." 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary" 
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-gray-900 bg-white" 
                 />
               </FormControl>
               <FormMessage />
@@ -210,7 +210,7 @@ const LandingContactForm = () => {
                 <Textarea 
                   {...field} 
                   rows={3} 
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary" 
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary text-gray-900 bg-white" 
                 />
               </FormControl>
               <FormMessage />
