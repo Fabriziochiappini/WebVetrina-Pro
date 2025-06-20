@@ -56,7 +56,7 @@ const LandingContactForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormValues) => {
-      return apiRequest('POST', '/api/contact', data);
+      return apiRequest('POST', '/api/contacts', data);
     },
     onSuccess: () => {
       setSubmitted(true);
@@ -77,7 +77,14 @@ const LandingContactForm = () => {
   });
 
   const onSubmit = (data: FormValues) => {
-    trackBusinessEvent.contactFormSubmit(data.businessType);
+    // Analytics tracking
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'contact_form_submit', {
+        event_category: 'conversion',
+        event_label: 'form_completion',
+        business_type: data.businessType
+      });
+    }
     mutate(data);
   };
 
