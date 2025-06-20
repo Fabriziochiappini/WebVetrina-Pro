@@ -7,7 +7,7 @@ import AnnouncementBar from '../components/AnnouncementBar';
 import LandingGallery from '../components/LandingGallery';
 import PaymentModal from '../components/PaymentModal';
 import WhatsAppFloat from '../components/WhatsAppFloat';
-import LandingContactFormFinal from '../components/LandingContactFormFinal';
+import SimpleLandingForm from '../components/SimpleLandingForm';
 
 const Offerta197Form = () => {
   const [paymentModal, setPaymentModal] = useState<{ isOpen: boolean; type: 'stripe' | 'paypal' }>({
@@ -621,7 +621,7 @@ const Offerta197Form = () => {
 
               {/* Form di contatto semplificato */}
               <div className="mt-6">
-                <LandingContactFormFinal />
+                <SimpleLandingForm />
               </div>
             </div>
 
