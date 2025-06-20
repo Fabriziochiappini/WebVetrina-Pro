@@ -593,7 +593,7 @@ const Admin = () => {
           </TabsContent>
           
           <TabsContent value="gallery">
-            <LandingGalleryManagement />
+            <LandingGalleryManagementNew />
           </TabsContent>
 
           <TabsContent value="impostazioni">
