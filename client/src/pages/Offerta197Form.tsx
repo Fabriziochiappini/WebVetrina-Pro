@@ -234,23 +234,23 @@ const Offerta197Form = () => {
       </section>
 
       {/* Urgency Section */}
-      <section className="py-16 bg-gradient-to-br from-red-600 to-red-700 text-white">
+      <section className="py-16 bg-white text-gray-900">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-center gap-4 mb-6">
-              <Clock className="h-8 w-8 animate-pulse" />
-              <h2 className="text-3xl md:text-4xl font-bold">
+              <Clock className="h-8 w-8 animate-pulse text-red-600" />
+              <h2 className="text-3xl md:text-4xl font-bold text-red-600">
                 ATTENZIONE: Offerta in Scadenza!
               </h2>
-              <Clock className="h-8 w-8 animate-pulse" />
+              <Clock className="h-8 w-8 animate-pulse text-red-600" />
             </div>
-            <p className="text-xl md:text-2xl mb-8 leading-relaxed">
-              Questa promozione speciale termina a <strong>FINE MESE</strong>.<br />
-              Dopo, il prezzo tornerà a <strong>€1200</strong> (il nostro prezzo normale).
+            <p className="text-xl md:text-2xl mb-8 leading-relaxed text-gray-700">
+              Questa promozione speciale termina a <strong className="text-red-600">FINE MESE</strong>.<br />
+              Dopo, il prezzo tornerà a <strong className="text-red-600">€1200</strong> (il nostro prezzo normale).
             </p>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8">
-              <p className="text-lg font-medium mb-4">
-                ⚡ Solo <span className="text-yellow-300 font-bold">3 posti rimasti</span> su 15 questo mese
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8">
+              <p className="text-lg font-medium mb-4 text-gray-800">
+                ⚡ Solo <span className="text-red-600 font-bold">3 posti rimasti</span> su 15 questo mese
               </p>
               
               {/* Visualizzazione slot */}
@@ -264,14 +264,14 @@ const Offerta197Form = () => {
                   </div>
                 ))}
               </div>
-              <p className="text-sm mb-4 opacity-90">
+              <p className="text-sm mb-4 text-gray-600">
                 🔴 Occupati • 🟢 Disponibili
               </p>
               
-              <p className="text-xl font-bold text-yellow-300 mt-4">
+              <p className="text-xl font-bold text-red-600 mt-4">
                 Prenota oggi con soli 17€
               </p>
-              <p className="text-sm text-gray-200 mt-2">
+              <p className="text-sm text-gray-600 mt-2">
                 Il resto alla consegna del progetto dopo averlo approvato
               </p>
             </div>
