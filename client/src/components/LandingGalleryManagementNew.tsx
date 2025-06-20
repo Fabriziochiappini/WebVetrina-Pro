@@ -49,9 +49,11 @@ export default function LandingGalleryManagementNew() {
   });
 
   // Fetch gallery images
-  const { data: images = [], isLoading } = useQuery({
+  const { data: images = [], isLoading, error } = useQuery({
     queryKey: ['/api/landing-gallery'],
   });
+
+  console.log('Gallery data:', images, 'Loading:', isLoading, 'Error:', error);
 
   // Create mutation
   const createMutation = useMutation({
@@ -244,6 +246,14 @@ export default function LandingGalleryManagementNew() {
 
   if (isLoading) {
     return <div className="p-6 text-center">Caricamento galleria...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-center text-red-600">
+        Errore caricamento galleria: {error.message}
+      </div>
+    );
   }
 
   return (
