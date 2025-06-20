@@ -595,8 +595,6 @@ const Offerta197Form = () => {
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 mb-8">
               <h3 className="text-2xl font-bold mb-4 text-secondary">Prenota Subito il Tuo Posto</h3>
               <p className="text-lg mb-6">
-                ⚡ <strong>Anticipo:</strong> Solo €17 per riservare uno slot dedicato al tuo progetto<br />
-                💰 <strong>Saldo:</strong> €180 solo dopo l'approvazione finale<br />
                 🚀 <strong>Consegna:</strong> 3-5 giorni lavorativi garantiti
               </p>
               
@@ -619,26 +617,10 @@ const Offerta197Form = () => {
                   🔴 Occupati • 🟢 Disponibili
                 </p>
               </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                <Button 
-                  onClick={() => setPaymentModal({ isOpen: true, type: 'stripe' })}
-                  className="bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 hover:scale-105 shadow-xl"
-                >
-                  PAGA CON CARTA €17 <ArrowRight className="ml-2 h-6 w-6" />
-                </Button>
-                
-                <Button 
-                  onClick={() => setPaymentModal({ isOpen: true, type: 'paypal' })}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 hover:scale-105 shadow-xl"
-                >
-                  PAGA CON PAYPAL €17
-                </Button>
-              </div>
 
               {/* Form di contatto */}
               <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 mt-6">
-                <h4 className="text-xl font-bold mb-4 text-white">Oppure Contattaci Direttamente</h4>
+                <h4 className="text-xl font-bold mb-4 text-white">Contattaci per Prenotare</h4>
                 <form className="space-y-4" onSubmit={(e) => {
                   e.preventDefault();
                   const formData = new FormData(e.target as HTMLFormElement);
@@ -722,10 +704,7 @@ const Offerta197Form = () => {
 
             <div className="text-center">
               <p className="text-lg mb-4 opacity-90">
-                🔒 <strong>Pagamento Sicuro</strong> • ⚡ <strong>Attivazione Immediata</strong> • 📞 <strong>Supporto 24/7</strong>
-              </p>
-              <p className="text-sm opacity-75">
-                Oppure chiamaci direttamente al <a href="tel:+393479942321" className="font-bold underline">+39 347 994 2321</a>
+                🔒 <strong>Sicuro e Professionale</strong> • ⚡ <strong>Risposta Immediata</strong> • 📞 <strong>Supporto Dedicato</strong>
               </p>
             </div>
           </div>
