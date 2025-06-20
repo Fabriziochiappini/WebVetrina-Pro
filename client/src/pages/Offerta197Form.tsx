@@ -478,61 +478,7 @@ const Offerta197Form = () => {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12 text-primary">Come Funziona</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  1
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-primary">Prenotazione</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Prenoti il tuo posto con solo €17 e compili un breve questionario sui tuoi servizi. 
-                  <strong>Verrete ricontattati</strong> non appena versato l'anticipo di €17.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  2
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-primary">Realizzazione</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Il nostro team progetta il tuo sito in 3-5 giorni lavorativi. 
-                  Ti teniamo aggiornato sui progressi via WhatsApp.
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  3
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-primary">Consegna</h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Ricevi il tuo sito completo per l'approvazione finale. 
-                  Solo dopo averlo approvato paghi i restanti €180.
-                </p>
-              </div>
-            </div>
-            
-            <div className="text-center">
-              <p className="text-xl font-medium text-gray-700 mb-6">
-                È davvero così semplice! <strong>Nessun rischio</strong>, nessuna sorpresa.
-              </p>
-              <Button 
-                onClick={scrollToContact}
-                className="bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 hover:scale-105"
-              >
-                INIZIA SUBITO <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* FAQ Section */}
       <section className="py-20 bg-white">
