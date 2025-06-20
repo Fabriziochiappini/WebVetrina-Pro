@@ -870,20 +870,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         imageUrl = `/uploads/${req.file.filename}`;
         console.log(`File caricato: ${req.file.filename} per immagine: ${title}`);
         
-        // Crea backup del file immediatamente
-        const { backupImage } = require('./imageBackup');
-        const originalPath = path.join(uploadsPath, req.file.filename);
-        backupImage(originalPath, req.file.filename);
+        // File uploaded successfully
       }
 
-      const imageData = insertLandingGalleryImageSchema.parse({
-        title,
+      if (!req.file) {
+        return res.status(400).json({ message: "Immagine obbligatoria" });
+      }
+
+      const imageData = {
+        title: title || 'Untitled',
         description: description || null,
         imageUrl,
         altText: altText || null,
         sortOrder: parseInt(sortOrder) || 0,
-        isActive: isActive === 'true'
-      });
+        isActive: isActive === 'true' || isActive === true
+      };
 
       const image = await storage.createLandingGalleryImage(imageData);
       res.json(image);
