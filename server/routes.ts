@@ -123,7 +123,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`Contact form processed - Notification: ${notificationSent}, Auto-reply: ${autoReplySent}`);
 
-      return res.status(201).json({
+      return res.status(200).json({
+        success: true,
         message: "Richiesta inviata con successo!",
         contact,
         emailSent: notificationSent && autoReplySent
@@ -131,6 +132,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error processing contact form:", error);
       return res.status(500).json({ 
+        success: false,
         message: "Si è verificato un errore durante l'invio. Riprova più tardi." 
       });
     }
