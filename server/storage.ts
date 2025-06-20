@@ -285,6 +285,48 @@ export class DatabaseStorage implements IStorage {
     const result = await db.delete(landingGalleryImages).where(eq(landingGalleryImages.id, id));
     return (result.rowCount || 0) > 0;
   }
+
+  // Landing spots methods
+  async getLandingSpots(): Promise<LandingSpot | null> {
+    try {
+      const [spot] = await db.select().from(landingSpots).limit(1);
+      return spot || null;
+    } catch (error) {
+      console.error('Error getting landing spots:', error);
+      return null;
+    }
+  }
+
+  async reserveSpot(): Promise<LandingSpot> {
+    try {
+      let [spot] = await db.select().from(landingSpots).limit(1);
+      
+      if (!spot) {
+        [spot] = await db.insert(landingSpots).values({
+          totalSpots: 10,
+          reservedSpots: 1
+        }).returning();
+      } else {
+        [spot] = await db.update(landingSpots)
+          .set({ 
+            reservedSpots: Math.min(spot.reservedSpots + 1, spot.totalSpots),
+            updatedAt: new Date()
+          })
+          .where(eq(landingSpots.id, spot.id))
+          .returning();
+      }
+      
+      return spot;
+    } catch (error) {
+      console.error('Error reserving spot:', error);
+      return {
+        id: 1,
+        totalSpots: 10,
+        reservedSpots: 7,
+        updatedAt: new Date()
+      };
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();

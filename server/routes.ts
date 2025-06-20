@@ -122,11 +122,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`Email notification sent: ${notificationSent}`);
 
+      // Reserve a spot for landing page forms
+      let spotInfo = null;
+      if (req.headers.referer && req.headers.referer.includes('offerta-197')) {
+        try {
+          spotInfo = await storage.reserveSpot();
+          console.log('Spot reserved:', spotInfo);
+        } catch (error) {
+          console.error('Error reserving spot:', error);
+        }
+      }
+
       return res.status(200).json({
         success: true,
         message: "Richiesta inviata con successo!",
         contact,
-        emailSent: notificationSent
+        emailSent: notificationSent,
+        spotInfo
       });
     } catch (error) {
       console.error("Error processing contact form:", error);
