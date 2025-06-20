@@ -245,7 +245,7 @@ const Offerta197Form = () => {
               <Clock className="h-8 w-8 animate-pulse text-red-600" />
             </div>
             <p className="text-xl md:text-2xl mb-8 leading-relaxed text-gray-700">
-              Questa promozione speciale termina a <strong className="text-red-600">FINE MESE</strong>.<br />
+              Questa promozione speciale è <strong className="text-red-600">QUASI TERMINATA</strong>.<br />
               Dopo, il prezzo tornerà a <strong className="text-red-600">€1200</strong> (il nostro prezzo normale).
             </p>
             <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 mb-8">
@@ -266,13 +266,6 @@ const Offerta197Form = () => {
               </div>
               <p className="text-sm mb-4 text-gray-600">
                 🔴 Occupati • 🟢 Disponibili
-              </p>
-              
-              <p className="text-xl font-bold text-red-600 mt-4">
-                Prenota oggi con soli 17€
-              </p>
-              <p className="text-sm text-gray-600 mt-2">
-                Il resto alla consegna del progetto dopo averlo approvato
               </p>
             </div>
           </div>
