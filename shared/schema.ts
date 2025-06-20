@@ -115,6 +115,17 @@ export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
 export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;
 export type InsertLandingGalleryImage = typeof landingGalleryImages.$inferInsert;
 
+// Landing page spots tracking
+export const landingSpots = pgTable("landing_spots", {
+  id: serial("id").primaryKey(),
+  totalSpots: integer("total_spots").default(10),
+  reservedSpots: integer("reserved_spots").default(0),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type LandingSpot = typeof landingSpots.$inferSelect;
+export type InsertLandingSpot = typeof landingSpots.$inferInsert;
+
 export const insertBlogPostSchema = createInsertSchema(blogPosts)
   .omit({ id: true, createdAt: true, updatedAt: true, publishedAt: true });
 

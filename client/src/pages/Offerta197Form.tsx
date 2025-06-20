@@ -611,15 +611,23 @@ const Offerta197Form = () => {
               {/* Visualizzazione slot */}
               <div className="mb-6">
                 <p className="text-lg font-medium mb-4 text-yellow-300">
-                  Solo <span className="font-bold">3 posti rimasti</span> su 15 questo mese:
+                  Solo <span className="font-bold">{currentSpots.totalSpots - currentSpots.reservedSpots} posti rimasti</span> su {currentSpots.totalSpots} questo mese:
                 </p>
                 <div className="grid grid-cols-5 gap-2 mb-4 max-w-md mx-auto">
-                  {[...Array(15)].map((_, i) => (
+                  {[...Array(currentSpots.reservedSpots)].map((_, i) => (
                     <div 
-                      key={i} 
-                      className={`w-8 h-8 rounded ${i < 12 ? 'bg-red-500' : 'bg-green-500'} flex items-center justify-center text-xs font-bold`}
+                      key={`red-${i}`} 
+                      className="w-8 h-8 rounded bg-red-500 flex items-center justify-center text-xs font-bold"
                     >
                       {i + 1}
+                    </div>
+                  ))}
+                  {[...Array(currentSpots.totalSpots - currentSpots.reservedSpots)].map((_, i) => (
+                    <div 
+                      key={`green-${i}`} 
+                      className="w-8 h-8 rounded bg-green-500 flex items-center justify-center text-xs font-bold"
+                    >
+                      {i + currentSpots.reservedSpots + 1}
                     </div>
                   ))}
                 </div>
