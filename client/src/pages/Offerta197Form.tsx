@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Button } from '../components/ui/button';
 import { ArrowRight, Check, Clock, Star, Zap, Shield, Award, Heart, Phone } from 'lucide-react';
 import { trackEvent } from '../lib/analytics';
@@ -15,14 +14,6 @@ const Offerta197Form = () => {
     isOpen: false,
     type: 'stripe'
   });
-
-  // Fetch current spots status
-  const { data: spotsData, refetch: refetchSpots } = useQuery({
-    queryKey: ['/api/landing-spots'],
-    staleTime: 0, // Always fetch fresh data
-  });
-
-  const currentSpots = spotsData || { totalSpots: 10, reservedSpots: 7 };
 
   const [faqOpen, setFaqOpen] = useState<{ [key: number]: boolean }>({});
 
@@ -611,23 +602,15 @@ const Offerta197Form = () => {
               {/* Visualizzazione slot */}
               <div className="mb-6">
                 <p className="text-lg font-medium mb-4 text-yellow-300">
-                  Solo <span className="font-bold">{currentSpots.totalSpots - currentSpots.reservedSpots} posti rimasti</span> su {currentSpots.totalSpots} questo mese:
+                  Solo <span className="font-bold">3 posti rimasti</span> su 15 questo mese:
                 </p>
                 <div className="grid grid-cols-5 gap-2 mb-4 max-w-md mx-auto">
-                  {[...Array(currentSpots.reservedSpots)].map((_, i) => (
+                  {[...Array(15)].map((_, i) => (
                     <div 
-                      key={`red-${i}`} 
-                      className="w-8 h-8 rounded bg-red-500 flex items-center justify-center text-xs font-bold"
+                      key={i} 
+                      className={`w-8 h-8 rounded ${i < 12 ? 'bg-red-500' : 'bg-green-500'} flex items-center justify-center text-xs font-bold`}
                     >
                       {i + 1}
-                    </div>
-                  ))}
-                  {[...Array(currentSpots.totalSpots - currentSpots.reservedSpots)].map((_, i) => (
-                    <div 
-                      key={`green-${i}`} 
-                      className="w-8 h-8 rounded bg-green-500 flex items-center justify-center text-xs font-bold"
-                    >
-                      {i + currentSpots.reservedSpots + 1}
                     </div>
                   ))}
                 </div>

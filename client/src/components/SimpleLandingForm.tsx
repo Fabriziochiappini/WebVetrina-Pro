@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '../lib/queryClient';
 import { Loader2 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
@@ -37,7 +37,6 @@ type FormValues = z.infer<typeof formSchema>;
 export default function SimpleLandingForm() {
   const { toast } = useToast();
   const [submitted, setSubmitted] = useState(false);
-  const queryClient = useQueryClient();
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -63,8 +62,6 @@ export default function SimpleLandingForm() {
       setSubmitted(true);
       if (response.spotInfo) {
         setSpotInfo(response.spotInfo);
-        // Update the spots data in the parent component
-        queryClient.invalidateQueries({ queryKey: ['/api/landing-spots'] });
       }
       toast({
         title: "Richiesta inviata con successo!",

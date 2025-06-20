@@ -122,23 +122,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       console.log(`Email notification sent: ${notificationSent}`);
 
-      // Reserve a spot for landing page forms
-      let spotInfo = null;
-      if (req.headers.referer && req.headers.referer.includes('offerta-197')) {
-        try {
-          spotInfo = await storage.reserveSpot();
-          console.log('Spot reserved:', spotInfo);
-        } catch (error) {
-          console.error('Error reserving spot:', error);
-        }
-      }
-
       return res.status(200).json({
         success: true,
         message: "Richiesta inviata con successo!",
         contact,
-        emailSent: notificationSent,
-        spotInfo
+        emailSent: notificationSent
       });
     } catch (error) {
       console.error("Error processing contact form:", error);
@@ -877,10 +865,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/landing-spots', async (req, res) => {
     try {
       const spots = await storage.getLandingSpots();
-      res.json(spots || { totalSpots: 10, reservedSpots: 7 });
+      res.json(spots || { totalSpots: 10, reservedSpots: 0 });
     } catch (error) {
       console.error('Error fetching landing spots:', error);
-      res.json({ totalSpots: 10, reservedSpots: 7 });
+      res.status(500).json({ error: 'Failed to fetch landing spots' });
     }
   });
 
