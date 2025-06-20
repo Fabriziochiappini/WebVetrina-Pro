@@ -52,7 +52,7 @@ export default function LandingContactFormWorking() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormValues) => {
-      return apiRequest('POST', '/api/contacts', data);
+      return apiRequest('POST', '/api/contact', data);
     },
     onSuccess: () => {
       setSubmitted(true);
