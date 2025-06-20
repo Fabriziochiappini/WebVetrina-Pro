@@ -26,7 +26,7 @@ const formSchema = z.object({
   phone: z.string().min(5, "Telefono richiesto"),
   company: z.string().optional(),
   businessType: z.string().min(2, "Tipo di attività richiesto"),
-  requirements: z.string().optional(),
+  message: z.string().optional(),
   privacy: z.boolean().refine(val => val === true, "Devi accettare la privacy policy"),
 });
 
@@ -45,37 +45,27 @@ export default function LandingContactFormWorking() {
       phone: '',
       company: '',
       businessType: '',
-      requirements: '',
+      message: '',
       privacy: false,
     },
   });
 
-  const submitForm = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (data: FormValues) => {
-      const response = await fetch("/api/contacts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error("Errore nell'invio del modulo");
-      }
-
-      return response.json();
+      return apiRequest('POST', '/api/contacts', data);
     },
     onSuccess: () => {
+      setSubmitted(true);
       toast({
-        title: "Richiesta inviata!",
-        description: "Ti contatteremo entro 24 ore per discutere il tuo progetto.",
+        title: "Richiesta inviata con successo!",
+        description: "Ti contatteremo al più presto.",
         variant: "default",
       });
       form.reset();
-      setSubmitted(true);
     },
-    onError: (error: Error) => {
+    onError: (error) => {
       toast({
-        title: "Errore",
+        title: "Errore nell'invio del modulo",
         description: error.message || "Si è verificato un errore. Riprova più tardi.",
         variant: "destructive",
       });
@@ -92,7 +82,7 @@ export default function LandingContactFormWorking() {
       });
     }
     
-    submitForm.mutate(data);
+    mutate(data);
   };
 
   if (submitted) {
@@ -218,7 +208,7 @@ export default function LandingContactFormWorking() {
           
           <FormField
             control={form.control}
-            name="requirements"
+            name="message"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-800 font-semibold">Requisiti Specifici</FormLabel>
@@ -261,10 +251,10 @@ export default function LandingContactFormWorking() {
 
           <Button 
             type="submit" 
-            disabled={submitForm.isPending}
+            disabled={isPending}
             className="w-full bg-secondary hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
           >
-            {submitForm.isPending ? (
+            {isPending ? (
               <div className="flex items-center justify-center">
                 <Loader2 className="animate-spin mr-2 h-4 w-4" />
                 Invio in corso...
