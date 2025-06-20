@@ -234,7 +234,7 @@ const Offerta197Form = () => {
       </section>
 
       {/* Urgency Section */}
-      <section className="py-16 bg-red-600 text-white">
+      <section className="py-16 bg-gradient-to-br from-red-600 to-red-700 text-white">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-center gap-4 mb-6">
@@ -249,13 +249,29 @@ const Offerta197Form = () => {
               Dopo, il prezzo tornerà a <strong>€1200</strong> (il nostro prezzo normale).
             </p>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8">
-              <p className="text-lg font-medium mb-2">
-                ⚡ Solo <span className="text-red-500 font-bold">3 posti rimasti</span> questo mese
+              <p className="text-lg font-medium mb-4">
+                ⚡ Solo <span className="text-yellow-300 font-bold">3 posti rimasti</span> su 15 questo mese
               </p>
-              <p className="text-xl font-bold text-secondary mt-4">
+              
+              {/* Visualizzazione slot */}
+              <div className="grid grid-cols-5 gap-2 mb-6 max-w-md mx-auto">
+                {[...Array(15)].map((_, i) => (
+                  <div 
+                    key={i} 
+                    className={`w-8 h-8 rounded ${i < 12 ? 'bg-red-500' : 'bg-green-500'} flex items-center justify-center text-xs font-bold`}
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm mb-4 opacity-90">
+                🔴 Occupati • 🟢 Disponibili
+              </p>
+              
+              <p className="text-xl font-bold text-yellow-300 mt-4">
                 Prenota oggi con soli 17€
               </p>
-              <p className="text-sm text-gray-600 mt-2">
+              <p className="text-sm text-gray-200 mt-2">
                 Il resto alla consegna del progetto dopo averlo approvato
               </p>
             </div>
@@ -677,7 +693,27 @@ const Offerta197Form = () => {
                 🚀 <strong>Consegna:</strong> 3-5 giorni lavorativi garantiti
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* Visualizzazione slot */}
+              <div className="mb-6">
+                <p className="text-lg font-medium mb-4 text-yellow-300">
+                  Solo <span className="font-bold">3 posti rimasti</span> su 15 questo mese:
+                </p>
+                <div className="grid grid-cols-5 gap-2 mb-4 max-w-md mx-auto">
+                  {[...Array(15)].map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`w-8 h-8 rounded ${i < 12 ? 'bg-red-500' : 'bg-green-500'} flex items-center justify-center text-xs font-bold`}
+                    >
+                      {i + 1}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm mb-6 opacity-90">
+                  🔴 Occupati • 🟢 Disponibili
+                </p>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                 <Button 
                   onClick={() => setPaymentModal({ isOpen: true, type: 'stripe' })}
                   className="bg-secondary hover:bg-secondary/90 text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 hover:scale-105 shadow-xl"
@@ -691,6 +727,89 @@ const Offerta197Form = () => {
                 >
                   PAGA CON PAYPAL €17
                 </Button>
+              </div>
+
+              {/* Form di contatto */}
+              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 mt-6">
+                <h4 className="text-xl font-bold mb-4 text-white">Oppure Contattaci Direttamente</h4>
+                <form className="space-y-4" onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.target as HTMLFormElement);
+                  const data = {
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    businessType: formData.get('businessType'),
+                    message: formData.get('message')
+                  };
+                  
+                  fetch('/api/contacts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                  }).then(() => {
+                    alert('Messaggio inviato! Ti ricontatteremo presto.');
+                    (e.target as HTMLFormElement).reset();
+                  });
+                }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="Nome"
+                      required
+                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
+                    />
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Cognome"
+                      required
+                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      required
+                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
+                    />
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Telefono"
+                      className="px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
+                    />
+                  </div>
+                  <select
+                    name="businessType"
+                    required
+                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary"
+                  >
+                    <option value="">Seleziona tipo di attività</option>
+                    <option value="ristorante">Ristorante/Bar</option>
+                    <option value="negozio">Negozio/Retail</option>
+                    <option value="servizi">Servizi professionali</option>
+                    <option value="artigiano">Artigiano</option>
+                    <option value="consulente">Consulente</option>
+                    <option value="altro">Altro</option>
+                  </select>
+                  <textarea
+                    name="message"
+                    rows={3}
+                    placeholder="Raccontaci del tuo progetto..."
+                    className="w-full px-4 py-3 rounded-lg bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-secondary"
+                  ></textarea>
+                  <button
+                    type="submit"
+                    className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105"
+                  >
+                    INVIA RICHIESTA
+                  </button>
+                </form>
               </div>
             </div>
 
