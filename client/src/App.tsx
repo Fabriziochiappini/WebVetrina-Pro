@@ -51,6 +51,7 @@ function Router() {
         <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/offerta-197" component={Offerta197} />
         <Route path="/offerta-197form" component={Offerta197Form} />
+        <Route path="/thankyou" component={ThankYou} />
         <Route path="/privacy" component={PrivacyPolicy} />
         <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
