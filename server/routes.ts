@@ -850,11 +850,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ apiKey });
   });
 
-  // Landing gallery routes
+  // Landing gallery routes with backup system
   app.get('/api/landing-gallery', async (req, res) => {
     try {
       const images = await storage.getLandingGalleryImages();
-      res.json(images);
+      
+      // Verifica e ripristina immagini mancanti dal backup
+      const verifiedImages = images.map(image => {
+        if (image.fileName) {
+          const backupPath = path.join(process.cwd(), 'backup-images', image.fileName);
+          const publicPath = path.join(process.cwd(), 'uploads', image.fileName);
+          
+          // Se il file non esiste in uploads, copia dal backup
+          if (fs.existsSync(backupPath) && !fs.existsSync(publicPath)) {
+            try {
+              fs.copyFileSync(backupPath, publicPath);
+              console.log(`Restored image from backup: ${image.fileName}`);
+            } catch (error) {
+              console.error(`Error restoring image ${image.fileName}:`, error);
+            }
+          }
+        }
+        return image;
+      });
+      
+      res.json(verifiedImages);
     } catch (error) {
       console.error('Error fetching landing gallery images:', error);
       res.status(500).json({ error: 'Failed to fetch landing gallery images' });

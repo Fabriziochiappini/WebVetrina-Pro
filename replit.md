@@ -126,6 +126,7 @@ Preferred communication style: Simple, everyday language.
 
 ## Changelog
 
+- June 22, 2025. Sistema backup galleria landing rafforzato: implementato controllo automatico e ripristino immagini dal backup, eliminato fallback demo, aggiunto sistema robusto per prevenire perdita foto durante vendite.
 - June 19, 2025. Risolto problema persistenza galleria landing: implementato sistema di backup automatico per le immagini caricate, rimosso fallback a immagini demo, aggiunto sistema di ripristino per garantire stabilità delle foto nella galleria.
 - June 18, 2025. Completed landing gallery management system with full CRUD operations, image upload, and admin panel integration. Fixed all TypeScript errors and validated API endpoints functionality.
 - June 18, 2025. Fixed routing issues and component import errors. All pages now load correctly including admin dashboard with galleria landing tab.
