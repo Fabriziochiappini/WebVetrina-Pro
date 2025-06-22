@@ -857,17 +857,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Verifica e ripristina immagini mancanti dal backup
       const verifiedImages = images.map(image => {
+        // Gestione sia fileName che imageUrl
         if (image.fileName) {
           const backupPath = path.join(process.cwd(), 'backup-images', image.fileName);
           const publicPath = path.join(process.cwd(), 'uploads', image.fileName);
           
-          // Se il file non esiste in uploads, copia dal backup
           if (fs.existsSync(backupPath) && !fs.existsSync(publicPath)) {
             try {
               fs.copyFileSync(backupPath, publicPath);
               console.log(`Restored image from backup: ${image.fileName}`);
             } catch (error) {
               console.error(`Error restoring image ${image.fileName}:`, error);
+            }
+          }
+        } else if (image.imageUrl && image.imageUrl.includes('/uploads/')) {
+          // Estrae il nome file da imageUrl per il backup
+          const fileName = path.basename(image.imageUrl);
+          const backupPath = path.join(process.cwd(), 'backup-images', fileName);
+          const publicPath = path.join(process.cwd(), 'uploads', fileName);
+          
+          if (fs.existsSync(backupPath) && !fs.existsSync(publicPath)) {
+            try {
+              fs.copyFileSync(backupPath, publicPath);
+              console.log(`Restored image from backup via imageUrl: ${fileName}`);
+            } catch (error) {
+              console.error(`Error restoring image via imageUrl ${fileName}:`, error);
             }
           }
         }

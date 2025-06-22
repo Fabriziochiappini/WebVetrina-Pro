@@ -29,8 +29,22 @@ const LandingGallery = () => {
     queryKey: ['/api/landing-gallery'],
   });
 
+  // Sistema backup robusto per garantire persistenza immagini
+  const getImageUrl = (image: GalleryImage) => {
+    // Prima priorità: fileName/filePath locali
+    if (image.fileName && image.filePath) {
+      return image.filePath;
+    }
+    // Seconda priorità: imageUrl con controllo backup
+    if (image.imageUrl) {
+      return image.imageUrl;
+    }
+    // Fallback sicurezza
+    return '/uploads/placeholder.jpg';
+  };
+
   // Usa solo immagini attive dal database, ordinate correttamente
-  const images = apiImages || [];
+  const images = apiImages.filter(img => img.isActive) || [];
 
   // Auto-scroll functionality
   useEffect(() => {
