@@ -22,6 +22,7 @@ import Admin from "./pages/Admin";
 import Offerta197 from "./pages/Offerta197";
 import Offerta197Form from "./pages/Offerta197Form";
 import ThankYou from "./pages/ThankYou";
+import Checkout from "./pages/Checkout";
 
 import CookieBanner from "./components/CookieBanner";
 
@@ -53,6 +54,7 @@ function Router() {
         <Route path="/offerta-197" component={Offerta197} />
         <Route path="/offerta-197form" component={Offerta197Form} />
         <Route path="/thankyou" component={ThankYou} />
+        <Route path="/checkout" component={Checkout} />
         <Route path="/privacy" component={PrivacyPolicy} />
         <Route path="/admin" component={Admin} />
         <Route component={NotFound} />

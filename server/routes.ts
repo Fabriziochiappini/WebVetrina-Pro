@@ -1075,6 +1075,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Stripe payment routes
+  app.post("/api/create-payment-intent", async (req, res) => {
+    try {
+      const { amount, description } = req.body;
+      
+      if (!process.env.STRIPE_SECRET_KEY) {
+        throw new Error('Missing STRIPE_SECRET_KEY');
+      }
+      
+      const Stripe = (await import('stripe')).default;
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        apiVersion: "2023-10-16",
+      });
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "eur",
+        description: description || "Sito Web Professionale",
+        metadata: {
+          product: "landing-website-197"
+        }
+      });
+      
+      res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error: any) {
+      console.error("Error creating payment intent:", error);
+      res.status(500).json({ 
+        message: "Error creating payment intent: " + error.message 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
