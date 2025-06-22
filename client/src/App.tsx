@@ -21,6 +21,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Admin from "./pages/Admin";
 import Offerta197 from "./pages/Offerta197";
 import Offerta197Form from "./pages/Offerta197Form";
+import ThankYou from "./pages/ThankYou";
 
 import CookieBanner from "./components/CookieBanner";
 
