@@ -36,7 +36,7 @@ const StripeForm = ({ onSuccess, onError }: { onSuccess: () => void; onError: (e
 
       const { clientSecret } = await response.json();
 
-      // Confirm payment
+      // Confirm payment con redirect a thankyou
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement)!,
@@ -50,7 +50,8 @@ const StripeForm = ({ onSuccess, onError }: { onSuccess: () => void; onError: (e
       if (result.error) {
         onError(result.error.message || 'Errore nel pagamento');
       } else {
-        onSuccess();
+        // Reindirizza direttamente a thankyou dopo pagamento riuscito
+        window.location.href = '/thankyou';
       }
     } catch (error) {
       onError('Errore nella connessione');
