@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import ContactForm from '../components/ContactForm';
+import ContactFormClean from '../components/ContactFormClean';
 
 const ThankYou = () => {
   // Fetch settings for Meta Pixel
@@ -108,8 +108,8 @@ const ThankYou = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="max-w-2xl mx-auto">
-            <ContactForm />
+          <div className="w-full">
+            <ContactFormClean />
           </div>
 
 
