@@ -9,6 +9,7 @@ import path from "path";
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
 import Stripe from "stripe";
+import { verifyPortfolioIntegrity, createTripleBackup, fullPortfolioBackup } from "./portfolioImageManager";
 
 // Enhanced file upload configuration with monitoring
 const uploadsPath = new URL('../uploads', import.meta.url).pathname;
