@@ -7,6 +7,8 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import session from "express-session";
 import { pool } from "./db";
+import fs from 'fs';
+import path from 'path';
 
 const app = express();
 app.use(express.json());
@@ -60,6 +62,48 @@ app.use((req, res, next) => {
   next();
 });
 
+// Function to restore portfolio images from backup
+async function restorePortfolioImages() {
+  const uploadsDir = path.join(__dirname, 'uploads');
+  const backupDir = path.join(__dirname, 'backup-images');
+
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+  }
+
+  if (!fs.existsSync(backupDir)) {
+    console.log('Backup directory does not exist.');
+    return;
+  }
+
+  fs.readdir(backupDir, (err, files) => {
+    if (err) {
+      console.error("Could not list the directory.", err);
+      return;
+    }
+
+    files.forEach(file => {
+      const backupFilePath = path.join(backupDir, file);
+      const uploadFilePath = path.join(uploadsDir, file);
+
+      fs.access(uploadFilePath, fs.constants.F_OK, (err) => {
+        if (err) {
+          // File doesn't exist in uploads, so copy it
+          fs.copyFile(backupFilePath, uploadFilePath, (err) => {
+            if (err) {
+              console.error(`Failed to restore ${file}:`, err);
+            } else {
+              console.log(`Restored ${file} from backup`);
+            }
+          });
+        } else {
+          // File already exists in uploads
+        }
+      });
+    });
+  });
+}
+
 (async () => {
   const server = await registerRoutes(app);
 
@@ -88,7 +132,10 @@ app.use((req, res, next) => {
     port,
     host: "0.0.0.0",
     reusePort: true,
-  }, () => {
+  }, async () => {
     log(`serving on port ${port}`);
+
+    // Restore missing portfolio images on startup
+    setTimeout(restorePortfolioImages, 2000);
   });
 })();

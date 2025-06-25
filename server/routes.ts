@@ -80,7 +80,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Servi i file statici dalla directory uploads
   app.use("/uploads", express.static(uploadDir));
-  
+
   // Servi i file statici dalla directory attached_assets
   const attachedAssetsDir = path.join(process.cwd(), 'attached_assets');
   app.use("/attached_assets", express.static(attachedAssetsDir));
@@ -109,7 +109,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Invia solo email di notifica (no auto-reply per ora)
       console.log('Invio email per contatto:', result.data.firstName, result.data.lastName);
-      
+
       const notificationSent = await sendContactNotification({
         firstName: result.data.firstName,
         lastName: result.data.lastName,
@@ -141,7 +141,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/test-email", async (req, res) => {
     try {
       const { testEmail } = req.body;
-      
+
       if (!testEmail) {
         return res.status(400).json({ message: "testEmail è richiesto" });
       }
@@ -184,7 +184,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/contacts/filter", checkAuth, async (req, res) => {
     try {
       const startDate = req.query.startDate ? new Date(req.query.startDate as string) : new Date(0);
-      const endDate = req.query.endDate ? new Date(req.query.endDate as string) : new Date();
+      const endDate = req.query.endDate ? new Date(req.query.startDate as string) : new Date();
 
       // Set endDate to the end of the day
       endDate.setHours(23, 59, 59, 999);
@@ -203,7 +203,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/contacts/export", checkAuth, async (req, res) => {
     try {
       const startDate = req.query.startDate ? new Date(req.query.startDate as string) : new Date(0);
-      const endDate = req.query.endDate ? new Date(req.query.endDate as string) : new Date();
+      const endDate = req.query.endDate ? new Date(req.query.startDate as string) : new Date();
 
       // Set endDate to the end of the day
       endDate.setHours(23, 59, 59, 999);
@@ -363,7 +363,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const portfolioItem = await storage.createPortfolioItem(result.data);
-      
+
       // Verify file still exists after database operation
       if (!fs.existsSync(uploadPath)) {
         console.error(`File lost after database operation: ${file.filename}`);
@@ -393,16 +393,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Portfolio routes - simplified and stable
+  // Portfolio routes with auto-restore
   app.get("/api/portfolio", async (req, res) => {
     try {
       const items = await storage.getPortfolioItems();
-      return res.status(200).json(items);
+
+      // Auto-restore missing images in background
+      setImmediate(async () => {
+        try {
+          const backupDirs = ['backup-images', 'portfolio-backup', 'attached_assets'];
+
+          for (const item of items) {
+            const filename = path.basename(item.coverImage);
+            const uploadPath = path.join(uploadsPath, filename);
+
+            if (!fs.existsSync(uploadPath)) {
+              for (const backupDir of backupDirs) {
+                const backupPath = path.join(process.cwd(), backupDir, filename);
+                if (fs.existsSync(backupPath)) {
+                  try {
+                    if (!fs.existsSync(uploadsPath)) {
+                      fs.mkdirSync(uploadsPath, { recursive: true });
+                    }
+                    fs.copyFileSync(backupPath, uploadPath);
+                    console.log(`Auto-restored: ${filename} from ${backupDir}`);
+                    break;
+                  } catch (error) {
+                    console.error(`Error auto-restoring ${filename}:`, error);
+                  }
+                }
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error in auto-restore:", error);
+        }
+      });
+
+      res.json(items);
     } catch (error) {
       console.error("Error fetching portfolio items:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante il recupero degli elementi di portfolio." 
-      });
+      res.status(500).json({ message: "Errore nel recupero degli elementi del portfolio" });
     }
   });
 
@@ -422,7 +453,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       items.forEach(item => {
         const filename = path.basename(item.coverImage);
         const exists = verifyFileIntegrity(filename);
-        
+
         if (exists) {
           diagnostics.itemsWithValidImages++;
         } else {
@@ -465,7 +496,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const { title, description, websiteUrl, featured } = req.body;
-      
+
       const portfolioData: any = {
         title,
         description,
@@ -513,11 +544,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const id = parseInt(req.params.id);
       const success = await storage.deletePortfolioItem(id);
-      
+
       if (!success) {
         return res.status(404).json({ message: "Elemento di portfolio non trovato" });
       }
-      
+
       return res.status(200).json({ message: "Elemento di portfolio eliminato con successo" });
     } catch (error) {
       console.error("Error deleting portfolio item:", error);
@@ -568,15 +599,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("Request body:", req.body);
       console.log("Request file:", req.file);
-      
+
       const { title, content, excerpt, status, metaTitle, metaDescription, featuredImageUrl } = req.body;
-      
+
       if (!title || !content) {
         return res.status(400).json({ 
           message: "Titolo e contenuto sono obbligatori" 
         });
       }
-      
+
       // Generate slug from title
       const slug = title.toLowerCase()
         .replace(/[^a-z0-9\s-]/g, '')
@@ -672,7 +703,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const { title, content, excerpt, status, metaTitle, metaDescription } = req.body;
-      
+
       const updateData: any = {
         title,
         content,
@@ -756,7 +787,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/blog/categories", async (req, res) => {
     try {
       const { name, description } = req.body;
-      
+
       const slug = name.toLowerCase()
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-')
@@ -829,14 +860,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/landing-gallery', async (req, res) => {
     try {
       const images = await storage.getLandingGalleryImages();
-      
+
       // Verifica e ripristina immagini mancanti dal backup
       const verifiedImages = images.map(image => {
         // Gestione sia fileName che imageUrl
         if (image.fileName) {
           const backupPath = path.join(process.cwd(), 'backup-images', image.fileName);
           const publicPath = path.join(process.cwd(), 'uploads', image.fileName);
-          
+
           if (fs.existsSync(backupPath) && !fs.existsSync(publicPath)) {
             try {
               fs.copyFileSync(backupPath, publicPath);
@@ -850,7 +881,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           const fileName = path.basename(image.imageUrl);
           const backupPath = path.join(process.cwd(), 'backup-images', fileName);
           const publicPath = path.join(process.cwd(), 'uploads', fileName);
-          
+
           if (fs.existsSync(backupPath) && !fs.existsSync(publicPath)) {
             try {
               fs.copyFileSync(backupPath, publicPath);
@@ -862,7 +893,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         return image;
       });
-      
+
       res.json(verifiedImages);
     } catch (error) {
       console.error('Error fetching landing gallery images:', error);
@@ -884,12 +915,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/landing-gallery', upload.single('image'), async (req, res) => {
     try {
       const { title, description, altText, sortOrder, isActive } = req.body;
-      
+
       let imageUrl = req.body.imageUrl || '';
       if (req.file) {
         imageUrl = `/uploads/${req.file.filename}`;
         console.log(`File caricato: ${req.file.filename} per immagine: ${title}`);
-        
+
         // File uploaded successfully
       }
 
@@ -918,7 +949,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const id = parseInt(req.params.id);
       const { title, description, altText, sortOrder, isActive } = req.body;
-      
+
       const updateData: any = {
         title,
         description: description || null,
@@ -972,7 +1003,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/site-settings", async (req, res) => {
     try {
       const { metaPixelId, otherTracking, paypalPaymentUrl } = req.body;
-      
+
       const updateData = {
         metaPixelId: metaPixelId?.trim() || null,
         otherTracking: otherTracking?.trim() || null,
@@ -995,7 +1026,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/payments/stripe/create-intent", async (req, res) => {
     try {
       const { email, name } = req.body;
-      
+
       if (!email || !name) {
         return res.status(400).json({ error: "Email e nome sono richiesti" });
       }
@@ -1026,7 +1057,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/payments/paypal/create-order", async (req, res) => {
     try {
       const { email, name } = req.body;
-      
+
       if (!email || !name) {
         return res.status(400).json({ error: "Email e nome sono richiesti" });
       }
@@ -1034,14 +1065,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get PayPal URL from site settings
       const settings = await storage.getSiteSettings();
       const paypalUrl = settings?.paypalPaymentUrl;
-      
+
       if (!paypalUrl) {
         // Fallback to WhatsApp if no PayPal URL is set
         const message = `Ciao! Voglio prenotare uno slot per il sito web a 197 euro. Preferisco pagare con PayPal. I miei dati: Nome: ${name}, Email: ${email}`;
         const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
         return res.json({ redirectUrl: whatsappUrl });
       }
-      
+
       // Use custom PayPal URL
       res.json({ redirectUrl: paypalUrl });
     } catch (error) {
@@ -1054,16 +1085,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/create-payment-intent", async (req, res) => {
     try {
       const { amount, description } = req.body;
-      
+
       if (!process.env.STRIPE_SECRET_KEY) {
         throw new Error('Missing STRIPE_SECRET_KEY');
       }
-      
+
       const Stripe = (await import('stripe')).default;
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
         apiVersion: "2023-10-16",
       });
-      
+
       const paymentIntent = await stripe.paymentIntents.create({
         amount: Math.round(amount * 100), // Convert to cents
         currency: "eur",
@@ -1072,7 +1103,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           product: "landing-website-197"
         }
       });
-      
+
       res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error: any) {
       console.error("Error creating payment intent:", error);

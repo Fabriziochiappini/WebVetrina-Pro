@@ -131,13 +131,38 @@ const Portfolio = () => {
                 </TabsList>
               </Tabs>
 
-              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button className="btn-modern-primary">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Aggiungi Item
-                  </Button>
-                </DialogTrigger>
+              <div className="flex gap-3">
+                <Button 
+                  onClick={async () => {
+                    try {
+                      const response = await fetch('/api/portfolio/restore', { method: 'POST' });
+                      const result = await response.json();
+                      toast({ 
+                        title: "Ripristino completato", 
+                        description: result.message 
+                      });
+                      queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
+                    } catch (error) {
+                      toast({ 
+                        title: "Errore", 
+                        description: "Errore nel ripristino delle immagini", 
+                        variant: "destructive" 
+                      });
+                    }
+                  }}
+                  variant="outline"
+                  className="border-orange-500 text-orange-600 hover:bg-orange-50"
+                >
+                  🔄 Ripristina Immagini
+                </Button>
+                
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="btn-modern-primary">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Aggiungi Item
+                    </Button>
+                  </DialogTrigger></div>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>
