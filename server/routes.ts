@@ -9,7 +9,6 @@ import path from "path";
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
 import Stripe from "stripe";
-import { verifyPortfolioIntegrity, createTripleBackup, fullPortfolioBackup } from "./portfolioImageManager";
 
 // Enhanced file upload configuration with monitoring
 const uploadsPath = new URL('../uploads', import.meta.url).pathname;
@@ -394,36 +393,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Portfolio routes with enhanced image validation and monitoring
+  // Portfolio routes - simplified and stable
   app.get("/api/portfolio", async (req, res) => {
     try {
       const items = await storage.getPortfolioItems();
-      
-      // Check if images exist for each portfolio item with detailed logging
-      const itemsWithImageStatus = items.map(item => {
-        const filename = path.basename(item.coverImage);
-        const imageExists = verifyFileIntegrity(filename);
-        
-        if (!imageExists) {
-          console.warn(`Portfolio item ${item.id} (${item.title}) missing image: ${filename}`);
-        }
-        
-        return {
-          ...item,
-          imageExists
-        };
-      });
-      
-      // Log summary of missing files
-      const missingFiles = itemsWithImageStatus.filter(item => !item.imageExists);
-      if (missingFiles.length > 0) {
-        console.error(`PORTFOLIO INTEGRITY CHECK: ${missingFiles.length} items with missing images`);
-        missingFiles.forEach(item => {
-          console.error(`- ID ${item.id}: ${item.title} (${item.coverImage})`);
-        });
-      }
-      
-      return res.status(200).json(itemsWithImageStatus);
+      return res.status(200).json(items);
     } catch (error) {
       console.error("Error fetching portfolio items:", error);
       return res.status(500).json({ 
