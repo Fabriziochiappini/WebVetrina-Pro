@@ -64,8 +64,8 @@ app.use((req, res, next) => {
 
 // Function to restore portfolio images from backup
 async function restorePortfolioImages() {
-  const uploadsDir = path.join(__dirname, 'uploads');
-  const backupDir = path.join(__dirname, 'backup-images');
+  const uploadsDir = path.join(process.cwd(), 'uploads');
+  const backupDir = path.join(process.cwd(), 'backup-images');
 
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir);
