@@ -274,9 +274,11 @@ export async function generateDailyArticle(): Promise<any> {
 // Funzione principale per generare articoli automatici
 export async function generateBlogArticle(): Promise<{
   title: string;
+  slug: string;
   content: string;
   excerpt: string;
   featuredImage: string;
+  status: string;
   metaTitle: string;
   metaDescription: string;
 }> {
@@ -286,9 +288,11 @@ export async function generateBlogArticle(): Promise<{
     
     return {
       title: article.title,
+      slug: article.slug,
       content: article.content,
       excerpt: article.excerpt,
       featuredImage: article.featuredImage,
+      status: article.status,
       metaTitle: article.metaTitle,
       metaDescription: article.metaDescription
     };
