@@ -862,6 +862,32 @@ Disallow: /api/
     }
   });
 
+  // Route per verificare stato scheduler
+  app.get('/api/scheduler/status', async (req, res) => {
+    try {
+      const isProduction = process.env.NODE_ENV === 'production';
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(9, 0, 0, 0);
+      
+      const timeUntilNext = tomorrow.getTime() - now.getTime();
+      const hoursUntilNext = Math.floor(timeUntilNext / (1000 * 60 * 60));
+      const minutesUntilNext = Math.floor((timeUntilNext % (1000 * 60 * 60)) / (1000 * 60));
+      
+      res.json({
+        schedulerActive: isProduction,
+        environment: process.env.NODE_ENV || 'development',
+        nextRunTime: tomorrow.toLocaleString('it-IT'),
+        timeUntilNext: `${hoursUntilNext}h ${minutesUntilNext}m`,
+        currentTime: now.toLocaleString('it-IT'),
+        status: isProduction ? 'ACTIVE' : 'DISABLED_IN_DEV'
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Errore verifica scheduler' });
+    }
+  });
+
   app.get("/api/blog/topics", async (req, res) => {
     try {
       const { ARTICLE_TOPICS } = await import('./openai');

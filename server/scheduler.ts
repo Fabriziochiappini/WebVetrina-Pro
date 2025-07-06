@@ -34,19 +34,43 @@ export function startDailyScheduler(): void {
     
     setTimeout(async () => {
       try {
-        await publishDailyArticle();
+        console.log('🚀 SCHEDULER ATTIVO - Inizio pubblicazione articolo giornaliero');
+        const article = await publishDailyArticle();
+        console.log('✅ SCHEDULER SUCCESS - Articolo pubblicato:', article.title);
+        
+        // Log per monitoring
+        console.log('📊 SCHEDULER STATS:', {
+          timestamp: new Date().toISOString(),
+          articleId: article.id,
+          title: article.title,
+          status: 'success'
+        });
       } catch (error) {
-        console.error('Errore scheduler giornaliero:', error);
+        console.error('❌ SCHEDULER ERROR - Errore pubblicazione:', error);
+        
+        // Log dettagliato per debugging
+        console.log('📊 SCHEDULER STATS:', {
+          timestamp: new Date().toISOString(),
+          status: 'error',
+          error: error.message
+        });
       }
       
       // Riprogramma per il giorno successivo
       scheduleDaily();
     }, timeUntilNextRun);
     
-    console.log(`📅 Prossimo articolo programmato per: ${tomorrow.toLocaleString('it-IT')}`);
+    console.log(`📅 SCHEDULER CONFIG - Prossimo articolo programmato per: ${tomorrow.toLocaleString('it-IT')}`);
+    console.log(`⏰ SCHEDULER CONFIG - Millisecondi fino al prossimo run: ${timeUntilNextRun}`);
   };
   
+  // Avvia scheduler
   scheduleDaily();
+  
+  // Heartbeat ogni ora per confermare che è attivo
+  setInterval(() => {
+    console.log('💚 SCHEDULER HEARTBEAT - Sistema attivo:', new Date().toLocaleString('it-IT'));
+  }, 60 * 60 * 1000); // Ogni ora
 }
 
 // Funzione per pubblicare articolo manualmente
