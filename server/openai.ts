@@ -230,11 +230,11 @@ export async function generateDailyArticle(): Promise<any> {
       '<a href="https://webproitalia.com" target="_blank" rel="noopener">$1</a>'
     );
     
-    // Aggiungi link interno al blog o offerte
+    // Aggiungi link interno sempre alla homepage
     const internalLinks = [
-      '<a href="/lite">offerta sito web a 197€</a>',
-      '<a href="/">scopri i nostri servizi</a>',
-      '<a href="#contact">richiedi preventivo</a>'
+      '<a href="https://webproitalia.com" target="_blank" rel="noopener">offerta sito web a 197€</a>',
+      '<a href="https://webproitalia.com" target="_blank" rel="noopener">scopri i nostri servizi</a>',
+      '<a href="https://webproitalia.com" target="_blank" rel="noopener">richiedi preventivo</a>'
     ];
     const randomInternalLink = internalLinks[Math.floor(Math.random() * internalLinks.length)];
     
