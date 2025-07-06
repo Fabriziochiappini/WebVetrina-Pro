@@ -868,11 +868,13 @@ Disallow: /api/
       const { getScheduleConfig } = await import('./scheduler');
       const config = getScheduleConfig();
       const now = new Date();
+      const italianTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Rome"}));
       
       res.json({
         schedulerActive: config.enabled,
         environment: process.env.NODE_ENV || 'development',
-        currentTime: now.toLocaleString('it-IT'),
+        currentTime: italianTime.toLocaleString('it-IT'),
+        serverTime: now.toLocaleString('it-IT'),
         scheduleConfig: config,
         status: config.enabled ? 'ACTIVE' : 'DISABLED'
       });

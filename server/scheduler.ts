@@ -41,18 +41,24 @@ let lastExecutionDates: Map<string, string> = new Map(); // Traccia ultime esecu
 
 // Funzione per controllare se è ora di eseguire un articolo
 function checkAndExecuteArticle(time: string, articleNumber: number): void {
+  // Usa timezone italiano
   const now = new Date();
+  const italianTime = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Rome"}));
   const [hours, minutes] = time.split(':').map(Number);
   
   // Controllo se siamo nell'orario giusto (con margine di 1 minuto)
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
+  const currentHour = italianTime.getHours();
+  const currentMinute = italianTime.getMinutes();
+  
+  console.log(`🕐 SCHEDULER CHECK - Ora italiana: ${italianTime.toLocaleTimeString('it-IT')}, Target: ${time}, Articolo: ${articleNumber}`);
   
   const isTimeToExecute = (currentHour === hours && currentMinute === minutes);
   
   if (isTimeToExecute) {
-    const today = now.toDateString();
+    const today = italianTime.toDateString();
     const executionKey = `${articleNumber}-${today}`;
+    
+    console.log(`⚡ SCHEDULER TRIGGER - Articolo ${articleNumber} alle ${time} - Ora italiana: ${italianTime.toLocaleTimeString('it-IT')}`);
     
     // Controlla se abbiamo già eseguito oggi
     if (lastExecutionDates.has(executionKey)) {
@@ -107,10 +113,10 @@ function scheduleArticleAt(time: string, articleNumber: number): void {
   
   console.log(`📅 ARTICOLO ${articleNumber} programmato per ogni giorno alle ${time}`);
   
-  // Controllo ogni minuto
+  // Controllo ogni 30 secondi per maggiore precisione
   const interval = setInterval(() => {
     checkAndExecuteArticle(time, articleNumber);
-  }, 60000); // Ogni minuto
+  }, 30000); // Ogni 30 secondi
   
   activeTimeouts.push(interval as any);
   
