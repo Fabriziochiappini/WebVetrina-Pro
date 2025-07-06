@@ -276,15 +276,22 @@ export async function generateBlogArticle(): Promise<{
   title: string;
   slug: string;
   content: string;
-  excerpt: string;
-  featuredImage: string;
-  status: string;
-  metaTitle: string;
-  metaDescription: string;
+  excerpt?: string;
+  featuredImage?: string;
+  status: "draft" | "published";
+  metaTitle?: string;
+  metaDescription?: string;
 }> {
   try {
     // Usa la nuova strategia SEO integrata
     const article = await generateDailyArticle();
+    
+    console.log('🔍 DEBUG - Article generated:', {
+      title: article.title,
+      slug: article.slug,
+      hasContent: !!article.content,
+      status: article.status
+    });
     
     return {
       title: article.title,
@@ -292,7 +299,7 @@ export async function generateBlogArticle(): Promise<{
       content: article.content,
       excerpt: article.excerpt,
       featuredImage: article.featuredImage,
-      status: article.status,
+      status: article.status as "draft" | "published",
       metaTitle: article.metaTitle,
       metaDescription: article.metaDescription
     };

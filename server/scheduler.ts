@@ -8,6 +8,24 @@ export async function publishDailyArticle(): Promise<void> {
     
     const articleData = await generateBlogArticle();
     
+    // SAFETY CHECK: Assicurati che lo slug esista
+    if (!articleData.slug) {
+      console.log('⚠️ SAFETY: Generando slug mancante...');
+      articleData.slug = articleData.title
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+    }
+    
+    console.log('🔍 DEBUG - Article data before DB:', {
+      title: articleData.title,
+      slug: articleData.slug,
+      hasContent: !!articleData.content,
+      status: articleData.status
+    });
+    
     // Crea l'articolo nel database
     const newArticle = await storage.createBlogPost(articleData);
     
