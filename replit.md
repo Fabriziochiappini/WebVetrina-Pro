@@ -124,6 +124,13 @@ Required environment variables:
 
 Preferred communication style: Simple, everyday language.
 
+### Content Generation Preferences
+- **Article Quality**: User requires 1500-2000+ word articles consistently
+- **Content Originality**: Confirmed preference for original OpenAI-generated content
+- **Cost Awareness**: User informed that articles cost ~€0.10-0.15 each via OpenAI API
+- **Length Consistency**: User specifically concerned about avoiding short articles (2-3 sentences)
+- **Professional Images**: Prefers Unsplash stock images over local uploads
+
 ## Changelog
 
 - July 6, 2025. SEO OTTIMIZZAZIONE COMPLETA: implementato title site "Web Pro Italia - Realizzazione e creazione siti web aziendali professionali per la tua attività", meta description SEO-friendly, parole chiave strategiche, structured data JSON-LD, robots.txt e sitemap.xml dinamico. Sito ora completamente ottimizzato per motori di ricerca.
