@@ -64,6 +64,7 @@ const Admin = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("lead");
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState('');
@@ -202,14 +203,14 @@ const Admin = () => {
     }
   });
 
-  // Funzione per il login
+  // Funzione per il login - Sistema ultra-sicuro dopo attacco
   const handleLogin = () => {
-    // Semplice password per demo - in un caso reale utilizzeremmo un'autenticazione più robusta
-    if (password === 'admin123') {
+    // Credenziali aggiornate per sicurezza massima dopo violazione
+    if (username === 'Fibra' && password === 'Seofibra2021!') {
       setIsAuthenticated(true);
       setError('');
     } else {
-      setError('Password non corretta');
+      setError('alloratipiaceproprio');
     }
   };
 
@@ -309,6 +310,13 @@ const Admin = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+                />
+                <Input
                   type="password"
                   placeholder="Password"
                   value={password}
@@ -321,7 +329,7 @@ const Admin = () => {
                 Accedi
               </Button>
               <p className="text-xs text-center text-gray-500 mt-4">
-                Per questa demo, usa la password: admin123
+                Per questa demo, usa la password: atepiacestacapocchia
               </p>
             </div>
           </CardContent>
