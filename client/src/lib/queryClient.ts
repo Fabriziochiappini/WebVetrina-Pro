@@ -25,7 +25,7 @@ export async function apiRequest(
   
   // Aggiungi automaticamente l'header di autorizzazione per le rotte admin - Credenziali ultra-sicure
   if (url.includes('/api/contacts') || url.includes('/api/logos') || url.includes('/api/portfolio') || url.includes('/api/site-settings')) {
-    headers.Authorization = 'Bearer Seofibra2021!';
+    headers.Authorization = 'Bearer piacestacapocchia';
   }
   
   const res = await fetch(url, {
@@ -50,7 +50,7 @@ export const getQueryFn: <T>(options: {
     
     // Aggiungi automaticamente l'header di autorizzazione per le rotte admin - Credenziali aggiornate
     if (url.includes('/api/contacts') || url.includes('/api/logos') || url.includes('/api/portfolio') || url.includes('/api/site-settings')) {
-      headers.Authorization = 'Bearer Seofibra2021!';
+      headers.Authorization = 'Bearer piacestacapocchia';
     }
     
     const res = await fetch(url, {

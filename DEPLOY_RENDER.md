@@ -49,6 +49,6 @@ Dopo il primo deploy:
 
 ## Login Admin
 
-- Username: `Fibra`
-- Password: `Seofibra2021!`
+- Username: `atuamadre`
+- Password: `piacestacapocchia`
 - URL Admin: `https://webvetrina-pro.onrender.com/admin`

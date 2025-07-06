@@ -206,11 +206,11 @@ const Admin = () => {
   // Funzione per il login - Sistema ultra-sicuro dopo attacco
   const handleLogin = () => {
     // Credenziali aggiornate per sicurezza massima dopo violazione
-    if (username === 'Fibra' && password === 'Seofibra2021!') {
+    if (username === 'atuamadre' && password === 'piacestacapocchia') {
       setIsAuthenticated(true);
       setError('');
     } else {
-      setError('alloratipiaceproprio');
+      setError('Prova con tua sorella');
     }
   };
 
@@ -329,7 +329,7 @@ const Admin = () => {
                 Accedi
               </Button>
               <p className="text-xs text-center text-gray-500 mt-4">
-                Per questa demo, usa la password: atepiacestacapocchia
+                Per questa demo, usa User: atuamadre password: piacestacapocchia
               </p>
             </div>
           </CardContent>

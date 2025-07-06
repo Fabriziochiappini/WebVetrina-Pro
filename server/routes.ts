@@ -65,7 +65,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const checkAuth = (req: Request, res: Response, next: Function) => {
   // Sistema ultra-sicuro dopo attacco - Credenziali aggiornate
   const authHeader = req.headers.authorization;
-  if (authHeader === 'Bearer Seofibra2021!' || (req.session && req.session.user)) {
+  if (authHeader === 'Bearer piacestacapocchia' || (req.session && req.session.user)) {
     return next();
   }
   return res.status(401).json({ message: "Accesso negato - Autorizzazione non valida" });
