@@ -1,4 +1,4 @@
-import { generateDailyArticle } from './openai';
+import { generateBlogArticle } from './openaiSEO';
 import { storage } from './storage';
 
 // Funzione per pubblicare articolo automaticamente
@@ -6,7 +6,7 @@ export async function publishDailyArticle(): Promise<void> {
   try {
     console.log('🤖 Generazione articolo giornaliero in corso...');
     
-    const articleData = await generateDailyArticle();
+    const articleData = await generateBlogArticle();
     
     // Crea l'articolo nel database
     const newArticle = await storage.createBlogPost(articleData);

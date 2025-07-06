@@ -862,6 +862,36 @@ Disallow: /api/
     }
   });
 
+  // Endpoint per generazione articoli SEO strategici
+  app.post("/api/blog/generate-seo", async (req, res) => {
+    try {
+      console.log('🎯 Richiesta generazione articolo SEO strategico...');
+      const { generateBlogArticle } = await import('./openaiSEO');
+      const article = await generateBlogArticle();
+      
+      // Salva l'articolo nel database
+      const newArticle = await storage.createBlogPost({
+        title: article.title,
+        content: article.content,
+        excerpt: article.excerpt,
+        featuredImage: article.featuredImage,
+        status: "published" as const,
+        metaTitle: article.metaTitle,
+        metaDescription: article.metaDescription,
+      });
+      
+      return res.status(201).json({
+        message: "Articolo SEO strategico generato con successo",
+        article: newArticle
+      });
+    } catch (error) {
+      console.error("Error generating SEO article:", error);
+      return res.status(500).json({ 
+        message: "Errore durante la generazione dell'articolo SEO: " + error.message 
+      });
+    }
+  });
+
   // Route per verificare stato scheduler
   app.get('/api/scheduler/status', async (req, res) => {
     try {

@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { getRandomSEOCombination, getCityData, getSectorData, coreKeywords, targetCities, targetSectors } from "./seoConfig";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY environment variable must be set");
@@ -20,14 +21,47 @@ interface ArticleStructure {
   category: string;
 }
 
-// Prompt template per la generazione articoli
-const SEO_ARTICLE_PROMPT = `
+// Funzione per generare prompt dinamico basato su combinazione SEO
+function generateSEOPrompt(seoCombination: any) {
+  const { type, keyword, city, sector, title } = seoCombination;
+  
+  let specificContext = "";
+  let localKeywords = "";
+  let sectorContext = "";
+  
+  if (city) {
+    const cityData = getCityData(city.toLowerCase().replace(/\s+/g, '-'));
+    if (cityData) {
+      localKeywords = cityData.localKeywords.join(", ");
+      specificContext += `\nCONTESTO GEOGRAFICO: ${city}, ${cityData.region}`;
+      specificContext += `\nPOPOLAZIONE: ${cityData.population} abitanti`;
+      specificContext += `\nPAROLE CHIAVE LOCALI: ${localKeywords}`;
+    }
+  }
+  
+  if (sector) {
+    const sectorData = getSectorData(sector.toLowerCase().replace(/\s+/g, '-'));
+    if (sectorData) {
+      sectorContext += `\nSETTORE SPECIFICO: ${sector}`;
+      sectorContext += `\nPAIN POINTS: ${sectorData.painPoints.join(", ")}`;
+      sectorContext += `\nSOLUZIONI: ${sectorData.solutions.join(", ")}`;
+      sectorContext += `\nKEYWORDS SETTORE: ${sectorData.keywords.join(", ")}`;
+    }
+  }
+
+  return `
 Sei un esperto copywriter SEO specializzato in siti web aziendali e realizzazione siti web professionali.
 
 Scrivi un articolo completo e professionale seguendo queste specifiche:
 
+TIPO ARTICOLO: ${type}
+TITOLO TARGET: ${title}
+PAROLA CHIAVE PRINCIPALE: ${keyword}
+${specificContext}
+${sectorContext}
+
 PAROLE CHIAVE PRINCIPALI:
-- realizzazione siti web
+- ${keyword}
 - creazione siti web professionali
 - siti web aziendali
 - web design professionale
