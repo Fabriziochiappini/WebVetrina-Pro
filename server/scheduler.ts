@@ -65,14 +65,38 @@ export async function publishArticleNow(topic?: string, focus?: string): Promise
         .replace(/\s+/g, '-')
         .replace(/-+/g, '-')
         .trim();
+
+      // Aggiungi link interni
+      let content = generated.sections.map(s => `<h2>${s.heading}</h2><p>${s.content}</p>`).join('\n');
+      
+      // Aggiungi link a webproitalia.com
+      content = content.replace(
+        /(realizzazione siti web|creazione siti web|siti web professionali)/i,
+        '<a href="https://webproitalia.com" target="_blank" rel="noopener">$1</a>'
+      );
+      
+      // Aggiungi link interno
+      content = content.replace(
+        /(preventivo|contatto|servizi|offerta)/i,
+        '<a href="/lite">offerta sito web a 197€</a>'
+      );
+      
+      // Immagine casuale
+      const existingImages = [
+        '/uploads/image-1750620709085-268668923.png',
+        '/uploads/image-1750620654884-416430495.png',
+        '/uploads/image-1750263183202-340595682.png'
+      ];
+      const randomImage = existingImages[Math.floor(Math.random() * existingImages.length)];
       
       articleData = {
         title: generated.title,
         slug: slug,
-        content: generated.sections.map(s => `<h2>${s.heading}</h2><p>${s.content}</p>`).join('\n'),
+        content: content,
         excerpt: generated.metaDescription,
         metaTitle: generated.title,
         metaDescription: generated.metaDescription,
+        featuredImage: randomImage,
         status: 'published',
         publishedAt: new Date()
       };

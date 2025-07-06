@@ -38,7 +38,7 @@ STRUTTURA RICHIESTA:
 2. Meta description accattivante (max 155 caratteri)
 3. Introduzione coinvolgente (150-200 parole)
 4. 5-7 sezioni principali con sottotitoli H2
-5. Conclusione con call-to-action
+5. Conclusione con call-to-action forte verso Web Pro Italia
 6. Lista di 8-10 parole chiave correlate
 
 TONO E STILE:
@@ -46,6 +46,7 @@ TONO E STILE:
 - Orientato al business
 - Convincente e autorevole
 - Lunghezza totale: 1500-2000 parole
+- Includi sempre una call-to-action finale che inviti a contattare Web Pro Italia
 
 ARGOMENTO: {topic}
 
@@ -178,13 +179,44 @@ export async function generateDailyArticle(): Promise<any> {
       .replace(/-+/g, '-')
       .trim();
 
+    // Aggiungi link interni al contenuto
+    let enhancedContent = result.content;
+    
+    // Aggiungi link a webproitalia.com
+    enhancedContent = enhancedContent.replace(
+      /(realizzazione siti web|creazione siti web|siti web professionali)/i,
+      '<a href="https://webproitalia.com" target="_blank" rel="noopener">$1</a>'
+    );
+    
+    // Aggiungi link interno al blog o offerte
+    const internalLinks = [
+      '<a href="/lite">offerta sito web a 197€</a>',
+      '<a href="/">scopri i nostri servizi</a>',
+      '<a href="#contact">richiedi preventivo</a>'
+    ];
+    const randomInternalLink = internalLinks[Math.floor(Math.random() * internalLinks.length)];
+    
+    enhancedContent = enhancedContent.replace(
+      /(preventivo|contatto|servizi|offerta)/i,
+      randomInternalLink
+    );
+
+    // Seleziona immagine casuale esistente
+    const existingImages = [
+      '/uploads/image-1750620709085-268668923.png',
+      '/uploads/image-1750620654884-416430495.png',
+      '/uploads/image-1750263183202-340595682.png'
+    ];
+    const randomImage = existingImages[Math.floor(Math.random() * existingImages.length)];
+
     return {
       title: result.title,
       slug: slug,
-      content: result.content,
+      content: enhancedContent,
       excerpt: result.excerpt,
       metaTitle: result.title,
       metaDescription: result.metaDescription,
+      featuredImage: randomImage,
       status: 'published',
       publishedAt: new Date()
     };
