@@ -819,6 +819,54 @@ Disallow: /api/
     }
   });
 
+  // OpenAI Article Generation Routes
+  app.post("/api/blog/generate", async (req, res) => {
+    try {
+      const { topic, focus } = req.body;
+      
+      if (!topic || !focus) {
+        return res.status(400).json({ 
+          message: "Topic e focus sono richiesti" 
+        });
+      }
+
+      const { publishArticleNow } = await import('./scheduler');
+      const newArticle = await publishArticleNow(topic, focus);
+      
+      return res.status(201).json({
+        message: "Articolo generato e pubblicato con successo",
+        article: newArticle
+      });
+    } catch (error) {
+      console.error("Error generating article:", error);
+      return res.status(500).json({ 
+        message: "Errore durante la generazione dell'articolo: " + error.message 
+      });
+    }
+  });
+
+  app.post("/api/blog/generate-daily", async (req, res) => {
+    try {
+      const { publishDailyArticle } = await import('./scheduler');
+      const newArticle = await publishDailyArticle();
+      
+      return res.status(201).json({
+        message: "Articolo giornaliero generato con successo",
+        article: newArticle
+      });
+    } catch (error) {
+      console.error("Error generating daily article:", error);
+      return res.status(500).json({ 
+        message: "Errore durante la generazione dell'articolo giornaliero: " + error.message 
+      });
+    }
+  });
+
+  app.get("/api/blog/topics", (req, res) => {
+    const { ARTICLE_TOPICS } = require('./openai');
+    return res.json(ARTICLE_TOPICS);
+  });
+
   app.post("/api/blog/posts/:id/publish", async (req, res) => {
     try {
       const id = parseInt(req.params.id);

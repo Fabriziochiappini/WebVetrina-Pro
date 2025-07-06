@@ -139,5 +139,14 @@ async function restorePortfolioImages() {
 
     // Restore missing portfolio images on startup
     setTimeout(restorePortfolioImages, 2000);
+    
+    // Avvia scheduler per articoli giornalieri
+    if (process.env.NODE_ENV === 'production') {
+      const { startDailyScheduler } = await import('./scheduler');
+      startDailyScheduler();
+      console.log('🤖 Scheduler articoli giornalieri attivato');
+    } else {
+      console.log('📝 Scheduler articoli in modalità development (disattivato)');
+    }
   });
 })();

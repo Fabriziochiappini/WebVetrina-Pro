@@ -14,6 +14,7 @@ import { Plus, Edit, Trash2, Eye, Upload, Link as LinkIcon } from "lucide-react"
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import SimpleEditor from "./SimpleEditor";
+import AIArticleGenerator from "./AIArticleGenerator";
 
 interface BlogPost {
   id: number;
@@ -218,8 +219,11 @@ const BlogManagement = () => {
 
   return (
     <div className="space-y-6">
+      {/* AI Article Generator */}
+      <AIArticleGenerator />
+      
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Gestione Blog</h2>
+        <h2 className="text-2xl font-bold">Articoli Esistenti</h2>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={resetForm}>
