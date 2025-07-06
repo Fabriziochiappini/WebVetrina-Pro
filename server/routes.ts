@@ -905,6 +905,66 @@ Disallow: /api/
     }
   });
 
+  // Route per test immediato dello scheduler (solo per testing)
+  app.post('/api/scheduler/test-now', async (req, res) => {
+    try {
+      console.log('🧪 TEST SCHEDULER - Simulazione esecuzione immediata');
+      
+      const article = await publishDailyArticle();
+      
+      res.json({
+        success: true,
+        message: 'Test scheduler completato con successo',
+        article: {
+          id: article.id,
+          title: article.title,
+          slug: article.slug
+        },
+        timestamp: new Date().toISOString()
+      });
+      
+      console.log('✅ TEST SCHEDULER SUCCESS - Articolo di test pubblicato:', article.title);
+    } catch (error) {
+      console.error('❌ TEST SCHEDULER ERROR:', error);
+      res.status(500).json({ 
+        error: 'Errore durante test scheduler',
+        details: error.message 
+      });
+    }
+  });
+
+  // Route per forzare esecuzione di un articolo specifico
+  app.post('/api/scheduler/force/:articleNumber', async (req, res) => {
+    try {
+      const { articleNumber } = req.params;
+      const now = new Date();
+      
+      console.log(`🚀 FORCE EXECUTION - Articolo ${articleNumber} forzato manualmente`);
+      
+      const article = await publishDailyArticle();
+      
+      res.json({
+        success: true,
+        message: `Articolo ${articleNumber} eseguito forzatamente`,
+        article: {
+          id: article.id,
+          title: article.title,
+          slug: article.slug
+        },
+        timestamp: now.toISOString(),
+        forced: true
+      });
+      
+      console.log(`✅ FORCE SUCCESS - Articolo ${articleNumber} pubblicato:`, article.title);
+    } catch (error) {
+      console.error(`❌ FORCE ERROR - Articolo ${req.params.articleNumber}:`, error);
+      res.status(500).json({ 
+        error: 'Errore durante esecuzione forzata',
+        details: error.message 
+      });
+    }
+  });
+
   app.get("/api/blog/topics", async (req, res) => {
     try {
       const { ARTICLE_TOPICS } = await import('./openai');

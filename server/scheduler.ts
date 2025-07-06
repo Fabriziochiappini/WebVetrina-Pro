@@ -37,60 +37,85 @@ let currentScheduleConfig: ScheduleConfig = {
 };
 
 let activeTimeouts: NodeJS.Timeout[] = [];
+let lastExecutionDates: Map<string, string> = new Map(); // Traccia ultime esecuzioni
 
-// Funzione per programmare un singolo articolo
+// Funzione per controllare se è ora di eseguire un articolo
+function checkAndExecuteArticle(time: string, articleNumber: number): void {
+  const now = new Date();
+  const [hours, minutes] = time.split(':').map(Number);
+  
+  // Controllo se siamo nell'orario giusto (con margine di 1 minuto)
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+  
+  const isTimeToExecute = (currentHour === hours && currentMinute === minutes);
+  
+  if (isTimeToExecute) {
+    const today = now.toDateString();
+    const executionKey = `${articleNumber}-${today}`;
+    
+    // Controlla se abbiamo già eseguito oggi
+    if (lastExecutionDates.has(executionKey)) {
+      return; // Già eseguito oggi
+    }
+    
+    // Esegui l'articolo
+    executeArticle(time, articleNumber, executionKey);
+  }
+}
+
+// Funzione per eseguire effettivamente l'articolo
+async function executeArticle(time: string, articleNumber: number, executionKey: string): Promise<void> {
+  try {
+    console.log(`🚀 SCHEDULER ARTICOLO ${articleNumber} - Inizio pubblicazione alle ${time}`);
+    
+    // Marca come eseguito prima dell'esecuzione per evitare duplicati
+    lastExecutionDates.set(executionKey, new Date().toISOString());
+    
+    const article = await publishDailyArticle();
+    console.log(`✅ SCHEDULER SUCCESS - Articolo ${articleNumber} pubblicato:`, article.title);
+    
+    console.log('📊 SCHEDULER STATS:', {
+      timestamp: new Date().toISOString(),
+      articleNumber,
+      scheduledTime: time,
+      articleId: article.id,
+      title: article.title,
+      status: 'success'
+    });
+    
+  } catch (error) {
+    console.error(`❌ SCHEDULER ERROR - Articolo ${articleNumber}:`, error);
+    
+    console.log('📊 SCHEDULER STATS:', {
+      timestamp: new Date().toISOString(),
+      articleNumber,
+      scheduledTime: time,
+      status: 'error',
+      error: error.message
+    });
+    
+    // Rimuovi dal tracking se c'è stato un errore, così può riprovare
+    lastExecutionDates.delete(executionKey);
+  }
+}
+
+// Funzione per programmare un singolo articolo con controllo continuo
 function scheduleArticleAt(time: string, articleNumber: number): void {
   const now = new Date();
   const [hours, minutes] = time.split(':').map(Number);
   
-  // Calcola prossima esecuzione
-  const nextRun = new Date(now);
-  nextRun.setHours(hours, minutes, 0, 0);
+  console.log(`📅 ARTICOLO ${articleNumber} programmato per ogni giorno alle ${time}`);
   
-  // Se l'orario è già passato oggi, programa per domani
-  if (nextRun <= now) {
-    nextRun.setDate(nextRun.getDate() + 1);
-  }
+  // Controllo ogni minuto
+  const interval = setInterval(() => {
+    checkAndExecuteArticle(time, articleNumber);
+  }, 60000); // Ogni minuto
   
-  const timeUntilRun = nextRun.getTime() - now.getTime();
+  activeTimeouts.push(interval as any);
   
-  const timeout = setTimeout(async () => {
-    try {
-      console.log(`🚀 SCHEDULER ARTICOLO ${articleNumber} - Inizio pubblicazione alle ${time}`);
-      const article = await publishDailyArticle();
-      console.log(`✅ SCHEDULER SUCCESS - Articolo ${articleNumber} pubblicato:`, article.title);
-      
-      console.log('📊 SCHEDULER STATS:', {
-        timestamp: new Date().toISOString(),
-        articleNumber,
-        scheduledTime: time,
-        articleId: article.id,
-        title: article.title,
-        status: 'success'
-      });
-      
-      // Riprogramma per il giorno successivo
-      scheduleArticleAt(time, articleNumber);
-    } catch (error) {
-      console.error(`❌ SCHEDULER ERROR - Articolo ${articleNumber}:`, error);
-      
-      console.log('📊 SCHEDULER STATS:', {
-        timestamp: new Date().toISOString(),
-        articleNumber,
-        scheduledTime: time,
-        status: 'error',
-        error: error.message
-      });
-      
-      // Riprogramma anche in caso di errore
-      scheduleArticleAt(time, articleNumber);
-    }
-  }, timeUntilRun);
-  
-  activeTimeouts.push(timeout);
-  
-  console.log(`📅 ARTICOLO ${articleNumber} programmato per: ${nextRun.toLocaleString('it-IT')}`);
-  console.log(`⏰ Millisecondi fino al run: ${timeUntilRun}`);
+  // Controlla immediatamente se è già ora
+  checkAndExecuteArticle(time, articleNumber);
 }
 
 // Scheduler personalizzabile

@@ -237,18 +237,57 @@ const SchedulerMonitoring = () => {
                 </Button>
 
                 {enabled && (
-                  <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded">
-                    <p className="text-sm text-green-800">
-                      ✅ Scheduler attivo! Articoli programmati per: {article1Time}, {article2Time}, {article3Time}
-                    </p>
+                  <div className="mt-3 space-y-3">
+                    <div className="p-3 bg-green-50 border border-green-200 rounded">
+                      <p className="text-sm text-green-800">
+                        ✅ Scheduler attivo! Articoli programmati per: {article1Time}, {article2Time}, {article3Time}
+                      </p>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-3 rounded border">
+                      <p className="text-sm font-medium mb-2">Forza Esecuzione Immediata:</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[1, 2, 3].map(num => (
+                          <Button
+                            key={num}
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              fetch(`/api/scheduler/force/${num}`, { method: 'POST' })
+                                .then(res => res.json())
+                                .then(data => {
+                                  toast({
+                                    title: `Articolo ${num} Forzato`,
+                                    description: `"${data.article.title}" pubblicato`,
+                                  });
+                                  queryClient.invalidateQueries({ queryKey: ['/api/blog/posts'] });
+                                })
+                                .catch(error => {
+                                  toast({
+                                    title: "Errore Esecuzione",
+                                    description: error.message,
+                                    variant: "destructive",
+                                  });
+                                });
+                            }}
+                            className="text-xs"
+                          >
+                            Art. {num}
+                          </Button>
+                        ))}
+                      </div>
+                      <p className="text-xs text-gray-500 mt-2">
+                        Forza l'esecuzione immediata di uno specifico articolo programmato
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
 
               {/* Azioni manuali */}
               <div className="space-y-4">
-                <h4 className="font-medium">Azioni Manuali</h4>
-                <div className="flex gap-3">
+                <h4 className="font-medium">🧪 Test e Azioni Manuali</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <Button 
                     onClick={handleGenerateNow}
                     disabled={generateArticle.isPending || isGenerating}
@@ -257,18 +296,45 @@ const SchedulerMonitoring = () => {
                     {(generateArticle.isPending || isGenerating) ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Generazione in corso...
+                        Generazione...
                       </>
                     ) : (
                       <>
                         <PlayCircle className="mr-2 h-4 w-4" />
-                        Genera Articolo Ora
+                        Genera Ora
                       </>
                     )}
                   </Button>
+                  
+                  <Button 
+                    onClick={() => {
+                      // Test dello scheduler
+                      fetch('/api/scheduler/test-now', { method: 'POST' })
+                        .then(res => res.json())
+                        .then(data => {
+                          toast({
+                            title: "Test Completato",
+                            description: `Articolo test: "${data.article.title}"`,
+                          });
+                          queryClient.invalidateQueries({ queryKey: ['/api/blog/posts'] });
+                        })
+                        .catch(error => {
+                          toast({
+                            title: "Test Fallito",
+                            description: error.message,
+                            variant: "destructive",
+                          });
+                        });
+                    }}
+                    variant="outline"
+                    className="flex items-center"
+                  >
+                    <CheckCircle className="mr-2 h-4 w-4" />
+                    Test Scheduler
+                  </Button>
                 </div>
                 <p className="text-xs text-gray-500">
-                  Genera immediatamente un nuovo articolo senza aspettare lo scheduler automatico
+                  Usa "Genera Ora" per test normali o "Test Scheduler" per simulare l'esecuzione automatica
                 </p>
               </div>
 
