@@ -119,7 +119,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 Allow: /
 
 # Sitemap
-Sitemap: https://webpro-italia.com/sitemap.xml
+Sitemap: https://webproitalia.com/sitemap.xml
 
 # Allow search engines to index all content
 Allow: /portfolio
@@ -136,75 +136,7 @@ Disallow: /api/
 # Generated: ${new Date().toISOString().split('T')[0]}`);
   });
 
-  app.get('/sitemap.xml', async (req, res) => {
-    try {
-      const baseUrl = 'https://webpro-italia.com';
-      const currentDate = new Date().toISOString().split('T')[0];
-      
-      // Get blog posts for sitemap
-      const posts = await storage.getAllBlogPosts();
-      
-      let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${baseUrl}/</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/portfolio</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/blog</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/offerta-197</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/offerta-197form</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/thankyou</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>`;
 
-      // Add blog posts to sitemap
-      posts.filter(post => post.status === 'published').forEach(post => {
-        const publishedDate = post.publishedAt ? new Date(post.publishedAt).toISOString().split('T')[0] : currentDate;
-        sitemap += `
-  <url>
-    <loc>${baseUrl}/blog/${post.slug}</loc>
-    <lastmod>${publishedDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>`;
-      });
-
-      sitemap += `
-</urlset>`;
-
-      res.type('application/xml');
-      res.send(sitemap);
-    } catch (error) {
-      console.error('Error generating sitemap:', error);
-      res.status(500).send('Error generating sitemap');
-    }
-  });
 
   // Route per servire direttamente il sito HTML statico
   app.get("/static", (req, res) => {
