@@ -23,12 +23,14 @@ app.use(session({
     pool: pool,
     tableName: 'sessions'
   }),
-  secret: process.env.SESSION_SECRET || 'webdesign_secret_key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { 
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 // 24 ore
+    maxAge: 24 * 60 * 60 * 1000, // 24 ore
+    httpOnly: true,
+    sameSite: 'strict'
   }
 }));
 
