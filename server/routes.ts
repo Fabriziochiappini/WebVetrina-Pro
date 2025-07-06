@@ -935,6 +935,61 @@ Disallow: /api/
     }
   });
 
+  // Route per inizializzare portfolio con esempi (solo dev)
+  app.post('/api/portfolio/init-examples', async (req, res) => {
+    try {
+      // Solo in development
+      if (process.env.NODE_ENV === 'production') {
+        return res.status(403).json({ message: 'Non disponibile in produzione' });
+      }
+
+      const existingItems = await storage.getPortfolioItems();
+      if (existingItems.length > 0) {
+        return res.json({ message: 'Portfolio già inizializzato', count: existingItems.length });
+      }
+
+      // Crea elementi di esempio
+      const examples = [
+        {
+          title: "E-commerce Fashion",
+          description: "Sito e-commerce completo per brand di moda con sistema di pagamenti integrato",
+          websiteUrl: "https://example-fashion.com",
+          coverImage: "/uploads/placeholder-fashion.jpg",
+          featured: true
+        },
+        {
+          title: "Studio Medico",
+          description: "Sito professionale per studio medico con prenotazioni online",
+          websiteUrl: "https://example-medical.com", 
+          coverImage: "/uploads/placeholder-medical.jpg",
+          featured: true
+        },
+        {
+          title: "Ristorante Gourmet",
+          description: "Sito per ristorante con menu digitale e sistema prenotazioni",
+          websiteUrl: "https://example-restaurant.com",
+          coverImage: "/uploads/placeholder-restaurant.jpg",
+          featured: true
+        }
+      ];
+
+      const created = [];
+      for (const example of examples) {
+        const item = await storage.createPortfolioItem(example);
+        created.push(item);
+      }
+
+      res.json({ 
+        message: 'Portfolio inizializzato con successo',
+        created: created.length,
+        items: created
+      });
+    } catch (error) {
+      console.error('Errore inizializzazione portfolio:', error);
+      res.status(500).json({ error: 'Errore inizializzazione' });
+    }
+  });
+
   // Route per forzare esecuzione di un articolo specifico
   app.post('/api/scheduler/force/:articleNumber', async (req, res) => {
     try {

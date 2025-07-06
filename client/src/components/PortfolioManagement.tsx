@@ -33,6 +33,23 @@ const PortfolioManagement = () => {
     queryKey: ["/api/portfolio"],
   });
 
+  // Mutation per inizializzare portfolio con esempi
+  const initExamples = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("POST", "/api/portfolio/init-examples");
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/portfolio"] });
+      toast({ 
+        title: "Portfolio Inizializzato", 
+        description: `Aggiunti ${data.created} progetti di esempio` 
+      });
+    },
+    onError: (error: any) => {
+      toast({ title: "Errore", description: error.message, variant: "destructive" });
+    },
+  });
+
   const createMutation = useMutation({
     mutationFn: async (data: FormData) => {
       return await apiRequest("POST", "/api/portfolio", data);
@@ -80,7 +97,7 @@ const PortfolioManagement = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.target as HTMLFormElement);
     
     if (editingItem) {
       updateMutation.mutate({ id: editingItem.id, data: formData });
@@ -118,101 +135,113 @@ const PortfolioManagement = () => {
           </p>
         </div>
         
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => setEditingItem(null)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Nuovo Progetto
+        <div className="flex gap-2">
+          {portfolioItems.length === 0 && (
+            <Button 
+              variant="outline" 
+              onClick={() => initExamples.mutate()}
+              disabled={initExamples.isPending}
+            >
+              {initExamples.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Plus className="mr-2 h-4 w-4" />
+              )}
+              Aggiungi Esempi
             </Button>
-          </DialogTrigger>
+          )}
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={() => setEditingItem(null)}>
+                <Plus className="h-4 w-4 mr-2" />
+                Nuovo Progetto
+              </Button>
+            </DialogTrigger>
           
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle>
-                {editingItem ? "Modifica Progetto" : "Nuovo Progetto"}
-              </DialogTitle>
-            </DialogHeader>
-            
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="title">Titolo del Progetto *</Label>
-                <Input
-                  id="title"
-                  name="title"
-                  defaultValue={editingItem?.title}
-                  placeholder="Es: Sito E-commerce per Abbigliamento"
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="description">Descrizione</Label>
-                <Textarea
-                  id="description"
-                  name="description"
-                  defaultValue={editingItem?.description}
-                  placeholder="Breve descrizione del progetto..."
-                  rows={3}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="websiteUrl">Link al Sito *</Label>
-                <Input
-                  id="websiteUrl"
-                  name="websiteUrl"
-                  type="url"
-                  defaultValue={editingItem?.websiteUrl}
-                  placeholder="https://esempio.com"
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="coverImage">Foto di Copertina *</Label>
-                <Input
-                  id="coverImage"
-                  name="coverImage"
-                  type="file"
-                  accept="image/*"
-                  required={!editingItem}
-                />
-                {editingItem && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Lascia vuoto per mantenere l'immagine attuale
-                  </p>
-                )}
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="featured"
-                  name="featured"
-                  defaultChecked={editingItem?.featured}
-                  className="rounded border-gray-300"
-                />
-                <Label htmlFor="featured">Mostra in homepage</Label>
-              </div>
-
-              <div className="flex gap-2 pt-4">
-                <Button
-                  type="submit"
-                  disabled={createMutation.isPending || updateMutation.isPending}
-                  className="flex-1"
-                >
-                  {(createMutation.isPending || updateMutation.isPending) && (
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>
+                  {editingItem ? "Modifica Progetto" : "Nuovo Progetto"}
+                </DialogTitle>
+              </DialogHeader>
+              
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="title">Titolo del Progetto *</Label>
+                  <Input
+                    id="title"
+                    name="title"
+                    defaultValue={editingItem?.title}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="description">Descrizione</Label>
+                  <Textarea
+                    id="description"
+                    name="description"
+                    rows={3}
+                    defaultValue={editingItem?.description}
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="websiteUrl">URL del Sito *</Label>
+                  <Input
+                    id="websiteUrl"
+                    name="websiteUrl"
+                    type="url"
+                    defaultValue={editingItem?.websiteUrl}
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="coverImage">Immagine di Copertina</Label>
+                  <Input
+                    id="coverImage"
+                    name="coverImage"
+                    type="file"
+                    accept="image/*"
+                    required={!editingItem}
+                  />
+                  {editingItem && (
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Lascia vuoto per mantenere l'immagine corrente
+                    </p>
                   )}
-                  {editingItem ? "Aggiorna" : "Aggiungi"}
-                </Button>
-                <Button type="button" variant="outline" onClick={closeDialog}>
-                  Annulla
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="featured"
+                    name="featured"
+                    className="rounded"
+                    defaultChecked={editingItem?.featured}
+                  />
+                  <Label htmlFor="featured">In evidenza nella homepage</Label>
+                </div>
+                
+                <div className="flex justify-end space-x-2">
+                  <Button
+                    type="submit"
+                    disabled={createMutation.isPending || updateMutation.isPending}
+                  >
+                    {(createMutation.isPending || updateMutation.isPending) && (
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    )}
+                    {editingItem ? "Aggiorna" : "Aggiungi"}
+                  </Button>
+                  <Button type="button" variant="outline" onClick={closeDialog}>
+                    Annulla
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Lista progetti */}
@@ -221,29 +250,41 @@ const PortfolioManagement = () => {
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-16">
               <div className="text-center">
-                <h3 className="text-lg font-semibold">Nessun progetto</h3>
-                <p className="text-muted-foreground">
-                  Aggiungi il tuo primo progetto per iniziare
+                <h3 className="text-lg font-semibold mb-2">Nessun progetto</h3>
+                <p className="text-muted-foreground mb-4">
+                  Inizia aggiungendo i tuoi primi progetti al portfolio
                 </p>
+                <Button onClick={() => initExamples.mutate()} disabled={initExamples.isPending}>
+                  {initExamples.isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Plus className="mr-2 h-4 w-4" />
+                  )}
+                  Aggiungi Esempi
+                </Button>
               </div>
             </CardContent>
           </Card>
         ) : (
           portfolioItems.map((item) => (
             <Card key={item.id}>
-              <CardContent className="p-4">
-                <div className="flex gap-4">
-                  {/* Immagine di copertina */}
-                  <div className="w-20 h-20 flex-shrink-0">
-                    <img 
-                      src={item.coverImage} 
+              <CardContent className="p-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-24 h-24 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                    <img
+                      src={item.coverImage}
                       alt={item.title}
-                      className="w-full h-full object-cover rounded border"
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.parentElement!.classList.add('bg-gradient-to-br', 'from-primary', 'to-secondary');
+                        target.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center text-white text-xs">Immagine</div>';
+                      }}
                     />
                   </div>
-
-                  {/* Contenuto */}
-                  <div className="flex-1">
+                  
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="font-semibold text-lg">{item.title}</h3>
@@ -252,26 +293,25 @@ const PortfolioManagement = () => {
                             {item.description}
                           </p>
                         )}
-                        <div className="flex items-center gap-2 mt-2">
-                          <a 
-                            href={item.websiteUrl} 
-                            target="_blank" 
+                        <div className="flex items-center space-x-2 mt-2">
+                          <a
+                            href={item.websiteUrl}
+                            target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary hover:underline text-sm flex items-center gap-1"
+                            className="text-sm text-primary hover:underline flex items-center"
                           >
-                            <ExternalLink className="h-3 w-3" />
-                            Visualizza sito
+                            <ExternalLink className="h-3 w-3 mr-1" />
+                            Visita sito
                           </a>
                           {item.featured && (
-                            <Badge variant="default" className="text-xs">
-                              In Homepage
+                            <Badge variant="secondary" className="text-xs">
+                              In evidenza
                             </Badge>
                           )}
                         </div>
                       </div>
-
-                      {/* Azioni */}
-                      <div className="flex gap-2">
+                      
+                      <div className="flex space-x-2">
                         <Button
                           size="sm"
                           variant="outline"
@@ -281,7 +321,7 @@ const PortfolioManagement = () => {
                         </Button>
                         <Button
                           size="sm"
-                          variant="destructive"
+                          variant="outline"
                           onClick={() => deleteMutation.mutate(item.id)}
                           disabled={deleteMutation.isPending}
                         >
