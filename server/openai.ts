@@ -21,81 +21,52 @@ interface ArticleStructure {
   category: string;
 }
 
-// Funzione per generare prompt dinamico basato su combinazione SEO
-function generateSEOPrompt(seoCombination: any) {
-  const { type, keyword, city, sector, title } = seoCombination;
-  
-  let specificContext = "";
-  let localKeywords = "";
-  let sectorContext = "";
-  
-  if (city) {
-    const cityData = getCityData(city.toLowerCase().replace(/\s+/g, '-'));
-    if (cityData) {
-      localKeywords = cityData.localKeywords.join(", ");
-      specificContext += `\nCONTESTO GEOGRAFICO: ${city}, ${cityData.region}`;
-      specificContext += `\nPOPOLAZIONE: ${cityData.population} abitanti`;
-      specificContext += `\nPAROLE CHIAVE LOCALI: ${localKeywords}`;
-    }
-  }
-  
-  if (sector) {
-    const sectorData = getSectorData(sector.toLowerCase().replace(/\s+/g, '-'));
-    if (sectorData) {
-      sectorContext += `\nSETTORE SPECIFICO: ${sector}`;
-      sectorContext += `\nPAIN POINTS: ${sectorData.painPoints.join(", ")}`;
-      sectorContext += `\nSOLUZIONI: ${sectorData.solutions.join(", ")}`;
-      sectorContext += `\nKEYWORDS SETTORE: ${sectorData.keywords.join(", ")}`;
-    }
-  }
-
-  return `
+// Prompt template per la generazione articoli
+const SEO_ARTICLE_PROMPT = `
 Sei un esperto copywriter SEO specializzato in siti web aziendali e realizzazione siti web professionali.
 
 Scrivi un articolo completo e professionale seguendo queste specifiche:
 
-TIPO ARTICOLO: ${type}
-TITOLO TARGET: ${title}
-PAROLA CHIAVE PRINCIPALE: ${keyword}
-${specificContext}
-${sectorContext}
+ARGOMENTO: {topic}
+FOCUS: {focus}
 
 PAROLE CHIAVE PRINCIPALI:
-- ${keyword}
-- creazione siti web professionali
-- siti web aziendali
-- web design professionale
-- sviluppo siti web
+- realizzazione siti web aziendali professionali
+- creazione siti web professionali aziendali per attività
+- realizzazione siti web economici
+- sviluppo siti web aziendali
+- progettazione siti web professionali
 
 STRUTTURA RICHIESTA:
-1. Titolo SEO ottimizzato (max 60 caratteri)
-2. Meta description accattivante (max 155 caratteri)
-3. Introduzione coinvolgente (150-200 parole)
-4. 5-7 sezioni principali con sottotitoli H2
-5. Conclusione con call-to-action forte verso Web Pro Italia
-6. Lista di 8-10 parole chiave correlate
-
-TONO E STILE:
-- Professionale ma accessibile
-- Orientato al business
-- Convincente e autorevole
-- Lunghezza totale: MINIMO 1500 parole, PREFERIBILMENTE 2000+ parole
-- Includi sempre una call-to-action finale che inviti a contattare Web Pro Italia
+1. Titolo SEO ottimizzato (include parola chiave principale)
+2. Meta description (150-160 caratteri)
+3. Introduzione coinvolgente (100-150 parole)
+4. 6-8 sezioni principali con H2 che approfondiscono il tema
+5. Sottosezioni con H3 quando necessario
+6. Conclusione con call-to-action (100-150 parole)
 
 REQUISITI CONTENUTO:
-- Scrivi almeno 8-10 paragrafi sostanziali
-- Ogni sezione H2 deve avere minimo 150-200 parole
-- Aggiungi esempi pratici e casi d'uso
-- Includi vantaggi specifici e benefici concreti
-- Usa liste puntate per migliorare la leggibilità
+- Minimo 1500 parole, target 2000+ parole
+- Usa la parola chiave principale nel titolo H1
+- Ripeti la keyword principale 8-12 volte naturalmente nel testo
+- Includi variazioni e sinonimi delle keyword
+- Densità keyword: 1-2% del contenuto totale
+- Esempi pratici e consigli professionali
+- Tono professionale ma accessibile
+- Focus su conversioni e lead generation
 
-ARGOMENTO: {topic}
+CALL TO ACTION:
+- Invita a contattare per preventivo gratuito
+- Menziona prezzi competitivi (a partire da 197€)
+- Includi senso di urgenza e benefici
 
-FOCUS SPECIFICO: {focus}
+FORMATTAZIONE:
+- Usa tag HTML appropriati (h1, h2, h3, p, strong, em, ul, li)
+- Paragrafi ben strutturati (80-120 parole)
+- Elenchi puntati per benefici e caratteristiche
+- Formattazione per evidenziare punti chiave
 
-IMPORTANTE: Il contenuto deve essere LUNGO e DETTAGLIATO. Non scrivere articoli brevi.
-
-Rispondi SOLO in formato JSON con questa struttura:
+RISPOSTA JSON RICHIESTA:
 {
   "title": "titolo dell'articolo",
   "metaDescription": "meta description",
@@ -168,22 +139,22 @@ export const ARTICLE_TOPICS = [
   },
   {
     topic: "Sicurezza siti web aziendali",
-    focus: "proteggere il sito web dell'azienda da attacchi e vulnerabilità"
+    focus: "best practices per proteggere il sito web aziendale da attacchi e vulnerabilità"
   },
   {
-    topic: "Velocità e performance siti web",
-    focus: "ottimizzazione delle prestazioni per migliorare conversioni e SEO"
+    topic: "UX Design per siti aziendali",
+    focus: "principi di user experience per migliorare le conversioni"
   },
   {
-    topic: "Landing page efficaci",
-    focus: "come creare pagine di atterraggio che convertono i visitatori"
+    topic: "Content Management per aziende",
+    focus: "strategie di gestione contenuti per siti web aziendali professionali"
   },
   {
-    topic: "Branding e web design",
-    focus: "integrare l'identità aziendale nel design del sito web"
+    topic: "Hosting e performance",
+    focus: "come scegliere hosting performante per siti web aziendali"
   },
   {
-    topic: "Marketing digitale per PMI",
+    topic: "Marketing digitale integrato",
     focus: "strategie online per piccole e medie imprese italiane"
   }
 ];
@@ -276,28 +247,53 @@ export async function generateDailyArticle(): Promise<any> {
     const stockImages = [
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', // Design workspace
       'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80', // Computer coding
-      'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80', // Mobile development
       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80', // Web development
-      'https://images.unsplash.com/photo-1581287053822-fd7bf4f4bfec?w=800&q=80', // Digital marketing
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', // Team collaboration
-      'https://images.unsplash.com/photo-1553484771-371a605b060b?w=800&q=80', // Business website
-      'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80'  // Professional design
+      'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=800&q=80', // Office desk
+      'https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&q=80', // Team meeting
+      'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80' // Business meeting
     ];
-    const randomImage = stockImages[Math.floor(Math.random() * stockImages.length)];
+    const featuredImage = stockImages[Math.floor(Math.random() * stockImages.length)];
 
     return {
       title: result.title,
-      slug: slug,
+      slug,
       content: enhancedContent,
-      excerpt: result.excerpt,
+      excerpt: result.excerpt || result.metaDescription,
+      featuredImage,
+      status: "published" as const,
       metaTitle: result.title,
       metaDescription: result.metaDescription,
-      featuredImage: randomImage,
-      status: 'published',
-      publishedAt: new Date()
+      keywords: result.keywords?.join(', ') || 'realizzazione siti web, creazione siti web professionali'
     };
   } catch (error) {
-    console.error('Error generating daily article:', error);
+    console.error('❌ Errore nella generazione articolo:', error);
+    throw error;
+  }
+}
+
+// Funzione principale per generare articoli automatici
+export async function generateBlogArticle(): Promise<{
+  title: string;
+  content: string;
+  excerpt: string;
+  featuredImage: string;
+  metaTitle: string;
+  metaDescription: string;
+}> {
+  try {
+    // Usa la nuova strategia SEO integrata
+    const article = await generateDailyArticle();
+    
+    return {
+      title: article.title,
+      content: article.content,
+      excerpt: article.excerpt,
+      featuredImage: article.featuredImage,
+      metaTitle: article.metaTitle,
+      metaDescription: article.metaDescription
+    };
+  } catch (error) {
+    console.error('❌ Errore nella generazione articolo:', error);
     throw error;
   }
 }
