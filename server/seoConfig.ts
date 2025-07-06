@@ -531,10 +531,40 @@ export function generateSEOCombinations() {
   return combinations;
 }
 
-// Funzione per ottenere combinazione casuale
+// Funzione per ottenere combinazione casuale con rotazione anti-spam
 export function getRandomSEOCombination() {
   const combinations = generateSEOCombinations();
-  return combinations[Math.floor(Math.random() * combinations.length)];
+  let combination = combinations[Math.floor(Math.random() * combinations.length)];
+  
+  // ANTI-SPAM: Alterna intelligentemente tra "realizzazione" e "creazione"
+  // Usa il timestamp per rotazione persistente (resiste ai riavvii del server)
+  const now = new Date();
+  const minuteOfDay = now.getHours() * 60 + now.getMinutes();
+  // Alterna ogni 30 minuti per una rotazione più frequente e visibile
+  const rotationCycle = Math.floor(minuteOfDay / 30);
+  const shouldUseCreazione = rotationCycle % 2 === 0;
+  
+  console.log(`🔄 ROTATION DEBUG: Ora ${now.getHours()}:${now.getMinutes()}, Ciclo: ${rotationCycle}, UseCreazione: ${shouldUseCreazione}`);
+  
+  if (shouldUseCreazione && combination.keyword.includes('realizzazione')) {
+    // Sostituisci "realizzazione" con "creazione"
+    combination = {
+      ...combination,
+      keyword: combination.keyword.replace('realizzazione', 'creazione'),
+      title: combination.title.replace('Realizzazione', 'Creazione').replace('realizzazione', 'creazione'),
+      slug: combination.slug.replace('realizzazione', 'creazione')
+    };
+  } else if (!shouldUseCreazione && combination.keyword.includes('creazione')) {
+    // Sostituisci "creazione" con "realizzazione" 
+    combination = {
+      ...combination,
+      keyword: combination.keyword.replace('creazione', 'realizzazione'),
+      title: combination.title.replace('Creazione', 'Realizzazione').replace('creazione', 'realizzazione'),
+      slug: combination.slug.replace('creazione', 'realizzazione')
+    };
+  }
+  
+  return combination;
 }
 
 // Funzione per ottenere dati di una città
