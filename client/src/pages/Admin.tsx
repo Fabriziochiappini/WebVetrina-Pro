@@ -203,13 +203,25 @@ const Admin = () => {
     }
   });
 
-  // Funzione per il login - Sistema ultra-sicuro dopo attacco
-  const handleLogin = () => {
-    // Credenziali REALI per admin (messaggio interfaccia è fake per sicurezza)
-    if (username === 'Fibra' && password === 'Seofibra2021!') {
-      setIsAuthenticated(true);
-      setError('');
-    } else {
+  // Funzione per il login - Sistema ultra-sicuro con autenticazione server
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        setIsAuthenticated(true);
+        setError('');
+      } else {
+        setError('Prova con tua sorella');
+      }
+    } catch (error) {
       setError('Prova con tua sorella');
     }
   };

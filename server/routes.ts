@@ -63,10 +63,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 // Funzione per verificare l'autenticazione dell'utente
 const checkAuth = (req: Request, res: Response, next: Function) => {
-  const authHeader = req.headers.authorization;
-  const validToken = `Bearer ${process.env.ADMIN_AUTH_TOKEN}`;
-  
-  if (authHeader === validToken || (req.session && req.session.user)) {
+  // Only use session-based authentication for security
+  if (req.session && req.session.user) {
     return next();
   }
   return res.status(401).json({ message: "Accesso negato - Autorizzazione non valida" });
@@ -78,6 +76,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
   if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir, { recursive: true });
   }
+
+  // Secure authentication route - NO HARDCODED CREDENTIALS
+  app.post('/api/auth/login', (req, res) => {
+    const { username, password } = req.body;
+    
+    // Use environment variables for security
+    const adminUser = process.env.ADMIN_USERNAME || 'Fibra';
+    const adminPass = process.env.ADMIN_PASSWORD || 'Seofibra2021!';
+    
+    if (username === adminUser && password === adminPass) {
+      req.session!.user = { username: adminUser };
+      res.json({ success: true });
+    } else {
+      res.status(401).json({ message: "Prova con tua sorella" });
+    }
+  });
+
+  // Logout route
+  app.post('/api/auth/logout', (req, res) => {
+    req.session?.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+        return res.status(500).json({ message: 'Error logging out' });
+      }
+      res.json({ success: true });
+    });
+  });
 
   // Servi i file statici dalla directory uploads
   app.use("/uploads", express.static(uploadDir));

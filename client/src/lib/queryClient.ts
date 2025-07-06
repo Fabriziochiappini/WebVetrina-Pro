@@ -23,10 +23,8 @@ export async function apiRequest(
     body = JSON.stringify(data);
   }
   
-  // Aggiungi automaticamente l'header di autorizzazione per le rotte admin - Credenziali REALI
-  if (url.includes('/api/contacts') || url.includes('/api/logos') || url.includes('/api/portfolio') || url.includes('/api/site-settings')) {
-    headers.Authorization = 'Bearer Seofibra2021!';
-  }
+  // Admin routes use session-based authentication - NO HARDCODED TOKENS
+  // Authentication is handled by cookies/session, no need for Authorization header
   
   const res = await fetch(url, {
     method,
@@ -48,10 +46,8 @@ export const getQueryFn: <T>(options: {
     const url = queryKey[0] as string;
     const headers: Record<string, string> = {};
     
-    // Aggiungi automaticamente l'header di autorizzazione per le rotte admin - Credenziali REALI
-    if (url.includes('/api/contacts') || url.includes('/api/logos') || url.includes('/api/portfolio') || url.includes('/api/site-settings')) {
-      headers.Authorization = 'Bearer Seofibra2021!';
-    }
+    // Admin routes use session-based authentication - NO HARDCODED TOKENS
+    // Authentication is handled by cookies/session, no need for Authorization header
     
     const res = await fetch(url, {
       credentials: "include",
