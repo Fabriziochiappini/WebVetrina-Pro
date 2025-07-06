@@ -45,19 +45,28 @@ TONO E STILE:
 - Professionale ma accessibile
 - Orientato al business
 - Convincente e autorevole
-- Lunghezza totale: 1500-2000 parole
+- Lunghezza totale: MINIMO 1500 parole, PREFERIBILMENTE 2000+ parole
 - Includi sempre una call-to-action finale che inviti a contattare Web Pro Italia
+
+REQUISITI CONTENUTO:
+- Scrivi almeno 8-10 paragrafi sostanziali
+- Ogni sezione H2 deve avere minimo 150-200 parole
+- Aggiungi esempi pratici e casi d'uso
+- Includi vantaggi specifici e benefici concreti
+- Usa liste puntate per migliorare la leggibilità
 
 ARGOMENTO: {topic}
 
 FOCUS SPECIFICO: {focus}
+
+IMPORTANTE: Il contenuto deve essere LUNGO e DETTAGLIATO. Non scrivere articoli brevi.
 
 Rispondi SOLO in formato JSON con questa struttura:
 {
   "title": "titolo dell'articolo",
   "metaDescription": "meta description",
   "excerpt": "riassunto di 2-3 righe",
-  "content": "contenuto completo in HTML con tag appropriati",
+  "content": "contenuto completo in HTML con tag appropriati - MINIMO 1500 parole",
   "keywords": ["keyword1", "keyword2", ...],
   "category": "categoria dell'articolo"
 }
@@ -83,7 +92,7 @@ export async function generateSEOArticle(topic: string, focus: string): Promise<
       ],
       response_format: { type: "json_object" },
       temperature: 0.7,
-      max_tokens: 3000
+      max_tokens: 4000
     });
 
     const result = JSON.parse(response.choices[0].message.content || '{}');
@@ -155,7 +164,7 @@ export async function generateDailyArticle(): Promise<any> {
       messages: [
         {
           role: "system",
-          content: "Sei un esperto copywriter SEO per Web Pro Italia. Scrivi articoli ottimizzati per 'realizzazione siti web professionali' che convertano visitatori in clienti."
+          content: "Sei un esperto copywriter SEO per Web Pro Italia. Scrivi articoli DETTAGLIATI di almeno 1500 parole ottimizzati per 'realizzazione siti web professionali' che convertano visitatori in clienti. IMPORTANTE: Ogni sezione deve essere molto dettagliata con esempi pratici."
         },
         {
           role: "user",
@@ -166,7 +175,7 @@ export async function generateDailyArticle(): Promise<any> {
       ],
       response_format: { type: "json_object" },
       temperature: 0.7,
-      max_tokens: 3000
+      max_tokens: 4000
     });
 
     const result = JSON.parse(response.choices[0].message.content || '{}');
