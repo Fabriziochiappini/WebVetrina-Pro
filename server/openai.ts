@@ -201,13 +201,18 @@ export async function generateDailyArticle(): Promise<any> {
       randomInternalLink
     );
 
-    // Seleziona immagine casuale esistente
-    const existingImages = [
-      '/uploads/image-1750620709085-268668923.png',
-      '/uploads/image-1750620654884-416430495.png',
-      '/uploads/image-1750263183202-340595682.png'
+    // Seleziona immagine stock gratuita
+    const stockImages = [
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', // Design workspace
+      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80', // Computer coding
+      'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80', // Mobile development
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80', // Web development
+      'https://images.unsplash.com/photo-1581287053822-fd7bf4f4bfec?w=800&q=80', // Digital marketing
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', // Team collaboration
+      'https://images.unsplash.com/photo-1553484771-371a605b060b?w=800&q=80', // Business website
+      'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80'  // Professional design
     ];
-    const randomImage = existingImages[Math.floor(Math.random() * existingImages.length)];
+    const randomImage = stockImages[Math.floor(Math.random() * stockImages.length)];
 
     return {
       title: result.title,
