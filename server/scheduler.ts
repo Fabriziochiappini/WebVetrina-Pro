@@ -1,4 +1,4 @@
-import { generateBlogArticle } from './openaiSEO';
+import { generateBlogArticle } from './openai';
 import { storage } from './storage';
 
 // Funzione per pubblicare articolo automaticamente

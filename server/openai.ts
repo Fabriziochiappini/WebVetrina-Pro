@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { getRandomSEOCombination, getCityData, getSectorData, coreKeywords, targetCities, targetSectors } from "./seoConfig";
+import { getRandomSEOCombination, getCityData, getSectorData } from "./seoConfig";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("OPENAI_API_KEY environment variable must be set");
@@ -190,7 +190,35 @@ export const ARTICLE_TOPICS = [
 
 export async function generateDailyArticle(): Promise<any> {
   try {
-    // Seleziona un topic casuale
+    // STRATEGIA SEO INTEGRATA: Usa combinazione casuale dalla strategia avanzata
+    const seoCombination = getRandomSEOCombination();
+    console.log(`🎯 STRATEGIA SEO INTEGRATA: ${seoCombination.title} (${seoCombination.type})`);
+    
+    // Genera prompt personalizzato con strategia SEO
+    let enhancedPrompt = SEO_ARTICLE_PROMPT;
+    
+    // Integra dati geografici se presente
+    if (seoCombination.city) {
+      const cityData = getCityData(seoCombination.city.toLowerCase().replace(/\s+/g, '-'));
+      if (cityData) {
+        enhancedPrompt += `\n\nCONTESTO GEOGRAFICO: ${seoCombination.city}, ${cityData.region}
+        POPOLAZIONE: ${cityData.population} abitanti
+        KEYWORDS LOCALI: ${cityData.localKeywords.join(", ")}`;
+      }
+    }
+    
+    // Integra dati settoriali se presente
+    if (seoCombination.sector) {
+      const sectorData = getSectorData(seoCombination.sector.toLowerCase().replace(/\s+/g, '-'));
+      if (sectorData) {
+        enhancedPrompt += `\n\nSETTORE SPECIFICO: ${seoCombination.sector}
+        PAIN POINTS: ${sectorData.painPoints.join(", ")}
+        SOLUZIONI: ${sectorData.solutions.join(", ")}
+        KEYWORDS SETTORE: ${sectorData.keywords.join(", ")}`;
+      }
+    }
+    
+    // Fallback al topic classico se non c'è combinazione SEO
     const randomTopic = ARTICLE_TOPICS[Math.floor(Math.random() * ARTICLE_TOPICS.length)];
     
     const response = await openai.chat.completions.create({
@@ -198,13 +226,13 @@ export async function generateDailyArticle(): Promise<any> {
       messages: [
         {
           role: "system",
-          content: "Sei un esperto copywriter SEO per Web Pro Italia. Scrivi articoli DETTAGLIATI di almeno 1500 parole ottimizzati per 'realizzazione siti web professionali' che convertano visitatori in clienti. IMPORTANTE: Ogni sezione deve essere molto dettagliata con esempi pratici."
+          content: "Sei un esperto copywriter SEO per Web Pro Italia. Scrivi articoli DETTAGLIATI di almeno 1500 parole ottimizzati per 'realizzazione siti web professionali' con targeting geografico e settoriale strategico. IMPORTANTE: Ogni sezione deve essere molto dettagliata con esempi pratici e keywords mirate."
         },
         {
           role: "user",
-          content: SEO_ARTICLE_PROMPT
-            .replace('{topic}', randomTopic.topic)
-            .replace('{focus}', randomTopic.focus)
+          content: enhancedPrompt
+            .replace('{topic}', seoCombination.title || randomTopic.topic)
+            .replace('{focus}', `focus su ${seoCombination.keyword} per ${seoCombination.city || seoCombination.sector || 'mercato generale'}` || randomTopic.focus)
         }
       ],
       response_format: { type: "json_object" },
