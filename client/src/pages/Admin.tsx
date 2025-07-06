@@ -205,8 +205,8 @@ const Admin = () => {
 
   // Funzione per il login - Sistema ultra-sicuro dopo attacco
   const handleLogin = () => {
-    // Credenziali aggiornate per sicurezza massima dopo violazione
-    if (username === 'atuamadre' && password === 'piacestacapocchia') {
+    // Credenziali REALI per admin (messaggio interfaccia è fake per sicurezza)
+    if (username === 'Fibra' && password === 'Seofibra2021!') {
       setIsAuthenticated(true);
       setError('');
     } else {
