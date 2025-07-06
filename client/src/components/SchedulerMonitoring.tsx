@@ -1,18 +1,26 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Clock, Server, Loader2, PlayCircle, CheckCircle, XCircle } from "lucide-react";
 import { useState } from "react";
 
+interface ScheduleConfig {
+  article1Time: string;
+  article2Time: string;
+  article3Time: string;
+  enabled: boolean;
+}
+
 interface SchedulerStatus {
   schedulerActive: boolean;
   environment: string;
-  nextRunTime: string;
-  timeUntilNext: string;
   currentTime: string;
+  scheduleConfig: ScheduleConfig;
   status: string;
 }
 
@@ -20,11 +28,23 @@ const SchedulerMonitoring = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [article1Time, setArticle1Time] = useState("09:00");
+  const [article2Time, setArticle2Time] = useState("14:00");
+  const [article3Time, setArticle3Time] = useState("18:00");
+  const [enabled, setEnabled] = useState(false);
 
   // Query per lo stato dello scheduler
   const { data: schedulerStatus, isLoading: statusLoading } = useQuery<SchedulerStatus>({
     queryKey: ['/api/scheduler/status'],
-    refetchInterval: 30000, // Aggiorna ogni 30 secondi
+    refetchInterval: 10000, // Aggiorna ogni 10 secondi per i test
+    onSuccess: (data) => {
+      if (data?.scheduleConfig) {
+        setArticle1Time(data.scheduleConfig.article1Time);
+        setArticle2Time(data.scheduleConfig.article2Time);
+        setArticle3Time(data.scheduleConfig.article3Time);
+        setEnabled(data.scheduleConfig.enabled);
+      }
+    }
   });
 
   // Mutation per generare articolo manualmente
@@ -52,8 +72,39 @@ const SchedulerMonitoring = () => {
     },
   });
 
+  // Mutation per aggiornare configurazione scheduler
+  const updateConfig = useMutation({
+    mutationFn: async (newConfig: ScheduleConfig) => {
+      const response = await apiRequest("POST", "/api/scheduler/config", newConfig);
+      return response;
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Configurazione Aggiornata",
+        description: data.message,
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/scheduler/status'] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Errore Configurazione",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleGenerateNow = () => {
     generateArticle.mutate();
+  };
+
+  const handleSaveConfig = () => {
+    updateConfig.mutate({
+      article1Time,
+      article2Time,
+      article3Time,
+      enabled
+    });
   };
 
   if (statusLoading) {
@@ -118,24 +169,77 @@ const SchedulerMonitoring = () => {
                 </div>
               </div>
 
-              {/* Informazioni prossima esecuzione */}
-              <div className="border rounded-lg p-4 bg-gray-50">
-                <h4 className="font-medium mb-2">Prossima Generazione Automatica</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Configurazione orari */}
+              <div className="border rounded-lg p-4 bg-blue-50">
+                <h4 className="font-medium mb-4">⚙️ Configurazione 3 Articoli Giornalieri</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div>
-                    <p className="text-sm text-gray-600">Data e Ora</p>
-                    <p className="font-medium">{schedulerStatus.nextRunTime}</p>
+                    <Label htmlFor="article1Time">Articolo 1 - Orario</Label>
+                    <Input
+                      id="article1Time"
+                      type="time"
+                      value={article1Time}
+                      onChange={(e) => setArticle1Time(e.target.value)}
+                      className="mt-1"
+                    />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Tempo Rimanente</p>
-                    <p className="font-medium">{schedulerStatus.timeUntilNext}</p>
+                    <Label htmlFor="article2Time">Articolo 2 - Orario</Label>
+                    <Input
+                      id="article2Time"
+                      type="time"
+                      value={article2Time}
+                      onChange={(e) => setArticle2Time(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="article3Time">Articolo 3 - Orario</Label>
+                    <Input
+                      id="article3Time"
+                      type="time"
+                      value={article3Time}
+                      onChange={(e) => setArticle3Time(e.target.value)}
+                      className="mt-1"
+                    />
                   </div>
                 </div>
-                {!schedulerStatus.schedulerActive && (
-                  <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
-                    <p className="text-sm text-yellow-800">
-                      ⚠️ Lo scheduler è disattivato in modalità development. 
-                      Sarà attivo automaticamente una volta deployato in produzione.
+                
+                <div className="flex items-center space-x-3 mb-4">
+                  <input
+                    type="checkbox"
+                    id="schedulerEnabled"
+                    checked={enabled}
+                    onChange={(e) => setEnabled(e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <Label htmlFor="schedulerEnabled" className="font-medium">
+                    Attiva Scheduler Automatico (3 articoli al giorno)
+                  </Label>
+                </div>
+
+                <Button 
+                  onClick={handleSaveConfig}
+                  disabled={updateConfig.isPending}
+                  className="w-full"
+                >
+                  {updateConfig.isPending ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Aggiornamento...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="mr-2 h-4 w-4" />
+                      Salva Configurazione
+                    </>
+                  )}
+                </Button>
+
+                {enabled && (
+                  <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded">
+                    <p className="text-sm text-green-800">
+                      ✅ Scheduler attivo! Articoli programmati per: {article1Time}, {article2Time}, {article3Time}
                     </p>
                   </div>
                 )}
@@ -169,13 +273,13 @@ const SchedulerMonitoring = () => {
               </div>
 
               {/* Informazioni sui costi */}
-              <div className="border rounded-lg p-4 bg-blue-50">
-                <h4 className="font-medium mb-2 text-blue-900">💰 Informazioni Costi</h4>
-                <div className="text-sm text-blue-800 space-y-1">
+              <div className="border rounded-lg p-4 bg-purple-50">
+                <h4 className="font-medium mb-2 text-purple-900">💰 Costi e Performance</h4>
+                <div className="text-sm text-purple-800 space-y-1">
                   <p>• Costo per articolo: €0.10-0.15 (OpenAI GPT-4o)</p>
-                  <p>• Generazione automatica: 1 articolo al giorno alle 09:00</p>
-                  <p>• Costo mensile stimato: €3-4.50</p>
+                  <p>• Con 3 articoli/giorno: €9-13.50/mese</p>
                   <p>• Articoli: 1500-2000+ parole, immagini stock, SEO ottimizzato</p>
+                  <p>• ROI: Ottimo per content marketing intensivo</p>
                 </div>
               </div>
             </>

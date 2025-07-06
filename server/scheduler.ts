@@ -21,56 +21,150 @@ export async function publishDailyArticle(): Promise<void> {
   }
 }
 
-// Scheduler per pubblicazione giornaliera
-export function startDailyScheduler(): void {
-  // Pubblica ogni giorno alle 09:00
-  const scheduleDaily = () => {
-    const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(9, 0, 0, 0); // 09:00 del giorno successivo
-    
-    const timeUntilNextRun = tomorrow.getTime() - now.getTime();
-    
-    setTimeout(async () => {
-      try {
-        console.log('🚀 SCHEDULER ATTIVO - Inizio pubblicazione articolo giornaliero');
-        const article = await publishDailyArticle();
-        console.log('✅ SCHEDULER SUCCESS - Articolo pubblicato:', article.title);
-        
-        // Log per monitoring
-        console.log('📊 SCHEDULER STATS:', {
-          timestamp: new Date().toISOString(),
-          articleId: article.id,
-          title: article.title,
-          status: 'success'
-        });
-      } catch (error) {
-        console.error('❌ SCHEDULER ERROR - Errore pubblicazione:', error);
-        
-        // Log dettagliato per debugging
-        console.log('📊 SCHEDULER STATS:', {
-          timestamp: new Date().toISOString(),
-          status: 'error',
-          error: error.message
-        });
-      }
+// Configurazione scheduler personalizzabile
+interface ScheduleConfig {
+  article1Time: string; // HH:MM format
+  article2Time: string;
+  article3Time: string;
+  enabled: boolean;
+}
+
+let currentScheduleConfig: ScheduleConfig = {
+  article1Time: "09:00",
+  article2Time: "14:00", 
+  article3Time: "18:00",
+  enabled: false
+};
+
+let activeTimeouts: NodeJS.Timeout[] = [];
+
+// Funzione per programmare un singolo articolo
+function scheduleArticleAt(time: string, articleNumber: number): void {
+  const now = new Date();
+  const [hours, minutes] = time.split(':').map(Number);
+  
+  // Calcola prossima esecuzione
+  const nextRun = new Date(now);
+  nextRun.setHours(hours, minutes, 0, 0);
+  
+  // Se l'orario è già passato oggi, programa per domani
+  if (nextRun <= now) {
+    nextRun.setDate(nextRun.getDate() + 1);
+  }
+  
+  const timeUntilRun = nextRun.getTime() - now.getTime();
+  
+  const timeout = setTimeout(async () => {
+    try {
+      console.log(`🚀 SCHEDULER ARTICOLO ${articleNumber} - Inizio pubblicazione alle ${time}`);
+      const article = await publishDailyArticle();
+      console.log(`✅ SCHEDULER SUCCESS - Articolo ${articleNumber} pubblicato:`, article.title);
+      
+      console.log('📊 SCHEDULER STATS:', {
+        timestamp: new Date().toISOString(),
+        articleNumber,
+        scheduledTime: time,
+        articleId: article.id,
+        title: article.title,
+        status: 'success'
+      });
       
       // Riprogramma per il giorno successivo
-      scheduleDaily();
-    }, timeUntilNextRun);
-    
-    console.log(`📅 SCHEDULER CONFIG - Prossimo articolo programmato per: ${tomorrow.toLocaleString('it-IT')}`);
-    console.log(`⏰ SCHEDULER CONFIG - Millisecondi fino al prossimo run: ${timeUntilNextRun}`);
-  };
+      scheduleArticleAt(time, articleNumber);
+    } catch (error) {
+      console.error(`❌ SCHEDULER ERROR - Articolo ${articleNumber}:`, error);
+      
+      console.log('📊 SCHEDULER STATS:', {
+        timestamp: new Date().toISOString(),
+        articleNumber,
+        scheduledTime: time,
+        status: 'error',
+        error: error.message
+      });
+      
+      // Riprogramma anche in caso di errore
+      scheduleArticleAt(time, articleNumber);
+    }
+  }, timeUntilRun);
   
-  // Avvia scheduler
-  scheduleDaily();
+  activeTimeouts.push(timeout);
   
-  // Heartbeat ogni ora per confermare che è attivo
-  setInterval(() => {
-    console.log('💚 SCHEDULER HEARTBEAT - Sistema attivo:', new Date().toLocaleString('it-IT'));
-  }, 60 * 60 * 1000); // Ogni ora
+  console.log(`📅 ARTICOLO ${articleNumber} programmato per: ${nextRun.toLocaleString('it-IT')}`);
+  console.log(`⏰ Millisecondi fino al run: ${timeUntilRun}`);
+}
+
+// Scheduler personalizzabile
+export function startCustomScheduler(config?: ScheduleConfig): void {
+  if (config) {
+    currentScheduleConfig = { ...config };
+  }
+  
+  if (!currentScheduleConfig.enabled) {
+    console.log('📝 Scheduler personalizzato disattivato');
+    return;
+  }
+  
+  // Pulisci timeout esistenti
+  stopAllSchedulers();
+  
+  console.log('🎯 AVVIO SCHEDULER PERSONALIZZATO:');
+  console.log(`- Articolo 1: ${currentScheduleConfig.article1Time}`);
+  console.log(`- Articolo 2: ${currentScheduleConfig.article2Time}`);
+  console.log(`- Articolo 3: ${currentScheduleConfig.article3Time}`);
+  
+  // Programma i 3 articoli giornalieri
+  scheduleArticleAt(currentScheduleConfig.article1Time, 1);
+  scheduleArticleAt(currentScheduleConfig.article2Time, 2);
+  scheduleArticleAt(currentScheduleConfig.article3Time, 3);
+  
+  // Heartbeat ogni ora
+  const heartbeat = setInterval(() => {
+    console.log('💚 SCHEDULER HEARTBEAT - 3 articoli/giorno attivi:', new Date().toLocaleString('it-IT'));
+  }, 60 * 60 * 1000);
+  
+  activeTimeouts.push(heartbeat as any);
+}
+
+// Ferma tutti gli scheduler
+export function stopAllSchedulers(): void {
+  activeTimeouts.forEach(timeout => clearTimeout(timeout));
+  activeTimeouts = [];
+  console.log('🛑 Tutti gli scheduler fermati');
+}
+
+// Aggiorna configurazione scheduler
+export function updateScheduleConfig(newConfig: Partial<ScheduleConfig>): ScheduleConfig {
+  currentScheduleConfig = { ...currentScheduleConfig, ...newConfig };
+  
+  if (currentScheduleConfig.enabled) {
+    startCustomScheduler();
+  } else {
+    stopAllSchedulers();
+  }
+  
+  return currentScheduleConfig;
+}
+
+// Ottieni configurazione attuale
+export function getScheduleConfig(): ScheduleConfig {
+  return { ...currentScheduleConfig };
+}
+
+// Funzione compatibilità con vecchio sistema
+export function startDailyScheduler(): void {
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  if (isProduction) {
+    // In produzione usa il sistema personalizzabile
+    startCustomScheduler({
+      article1Time: "09:00",
+      article2Time: "14:00",
+      article3Time: "18:00", 
+      enabled: true
+    });
+  } else {
+    console.log('📝 Scheduler in modalità development - usa la dashboard admin per i test');
+  }
 }
 
 // Funzione per pubblicare articolo manualmente
