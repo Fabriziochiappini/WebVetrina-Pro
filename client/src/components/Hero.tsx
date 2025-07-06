@@ -18,10 +18,10 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               OFFERTA LIMITATA
             </span>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
-              Sito Web Professionale a Soli <span className="text-gradient-orange">€197</span>
+              Realizzazione Siti Web Aziendali Professionali a Soli <span className="text-gradient-orange">€197</span>
             </h1>
             <h2 className="text-xl md:text-2xl font-medium opacity-95 leading-relaxed">
-              Valore reale di €1200 • Sito pronto in 5 giorni
+              Creazione siti web per la tua attività • Valore reale €1200 • Consegna in 5 giorni
             </h2>
             <ul className="space-y-4 text-lg slide-up">
               <li className="flex items-center gap-3">
@@ -34,7 +34,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
                   <i className="fas fa-check text-white text-sm font-bold"></i>
                 </div>
-                <span className="text-white font-medium">Sito ottimizzato per SEO e motori di ricerca</span>
+                <span className="text-white font-medium">Sito web aziendale ottimizzato SEO</span>
               </li>
               <li className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full gradient-orange flex items-center justify-center">
@@ -68,7 +68,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
           <div className="md:w-1/2 relative">
             <img 
               src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" 
-              alt="Anteprima di un sito web professionale su laptop" 
+              alt="Realizzazione siti web aziendali professionali - Web Pro Italia" 
               className="rounded-xl shadow-2xl w-full h-auto"
             />
             <Link href="/offerta-197">

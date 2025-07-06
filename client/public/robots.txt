@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://webpro-italia.com/sitemap.xml
+
+# Allow search engines to index all content
+Allow: /portfolio
+Allow: /blog
+Allow: /offerta-197
+Allow: /offerta-197form
+Allow: /thankyou
+
+# Disallow admin areas
+Disallow: /admin
+Disallow: /api/
+
+# SEO optimized for Web Pro Italia - Realizzazione siti web professionali
+# Generated: 2025-07-06
