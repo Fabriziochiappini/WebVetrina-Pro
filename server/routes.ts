@@ -862,9 +862,14 @@ Disallow: /api/
     }
   });
 
-  app.get("/api/blog/topics", (req, res) => {
-    const { ARTICLE_TOPICS } = require('./openai');
-    return res.json(ARTICLE_TOPICS);
+  app.get("/api/blog/topics", async (req, res) => {
+    try {
+      const { ARTICLE_TOPICS } = await import('./openai');
+      return res.json(ARTICLE_TOPICS);
+    } catch (error) {
+      console.error("Error fetching topics:", error);
+      return res.status(500).json({ message: "Errore nel recupero dei topic" });
+    }
   });
 
   app.post("/api/blog/posts/:id/publish", async (req, res) => {
