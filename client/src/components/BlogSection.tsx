@@ -22,9 +22,7 @@ const BlogSection = () => {
     queryFn: async () => {
       const response = await fetch('/api/blog/posts?status=published');
       if (!response.ok) throw new Error('Failed to fetch posts');
-      const data = await response.json();
-      console.log('Blog posts data:', data);
-      return data;
+      return response.json();
     }
   });
 
@@ -97,7 +95,6 @@ const BlogSection = () => {
                   alt={post.title}
                   className="w-full h-48 object-cover"
                   onError={(e) => {
-                    console.log(`Errore caricamento immagine: ${post.featuredImage}`);
                     e.currentTarget.style.display = 'none';
                   }}
                 />
