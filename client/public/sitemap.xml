@@ -1,11 +1,2 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- This sitemap is now dynamically generated at /sitemap.xml -->
-<!-- The dynamic sitemap includes all blog posts and pages automatically -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://webproitalia.com/</loc>
-    <lastmod>2025-07-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-</urlset>
+<!-- This file has been removed to use dynamic sitemap generation -->
+<!-- Visit /sitemap.xml for the dynamic sitemap that includes all blog posts -->
