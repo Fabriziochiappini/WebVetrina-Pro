@@ -72,26 +72,31 @@ const SchedulerMonitoring = () => {
     },
   });
 
-  // Mutation per aggiornare configurazione scheduler
+  // Mutation per aggiornare configurazione
   const updateConfig = useMutation({
-    mutationFn: async (newConfig: ScheduleConfig) => {
-      const response = await apiRequest("POST", "/api/scheduler/config", newConfig);
-      return response;
-    },
+    mutationFn: async (config: ScheduleConfig) => 
+      apiRequest(`/api/scheduler/config`, {
+        method: 'POST',
+        body: JSON.stringify(config),
+        headers: { 'Content-Type': 'application/json' }
+      }),
     onSuccess: (data) => {
       toast({
-        title: "Configurazione Aggiornata",
-        description: data.message,
+        title: "✅ Configurazione Salvata",
+        description: `Scheduler ${data.config.enabled ? 'attivato' : 'disattivato'}. Orari: ${data.config.article1Time}, ${data.config.article2Time}, ${data.config.article3Time}`,
       });
-      queryClient.invalidateQueries({ queryKey: ['/api/scheduler/status'] });
+      // NON invalidare subito la query per evitare il reset dei campi
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: ['/api/scheduler/status'] });
+      }, 2000);
     },
-    onError: (error: Error) => {
+    onError: (error: any) => {
       toast({
-        title: "Errore Configurazione",
+        title: "Errore",
         description: error.message,
         variant: "destructive",
       });
-    },
+    }
   });
 
   const handleGenerateNow = () => {
@@ -146,7 +151,7 @@ const SchedulerMonitoring = () => {
                     </Badge>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   {schedulerStatus.schedulerActive ? 
                     <CheckCircle className="h-5 w-5 text-green-500" /> : 
@@ -204,7 +209,7 @@ const SchedulerMonitoring = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3 mb-4">
                   <input
                     type="checkbox"
@@ -243,7 +248,7 @@ const SchedulerMonitoring = () => {
                         ✅ Scheduler attivo! Articoli programmati per: {article1Time}, {article2Time}, {article3Time}
                       </p>
                     </div>
-                    
+
                     <div className="bg-gray-50 p-3 rounded border">
                       <p className="text-sm font-medium mb-2">Forza Esecuzione Immediata:</p>
                       <div className="grid grid-cols-3 gap-2">
@@ -305,7 +310,7 @@ const SchedulerMonitoring = () => {
                       </>
                     )}
                   </Button>
-                  
+
                   <Button 
                     onClick={() => {
                       // Test dello scheduler
