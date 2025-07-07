@@ -136,6 +136,66 @@ Disallow: /api/
 # Generated: ${new Date().toISOString().split('T')[0]}`);
   });
 
+  // Dynamic sitemap generation
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const baseUrl = 'https://webproitalia.com';
+      const currentDate = new Date().toISOString().split('T')[0];
+      
+      // Get all published blog posts
+      const blogPosts = await storage.getBlogPosts('published');
+      
+      // Static pages with priorities
+      const staticPages = [
+        { url: '/', lastmod: currentDate, changefreq: 'daily', priority: '1.0' },
+        { url: '/chi-siamo', lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
+        { url: '/portfolio', lastmod: currentDate, changefreq: 'weekly', priority: '0.9' },
+        { url: '/blog', lastmod: currentDate, changefreq: 'daily', priority: '0.9' },
+        { url: '/offerta-197', lastmod: currentDate, changefreq: 'weekly', priority: '0.8' },
+        { url: '/offerta-197form', lastmod: currentDate, changefreq: 'monthly', priority: '0.6' },
+        { url: '/thankyou', lastmod: currentDate, changefreq: 'yearly', priority: '0.3' },
+        { url: '/privacy', lastmod: currentDate, changefreq: 'yearly', priority: '0.3' },
+        { url: '/cookie', lastmod: currentDate, changefreq: 'yearly', priority: '0.3' }
+      ];
+
+      // Build sitemap XML
+      let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+      // Add static pages
+      staticPages.forEach(page => {
+        sitemap += `
+  <url>
+    <loc>${baseUrl}${page.url}</loc>
+    <lastmod>${page.lastmod}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`;
+      });
+
+      // Add blog posts
+      blogPosts.forEach(post => {
+        const lastmod = post.updatedAt ? new Date(post.updatedAt).toISOString().split('T')[0] : currentDate;
+        sitemap += `
+  <url>
+    <loc>${baseUrl}/blog/${post.slug}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+      });
+
+      sitemap += `
+</urlset>`;
+
+      res.set('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error('Error generating sitemap:', error);
+      res.status(500).send('Error generating sitemap');
+    }
+  });
+
 
 
   // Route per servire direttamente il sito HTML statico
@@ -879,6 +939,21 @@ Disallow: /api/
         metaTitle: article.metaTitle,
         metaDescription: article.metaDescription,
       });
+
+      // Notifica Google della nuova sitemap
+      try {
+        const sitemapUrl = encodeURIComponent('https://webproitalia.com/sitemap.xml');
+        const pingUrl = `https://www.google.com/ping?sitemap=${sitemapUrl}`;
+        
+        // Ping Google per indicizzazione più veloce
+        fetch(pingUrl).catch(error => {
+          console.log('Google sitemap ping failed (normale):', error.message);
+        });
+        
+        console.log('🔍 Google sitemap ping inviato per nuovo articolo:', newArticle.title);
+      } catch (error) {
+        console.log('Error pinging Google sitemap:', error);
+      }
       
       return res.status(201).json({
         message: "Articolo SEO strategico generato con successo",

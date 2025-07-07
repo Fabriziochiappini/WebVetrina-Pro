@@ -1,33 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This sitemap is now dynamically generated at /sitemap.xml -->
+<!-- The dynamic sitemap includes all blog posts and pages automatically -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://webproitalia.com/</loc>
     <lastmod>2025-07-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://webproitalia.com/lite</loc>
-    <lastmod>2025-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://webproitalia.com/thankyou</loc>
-    <lastmod>2025-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://webproitalia.com/privacy</loc>
-    <lastmod>2025-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://webproitalia.com/cookie</loc>
-    <lastmod>2025-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
   </url>
 </urlset>
