@@ -29,18 +29,18 @@ import CookieBanner from "./components/CookieBanner";
 // Componente per scroll automatico all'inizio di ogni pagina
 function ScrollToTop() {
   const [location] = useLocation();
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  
+
   return null;
 }
 
 function Router() {
   // Initialize Google Analytics page tracking
   useAnalytics();
-  
+
   return (
     <>
       <ScrollToTop />

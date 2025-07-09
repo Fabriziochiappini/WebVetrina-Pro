@@ -73,6 +73,20 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5SX0RMD6NM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5SX0RMD6NM', {
+        page_title: document.title,
+        page_location: window.location.href,
+        send_page_view: true
+      });
+      console.log('Google Analytics caricato direttamente');
+    </script>
+
     <!-- Meta Pixel Code - Caricato dinamicamente dal database -->
     <script id="meta-pixel-script">
       function initMetaPixel(pixelId) {

@@ -1,6 +1,20 @@
-import { createRoot } from "react-dom/client";
-import App from "./App";
-import "./index.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { initGA, initScrollTracking } from './lib/analytics'
 
-createRoot(document.getElementById("root")!).render(<App />);
+const queryClient = new QueryClient()
+
+// Inizializza Google Analytics
+initGA()
+initScrollTracking()
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </React.StrictMode>,
+)
