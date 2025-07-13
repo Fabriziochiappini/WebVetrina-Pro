@@ -25,7 +25,7 @@ interface ArticleStructure {
 const SEO_ARTICLE_PROMPT = `
 Sei un esperto copywriter SEO specializzato in siti web aziendali e realizzazione siti web professionali.
 
-Scrivi un articolo completo e professionale seguendo queste specifiche:
+IMPORTANTE: Crea contenuto UNICO e VARIABILE per evitare che Google rilevi pattern ripetitivi. Ogni articolo deve essere SOSTANZIALMENTE DIVERSO per struttura, approccio e contenuti.
 
 ARGOMENTO: {topic}
 FOCUS: {focus}
@@ -37,42 +37,79 @@ PAROLE CHIAVE PRINCIPALI:
 - sviluppo siti web aziendali
 - progettazione siti web professionali
 
-STRUTTURA RICHIESTA:
-1. Titolo SEO ottimizzato (include parola chiave principale)
-2. Meta description (150-160 caratteri)
-3. Introduzione coinvolgente (100-150 parole)
-4. 6-8 sezioni principali con H2 che approfondiscono il tema
-5. Sottosezioni con H3 quando necessario
-6. Conclusione con call-to-action (100-150 parole)
+DIVERSIFICAZIONE CONTENUTI (scegli 3-4 approcci DIVERSI ogni volta):
+1. Analisi di mercato e trend digitali attuali
+2. Casi studio concreti e success stories
+3. Aspetti tecnici e innovazioni tecnologiche
+4. Strategie di marketing digitale e conversioni
+5. Confronti competitivi e benchmarking
+6. Psicologia del consumatore e user experience
+7. Tecnologie emergenti e visione futura
+8. Normative e compliance (GDPR, accessibilità)
+9. ROI e metriche di performance
+10. Integrazione con social media e e-commerce
+11. Ottimizzazione mobile e responsive design
+12. Sicurezza web e protezione dati
+13. Content marketing e SEO avanzato
+14. Automazione e AI nel web design
 
-REQUISITI CONTENUTO:
-- Minimo 1500 parole, target 2000+ parole
-- Usa la parola chiave principale nel titolo H1
-- Ripeti la keyword principale 8-12 volte naturalmente nel testo
-- Includi variazioni e sinonimi delle keyword
-- Densità keyword: 1-2% del contenuto totale
-- Esempi pratici e consigli professionali
-- Tono professionale ma accessibile
-- Focus su conversioni e lead generation
+STRUTTURA CREATIVA (varia la struttura ogni volta):
+- Titolo H1 originale e coinvolgente (50-70 caratteri)
+- Introduzione narrativa, con caso studio o domanda provocatoria (200-350 parole)
+- 5-8 sezioni H2 con approcci diversi (non seguire sempre lo stesso schema)
+- Sottosezioni H3 con approfondimenti specifici e tecnici
+- Paragrafi variabili: alcuni brevi e incisivi (60-90 parole), altri lunghi e dettagliati (150-250 parole)
+- Conclusione con storytelling, call-to-action creativa o visione futura (150-250 parole)
 
-CALL TO ACTION:
-- Invita a contattare per preventivo gratuito
-- Menziona prezzi competitivi (a partire da 197€)
-- Includi senso di urgenza e benefici
+STILE NARRATIVO DIVERSIFICATO:
+- Alterna tra tono consulenziale, narrativo, analitico, conversazionale
+- Usa domande retoriche e dialogo diretto con il lettore
+- Includi metafore, analogie e esempi creativi
+- Aggiungi elementi di storytelling e casi reali
+- Varia la lunghezza delle frasi per creare ritmo
+- Usa elenchi numerati, bullet points e tabelle quando appropriato
 
-FORMATTAZIONE:
-- Usa tag HTML appropriati (h1, h2, h3, p, strong, em, ul, li)
-- Paragrafi ben strutturati (80-120 parole)
-- Elenchi puntati per benefici e caratteristiche
-- Formattazione per evidenziare punti chiave
+REQUISITI CONTENUTO AVANZATI:
+- Minimo 1800 parole, target 2200-2500 parole
+- Usa la parola chiave principale nel titolo H1 in modo naturale
+- Ripeti la keyword principale 10-15 volte organicamente nel testo
+- Includi sinonimi creativi: "presenza digitale", "piattaforme online", "soluzioni web", "ecosistema digitale"
+- Densità keyword: 1.5-2.5% del contenuto totale
+- Esempi pratici specifici del settore
+- Statistiche aggiornate e dati di mercato
+- Consigli actionable e framework operativi
+- Tono che varia da professionale a colloquiale
+
+CONTENUTI DI VALORE SPECIFICI:
+- Case study con risultati misurabili
+- Checklist operative e framework
+- Confronti prima/dopo con esempi concreti
+- Previsioni di mercato e trend emergenti
+- Errori comuni e come evitarli
+- Best practices internazionali
+- Strategie di crescita scalabili
+- Strumenti e risorse utili
+
+CALL TO ACTION CREATIVA (varia l'approccio):
+- Usa diverse strategie: urgenza, scarsità, benefici, FOMO
+- Menziona investimento da 197€ come opportunità di crescita
+- Varia le frasi: "trasforma la tua presenza online", "scopri il potenziale nascosto", "inizia la rivoluzione digitale"
+- Includi testimonial immaginari o case study di successo
+
+FORMATTAZIONE AVANZATA:
+- Usa tag HTML appropriati (h1, h2, h3, p, strong, em, ul, li, blockquote)
+- Paragrafi ben strutturati con lunghezze variabili
+- Elenchi puntati, numerati e tabelle per dati complessi
+- Citazioni e highlight per punti chiave
+- Separatori visivi e call-out box quando appropriato
 
 RISPOSTA JSON RICHIESTA:
 {
-  "title": "titolo dell'articolo",
-  "metaDescription": "meta description",
-  "excerpt": "riassunto di 2-3 righe",
-  "content": "contenuto completo in HTML con tag appropriati - MINIMO 1500 parole",
-  "keywords": ["keyword1", "keyword2", ...],
+  "title": "titolo dell'articolo unico e coinvolgente",
+  "metaDescription": "meta description specifica e accattivante",
+  "excerpt": "riassunto di 2-3 righe che cattura l'essenza dell'articolo",
+  "content": "contenuto completo in HTML con tag appropriati - MINIMO 1800 parole",
+  "keywords": ["keyword1", "keyword2", "keyword3", ...],
   "category": "categoria dell'articolo"
 }
 `;
