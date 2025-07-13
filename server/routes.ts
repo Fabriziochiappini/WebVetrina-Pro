@@ -190,9 +190,78 @@ Disallow: /api/
 
       res.set('Content-Type', 'application/xml');
       res.send(sitemap);
+
+      // Ping Google per notificare la sitemap aggiornata (in background)
+      setTimeout(() => {
+        try {
+          const sitemapUrl = encodeURIComponent('https://webproitalia.com/sitemap.xml');
+          const pingUrl = `https://www.google.com/ping?sitemap=${sitemapUrl}`;
+          
+          fetch(pingUrl).then(() => {
+            console.log('✅ Google sitemap ping inviato con successo');
+          }).catch(error => {
+            console.log('📡 Google sitemap ping (normale se fallisce):', error.message);
+          });
+        } catch (error) {
+          console.log('Error pinging Google sitemap:', error);
+        }
+      }, 1000);
     } catch (error) {
       console.error('Error generating sitemap:', error);
       res.status(500).send('Error generating sitemap');
+    }
+  });
+
+  // Endpoint per verificare l'indicizzazione delle pagine
+  app.get('/api/seo/indexing-status', async (req, res) => {
+    try {
+      const pages = [
+        'https://webproitalia.com/',
+        'https://webproitalia.com/portfolio',
+        'https://webproitalia.com/blog',
+        'https://webproitalia.com/offerta-197',
+        'https://webproitalia.com/chi-siamo'
+      ];
+
+      const indexingStatus = [];
+      
+      for (const page of pages) {
+        // Verifica se la pagina è accessibile
+        try {
+          const response = await fetch(page, { method: 'HEAD' });
+          indexingStatus.push({
+            url: page,
+            status: response.status,
+            accessible: response.status === 200,
+            lastChecked: new Date().toISOString()
+          });
+        } catch (error) {
+          indexingStatus.push({
+            url: page,
+            status: 'error',
+            accessible: false,
+            error: error.message,
+            lastChecked: new Date().toISOString()
+          });
+        }
+      }
+
+      res.json({
+        timestamp: new Date().toISOString(),
+        domain: 'webproitalia.com',
+        sitemapUrl: 'https://webproitalia.com/sitemap.xml',
+        robotsUrl: 'https://webproitalia.com/robots.txt',
+        pages: indexingStatus,
+        seoRecommendations: [
+          'Verifica Google Search Console per errori di indicizzazione',
+          'Controlla se il sito è bloccato in robots.txt',
+          'Invia manualmente la sitemap su Google Search Console',
+          'Verifica che tutte le pagine abbiano meta description unici'
+        ]
+      });
+    } catch (error) {
+      console.error('Error checking indexing status:', error);
+      res.status(500).json({ error: 'Errore verifica indicizzazione' });
     }
   });
 
