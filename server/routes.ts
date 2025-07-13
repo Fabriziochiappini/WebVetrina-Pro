@@ -145,6 +145,15 @@ Disallow: /api/
       // Get all published blog posts
       const blogPosts = await storage.getBlogPosts('published');
       
+      // Debug logging per verificare articoli
+      console.log(`🗺️ SITEMAP: Trovati ${blogPosts.length} articoli pubblicati`);
+      console.log(`🗺️ SITEMAP: Ultimi 3 articoli:`, blogPosts.slice(0, 3).map(p => ({
+        id: p.id,
+        title: p.title,
+        slug: p.slug,
+        publishedAt: p.publishedAt || p.createdAt
+      })));
+      
       // Static pages with priorities
       const staticPages = [
         { url: '/', lastmod: currentDate, changefreq: 'daily', priority: '1.0' },
@@ -209,6 +218,32 @@ Disallow: /api/
     } catch (error) {
       console.error('Error generating sitemap:', error);
       res.status(500).send('Error generating sitemap');
+    }
+  });
+
+  // Endpoint diagnostico per verificare sitemap
+  app.get('/api/seo/sitemap-debug', async (req, res) => {
+    try {
+      const blogPosts = await storage.getBlogPosts('published');
+      
+      const sitemapInfo = {
+        totalPublishedPosts: blogPosts.length,
+        lastUpdate: new Date().toISOString(),
+        posts: blogPosts.map(post => ({
+          id: post.id,
+          title: post.title,
+          slug: post.slug,
+          url: `https://webproitalia.com/blog/${post.slug}`,
+          publishedAt: post.publishedAt || post.createdAt,
+          lastMod: post.updatedAt ? new Date(post.updatedAt).toISOString().split('T')[0] : new Date(post.createdAt).toISOString().split('T')[0]
+        })).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()),
+        sitemapUrl: 'https://webproitalia.com/sitemap.xml'
+      };
+      
+      res.json(sitemapInfo);
+    } catch (error) {
+      console.error('Error in sitemap debug:', error);
+      res.status(500).json({ error: 'Errore verifica sitemap' });
     }
   });
 
