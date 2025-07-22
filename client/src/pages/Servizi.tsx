@@ -21,80 +21,98 @@ interface ServiceCard {
   price: string;
   color: string;
   bgGradient: string;
+  badge?: string;
+  badgeColor?: string;
 }
 
 const services: ServiceCard[] = [
   {
     id: "seo-plus",
-    title: "Ottimizzazione SEO PLUS",
-    description: "Posizionamento avanzato sui motori di ricerca con analisi competitors e keyword research professionale",
-    icon: <Search className="w-8 h-8" />,
+    title: "SEO PLUS",
+    description: "Posizionamento avanzato sui motori di ricerca con analisi competitors",
+    icon: <Search className="w-10 h-10" />,
     price: "€99/mese",
-    color: "text-blue-600",
-    bgGradient: "from-blue-50 to-blue-100"
+    color: "text-white",
+    bgGradient: "from-blue-500 to-blue-600",
+    badge: "PIÙ VENDUTO",
+    badgeColor: "bg-yellow-500"
   },
   {
     id: "blog-module",
-    title: "Modulo Blog",
-    description: "Sistema di gestione contenuti con editor avanzato e ottimizzazione automatica per SEO",
-    icon: <PenTool className="w-8 h-8" />,
+    title: "Blog Module",
+    description: "Sistema di gestione contenuti con editor avanzato e SEO automatico",
+    icon: <PenTool className="w-10 h-10" />,
     price: "€149",
-    color: "text-purple-600",
-    bgGradient: "from-purple-50 to-purple-100"
+    color: "text-white",
+    bgGradient: "from-purple-500 to-purple-600",
+    badge: "NUOVO",
+    badgeColor: "bg-green-500"
   },
   {
     id: "business-email",
-    title: "Email Aziendale",
-    description: "Caselle email professionali con il tuo dominio, backup automatico e antispam avanzato",
-    icon: <Mail className="w-8 h-8" />,
+    title: "Email Pro",
+    description: "Caselle email professionali con il tuo dominio e antispam",
+    icon: <Mail className="w-10 h-10" />,
     price: "€29/mese",
-    color: "text-green-600",
-    bgGradient: "from-green-50 to-green-100"
+    color: "text-white",
+    bgGradient: "from-green-500 to-green-600",
+    badge: "ESSENZIALE",
+    badgeColor: "bg-blue-500"
   },
   {
     id: "multilingual",
-    title: "Sito Multilingua",
-    description: "Versioni del sito in più lingue con traduzione professionale e gestione automatica dei contenuti",
-    icon: <Globe className="w-8 h-8" />,
+    title: "Multilingua",
+    description: "Versioni del sito in più lingue con traduzione professionale",
+    icon: <Globe className="w-10 h-10" />,
     price: "€299",
-    color: "text-orange-600",
-    bgGradient: "from-orange-50 to-orange-100"
+    color: "text-white",
+    bgGradient: "from-orange-500 to-orange-600",
+    badge: "PREMIUM",
+    badgeColor: "bg-purple-500"
   },
   {
     id: "support-plus",
-    title: "Assistenza PLUS",
-    description: "Supporto prioritario 24/7, aggiornamenti illimitati e backup quotidiani automatici",
-    icon: <Headphones className="w-8 h-8" />,
+    title: "Support PLUS",
+    description: "Supporto prioritario 24/7 e backup quotidiani automatici",
+    icon: <Headphones className="w-10 h-10" />,
     price: "€79/mese",
-    color: "text-red-600",
-    bgGradient: "from-red-50 to-red-100"
+    color: "text-white",
+    bgGradient: "from-red-500 to-red-600",
+    badge: "RACCOMANDATO",
+    badgeColor: "bg-yellow-500"
   },
   {
     id: "social-management",
-    title: "Gestione Social",
-    description: "Creazione e gestione profili social, contenuti personalizzati e analisi performance",
-    icon: <Share2 className="w-8 h-8" />,
+    title: "Social Pro",
+    description: "Gestione completa dei tuoi profili social con contenuti personalizzati",
+    icon: <Share2 className="w-10 h-10" />,
     price: "€199/mese",
-    color: "text-pink-600",
-    bgGradient: "from-pink-50 to-pink-100"
+    color: "text-white",
+    bgGradient: "from-pink-500 to-pink-600",
+    badge: "TRENDING",
+    badgeColor: "bg-orange-500"
   },
   {
     id: "ad-campaigns",
-    title: "Campagne Pubblicitarie",
-    description: "Google Ads e Facebook Ads gestite da esperti con ottimizzazione ROI e report dettagliati",
-    icon: <Target className="w-8 h-8" />,
+    title: "Advertising",
+    description: "Campagne Google Ads e Facebook Ads per massimizzare il ROI",
+    icon: <Target className="w-10 h-10" />,
     price: "€299/mese",
-    color: "text-indigo-600",
-    bgGradient: "from-indigo-50 to-indigo-100"
+    color: "text-white",
+    bgGradient: "from-indigo-500 to-indigo-600",
+    badge: "HOT",
+    badgeColor: "bg-red-600"
   },
   {
     id: "crm-clients",
-    title: "CRM Clienti",
-    description: "Sistema di gestione clienti integrato con automazioni, follow-up e analytics avanzati",
-    icon: <Users className="w-8 h-8" />,
+    title: "CRM Pro",
+    description: "Sistema completo per gestire clienti, lead e vendite con automazioni",
+    icon: <Users className="w-10 h-10" />,
     price: "€149/mese",
-    color: "text-teal-600",
-    bgGradient: "from-teal-50 to-teal-100"
+    color: "text-white",
+    bgGradient: "from-teal-500 to-teal-600",
+    badge: "BUSINESS",
+    badgeColor: "bg-indigo-500"
   }
 ];
 
@@ -139,42 +157,55 @@ export default function Servizi() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {services.map((service) => (
               <Card 
                 key={service.id} 
-                className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer border-0 overflow-hidden rounded-3xl bg-white h-full flex flex-col"
+                className="group hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer border-0 overflow-hidden rounded-[28px] bg-white aspect-square flex flex-col relative shadow-lg"
+                style={{ boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)' }}
               >
                 <CardContent className="p-0 relative flex flex-col h-full">
-                  {/* App Icon Header */}
-                  <div className={`bg-gradient-to-br ${service.bgGradient} p-8 text-center relative flex-shrink-0`}>
-                    <div className={`${service.color} mb-4 flex justify-center`}>
-                      <div className="bg-white/30 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
+                  {/* Badge */}
+                  {service.badge && (
+                    <div className={`absolute top-3 right-3 ${service.badgeColor} text-white text-xs font-bold px-2 py-1 rounded-full z-10 shadow-lg`}>
+                      {service.badge}
+                    </div>
+                  )}
+
+                  {/* App Icon Header - Now takes full card */}
+                  <div className={`bg-gradient-to-br ${service.bgGradient} flex-1 flex flex-col items-center justify-center text-center relative p-6`}>
+                    {/* App Icon */}
+                    <div className={`${service.color} mb-4`}>
+                      <div className="bg-white/20 backdrop-blur-sm rounded-[20px] p-4 shadow-lg">
                         {service.icon}
                       </div>
                     </div>
-                    <h3 className="font-bold text-lg text-gray-900 mb-3 leading-tight">
+                    
+                    {/* App Title */}
+                    <h3 className="font-bold text-base text-white mb-2 leading-tight text-center">
                       {service.title}
                     </h3>
-                    <div className="bg-white/90 text-gray-900 font-bold text-xl px-4 py-2 rounded-full inline-block shadow-md">
+                    
+                    {/* Price Badge */}
+                    <div className="bg-white/90 text-gray-900 font-bold text-sm px-3 py-1.5 rounded-full shadow-md mb-3">
                       {service.price}
                     </div>
-                  </div>
 
-                  {/* Description Section - Flex Grow */}
-                  <div className="p-6 bg-white flex flex-col flex-grow">
-                    <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow h-[80px] flex items-center">
+                    {/* App Description */}
+                    <p className="text-white/90 text-xs leading-relaxed text-center mb-4 flex-grow flex items-center px-2">
                       {service.description}
                     </p>
+
+                    {/* Install Button */}
                     <Button 
-                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-2xl py-3 font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 mt-auto"
+                      className="bg-white/20 hover:bg-white/30 text-white border border-white/30 rounded-2xl py-2 px-6 font-semibold text-xs shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm"
                     >
-                      🛒 Aggiungi Servizio
+                      Installa
                     </Button>
                   </div>
 
-                  {/* Hover Glow Effect */}
-                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                  {/* iOS-like Glow Effect */}
+                  <div className="absolute inset-0 rounded-[28px] bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </CardContent>
               </Card>
             ))}
