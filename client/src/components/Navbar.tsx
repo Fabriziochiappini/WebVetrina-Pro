@@ -36,13 +36,12 @@ const Navbar = () => {
         </div>
         
         <nav className="hidden md:flex items-center space-x-6 font-medium text-sm">
-          <button 
-            onClick={() => scrollToSection('servizi')} 
-            className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group flex items-center h-10"
-          >
-            Servizi
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-          </button>
+          <Link href="/servizi">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group flex items-center h-10">
+              Servizi
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+            </span>
+          </Link>
           <button 
             onClick={() => scrollToSection('offerte')} 
             className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 relative group flex items-center h-10"
@@ -90,12 +89,11 @@ const Navbar = () => {
           </SheetTrigger>
           <SheetContent>
             <div className="flex flex-col space-y-4 mt-8">
-              <button 
-                onClick={() => scrollToSection('servizi')} 
-                className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"
-              >
-                Servizi
-              </button>
+              <Link href="/servizi">
+                <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block" onClick={() => setIsOpen(false)}>
+                  Servizi
+                </span>
+              </Link>
               <button 
                 onClick={() => scrollToSection('offerte')} 
                 className="text-left px-4 py-2 hover:bg-gray-100 rounded-md"

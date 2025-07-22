@@ -13,6 +13,7 @@ import { useAnalytics } from "./hooks/use-analytics";
 import NotFound from "./pages/not-found";
 import Home from "./pages/Home";
 import ChiSiamo from "./pages/ChiSiamo";
+import Servizi from "./pages/Servizi";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Portfolio from "./pages/Portfolio";
@@ -46,6 +47,7 @@ function Router() {
       <ScrollToTop />
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/servizi" component={Servizi} />
         <Route path="/chi-siamo" component={ChiSiamo} />
         <Route path="/portfolio" component={PortfolioPublic} />
         <Route path="/portfolio-public" component={PortfolioPublic} />
