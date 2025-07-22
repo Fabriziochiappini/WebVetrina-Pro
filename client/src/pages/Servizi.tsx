@@ -143,11 +143,11 @@ export default function Servizi() {
             {services.map((service) => (
               <Card 
                 key={service.id} 
-                className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer border-0 overflow-hidden rounded-3xl bg-white"
+                className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer border-0 overflow-hidden rounded-3xl bg-white h-full flex flex-col"
               >
-                <CardContent className="p-0 relative">
+                <CardContent className="p-0 relative flex flex-col h-full">
                   {/* App Icon Header */}
-                  <div className={`bg-gradient-to-br ${service.bgGradient} p-8 text-center relative`}>
+                  <div className={`bg-gradient-to-br ${service.bgGradient} p-8 text-center relative flex-shrink-0`}>
                     <div className={`${service.color} mb-4 flex justify-center`}>
                       <div className="bg-white/30 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
                         {service.icon}
@@ -161,13 +161,13 @@ export default function Servizi() {
                     </div>
                   </div>
 
-                  {/* Description Section */}
-                  <div className="p-6 bg-white">
-                    <p className="text-gray-600 text-sm leading-relaxed mb-6 min-h-[60px]">
+                  {/* Description Section - Flex Grow */}
+                  <div className="p-6 bg-white flex flex-col flex-grow">
+                    <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow h-[80px] flex items-center">
                       {service.description}
                     </p>
                     <Button 
-                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-2xl py-3 font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-2xl py-3 font-semibold text-sm shadow-lg hover:shadow-xl transition-all duration-300 mt-auto"
                     >
                       🛒 Aggiungi Servizio
                     </Button>
