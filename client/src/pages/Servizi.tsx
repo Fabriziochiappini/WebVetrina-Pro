@@ -148,7 +148,7 @@ export default function Servizi() {
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-3">
                 Scopri i Servizi
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-900 text-lg px-8 py-3">
+              <Button size="lg" variant="outline" className="border-white bg-white text-blue-900 text-lg px-8 py-3">
                 Richiedi Consulenza
               </Button>
             </div>
@@ -239,7 +239,7 @@ export default function Servizi() {
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-3">
               Richiedi Preventivo Gratuito
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-3">
+            <Button size="lg" variant="outline" className="border-white bg-white text-blue-600 text-lg px-8 py-3">
               Parla con un Esperto
             </Button>
           </div>
