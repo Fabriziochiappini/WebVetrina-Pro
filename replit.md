@@ -133,6 +133,7 @@ Preferred communication style: Simple, everyday language.
 
 ## Changelog
 
+- July 22, 2025. PAGINA SERVIZI COMPLETATA: creata nuova pagina dedicata ai servizi aggiuntivi (/servizi) con 8 servizi premium in layout 4x2, design app-like colorato con card animate. Riorganizzato menu: "Servizi" spostato dopo "Blog" e collegato alla nuova pagina invece della sezione homepage. Include servizi come SEO PLUS (€99/mese), Blog Module (€149), Email Aziendale (€29/mese), supporto multilingua e altri servizi per upselling clienti.
 - July 13, 2025. PROMPT ARTICOLI MIGLIORATO: rivoluzionato sistema generazione articoli con prompt avanzato per evitare rilevamento Google come "template-generated". Ora crea contenuti UNICI e VARIABILI con strutture creative diverse, 14 approcci diversificati, storytelling locale, lunghezza 1800-2500 parole, stile narrativo diversificato. Risolve problema Google che rilevava articoli come "fatti in serie".
 - July 6, 2025. SEO OTTIMIZZAZIONE COMPLETA: implementato title site "Web Pro Italia - Realizzazione e creazione siti web aziendali professionali per la tua attività", meta description SEO-friendly, parole chiave strategiche, structured data JSON-LD, robots.txt e sitemap.xml dinamico. Sito ora completamente ottimizzato per motori di ricerca.
 - July 6, 2025. CRITICO: Sistema sicurezza ultra-rinforzato dopo violazione: rimosso hardcoding password da codice, implementato autenticazione basata su sessioni, credenziali reali ora in variabili ambiente. Risolto problema password visibile nel codice che comprometteva sicurezza.

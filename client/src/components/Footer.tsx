@@ -1,4 +1,5 @@
 import { trackBusinessEvent } from '../lib/analytics';
+import { Link } from "wouter";
 
 const Footer = () => {
   const scrollToSection = (id: string) => {
@@ -46,12 +47,11 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection('servizi')} 
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Servizi
-                </button>
+                <Link href="/servizi">
+                  <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">
+                    Servizi
+                  </span>
+                </Link>
               </li>
 
               <li>
