@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { 
@@ -11,7 +13,8 @@ import {
   Share2, 
   Target, 
   Users,
-  Bot
+  Bot,
+  X
 } from "lucide-react";
 
 interface ServiceCard {
@@ -25,6 +28,209 @@ interface ServiceCard {
   badge?: string;
   badgeColor?: string;
 }
+
+interface ServiceDetails {
+  id: string;
+  title: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  benefits: string[];
+  price: string;
+  setupTime: string;
+}
+
+const serviceDetails: ServiceDetails[] = [
+  {
+    id: "seo-plus",
+    title: "SEO PLUS",
+    tagline: "Domina Google. I tuoi competitor non sapranno che li hai colpiti.",
+    description: "Non è solo SEO. È una guerra psicologica contro la concorrenza. Analizziamo ogni loro mossa, rubiamo le loro parole chiave migliori e ti portiamo in cima prima che se ne accorgano.",
+    features: [
+      "Analisi competitors ultra-dettagliata (sappiamo tutto di loro)",
+      "Ottimizzazione tecnica avanzata (velocità fulmine)",
+      "Link building strategico (partnership che contano)",
+      "Report mensili che ti faranno sorridere",
+      "Monitoraggio posizioni real-time"
+    ],
+    benefits: [
+      "Traffico organico che cresce ogni mese",
+      "Clienti che ti trovano prima dei concorrenti", 
+      "Autorevolezza nel tuo settore",
+      "ROI misurabile e trasparente"
+    ],
+    price: "€99/mese",
+    setupTime: "Setup in 48h"
+  },
+  {
+    id: "blog-module",
+    title: "Blog Module",
+    tagline: "Il blog che scrive da solo (quasi). Tu rilassati, noi generiamo traffico.",
+    description: "Basta perdere ore a pensare 'cosa scrivo oggi?'. Sistema completo che trasforma il tuo sito in una macchina da contenuti. Editor avanzato + SEO automatico = traffico garantito.",
+    features: [
+      "Editor professionale tipo WordPress",
+      "SEO automatico per ogni articolo",
+      "Template pronti per il tuo settore", 
+      "Gestione immagini integrata",
+      "Pubblicazione programmata"
+    ],
+    benefits: [
+      "Contenuti freschi senza stress",
+      "Google ti ama (e ti premia)",
+      "Clienti che ti vedono esperto",
+      "Tempo risparmiato = soldi guadagnati"
+    ],
+    price: "€39",
+    setupTime: "Setup in 24h"
+  },
+  {
+    id: "email-business",
+    title: "Email Aziendale",
+    tagline: "Basta Gmail. È ora di sembrare professionali davvero.",
+    description: "Email personalizzata con il tuo dominio che fa la differenza. I clienti si fidano di più, le email finiscono meno nello spam, e tu sembri quello serio del settore.",
+    features: [
+      "Email personalizzata @tuodominio.it",
+      "Antispam e sicurezza avanzata",
+      "Backup automatico messaggi",
+      "App mobile inclusa",
+      "Supportio IMAP/POP3"
+    ],
+    benefits: [
+      "Credibilità istantanea",
+      "Meno email nello spam",
+      "Branding coerente ovunque",
+      "Gestione professionale comunicazioni"
+    ],
+    price: "€29/mese",
+    setupTime: "Setup in 2h"
+  },
+  {
+    id: "multi-language",
+    title: "Multilingua",
+    tagline: "Un sito, infinite opportunità. Il mondo aspetta i tuoi servizi.",
+    description: "Traduci il sito e raddoppia i clienti. Non parliamo di Google Translate, ma traduzione professionale che convince e converte. Ogni lingua è un nuovo mercato da conquistare.",
+    features: [
+      "Traduzione professionale (non automatica)",
+      "SEO ottimizzato per ogni lingua",
+      "Gestione contenuti multilingua",
+      "URL dedicati per ogni paese",
+      "Selector lingua elegante"
+    ],
+    benefits: [
+      "Mercati internazionali aperti",
+      "Clienti stranieri sbloccati",
+      "Autorevolezza globale",
+      "Fatturato moltiplicato"
+    ],
+    price: "€199",
+    setupTime: "Setup in 5-7 giorni"
+  },
+  {
+    id: "support-premium",
+    title: "Supporto VIP",
+    tagline: "Hai un problema? Risolto in 30 minuti. Garantito.",
+    description: "Supporto prioritario per quando le cose si complicano. Chat diretta, interventi rapidi, problemi risolti prima che diventino drammi. Dormi sonni tranquilli.",
+    features: [
+      "Chat diretta con sviluppatori",
+      "Interventi entro 30 minuti",
+      "Backup giornalieri automatici",
+      "Monitoraggio proattivo 24/7",
+      "Aggiornamenti prioritari"
+    ],
+    benefits: [
+      "Zero stress tecnico",
+      "Sito sempre funzionante",
+      "Problemi risolti prima che li noti",
+      "Focus totale sul business"
+    ],
+    price: "€79/mese",
+    setupTime: "Attivo subito"
+  },
+  {
+    id: "social-integration",
+    title: "Social Pro",
+    tagline: "Collega tutto. Sito, social, clienti. Un ecosistema che funziona.",
+    description: "Integrazione social che non è solo 'metti i bottoncini'. Feed automatici, condivisioni intelligenti, traffico dai social che si trasforma in clienti veri.",
+    features: [
+      "Feed social automatici sul sito",
+      "Condivisioni ottimizzate",
+      "Pixel tracking avanzato",
+      "Chatbot social integrato",
+      "Analytics social unificate"
+    ],
+    benefits: [
+      "Presenza online coordinata",
+      "Traffico dai social moltiplicato",
+      "Lead generation automatica",
+      "Brand recognition potenziata"
+    ],
+    price: "€59/mese",
+    setupTime: "Setup in 3 giorni"
+  },
+  {
+    id: "ads-landing",
+    title: "Landing ADS",
+    tagline: "Pagine che convertono. Ogni click diventa cliente.",
+    description: "Landing pages killer per le tue campagne pubblicitarie. Ottimizzate per convertire, testate per vincere. Più conversioni = pubblicità che si paga da sola.",
+    features: [
+      "Landing pages ottimizzate",
+      "A/B testing integrato",
+      "Tracking conversioni avanzato",
+      "Copy persuasivo incluso",
+      "Design mobile-first"
+    ],
+    benefits: [
+      "Conversioni alle stelle",
+      "Costo per lead dimezzato",
+      "ROI pubblicità massimizzato",
+      "Campagne che si autofinanziano"
+    ],
+    price: "€149",
+    setupTime: "Setup in 3-5 giorni"
+  },
+  {
+    id: "crm-clients",
+    title: "CRM Pro",
+    tagline: "Gestisci clienti come un boss. Ogni lead diventa opportunità.",
+    description: "Sistema completo per non perdere mai un cliente. Lead tracking, follow-up automatici, vendite sotto controllo. Trasforma il caos in un sistema che vende per te.",
+    features: [
+      "Database clienti centralizzato",
+      "Follow-up automatici",
+      "Pipeline vendite visual",
+      "Report e analytics dettagliati",
+      "Integrazione email e telefono"
+    ],
+    benefits: [
+      "Zero clienti persi",
+      "Vendite organizzate e tracciate", 
+      "Follow-up mai dimenticati",
+      "Crescita controllata e scalabile"
+    ],
+    price: "€149/mese",
+    setupTime: "Setup in 5 giorni"
+  },
+  {
+    id: "autoblog",
+    title: "AutoBlog",
+    tagline: "L'AI scrive, tu guadagni. Contenuti infiniti senza sforzo.",
+    description: "Il futuro del content marketing è qui. AI che genera articoli ottimizzati SEO, unici e coinvolgenti. Tu imposti, l'AI produce, Google premia. Traffico organico automatizzato.",
+    features: [
+      "Generazione articoli con GPT-4",
+      "SEO optimization automatica",
+      "Pubblicazione programmata",
+      "Temi personalizzabili per il tuo settore",
+      "Revisione umana inclusa"
+    ],
+    benefits: [
+      "Contenuti freschi ogni settimana",
+      "Google ranking migliorato",
+      "Autorevolezza settoriale automatica",
+      "Tempo libero = focus business"
+    ],
+    price: "€79/mese",
+    setupTime: "Setup in 24h"
+  }
+];
 
 const services: ServiceCard[] = [
   {
@@ -129,6 +335,16 @@ const services: ServiceCard[] = [
 ];
 
 export default function Servizi() {
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+  
+  const getServiceDetails = (id: string) => {
+    return serviceDetails.find(service => service.id === id);
+  };
+
+  const handleServiceClick = (serviceId: string) => {
+    setSelectedService(serviceId);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -210,6 +426,7 @@ export default function Servizi() {
 
                     {/* Install Button */}
                     <Button 
+                      onClick={() => handleServiceClick(service.id)}
                       className="bg-white/20 hover:bg-white/30 text-white border border-white/30 rounded-2xl py-2 px-6 font-semibold text-xs shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm"
                     >
                       Installa
@@ -247,6 +464,112 @@ export default function Servizi() {
       </section>
 
       <Footer />
+
+      {/* Service Detail Modal */}
+      {selectedService && (
+        <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            {(() => {
+              const details = getServiceDetails(selectedService);
+              if (!details) return null;
+              
+              return (
+                <>
+                  <DialogHeader>
+                    <DialogTitle className="text-3xl font-bold text-gray-900 mb-2">
+                      {details.title}
+                    </DialogTitle>
+                    <DialogDescription className="text-xl text-blue-600 font-semibold mb-4">
+                      {details.tagline}
+                    </DialogDescription>
+                  </DialogHeader>
+                  
+                  <div className="space-y-6">
+                    {/* Description */}
+                    <div className="bg-gray-50 p-6 rounded-xl">
+                      <p className="text-gray-700 text-lg leading-relaxed">
+                        {details.description}
+                      </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* Features */}
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                          🚀 Cosa Include
+                        </h3>
+                        <ul className="space-y-3">
+                          {details.features.map((feature, index) => (
+                            <li key={index} className="flex items-start">
+                              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                              <span className="text-gray-700">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Benefits */}
+                      <div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                          💎 Vantaggi per Te
+                        </h3>
+                        <ul className="space-y-3">
+                          {details.benefits.map((benefit, index) => (
+                            <li key={index} className="flex items-start">
+                              <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                              <span className="text-gray-700">{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    {/* Pricing and CTA */}
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-xl">
+                      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div>
+                          <div className="text-3xl font-bold mb-1">
+                            {details.price}
+                          </div>
+                          <div className="text-blue-100">
+                            {details.setupTime}
+                          </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                          <Button 
+                            size="lg" 
+                            className="bg-white text-blue-600 hover:bg-gray-100 font-bold"
+                            onClick={() => {
+                              // Track analytics
+                              if (typeof window !== 'undefined' && (window as any).gtag) {
+                                (window as any).gtag('event', 'service_install_click', {
+                                  event_category: 'services',
+                                  event_label: details.title
+                                });
+                              }
+                              // Open WhatsApp or contact form
+                              window.open(`https://wa.me/393755142007?text=Ciao! Sono interessato al servizio ${details.title} a ${details.price}`, '_blank');
+                            }}
+                          >
+                            INSTALLA SUBITO
+                          </Button>
+                          <Button 
+                            size="lg" 
+                            variant="outline" 
+                            className="border-white text-white hover:bg-white/10"
+                          >
+                            Info e Preventivo
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
