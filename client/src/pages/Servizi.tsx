@@ -10,7 +10,8 @@ import {
   Headphones, 
   Share2, 
   Target, 
-  Users 
+  Users,
+  Bot
 } from "lucide-react";
 
 interface ServiceCard {
@@ -42,7 +43,7 @@ const services: ServiceCard[] = [
     title: "Blog Module",
     description: "Sistema di gestione contenuti con editor avanzato e SEO automatico",
     icon: <PenTool className="w-10 h-10" />,
-    price: "€149",
+    price: "€39",
     color: "text-white",
     bgGradient: "from-purple-500 to-purple-600",
     badge: "NUOVO",
@@ -113,6 +114,17 @@ const services: ServiceCard[] = [
     bgGradient: "from-teal-500 to-teal-600",
     badge: "BUSINESS",
     badgeColor: "bg-indigo-500"
+  },
+  {
+    id: "autoblog",
+    title: "AutoBlog",
+    description: "Generazione automatica di articoli con AI per il tuo blog",
+    icon: <Bot className="w-10 h-10" />,
+    price: "€79/mese",
+    color: "text-white",
+    bgGradient: "from-cyan-500 to-cyan-600",
+    badge: "AI POWERED",
+    badgeColor: "bg-gradient-to-r from-purple-500 to-pink-500"
   }
 ];
 
@@ -157,7 +169,7 @@ export default function Servizi() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {services.map((service) => (
               <Card 
                 key={service.id} 
