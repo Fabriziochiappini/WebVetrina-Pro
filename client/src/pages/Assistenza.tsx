@@ -54,12 +54,17 @@ export default function Assistenza() {
     mutationFn: async (data: TicketFormData) => {
       return await apiRequest("POST", "/api/tickets", data);
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      const newTicket = response.ticket;
       setIsSubmitted(true);
       toast({
-        title: "Ticket inviato con successo! 🎫",
-        description: "Ti contatteremo entro 24 ore per fornirti assistenza.",
+        title: "Ticket creato con successo! 🎫",
+        description: "Reindirizzamento alla chat di supporto...",
       });
+      // Reindirizza alla chat del ticket dopo 2 secondi
+      setTimeout(() => {
+        window.location.href = `/ticket/${newTicket.id}`;
+      }, 2000);
     },
     onError: (error) => {
       toast({
@@ -86,17 +91,17 @@ export default function Assistenza() {
                   <CheckCircle2 className="w-10 h-10 text-green-600" />
                 </div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                  Ticket Inviato! 🎉
+                  Ticket Creato! 🎉
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
-                  Grazie per averci contattato. Il tuo ticket è stato registrato con successo.
+                  Il tuo ticket è stato creato con successo. Stai per essere reindirizzato alla chat di supporto.
                 </p>
-                <div className="bg-blue-50 p-4 rounded-lg mb-6">
-                  <p className="text-blue-800 font-semibold">
-                    ⏰ Ti risponderemo entro 24 ore
+                <div className="bg-orange-50 p-4 rounded-lg mb-6 border border-orange-200">
+                  <p className="text-orange-800 font-semibold">
+                    💬 Apertura chat di supporto in corso...
                   </p>
-                  <p className="text-blue-600 text-sm mt-1">
-                    Per urgenze immediate, contattaci su WhatsApp
+                  <p className="text-orange-600 text-sm mt-1">
+                    Potrai chattare direttamente con il nostro team di supporto
                   </p>
                 </div>
                 <Button 

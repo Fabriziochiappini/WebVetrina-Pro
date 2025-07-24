@@ -51,7 +51,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/servizi" component={Servizi} />
         <Route path="/assistenza" component={Assistenza} />
-        <Route path="/ticket" component={TicketChat} />
+        <Route path="/ticket" component={Assistenza} />
         <Route path="/ticket/:id" component={TicketChat} />
         <Route path="/chi-siamo" component={ChiSiamo} />
         <Route path="/portfolio" component={PortfolioPublic} />
