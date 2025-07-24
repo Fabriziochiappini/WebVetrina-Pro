@@ -119,7 +119,7 @@ export default function Assistenza() {
             </div>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-orange-600 to-purple-600 bg-clip-text text-transparent mb-6">
-            Centro Assistenza
+            Centro Ticket
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Sei già nostro cliente? Ottieni supporto rapido e professionale per il tuo sito web.
@@ -158,7 +158,7 @@ export default function Assistenza() {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
               <Mail className="w-8 h-8 text-orange-600" />
-              Apri un Ticket di Assistenza
+              Apri un Ticket di Supporto
             </h2>
             <p className="text-gray-600 text-lg">
               Compila il modulo per ricevere assistenza personalizzata
@@ -323,7 +323,7 @@ export default function Assistenza() {
                     className="w-full bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-bold py-4 text-lg rounded-xl shadow-lg"
                     disabled={mutation.isPending}
                   >
-                    {mutation.isPending ? "Invio in corso..." : "🚀 Invia Ticket di Assistenza"}
+                    {mutation.isPending ? "Invio in corso..." : "🚀 Invia Ticket di Supporto"}
                   </Button>
                 </form>
               </Form>
