@@ -23,6 +23,7 @@ import Admin from "./pages/Admin";
 import Offerta197 from "./pages/Offerta197";
 import Offerta197Form from "./pages/Offerta197Form";
 import ThankYou from "./pages/ThankYou";
+import Assistenza from "./pages/Assistenza";
 
 
 import CookieBanner from "./components/CookieBanner";
@@ -48,6 +49,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/servizi" component={Servizi} />
+        <Route path="/assistenza" component={Assistenza} />
         <Route path="/chi-siamo" component={ChiSiamo} />
         <Route path="/portfolio" component={PortfolioPublic} />
         <Route path="/portfolio-public" component={PortfolioPublic} />

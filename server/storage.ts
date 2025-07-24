@@ -8,7 +8,8 @@ import {
   blogCategories, type BlogCategory, type InsertBlogCategory,
   blogPostCategories,
   landingGalleryImages, type LandingGalleryImage, type InsertLandingGalleryImage,
-  landingSpots, type LandingSpot, type InsertLandingSpot
+  landingSpots, type LandingSpot, type InsertLandingSpot,
+  supportTickets, type SupportTicket, type InsertSupportTicket
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
@@ -60,6 +61,10 @@ export interface IStorage {
   getLandingGalleryImages(): Promise<LandingGalleryImage[]>;
   updateLandingGalleryImage(id: number, image: Partial<InsertLandingGalleryImage>): Promise<LandingGalleryImage>;
   deleteLandingGalleryImage(id: number): Promise<boolean>;
+  
+  // Support ticket management
+  createSupportTicket(ticket: InsertSupportTicket): Promise<SupportTicket>;
+  getSupportTickets(): Promise<SupportTicket[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -284,6 +289,16 @@ export class DatabaseStorage implements IStorage {
   async deleteLandingGalleryImage(id: number): Promise<boolean> {
     const result = await db.delete(landingGalleryImages).where(eq(landingGalleryImages.id, id));
     return (result.rowCount || 0) > 0;
+  }
+
+  // Support ticket management
+  async createSupportTicket(ticket: InsertSupportTicket): Promise<SupportTicket> {
+    const [newTicket] = await db.insert(supportTickets).values(ticket).returning();
+    return newTicket;
+  }
+
+  async getSupportTickets(): Promise<SupportTicket[]> {
+    return await db.select().from(supportTickets).orderBy(desc(supportTickets.createdAt));
   }
 }
 

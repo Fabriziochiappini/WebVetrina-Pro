@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema } from "@shared/schema";
+import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema, insertSupportTicketSchema } from "@shared/schema";
 import { sendContactNotification, sendAutoReply } from "./emailService";
 import multer from "multer";
 import path from "path";
@@ -306,6 +306,62 @@ Disallow: /api/
   app.get("/static", (req, res) => {
     const htmlPath = path.join(new URL('../server/public.html', import.meta.url).pathname);
     res.sendFile(htmlPath);
+  });
+
+  // Support Tickets Routes
+  app.post("/api/tickets", async (req, res) => {
+    try {
+      const result = insertSupportTicketSchema.safeParse(req.body);
+
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Validazione fallita", 
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      const ticket = await storage.createSupportTicket({
+        ...result.data
+      });
+
+      // Invia email di notifica per il ticket
+      console.log('Nuovo ticket di supporto:', result.data.firstName, result.data.lastName);
+
+      const notificationSent = await sendContactNotification({
+        firstName: result.data.firstName,
+        lastName: result.data.lastName,
+        email: result.data.email,
+        phone: result.data.phone,
+        company: result.data.websiteUrl,
+        businessType: result.data.category,
+        message: `TICKET SUPPORTO - ${result.data.subject}\n\nCategoria: ${result.data.category}\nPriorità: ${result.data.priority}\nSito web: ${result.data.websiteUrl}\n\nDescrizione:\n${result.data.description}`
+      });
+
+      console.log(`Ticket email notification sent: ${notificationSent}`);
+
+      return res.status(200).json({
+        success: true,
+        message: "Ticket creato con successo! Ti contatteremo presto.",
+        ticket,
+        emailSent: notificationSent
+      });
+    } catch (error) {
+      console.error("Error creating support ticket:", error);
+      return res.status(500).json({ 
+        success: false,
+        message: "Si è verificato un errore durante la creazione del ticket. Riprova più tardi." 
+      });
+    }
+  });
+
+  app.get("/api/tickets", checkAuth, async (req, res) => {
+    try {
+      const tickets = await storage.getSupportTickets();
+      res.json(tickets);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+      res.status(500).json({ message: "Errore nel recupero dei ticket" });
+    }
   });
 
   // Contact form submission route
@@ -1584,6 +1640,93 @@ Disallow: /api/
       console.error("Error creating payment intent:", error);
       res.status(500).json({ 
         message: "Error creating payment intent: " + error.message 
+      });
+    }
+  });
+
+  // Support ticket endpoints
+  app.post("/api/support-ticket", async (req, res) => {
+    try {
+      const ticketData = req.body;
+      
+      // Validate the ticket data
+      const { supportTickets } = await import("@shared/schema");
+      const { insertSupportTicketSchema } = await import("@shared/schema");
+      
+      const result = insertSupportTicketSchema.safeParse(ticketData);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Dati non validi", 
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      const ticket = await storage.createSupportTicket(result.data);
+      
+      // Send notification email to support team
+      const emailSent = await sendEmail(
+        process.env.SENDGRID_API_KEY!,
+        {
+          to: "supporto@webproitalia.com", // Change to your support email
+          from: "noreply@webproitalia.com",
+          subject: `🎫 Nuovo Ticket di Assistenza - ${ticketData.subject}`,
+          html: `
+            <h2>Nuovo Ticket di Assistenza</h2>
+            <p><strong>Cliente:</strong> ${ticketData.clientName}</p>
+            <p><strong>Email:</strong> ${ticketData.email}</p>
+            <p><strong>Telefono:</strong> ${ticketData.phone}</p>
+            <p><strong>Sito Web:</strong> ${ticketData.websiteUrl || 'Non specificato'}</p>
+            <p><strong>Tipo Richiesta:</strong> ${ticketData.requestType}</p>
+            <p><strong>Priorità:</strong> ${ticketData.priority}</p>
+            <p><strong>Oggetto:</strong> ${ticketData.subject}</p>
+            <p><strong>Descrizione:</strong></p>
+            <p>${ticketData.description}</p>
+            <hr>
+            <p><small>Ticket ID: ${ticket.id}</small></p>
+          `
+        }
+      );
+
+      // Send confirmation email to client
+      await sendEmail(
+        process.env.SENDGRID_API_KEY!,
+        {
+          to: ticketData.email,
+          from: "supporto@webproitalia.com",
+          subject: "✅ Ticket di Assistenza Ricevuto - Web Pro Italia",
+          html: `
+            <h2>Ciao ${ticketData.clientName},</h2>
+            <p>Il tuo ticket di assistenza è stato ricevuto con successo!</p>
+            <p><strong>Numero Ticket:</strong> #${ticket.id}</p>
+            <p><strong>Oggetto:</strong> ${ticketData.subject}</p>
+            <p>Ti contatteremo entro 24 ore per risolvere la tua richiesta.</p>
+            <p>Per urgenze immediate, contattaci su WhatsApp: +39 123 456 7890</p>
+            <hr>
+            <p>Grazie per aver scelto Web Pro Italia!</p>
+          `
+        }
+      );
+
+      return res.status(201).json({ 
+        message: "Ticket creato con successo",
+        ticketId: ticket.id
+      });
+    } catch (error) {
+      console.error("Error creating support ticket:", error);
+      return res.status(500).json({ 
+        message: "Errore durante la creazione del ticket" 
+      });
+    }
+  });
+
+  app.get("/api/support-tickets", checkAuth, async (req, res) => {
+    try {
+      const tickets = await storage.getSupportTickets();
+      return res.json(tickets);
+    } catch (error) {
+      console.error("Error fetching support tickets:", error);
+      return res.status(500).json({ 
+        message: "Errore durante il recupero dei ticket" 
       });
     }
   });

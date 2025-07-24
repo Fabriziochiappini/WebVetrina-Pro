@@ -109,6 +109,21 @@ export const landingGalleryImages = pgTable("landing_gallery_images", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const supportTickets = pgTable("support_tickets", {
+  id: serial("id").primaryKey(),
+  clientName: text("client_name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  websiteUrl: text("website_url"),
+  requestType: text("request_type", { enum: ["modifica", "aggiornamento", "problema", "acquisto", "altro"] }).notNull(),
+  priority: text("priority", { enum: ["bassa", "media", "alta", "urgente"] }).default("media").notNull(),
+  subject: text("subject").notNull(),
+  description: text("description").notNull(),
+  status: text("status", { enum: ["aperto", "in-lavorazione", "risolto", "chiuso"] }).default("aperto").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
   .omit({ id: true, updatedAt: true });
 
@@ -131,6 +146,9 @@ export const insertLandingGalleryImageSchema = createInsertSchema(landingGallery
     sortOrder: z.number().default(0),
     isActive: z.boolean().default(true)
   });
+
+export const insertSupportTicketSchema = createInsertSchema(supportTickets)
+  .omit({ id: true, createdAt: true, updatedAt: true, status: true });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -156,3 +174,6 @@ export type BlogCategory = typeof blogCategories.$inferSelect;
 
 export type InsertLandingGalleryImage = z.infer<typeof insertLandingGalleryImageSchema>;
 export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;
+
+export type InsertSupportTicket = z.infer<typeof insertSupportTicketSchema>;
+export type SupportTicket = typeof supportTickets.$inferSelect;
