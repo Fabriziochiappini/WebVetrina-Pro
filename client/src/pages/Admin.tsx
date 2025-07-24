@@ -17,6 +17,7 @@ import BlogManagement from "@/components/BlogManagement";
 import LandingGalleryManagementNew from "@/components/LandingGalleryManagementNew";
 import SchedulerMonitoring from "@/components/SchedulerMonitoring";
 import SEOStrategyDashboard from "@/components/SEOStrategyDashboard";
+import TicketManagement from "@/components/TicketManagement";
 
 interface DateFilterProps {
   startDate: string;
@@ -389,6 +390,10 @@ const Admin = () => {
               <Image className="mr-2 h-4 w-4" />
               Galleria Landing
             </TabsTrigger>
+            <TabsTrigger value="ticket">
+              <Users className="mr-2 h-4 w-4" />
+              Ticket
+            </TabsTrigger>
             <TabsTrigger value="impostazioni">
               <Settings className="mr-2 h-4 w-4" />
               Impostazioni
@@ -632,6 +637,10 @@ const Admin = () => {
           
           <TabsContent value="gallery">
             <LandingGalleryManagementNew />
+          </TabsContent>
+
+          <TabsContent value="ticket">
+            <TicketManagement />
           </TabsContent>
 
           <TabsContent value="impostazioni">

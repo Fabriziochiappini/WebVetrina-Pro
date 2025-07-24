@@ -1991,6 +1991,41 @@ Disallow: /api/
     }
   });
 
+  // Admin ticket management routes
+  app.get("/api/admin/support-tickets", checkAuth, async (req, res) => {
+    try {
+      const tickets = await storage.getAllSupportTickets();
+      return res.json(tickets);
+    } catch (error) {
+      console.error("Error fetching admin tickets:", error);
+      return res.status(500).json({ 
+        message: "Errore durante il recupero dei ticket" 
+      });
+    }
+  });
+
+  app.patch("/api/admin/support-tickets/:id", checkAuth, async (req, res) => {
+    try {
+      const ticketId = parseInt(req.params.id);
+      if (isNaN(ticketId)) {
+        return res.status(400).json({ message: "ID ticket non valido" });
+      }
+
+      const { status } = req.body;
+      if (!status || !["open", "in_progress", "closed"].includes(status)) {
+        return res.status(400).json({ message: "Stato non valido" });
+      }
+
+      const updatedTicket = await storage.updateSupportTicketStatus(ticketId, status);
+      return res.json(updatedTicket);
+    } catch (error) {
+      console.error("Error updating ticket status:", error);
+      return res.status(500).json({ 
+        message: "Errore durante l'aggiornamento dello stato" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

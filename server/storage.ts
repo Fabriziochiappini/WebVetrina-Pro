@@ -350,6 +350,28 @@ export class DatabaseStorage implements IStorage {
       .where(eq(supportTickets.email, clientEmail))
       .orderBy(desc(supportTickets.createdAt));
   }
+
+  // Admin ticket management
+  async getAllSupportTickets(): Promise<SupportTicket[]> {
+    return await db
+      .select()
+      .from(supportTickets)
+      .orderBy(desc(supportTickets.createdAt));
+  }
+
+  async updateSupportTicketStatus(ticketId: number, status: string): Promise<SupportTicket> {
+    const [updatedTicket] = await db
+      .update(supportTickets)
+      .set({ status })
+      .where(eq(supportTickets.id, ticketId))
+      .returning();
+    
+    if (!updatedTicket) {
+      throw new Error("Ticket non trovato");
+    }
+    
+    return updatedTicket;
+  }
 }
 
 export const storage = new DatabaseStorage();
