@@ -3,13 +3,14 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema, insertSupportTicketSchema } from "@shared/schema";
+import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema, insertSupportTicketSchema, insertTicketMessageSchema, insertClientSchema } from "@shared/schema";
 import { sendContactNotification, sendAutoReply } from "./emailService";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
 import Stripe from "stripe";
+import jwt from 'jsonwebtoken';
 
 // Enhanced file upload configuration with monitoring
 const uploadsPath = new URL('../uploads', import.meta.url).pathname;
@@ -1780,6 +1781,212 @@ Disallow: /api/
       console.error("Error fetching support tickets:", error);
       return res.status(500).json({ 
         message: "Errore durante il recupero dei ticket" 
+      });
+    }
+  });
+
+  // Client authentication routes
+  const JWT_SECRET = process.env.SESSION_SECRET || 'fallback-secret';
+
+  // Middleware per verificare il token client
+  const verifyClientToken = (req: any, res: Response, next: Function) => {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ message: 'Token richiesto' });
+    }
+
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET) as any;
+      req.clientEmail = decoded.email;
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Token non valido' });
+    }
+  };
+
+  // Registrazione cliente
+  app.post("/api/client/register", async (req, res) => {
+    try {
+      const result = insertClientSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Dati non validi", 
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      // Controlla se il cliente esiste già
+      const existingClient = await storage.getClientByEmail(result.data.email);
+      if (existingClient) {
+        return res.status(400).json({ 
+          message: "Un cliente con questa email esiste già" 
+        });
+      }
+
+      const client = await storage.createClient(result.data);
+      
+      // Genera token JWT
+      const token = jwt.sign(
+        { email: client.email, clientId: client.id },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+
+      return res.status(201).json({ 
+        message: "Cliente registrato con successo",
+        token,
+        client: {
+          id: client.id,
+          email: client.email,
+          clientName: client.clientName
+        }
+      });
+    } catch (error) {
+      console.error("Error registering client:", error);
+      return res.status(500).json({ 
+        message: "Errore durante la registrazione" 
+      });
+    }
+  });
+
+  // Login cliente
+  app.post("/api/client/login", async (req, res) => {
+    try {
+      const { email, ticketId } = req.body;
+
+      if (!email || !ticketId) {
+        return res.status(400).json({ 
+          message: "Email e ID ticket sono richiesti" 
+        });
+      }
+
+      // Verifica che esista un ticket con questa email e ID
+      const ticket = await storage.getSupportTicket(parseInt(ticketId));
+      if (!ticket || ticket.email !== email) {
+        return res.status(401).json({ 
+          message: "Email o ID ticket non validi" 
+        });
+      }
+
+      // Cerca o crea il cliente
+      let client = await storage.getClientByEmail(email);
+      if (!client) {
+        // Crea cliente automaticamente se non esiste
+        client = await storage.createClient({
+          email: email,
+          clientName: ticket.clientName,
+          phone: ticket.phone
+        });
+      }
+
+      // Genera token JWT
+      const token = jwt.sign(
+        { email: client.email, clientId: client.id },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+
+      return res.json({ 
+        message: "Login effettuato con successo",
+        token,
+        client: {
+          id: client.id,
+          email: client.email,
+          clientName: client.clientName
+        }
+      });
+    } catch (error) {
+      console.error("Error during client login:", error);
+      return res.status(500).json({ 
+        message: "Errore durante il login" 
+      });
+    }
+  });
+
+  // Ottieni ticket del cliente
+  app.get("/api/client/tickets", verifyClientToken, async (req: any, res) => {
+    try {
+      const tickets = await storage.getClientTickets(req.clientEmail);
+      return res.json(tickets);
+    } catch (error) {
+      console.error("Error fetching client tickets:", error);
+      return res.status(500).json({ 
+        message: "Errore durante il recupero dei ticket" 
+      });
+    }
+  });
+
+  // Ottieni messaggi di un ticket specifico (solo se appartiene al cliente)
+  app.get("/api/client/tickets/:id/messages", verifyClientToken, async (req: any, res) => {
+    try {
+      const ticketId = parseInt(req.params.id);
+      if (isNaN(ticketId)) {
+        return res.status(400).json({ message: "ID ticket non valido" });
+      }
+
+      // Verifica che il ticket appartenga al cliente
+      const ticket = await storage.getSupportTicket(ticketId);
+      if (!ticket || ticket.email !== req.clientEmail) {
+        return res.status(403).json({ 
+          message: "Non hai i permessi per accedere a questo ticket" 
+        });
+      }
+
+      const messages = await storage.getTicketMessages(ticketId);
+      return res.json(messages);
+    } catch (error) {
+      console.error("Error fetching ticket messages:", error);
+      return res.status(500).json({ 
+        message: "Errore durante il recupero dei messaggi" 
+      });
+    }
+  });
+
+  // Invia messaggio in un ticket (solo se appartiene al cliente)
+  app.post("/api/client/tickets/:id/messages", verifyClientToken, async (req: any, res) => {
+    try {
+      const ticketId = parseInt(req.params.id);
+      if (isNaN(ticketId)) {
+        return res.status(400).json({ message: "ID ticket non valido" });
+      }
+
+      // Verifica che il ticket appartenga al cliente
+      const ticket = await storage.getSupportTicket(ticketId);
+      if (!ticket || ticket.email !== req.clientEmail) {
+        return res.status(403).json({ 
+          message: "Non hai i permessi per accedere a questo ticket" 
+        });
+      }
+
+      const { message } = req.body;
+      if (!message?.trim()) {
+        return res.status(400).json({ message: "Messaggio richiesto" });
+      }
+
+      const client = await storage.getClientByEmail(req.clientEmail);
+      const messageData = {
+        ticketId: ticketId,
+        message: message.trim(),
+        senderType: "client" as const,
+        senderName: client?.clientName || "Cliente"
+      };
+
+      const result = insertTicketMessageSchema.safeParse(messageData);
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Dati messaggio non validi",
+          errors: result.error.flatten().fieldErrors 
+        });
+      }
+
+      const newMessage = await storage.createTicketMessage(result.data);
+      return res.status(201).json(newMessage);
+    } catch (error) {
+      console.error("Error creating ticket message:", error);
+      return res.status(500).json({ 
+        message: "Errore durante l'invio del messaggio" 
       });
     }
   });

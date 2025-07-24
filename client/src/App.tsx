@@ -25,6 +25,8 @@ import Offerta197Form from "./pages/Offerta197Form";
 import ThankYou from "./pages/ThankYou";
 import Assistenza from "./pages/Assistenza";
 import TicketChat from "./pages/TicketChat";
+import ClientLogin from "./pages/ClientLogin";
+import ClientDashboard from "./pages/ClientDashboard";
 
 
 import CookieBanner from "./components/CookieBanner";
@@ -61,6 +63,8 @@ function Router() {
         <Route path="/offerta-197" component={Offerta197} />
         <Route path="/offerta-197form" component={Offerta197Form} />
         <Route path="/thankyou" component={ThankYou} />
+        <Route path="/client/login" component={ClientLogin} />
+        <Route path="/client/dashboard" component={ClientDashboard} />
 
         <Route path="/privacy" component={PrivacyPolicy} />
         <Route path="/admin" component={Admin} />

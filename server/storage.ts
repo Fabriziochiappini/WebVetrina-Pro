@@ -10,7 +10,8 @@ import {
   landingGalleryImages, type LandingGalleryImage, type InsertLandingGalleryImage,
   landingSpots, type LandingSpot, type InsertLandingSpot,
   supportTickets, type SupportTicket, type InsertSupportTicket,
-  ticketMessages, type TicketMessage, type InsertTicketMessage
+  ticketMessages, type TicketMessage, type InsertTicketMessage,
+  clients, type Client, type InsertClient
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
@@ -71,6 +72,11 @@ export interface IStorage {
   // Ticket message management
   createTicketMessage(message: InsertTicketMessage): Promise<TicketMessage>;
   getTicketMessages(ticketId: number): Promise<TicketMessage[]>;
+  
+  // Client management
+  createClient(client: InsertClient): Promise<Client>;
+  getClientByEmail(email: string): Promise<Client | undefined>;
+  getClientTickets(clientEmail: string): Promise<SupportTicket[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -324,6 +330,25 @@ export class DatabaseStorage implements IStorage {
       .from(ticketMessages)
       .where(eq(ticketMessages.ticketId, ticketId))
       .orderBy(ticketMessages.createdAt);
+  }
+
+  // Client management
+  async createClient(clientData: InsertClient): Promise<Client> {
+    const [client] = await db.insert(clients).values(clientData).returning();
+    return client;
+  }
+
+  async getClientByEmail(email: string): Promise<Client | undefined> {
+    const [client] = await db.select().from(clients).where(eq(clients.email, email));
+    return client || undefined;
+  }
+
+  async getClientTickets(clientEmail: string): Promise<SupportTicket[]> {
+    return await db
+      .select()
+      .from(supportTickets)
+      .where(eq(supportTickets.email, clientEmail))
+      .orderBy(desc(supportTickets.createdAt));
   }
 }
 

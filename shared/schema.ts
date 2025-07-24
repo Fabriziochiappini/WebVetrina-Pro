@@ -109,8 +109,20 @@ export const landingGalleryImages = pgTable("landing_gallery_images", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+export const clients = pgTable("clients", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  clientName: text("client_name").notNull(),
+  phone: text("phone").notNull(),
+  passwordHash: text("password_hash"), // Per login futuro
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const supportTickets = pgTable("support_tickets", {
   id: serial("id").primaryKey(),
+  clientId: integer("client_id").references(() => clients.id),
   clientName: text("client_name").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
@@ -156,8 +168,11 @@ export const insertLandingGalleryImageSchema = createInsertSchema(landingGallery
     isActive: z.boolean().default(true)
   });
 
+export const insertClientSchema = createInsertSchema(clients)
+  .omit({ id: true, createdAt: true, updatedAt: true, passwordHash: true });
+
 export const insertSupportTicketSchema = createInsertSchema(supportTickets)
-  .omit({ id: true, createdAt: true, updatedAt: true, status: true });
+  .omit({ id: true, createdAt: true, updatedAt: true, status: true, clientId: true });
 
 export const insertTicketMessageSchema = createInsertSchema(ticketMessages)
   .omit({ id: true, createdAt: true });
@@ -186,6 +201,9 @@ export type BlogCategory = typeof blogCategories.$inferSelect;
 
 export type InsertLandingGalleryImage = z.infer<typeof insertLandingGalleryImageSchema>;
 export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;
+
+export type InsertClient = z.infer<typeof insertClientSchema>;
+export type Client = typeof clients.$inferSelect;
 
 export type InsertSupportTicket = z.infer<typeof insertSupportTicketSchema>;
 export type SupportTicket = typeof supportTickets.$inferSelect;
