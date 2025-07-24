@@ -308,61 +308,7 @@ Disallow: /api/
     res.sendFile(htmlPath);
   });
 
-  // Support Tickets Routes
-  app.post("/api/tickets", async (req, res) => {
-    try {
-      const result = insertSupportTicketSchema.safeParse(req.body);
 
-      if (!result.success) {
-        return res.status(400).json({ 
-          message: "Validazione fallita", 
-          errors: result.error.flatten().fieldErrors 
-        });
-      }
-
-      const ticket = await storage.createSupportTicket({
-        ...result.data
-      });
-
-      // Invia email di notifica per il ticket
-      console.log('Nuovo ticket di supporto:', result.data.firstName, result.data.lastName);
-
-      const notificationSent = await sendContactNotification({
-        firstName: result.data.firstName,
-        lastName: result.data.lastName,
-        email: result.data.email,
-        phone: result.data.phone,
-        company: result.data.websiteUrl,
-        businessType: result.data.category,
-        message: `TICKET SUPPORTO - ${result.data.subject}\n\nCategoria: ${result.data.category}\nPriorità: ${result.data.priority}\nSito web: ${result.data.websiteUrl}\n\nDescrizione:\n${result.data.description}`
-      });
-
-      console.log(`Ticket email notification sent: ${notificationSent}`);
-
-      return res.status(200).json({
-        success: true,
-        message: "Ticket creato con successo! Ti contatteremo presto.",
-        ticket,
-        emailSent: notificationSent
-      });
-    } catch (error) {
-      console.error("Error creating support ticket:", error);
-      return res.status(500).json({ 
-        success: false,
-        message: "Si è verificato un errore durante la creazione del ticket. Riprova più tardi." 
-      });
-    }
-  });
-
-  app.get("/api/tickets", checkAuth, async (req, res) => {
-    try {
-      const tickets = await storage.getSupportTickets();
-      res.json(tickets);
-    } catch (error) {
-      console.error("Error fetching tickets:", error);
-      res.status(500).json({ message: "Errore nel recupero dei ticket" });
-    }
-  });
 
   // Contact form submission route
   app.post("/api/contact", async (req, res) => {
@@ -1664,6 +1610,7 @@ Disallow: /api/
       const ticket = await storage.createSupportTicket(result.data);
       
       // Send notification email to support team
+      const { sendEmail } = await import("./sendgrid");
       const emailSent = await sendEmail(
         process.env.SENDGRID_API_KEY!,
         {

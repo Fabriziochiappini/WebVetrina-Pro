@@ -109,71 +109,65 @@ export default function Assistenza() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-blue-50 pt-20">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-purple-50 pt-20">
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
-              <Headphones className="w-8 h-8 text-orange-600" />
+        <div className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+              <Headphones className="w-10 h-10 text-white" />
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            🎫 Centro Assistenza
+          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-orange-600 to-purple-600 bg-clip-text text-transparent mb-6">
+            Centro Assistenza
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Sei già nostro cliente? Ottieni supporto rapido e professionale per il tuo sito web.
           </p>
         </div>
 
         {/* Benefits Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <Card className="text-center border-orange-200 hover:shadow-lg transition-all">
-            <CardHeader>
-              <Clock className="w-8 h-8 text-orange-600 mx-auto mb-2" />
-              <CardTitle className="text-lg">Risposta Rapida</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">Ti rispondiamo entro 24 ore lavorative</p>
-            </CardContent>
-          </Card>
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="text-center group">
+            <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <Clock className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Risposta Rapida</h3>
+            <p className="text-gray-600">Ti rispondiamo entro 24 ore lavorative</p>
+          </div>
           
-          <Card className="text-center border-blue-200 hover:shadow-lg transition-all">
-            <CardHeader>
-              <Shield className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <CardTitle className="text-lg">Supporto Dedicato</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">Team esperto dedicato ai nostri clienti</p>
-            </CardContent>
-          </Card>
+          <div className="text-center group">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <Shield className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Supporto Dedicato</h3>
+            <p className="text-gray-600">Team esperto dedicato ai nostri clienti</p>
+          </div>
           
-          <Card className="text-center border-green-200 hover:shadow-lg transition-all">
-            <CardHeader>
-              <Star className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <CardTitle className="text-lg">Assistenza Premium</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600">Priorità massima per i nostri clienti</p>
-            </CardContent>
-          </Card>
+          <div className="text-center group">
+            <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
+              <Star className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Assistenza Premium</h3>
+            <p className="text-gray-600">Priorità massima per i nostri clienti</p>
+          </div>
         </div>
 
-        {/* Support Form */}
-        <div className="max-w-3xl mx-auto">
-          <Card className="shadow-2xl border-0">
-            <CardHeader className="bg-gradient-to-r from-orange-500 to-blue-600 text-white rounded-t-lg">
-              <CardTitle className="text-2xl flex items-center gap-2">
-                <Mail className="w-6 h-6" />
-                Apri un Ticket di Assistenza
-              </CardTitle>
-              <CardDescription className="text-orange-100">
-                Compila il modulo per ricevere assistenza personalizzata
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-8">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* Support Form - Integrated Design */}
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
+              <Mail className="w-8 h-8 text-orange-600" />
+              Apri un Ticket di Assistenza
+            </h2>
+            <p className="text-gray-600 text-lg">
+              Compila il modulo per ricevere assistenza personalizzata
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
@@ -326,39 +320,38 @@ export default function Assistenza() {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-to-r from-orange-500 to-blue-600 hover:from-orange-600 hover:to-blue-700 text-white font-bold py-3 text-lg"
+                    className="w-full bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-bold py-4 text-lg rounded-xl shadow-lg"
                     disabled={mutation.isPending}
                   >
                     {mutation.isPending ? "Invio in corso..." : "🚀 Invia Ticket di Assistenza"}
                   </Button>
                 </form>
               </Form>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Contact Alternatives */}
-        <div className="mt-12 text-center">
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">
-            Hai bisogno di supporto immediato?
-          </h3>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="https://wa.me/39123456789" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
-            >
-              📱 WhatsApp (Urgenze)
-            </a>
-            <a 
-              href="mailto:supporto@webproitalia.com"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all"
-            >
-              ✉️ Email Diretta
-            </a>
+            </div>
           </div>
-        </div>
+
+          {/* Contact Alternatives */}
+          <div className="mt-16 text-center">
+            <h3 className="text-3xl font-bold text-gray-900 mb-8">
+              Hai bisogno di supporto immediato?
+            </h3>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <a 
+                href="https://wa.me/39123456789" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center justify-center gap-3 transition-all shadow-lg"
+              >
+                📱 WhatsApp (Urgenze)
+              </a>
+              <a 
+                href="mailto:supporto@webproitalia.com"
+                className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold flex items-center justify-center gap-3 transition-all shadow-lg"
+              >
+                ✉️ Email Diretta
+              </a>
+            </div>
+          </div>
       </div>
     </div>
   );
