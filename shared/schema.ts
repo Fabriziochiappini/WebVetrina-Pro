@@ -124,6 +124,15 @@ export const supportTickets = pgTable("support_tickets", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+export const ticketMessages = pgTable("ticket_messages", {
+  id: serial("id").primaryKey(),
+  ticketId: integer("ticket_id").references(() => supportTickets.id, { onDelete: "cascade" }).notNull(),
+  message: text("message").notNull(),
+  senderType: text("sender_type", { enum: ["client", "support"] }).notNull(),
+  senderName: text("sender_name").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
   .omit({ id: true, updatedAt: true });
 
@@ -149,6 +158,9 @@ export const insertLandingGalleryImageSchema = createInsertSchema(landingGallery
 
 export const insertSupportTicketSchema = createInsertSchema(supportTickets)
   .omit({ id: true, createdAt: true, updatedAt: true, status: true });
+
+export const insertTicketMessageSchema = createInsertSchema(ticketMessages)
+  .omit({ id: true, createdAt: true });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -177,3 +189,6 @@ export type LandingGalleryImage = typeof landingGalleryImages.$inferSelect;
 
 export type InsertSupportTicket = z.infer<typeof insertSupportTicketSchema>;
 export type SupportTicket = typeof supportTickets.$inferSelect;
+
+export type InsertTicketMessage = z.infer<typeof insertTicketMessageSchema>;
+export type TicketMessage = typeof ticketMessages.$inferSelect;

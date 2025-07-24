@@ -366,6 +366,56 @@ Disallow: /api/
     }
   });
 
+  app.get("/api/tickets/:id", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const ticket = await storage.getSupportTicket(id);
+      
+      if (!ticket) {
+        return res.status(404).json({ message: "Ticket non trovato" });
+      }
+      
+      res.json(ticket);
+    } catch (error) {
+      console.error("Error fetching ticket:", error);
+      res.status(500).json({ message: "Errore nel recupero del ticket" });
+    }
+  });
+
+  app.get("/api/tickets/:id/messages", checkAuth, async (req, res) => {
+    try {
+      const ticketId = parseInt(req.params.id);
+      const messages = await storage.getTicketMessages(ticketId);
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching ticket messages:", error);
+      res.status(500).json({ message: "Errore nel recupero dei messaggi" });
+    }
+  });
+
+  app.post("/api/tickets/:id/messages", checkAuth, async (req, res) => {
+    try {
+      const ticketId = parseInt(req.params.id);
+      const { message, isFromAdmin } = req.body;
+      
+      if (!message || typeof message !== 'string') {
+        return res.status(400).json({ message: "Messaggio richiesto" });
+      }
+      
+      const newMessage = await storage.createTicketMessage({
+        ticketId,
+        message,
+        senderType: isFromAdmin ? "support" : "client",
+        senderName: isFromAdmin ? "Supporto WebPro Italia" : "Cliente"
+      });
+      
+      res.json(newMessage);
+    } catch (error) {
+      console.error("Error creating ticket message:", error);
+      res.status(500).json({ message: "Errore nella creazione del messaggio" });
+    }
+  });
+
   // Contact form submission route
   app.post("/api/contact", async (req, res) => {
     try {

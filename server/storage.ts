@@ -9,7 +9,8 @@ import {
   blogPostCategories,
   landingGalleryImages, type LandingGalleryImage, type InsertLandingGalleryImage,
   landingSpots, type LandingSpot, type InsertLandingSpot,
-  supportTickets, type SupportTicket, type InsertSupportTicket
+  supportTickets, type SupportTicket, type InsertSupportTicket,
+  ticketMessages, type TicketMessage, type InsertTicketMessage
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
@@ -65,6 +66,11 @@ export interface IStorage {
   // Support ticket management
   createSupportTicket(ticket: InsertSupportTicket): Promise<SupportTicket>;
   getSupportTickets(): Promise<SupportTicket[]>;
+  getSupportTicket(id: number): Promise<SupportTicket | undefined>;
+  
+  // Ticket message management
+  createTicketMessage(message: InsertTicketMessage): Promise<TicketMessage>;
+  getTicketMessages(ticketId: number): Promise<TicketMessage[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -299,6 +305,25 @@ export class DatabaseStorage implements IStorage {
 
   async getSupportTickets(): Promise<SupportTicket[]> {
     return await db.select().from(supportTickets).orderBy(desc(supportTickets.createdAt));
+  }
+
+  async getSupportTicket(id: number): Promise<SupportTicket | undefined> {
+    const [ticket] = await db.select().from(supportTickets).where(eq(supportTickets.id, id));
+    return ticket || undefined;
+  }
+
+  // Ticket message management
+  async createTicketMessage(message: InsertTicketMessage): Promise<TicketMessage> {
+    const [newMessage] = await db.insert(ticketMessages).values(message).returning();
+    return newMessage;
+  }
+
+  async getTicketMessages(ticketId: number): Promise<TicketMessage[]> {
+    return await db
+      .select()
+      .from(ticketMessages)
+      .where(eq(ticketMessages.ticketId, ticketId))
+      .orderBy(ticketMessages.createdAt);
   }
 }
 

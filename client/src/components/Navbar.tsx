@@ -72,7 +72,7 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
-          <Link href="/assistenza">
+          <Link href="/ticket">
             <span className="px-3 py-2 rounded-lg bg-orange-500/10 text-orange-600 hover:bg-orange-500 hover:text-white transition-all duration-300 cursor-pointer relative group flex items-center h-10 font-semibold border border-orange-500/30">
               🎫 Ticket
             </span>
@@ -125,7 +125,7 @@ const Navbar = () => {
                   Servizi
                 </span>
               </Link>
-              <Link href="/assistenza">
+              <Link href="/ticket">
                 <span className="text-left px-4 py-2 bg-orange-500/10 text-orange-600 hover:bg-orange-500 hover:text-white rounded-md block font-semibold border border-orange-500/30" onClick={() => setIsOpen(false)}>
                   🎫 Ticket
                 </span>
