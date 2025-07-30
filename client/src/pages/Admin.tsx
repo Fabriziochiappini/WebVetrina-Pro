@@ -82,6 +82,7 @@ const Admin = () => {
   const [metaPixelId, setMetaPixelId] = useState('');
   const [otherTracking, setOtherTracking] = useState('');
   const [paypalPaymentUrl, setPaypalPaymentUrl] = useState('');
+  const [autoArticlesEnabled, setAutoArticlesEnabled] = useState(true);
   
   // Stati per il form di caricamento loghi
   const [logoName, setLogoName] = useState('');
@@ -124,6 +125,7 @@ const Admin = () => {
       setMetaPixelId(siteSettings.metaPixelId || '');
       setOtherTracking(siteSettings.otherTracking || '');
       setPaypalPaymentUrl(siteSettings.paypalPaymentUrl || '');
+      setAutoArticlesEnabled(siteSettings.autoArticlesEnabled ?? true);
     }
   }, [siteSettings]);
 
@@ -156,7 +158,7 @@ const Admin = () => {
   
   // Mutation per il salvataggio delle impostazioni del sito
   const saveSettings = useMutation({
-    mutationFn: async (data: { metaPixelId?: string, otherTracking?: string, paypalPaymentUrl?: string }) => {
+    mutationFn: async (data: { metaPixelId?: string, otherTracking?: string, paypalPaymentUrl?: string, autoArticlesEnabled?: boolean }) => {
       const response = await fetch('/api/site-settings', {
         method: 'POST',
         headers: {
@@ -283,9 +285,33 @@ const Admin = () => {
     saveSettings.mutate({
       metaPixelId: metaPixelId.trim(),
       otherTracking: otherTracking.trim(),
-      paypalPaymentUrl: paypalPaymentUrl.trim()
+      paypalPaymentUrl: paypalPaymentUrl.trim(),
+      autoArticlesEnabled
     });
   };
+
+  // Mutation per l'interruttore articoli automatici
+  const toggleAutoArticles = useMutation({
+    mutationFn: async (enabled: boolean) => {
+      const response = await apiRequest('PUT', '/api/auto-articles/toggle', { enabled });
+      return response;
+    },
+    onSuccess: (data) => {
+      setAutoArticlesEnabled(data.autoArticlesEnabled);
+      toast({
+        title: data.autoArticlesEnabled ? "Pubblicazione Attivata" : "Pubblicazione Disattivata",
+        description: data.message,
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/site-settings'] });
+    },
+    onError: () => {
+      toast({
+        title: "Errore",
+        description: "Errore nell'aggiornamento delle impostazioni articoli",
+        variant: "destructive",
+      });
+    }
+  });
 
   // Schermata di login
   if (!isAuthenticated) {
@@ -582,6 +608,37 @@ const Admin = () => {
                   <p className="text-xs text-gray-500">
                     Inserisci codici HTML/JavaScript per altri sistemi di tracciamento (Google Analytics, etc.)
                   </p>
+                </div>
+
+                {/* 🔥 INTERRUTTORE ARTICOLI AUTOMATICI */}
+                <div className="space-y-4 p-4 border border-orange-200 rounded-lg bg-orange-50">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <Label className="text-base font-semibold text-orange-900">
+                        🤖 Pubblicazione Automatica Articoli
+                      </Label>
+                      <p className="text-sm text-orange-700">
+                        Controlla la generazione automatica di articoli AI. Disattiva se Google rileva contenuti meccanici.
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <span className={`text-sm font-medium ${autoArticlesEnabled ? 'text-green-600' : 'text-red-600'}`}>
+                        {autoArticlesEnabled ? '🟢 ATTIVO' : '🔴 DISATTIVO'}
+                      </span>
+                      <Button
+                        variant={autoArticlesEnabled ? "destructive" : "default"}
+                        size="sm"
+                        onClick={() => setAutoArticlesEnabled(!autoArticlesEnabled)}
+                        className={autoArticlesEnabled ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}
+                      >
+                        {autoArticlesEnabled ? "⏸️ DISATTIVA" : "▶️ ATTIVA"}
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="text-xs text-orange-600 bg-orange-100 p-2 rounded">
+                    <strong>Info:</strong> Quando disattivato, lo scheduler continua a funzionare ma non pubblica nuovi articoli. 
+                    Riattiva quando necessario per riprendere la pubblicazione automatica.
+                  </div>
                 </div>
               </CardContent>
               <CardFooter>

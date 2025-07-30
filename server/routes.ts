@@ -690,12 +690,36 @@ Disallow: /api/
   app.get("/api/site-settings", async (req, res) => {
     try {
       const settings = await storage.getSiteSettings();
-      return res.status(200).json(settings || {});
+      return res.status(200).json(settings || { autoArticlesEnabled: true });
     } catch (error) {
       console.error("Error fetching site settings:", error);
       return res.status(500).json({ 
         message: "Si è verificato un errore durante il recupero delle impostazioni del sito." 
       });
+    }
+  });
+
+  // Interruttore articoli automatici
+  app.put("/api/auto-articles/toggle", checkAuth, async (req, res) => {
+    try {
+      const { enabled } = req.body;
+      
+      if (typeof enabled !== 'boolean') {
+        return res.status(400).json({ message: "Il campo 'enabled' deve essere boolean" });
+      }
+
+      await storage.updateSiteSettings({ autoArticlesEnabled: enabled });
+      
+      console.log(`🔄 INTERRUTTORE ARTICOLI: ${enabled ? 'ATTIVATO' : 'DISATTIVATO'}`);
+      
+      res.json({ 
+        success: true, 
+        autoArticlesEnabled: enabled,
+        message: enabled ? 'Pubblicazione automatica articoli attivata' : 'Pubblicazione automatica articoli disattivata'
+      });
+    } catch (error) {
+      console.error("Error toggling auto articles:", error);
+      res.status(500).json({ message: "Errore aggiornamento impostazioni" });
     }
   });
 

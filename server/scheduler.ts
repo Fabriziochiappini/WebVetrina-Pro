@@ -4,6 +4,13 @@ import { storage } from './storage';
 // Funzione per pubblicare articolo automaticamente
 export async function publishDailyArticle(): Promise<void> {
   try {
+    // 🔥 CONTROLLO INTERRUTTORE ARTICOLI AUTOMATICI
+    const settings = await storage.getSiteSettings();
+    if (!settings?.autoArticlesEnabled) {
+      console.log('⏸️  PUBBLICAZIONE AUTOMATICA DISABILITATA - Scheduler sospeso');
+      return null;
+    }
+
     console.log('🤖 Generazione articolo giornaliero in corso...');
     
     const articleData = await generateBlogArticle();
