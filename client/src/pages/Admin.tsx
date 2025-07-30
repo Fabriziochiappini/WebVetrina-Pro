@@ -296,11 +296,11 @@ const Admin = () => {
       const response = await apiRequest('PUT', '/api/auto-articles/toggle', { enabled });
       return response;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       setAutoArticlesEnabled(data.autoArticlesEnabled);
       toast({
         title: data.autoArticlesEnabled ? "Pubblicazione Attivata" : "Pubblicazione Disattivata",
-        description: data.message,
+        description: data.message || "Impostazione aggiornata con successo",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/site-settings'] });
     },
@@ -453,7 +453,7 @@ const Admin = () => {
                             <TableCell>{contact.phone}</TableCell>
                             <TableCell>{contact.company || '-'}</TableCell>
                             <TableCell>{contact.businessType}</TableCell>
-                            <TableCell>{formatDate(contact.createdAt)}</TableCell>
+                            <TableCell>{formatDate(contact.createdAt?.toString() || new Date().toISOString())}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -573,9 +573,6 @@ const Admin = () => {
             </div>
           </TabsContent>
           
-          {/* Tab Portfolio */}
-
-
           <TabsContent value="nostri-lavori">
             <NostriLavoriManagement />
           </TabsContent>
