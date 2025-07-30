@@ -150,12 +150,16 @@ async function restorePortfolioImages() {
     // Restore missing portfolio images on startup
     setTimeout(restorePortfolioImages, 2000);
     
-    // Verifica e ripristina immagini mancanti del portfolio
+    // Verifica immagini del portfolio (SENZA placeholder casuali)
     setTimeout(async () => {
       try {
         const { verifyPortfolioImages, createMissingImagePlaceholders } = await import('./imageRecovery');
         await verifyPortfolioImages();
-        await createMissingImagePlaceholders();
+        const missingCount = await createMissingImagePlaceholders();
+        
+        if (missingCount > 0) {
+          console.log(`🔴 PORTFOLIO ALERT: ${missingCount} immagini mancanti - ricarica dal pannello admin`);
+        }
       } catch (error) {
         console.error('Error in image recovery:', error);
       }

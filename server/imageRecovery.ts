@@ -58,35 +58,21 @@ export async function verifyPortfolioImages() {
 }
 
 export async function createMissingImagePlaceholders() {
-  console.log('🔧 CREAZIONE PLACEHOLDER PER IMMAGINI MANCANTI...');
+  console.log('🔧 CONTROLLO IMMAGINI MANCANTI (NO PLACEHOLDER CASUALI)...');
   
   const verification = await verifyPortfolioImages();
   
   if (verification.status === 'missing_images') {
-    const uploadsDir = path.join(process.cwd(), 'uploads');
-    const availableImages = fs.readdirSync(uploadsDir)
-      .filter(file => file.startsWith('coverImage-') && file.endsWith('.png'));
+    console.log(`⚠️  FOUND ${verification.missingImages.length} MISSING IMAGES:`);
     
-    if (availableImages.length > 0) {
-      const sourceImage = path.join(uploadsDir, availableImages[0]);
-      let placeholderCount = 0;
-      
-      for (const missing of verification.missingImages) {
-        const imageName = path.basename(missing.image);
-        const targetPath = path.join(uploadsDir, imageName);
-        
-        try {
-          fs.copyFileSync(sourceImage, targetPath);
-          placeholderCount++;
-          console.log(`✅ Placeholder creato: ${imageName}`);
-        } catch (error) {
-          console.error(`❌ Errore creazione placeholder ${imageName}:`, error);
-        }
-      }
-      
-      console.log(`🔧 PLACEHOLDERS CREATI: ${placeholderCount}/${verification.missingImages.length}`);
-      return placeholderCount;
+    for (const missing of verification.missingImages) {
+      console.log(`   ❌ ${missing.title}: ${missing.image}`);
     }
+    
+    console.log(`📋 AZIONE RICHIESTA: Ricarica manualmente ${verification.missingImages.length} immagini dal pannello admin`);
+    console.log(`🚫 NO PLACEHOLDER CASUALI - Le immagini devono essere ricaricate con quelle originali`);
+    
+    return verification.missingImages.length;
   }
   
   return 0;
