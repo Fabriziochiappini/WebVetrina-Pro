@@ -2,7 +2,7 @@ import {
   users, type User, type InsertUser, 
   contacts, type Contact, type InsertContact,
   logos, type Logo, type InsertLogo,
-  portfolioItems, type PortfolioItem, type InsertPortfolioItem,
+
   siteSettings, type SiteSettings, type UpdateSiteSettings,
   blogPosts, type BlogPost, type InsertBlogPost, type UpdateBlogPost,
   blogCategories, type BlogCategory, type InsertBlogCategory,
@@ -32,13 +32,7 @@ export interface IStorage {
   getLogos(): Promise<Logo[]>;
   deleteLogo(id: number): Promise<boolean>;
   
-  // Portfolio management
-  createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem>;
-  getPortfolioItems(): Promise<PortfolioItem[]>;
-  getPortfolioItem(id: number): Promise<PortfolioItem | undefined>;
-  getFeaturedPortfolioItems(): Promise<PortfolioItem[]>;
-  updatePortfolioItem(id: number, item: Partial<InsertPortfolioItem>): Promise<PortfolioItem>;
-  deletePortfolioItem(id: number): Promise<boolean>;
+
   
   // Site settings
   getSiteSettings(): Promise<SiteSettings | undefined>;
@@ -138,47 +132,7 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0;
   }
 
-  // Portfolio management
-  async createPortfolioItem(item: InsertPortfolioItem): Promise<PortfolioItem> {
-    // Calcolo automatico del sortOrder
-    const maxOrder = await db.select({ max: sql<number>`max(${portfolioItems.sortOrder})` }).from(portfolioItems);
-    const nextOrder = (maxOrder[0]?.max || 0) + 1;
-    
-    const [newItem] = await db.insert(portfolioItems).values({
-      ...item,
-      sortOrder: nextOrder
-    }).returning();
-    return newItem;
-  }
 
-  async getPortfolioItems(): Promise<PortfolioItem[]> {
-    return await db.select().from(portfolioItems).orderBy(desc(portfolioItems.createdAt));
-  }
-
-  async getPortfolioItem(id: number): Promise<PortfolioItem | undefined> {
-    const [item] = await db.select().from(portfolioItems).where(eq(portfolioItems.id, id));
-    return item || undefined;
-  }
-
-  async getFeaturedPortfolioItems(): Promise<PortfolioItem[]> {
-    return await db.select().from(portfolioItems)
-      .where(eq(portfolioItems.featured, true))
-      .orderBy(portfolioItems.sortOrder, desc(portfolioItems.createdAt))
-      .limit(6);
-  }
-
-  async updatePortfolioItem(id: number, item: Partial<InsertPortfolioItem>): Promise<PortfolioItem> {
-    const [updated] = await db.update(portfolioItems)
-      .set(item)
-      .where(eq(portfolioItems.id, id))
-      .returning();
-    return updated;
-  }
-
-  async deletePortfolioItem(id: number): Promise<boolean> {
-    const result = await db.delete(portfolioItems).where(eq(portfolioItems.id, id)).returning();
-    return result.length > 0;
-  }
 
   // Site settings
   async getSiteSettings(): Promise<SiteSettings | undefined> {

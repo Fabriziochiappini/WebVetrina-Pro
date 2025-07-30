@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import type { Contact, Logo, PortfolioItem, SiteSettings } from "@shared/schema";
+import type { Contact, Logo, SiteSettings } from "@shared/schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -111,10 +111,7 @@ const Admin = () => {
     enabled: isAuthenticated && activeTab === "loghi",
   });
   
-  const { data: portfolio, isLoading: isLoadingPortfolio } = useQuery<PortfolioItem[]>({
-    queryKey: ['/api/portfolio'],
-    enabled: isAuthenticated && activeTab === "portfolio",
-  });
+
   
   const { data: siteSettings, isLoading: isLoadingSettings } = useQuery<SiteSettings>({
     queryKey: ['/api/site-settings'],
@@ -152,27 +149,6 @@ const Admin = () => {
       toast({
         title: "Errore",
         description: "Si è verificato un errore durante l'eliminazione del logo",
-        variant: "destructive",
-      });
-    }
-  });
-  
-  // Mutation per l'eliminazione degli elementi del portfolio
-  const deletePortfolioItem = useMutation({
-    mutationFn: async (id: number) => {
-      return apiRequest('DELETE', `/api/portfolio/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/portfolio'] });
-      toast({
-        title: "Elemento eliminato",
-        description: "L'elemento del portfolio è stato eliminato con successo",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Errore",
-        description: "Si è verificato un errore durante l'eliminazione dell'elemento",
         variant: "destructive",
       });
     }

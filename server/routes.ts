@@ -4,7 +4,7 @@ import { storage } from "./storage";
 import { eq } from "drizzle-orm";
 import { db } from "./db";
 import { z } from "zod";
-import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema, insertSupportTicketSchema, insertTicketMessageSchema, insertClientSchema, insertNostriLavoriSchema, iNostriLavori } from "@shared/schema";
+import { insertContactSchema, insertLogoSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema, insertSupportTicketSchema, insertTicketMessageSchema, insertClientSchema, insertNostriLavoriSchema, iNostriLavori } from "@shared/schema";
 import { sendContactNotification, sendAutoReply } from "./emailService";
 import multer from "multer";
 import path from "path";
@@ -152,7 +152,7 @@ Allow: /
 Sitemap: https://webproitalia.com/sitemap.xml
 
 # Allow search engines to index all content
-Allow: /portfolio
+Allow: /nostri-lavori
 Allow: /blog
 Allow: /offerta-197
 Allow: /offerta-197form
@@ -188,7 +188,7 @@ Disallow: /api/
       const staticPages = [
         { url: '/', lastmod: currentDate, changefreq: 'daily', priority: '1.0' },
         { url: '/chi-siamo', lastmod: currentDate, changefreq: 'monthly', priority: '0.8' },
-        { url: '/portfolio', lastmod: currentDate, changefreq: 'weekly', priority: '0.9' },
+        { url: '/nostri-lavori', lastmod: currentDate, changefreq: 'weekly', priority: '0.9' },
         { url: '/blog', lastmod: currentDate, changefreq: 'daily', priority: '0.9' },
         { url: '/offerta-197', lastmod: currentDate, changefreq: 'weekly', priority: '0.8' },
         { url: '/offerta-197form', lastmod: currentDate, changefreq: 'monthly', priority: '0.6' },
@@ -282,7 +282,7 @@ Disallow: /api/
     try {
       const pages = [
         'https://webproitalia.com/',
-        'https://webproitalia.com/portfolio',
+        'https://webproitalia.com/nostri-lavori',
         'https://webproitalia.com/blog',
         'https://webproitalia.com/offerta-197',
         'https://webproitalia.com/chi-siamo'
@@ -668,287 +668,23 @@ Disallow: /api/
     }
   });
 
-  // Endpoint per verificare integrità immagini portfolio
-  app.get("/api/portfolio/verify-images", checkAuth, async (req, res) => {
-    try {
-      const { verifyPortfolioImages } = await import('./imageRecovery');
-      const result = await verifyPortfolioImages();
-      res.json(result);
-    } catch (error) {
-      console.error("Error verifying images:", error);
-      res.status(500).json({ message: "Errore verifica immagini" });
-    }
-  });
-
-  // Portfolio management with improved file handling
-  app.post("/api/portfolio", upload.single('coverImage'), async (req, res) => {
-    try {
-      const file = req.file;
-
-      if (!file) {
-        return res.status(400).json({ message: "Foto di copertina richiesta" });
-      }
-
-      // Verify file was uploaded successfully and create backup
-      const uploadPath = path.join(uploadsPath, file.filename);
-      if (!fs.existsSync(uploadPath)) {
-        console.error(`Upload failed: File ${file.filename} not found at ${uploadPath}`);
-        return res.status(500).json({ message: "Errore nell'upload del file" });
-      }
-
-      // Get file stats and verify integrity
-      const fileStats = fs.statSync(uploadPath);
-      if (fileStats.size !== file.size) {
-        console.error(`File size mismatch: expected ${file.size}, got ${fileStats.size}`);
-        return res.status(500).json({ message: "Errore nell'integrità del file" });
-      }
-
-      console.log(`File uploaded successfully: ${file.filename} (${fileStats.size} bytes)`);
-      
-      // 🔒 BACKUP AUTOMATICO IMMEDIATO 🔒
-      immediateBackup(file.filename);
-      console.log(`🔒 PORTFOLIO IMAGE SECURED: ${file.filename}`);
-
-      const { title, description, websiteUrl, featured } = req.body;
-
-      const portfolioData = {
-        title,
-        description,
-        websiteUrl,
-        coverImage: `/uploads/${file.filename}`,
-        featured: featured === 'on' || featured === 'true'
-      };
-
-      const result = insertPortfolioItemSchema.safeParse(portfolioData);
-      if (!result.success) {
-        // Clean up uploaded file if validation fails
-        try {
-          fs.unlinkSync(uploadPath);
-        } catch (cleanupError) {
-          console.error("Error cleaning up file:", cleanupError);
-        }
-        return res.status(400).json({ 
-          message: "Validazione fallita", 
-          errors: result.error.flatten().fieldErrors 
-        });
-      }
-
-      const portfolioItem = await storage.createPortfolioItem(result.data);
-
-      // Verify file still exists after database operation
-      if (!fs.existsSync(uploadPath)) {
-        console.error(`File lost after database operation: ${file.filename}`);
-        return res.status(500).json({ 
-          message: "Errore: il file è stato perso durante il salvataggio" 
-        });
-      }
-
-      console.log(`Portfolio item created successfully with image: ${file.filename}`);
-      return res.status(201).json(portfolioItem);
-    } catch (error) {
-      console.error("Error creating portfolio item:", error);
-      // Clean up uploaded file on error
-      if (req.file) {
-        try {
-          const uploadPath = path.join(new URL('../uploads', import.meta.url).pathname, req.file.filename);
-          if (fs.existsSync(uploadPath)) {
-            fs.unlinkSync(uploadPath);
-          }
-        } catch (cleanupError) {
-          console.error("Error cleaning up file:", cleanupError);
-        }
-      }
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante la creazione del progetto." 
-      });
-    }
-  });
-
-  // Portfolio routes with auto-restore
-  app.get("/api/portfolio", async (req, res) => {
-    try {
-      const items = await storage.getPortfolioItems();
-
-      // Auto-restore missing images in background
-      setImmediate(async () => {
-        try {
-          const backupDirs = ['backup-images', 'portfolio-backup', 'attached_assets'];
-
-          for (const item of items) {
-            const filename = path.basename(item.coverImage);
-            const uploadPath = path.join(uploadsPath, filename);
-
-            if (!fs.existsSync(uploadPath)) {
-              for (const backupDir of backupDirs) {
-                const backupPath = path.join(process.cwd(), backupDir, filename);
-                if (fs.existsSync(backupPath)) {
-                  try {
-                    if (!fs.existsSync(uploadsPath)) {
-                      fs.mkdirSync(uploadsPath, { recursive: true });
-                    }
-                    fs.copyFileSync(backupPath, uploadPath);
-                    console.log(`Auto-restored: ${filename} from ${backupDir}`);
-                    break;
-                  } catch (error) {
-                    console.error(`Error auto-restoring ${filename}:`, error);
-                  }
-                }
-              }
-            }
-          }
-        } catch (error) {
-          console.error("Error in auto-restore:", error);
-        }
-      });
-
-      res.json(items);
-    } catch (error) {
-      console.error("Error fetching portfolio items:", error);
-      res.status(500).json({ message: "Errore nel recupero degli elementi del portfolio" });
-    }
-  });
-
-  // Portfolio diagnostics endpoint
-  app.get("/api/portfolio/diagnostics", checkAuth, async (req, res) => {
-    try {
-      const items = await storage.getPortfolioItems();
-      const diagnostics = {
-        totalItems: items.length,
-        itemsWithValidImages: 0,
-        itemsWithMissingImages: 0,
-        missingFiles: [] as any[],
-        uploadsDirExists: fs.existsSync(uploadsPath),
-        uploadsPermissions: fs.existsSync(uploadsPath) ? fs.statSync(uploadsPath).mode.toString(8) : null
-      };
-
-      items.forEach(item => {
-        const filename = path.basename(item.coverImage);
-        const exists = verifyFileIntegrity(filename);
-
-        if (exists) {
-          diagnostics.itemsWithValidImages++;
-        } else {
-          diagnostics.itemsWithMissingImages++;
-          diagnostics.missingFiles.push({
-            id: item.id,
-            title: item.title,
-            filename: filename,
-            expectedPath: path.join(uploadsPath, filename)
-          });
-        }
-      });
-
-      return res.status(200).json(diagnostics);
-    } catch (error) {
-      console.error("Error running portfolio diagnostics:", error);
-      return res.status(500).json({ message: "Errore nella diagnostica" });
-    }
-  });
-
-  app.get("/api/portfolio/featured", async (req, res) => {
-    try {
-      const items = await storage.getFeaturedPortfolioItems();
-      return res.status(200).json(items);
-    } catch (error) {
-      console.error("Error fetching featured portfolio items:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante il recupero degli elementi in evidenza." 
-      });
-    }
-  });
 
 
 
-  app.put("/api/portfolio/:id", upload.single('coverImage'), checkAuth, async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "ID non valido" });
-      }
 
-      const { title, description, websiteUrl, featured } = req.body;
 
-      const portfolioData: any = {
-        title,
-        description,
-        websiteUrl,
-        featured: featured === 'on' || featured === 'true'
-      };
 
-      // Se è stata caricata una nuova immagine, aggiorna anche quella
-      if (req.file) {
-        portfolioData.coverImage = `/uploads/${req.file.filename}`;
-      }
 
-      const portfolioItem = await storage.updatePortfolioItem(id, portfolioData);
-      return res.status(200).json(portfolioItem);
-    } catch (error) {
-      console.error("Error updating portfolio item:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante l'aggiornamento del progetto." 
-      });
-    }
-  });
 
-  app.delete("/api/portfolio/:id", checkAuth, async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "ID non valido" });
-      }
 
-      const success = await storage.deletePortfolioItem(id);
-      if (success) {
-        return res.status(200).json({ message: "Progetto eliminato con successo" });
-      } else {
-        return res.status(404).json({ message: "Progetto non trovato" });
-      }
-    } catch (error) {
-      console.error("Error deleting portfolio item:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante l'eliminazione del progetto." 
-      });
-    }
-  });
 
-  app.delete("/api/portfolio/:id", checkAuth, async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const success = await storage.deletePortfolioItem(id);
 
-      if (!success) {
-        return res.status(404).json({ message: "Elemento di portfolio non trovato" });
-      }
 
-      return res.status(200).json({ message: "Elemento di portfolio eliminato con successo" });
-    } catch (error) {
-      console.error("Error deleting portfolio item:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante l'eliminazione dell'elemento di portfolio." 
-      });
-    }
-  });
 
-  app.delete("/api/portfolio/:id", checkAuth, async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: "ID non valido" });
-      }
 
-      const success = await storage.deletePortfolioItem(id);
-      if (success) {
-        return res.status(200).json({ message: "Elemento di portfolio eliminato con successo" });
-      } else {
-        return res.status(404).json({ message: "Elemento di portfolio non trovato" });
-      }
-    } catch (error) {
-      console.error("Error deleting portfolio item:", error);
-      return res.status(500).json({ 
-        message: "Si è verificato un errore durante l'eliminazione dell'elemento di portfolio." 
-      });
-    }
-  });
+
+
+
 
   // Site settings
   app.get("/api/site-settings", async (req, res) => {
@@ -1298,60 +1034,7 @@ Disallow: /api/
     }
   });
 
-  // Route per inizializzare portfolio con esempi (solo dev)
-  app.post('/api/portfolio/init-examples', async (req, res) => {
-    try {
-      // Solo in development
-      if (process.env.NODE_ENV === 'production') {
-        return res.status(403).json({ message: 'Non disponibile in produzione' });
-      }
 
-      const existingItems = await storage.getPortfolioItems();
-      if (existingItems.length > 0) {
-        return res.json({ message: 'Portfolio già inizializzato', count: existingItems.length });
-      }
-
-      // Crea elementi di esempio
-      const examples = [
-        {
-          title: "E-commerce Fashion",
-          description: "Sito e-commerce completo per brand di moda con sistema di pagamenti integrato",
-          websiteUrl: "https://example-fashion.com",
-          coverImage: "/uploads/placeholder-fashion.jpg",
-          featured: true
-        },
-        {
-          title: "Studio Medico",
-          description: "Sito professionale per studio medico con prenotazioni online",
-          websiteUrl: "https://example-medical.com", 
-          coverImage: "/uploads/placeholder-medical.jpg",
-          featured: true
-        },
-        {
-          title: "Ristorante Gourmet",
-          description: "Sito per ristorante con menu digitale e sistema prenotazioni",
-          websiteUrl: "https://example-restaurant.com",
-          coverImage: "/uploads/placeholder-restaurant.jpg",
-          featured: true
-        }
-      ];
-
-      const created = [];
-      for (const example of examples) {
-        const item = await storage.createPortfolioItem(example);
-        created.push(item);
-      }
-
-      res.json({ 
-        message: 'Portfolio inizializzato con successo',
-        created: created.length,
-        items: created
-      });
-    } catch (error) {
-      console.error('Errore inizializzazione portfolio:', error);
-      res.status(500).json({ error: 'Errore inizializzazione' });
-    }
-  });
 
   // Route per forzare esecuzione di un articolo specifico
   app.post('/api/scheduler/force/:articleNumber', async (req, res) => {
@@ -2079,7 +1762,7 @@ Disallow: /api/
       res.json(lavori);
     } catch (error) {
       console.error("❌ Errore caricamento nostri lavori:", error);
-      res.status(500).json({ message: "Errore caricamento portfolio" });
+      res.status(500).json({ message: "Errore caricamento nostri lavori" });
     }
   });
 

@@ -1,15 +1,21 @@
-// Sistema di Recupero Immagini Portfolio
-// Questo modulo verifica l'integrità delle immagini del portfolio
+// Sistema di Recupero Immagini per Galleria Landing
+// Questo modulo verifica l'integrità delle immagini della galleria
 
 import fs from 'fs';
 import path from 'path';
 import { storage } from './storage';
 
 export async function verifyPortfolioImages() {
-  console.log('🔍 VERIFICA INTEGRITÀ IMMAGINI PORTFOLIO...');
+  console.log('🔍 VERIFICA INTEGRITÀ IMMAGINI GALLERIA...');
   
   try {
-    const portfolioItems = await storage.getPortfolioItems();
+    // Sistema portfolio eliminato - ora solo Nostri Lavori
+    console.log('ℹ️ Sistema portfolio dismesso - usare "I Nostri Lavori"');
+    return {
+      status: 'portfolio_discontinued',
+      missingCount: 0,
+      missingImages: []
+    };
     const uploadsDir = path.join(process.cwd(), 'uploads');
     const missingImages: Array<{id: number, title: string, image: string}> = [];
     

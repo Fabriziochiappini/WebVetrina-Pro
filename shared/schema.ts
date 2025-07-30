@@ -83,8 +83,7 @@ export const insertContactSchema = createInsertSchema(contacts)
 export const insertLogoSchema = createInsertSchema(logos)
   .omit({ id: true, createdAt: true });
 
-export const insertPortfolioItemSchema = createInsertSchema(portfolioItems)
-  .omit({ id: true, createdAt: true, sortOrder: true });
+
 
 // I NOSTRI LAVORI - Sistema Portfolio Permanente
 export const iNostriLavori = pgTable("i_nostri_lavori", {

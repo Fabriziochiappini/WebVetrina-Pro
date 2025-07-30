@@ -4,6 +4,8 @@ import { Calendar, ArrowRight, Search } from "lucide-react";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 import { useState } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 interface BlogPost {
   id: number;
@@ -40,6 +42,7 @@ export default function Blog() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white">
+        <Navbar />
         <div className="container mx-auto px-4 py-16">
           {/* Header skeleton */}
           <div className="text-center mb-16">
@@ -76,6 +79,7 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navbar />
       <div className="container mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-16">
@@ -171,6 +175,7 @@ export default function Blog() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
