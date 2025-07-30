@@ -18,7 +18,6 @@ import LandingGalleryManagementNew from "@/components/LandingGalleryManagementNe
 import SchedulerMonitoring from "@/components/SchedulerMonitoring";
 import SEOStrategyDashboard from "@/components/SEOStrategyDashboard";
 import TicketManagement from "@/components/TicketManagement";
-import NostriLavoriManagement from "@/components/NostriLavoriManagement";
 
 interface DateFilterProps {
   startDate: string;
@@ -375,11 +374,7 @@ const Admin = () => {
                 <span className="hidden sm:inline">Contatti</span>
                 <span className="sm:hidden">Lead</span>
               </TabsTrigger>
-              <TabsTrigger value="nostri-lavori" className="flex-shrink-0 text-xs sm:text-sm">
-                <Eye className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
-                <span className="hidden sm:inline">I Nostri Lavori</span>
-                <span className="sm:hidden">Lavori</span>
-              </TabsTrigger>
+
               <TabsTrigger value="blog" className="flex-shrink-0 text-xs sm:text-sm">
                 <FileText className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
                 Blog
@@ -571,10 +566,6 @@ const Admin = () => {
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
-          
-          <TabsContent value="nostri-lavori">
-            <NostriLavoriManagement />
           </TabsContent>
           
           {/* Tab Impostazioni */}
