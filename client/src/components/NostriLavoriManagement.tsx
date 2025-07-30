@@ -36,8 +36,8 @@ export default function NostriLavoriManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Fetch lavori
-  const { data: lavori = [], isLoading } = useQuery({
+  // Fetch lavori with proper array fallback
+  const { data: lavori = [], isLoading } = useQuery<NostriLavori[]>({
     queryKey: ['/api/nostri-lavori'],
     queryFn: () => apiRequest('GET', '/api/nostri-lavori')
   });
@@ -291,7 +291,7 @@ export default function NostriLavoriManagement() {
 
       {/* Lista lavori */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {lavori.map((lavoro: NostriLavori) => (
+        {Array.isArray(lavori) && lavori.map((lavoro: NostriLavori) => (
           <Card key={lavoro.id} className="overflow-hidden">
             <div className="relative">
               <img
@@ -352,7 +352,7 @@ export default function NostriLavoriManagement() {
         ))}
       </div>
 
-      {lavori.length === 0 && (
+      {(!lavori || lavori.length === 0) && (
         <Card className="p-8 text-center">
           <Image className="w-16 h-16 mx-auto text-gray-400 mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
