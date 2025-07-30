@@ -28,16 +28,7 @@ export const logos = pgTable("logos", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const portfolioItems = pgTable("portfolio_items", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description"),
-  websiteUrl: text("website_url").notNull(), // Link al sito realizzato
-  coverImage: text("cover_image").notNull(), // Foto di copertina
-  featured: boolean("featured").default(false), // Per visualizzazione in home
-  sortOrder: integer("sort_order").default(0),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+
 
 export const siteSettings = pgTable("site_settings", {
   id: serial("id").primaryKey(),
