@@ -2,8 +2,9 @@ import express, { type Express, type Request, type Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { eq } from "drizzle-orm";
+import { db } from "./db";
 import { z } from "zod";
-import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema, insertSupportTicketSchema, insertTicketMessageSchema, insertClientSchema } from "@shared/schema";
+import { insertContactSchema, insertLogoSchema, insertPortfolioItemSchema, updateSiteSettingsSchema, insertBlogPostSchema, updateBlogPostSchema, insertBlogCategorySchema, insertLandingGalleryImageSchema, insertSupportTicketSchema, insertTicketMessageSchema, insertClientSchema, insertNostriLavoriSchema, iNostriLavori } from "@shared/schema";
 import { sendContactNotification, sendAutoReply } from "./emailService";
 import multer from "multer";
 import path from "path";
@@ -2067,6 +2068,113 @@ Disallow: /api/
       return res.status(500).json({ 
         message: "Errore durante l'aggiornamento dello stato" 
       });
+    }
+  });
+
+  // ===== I NOSTRI LAVORI - SISTEMA PORTFOLIO PERMANENTE =====
+  
+  app.get("/api/nostri-lavori", async (req, res) => {
+    try {
+      const lavori = await db.select().from(iNostriLavori).orderBy(iNostriLavori.ordine, iNostriLavori.creatoIl);
+      res.json(lavori);
+    } catch (error) {
+      console.error("❌ Errore caricamento nostri lavori:", error);
+      res.status(500).json({ message: "Errore caricamento portfolio" });
+    }
+  });
+
+  app.post("/api/nostri-lavori", upload.single('immagine'), async (req, res) => {
+    try {
+      const { titolo, descrizione, linkSito, inEvidenza } = req.body;
+      const immagine = req.file;
+      
+      if (!titolo || !linkSito || !immagine) {
+        return res.status(400).json({ message: "Titolo, link sito e immagine sono obbligatori" });
+      }
+
+      const immaginePath = `/uploads/${immagine.filename}`;
+      
+      // 🔒 BACKUP AUTOMATICO IMMEDIATO
+      immediateBackup(immagine.filename);
+      console.log(`✅ BACKUP CREATO: ${immagine.filename}`);
+      
+      const [nuovoLavoro] = await db.insert(iNostriLavori).values({
+        titolo,
+        descrizione: descrizione || null,
+        linkSito,
+        immaginePath,
+        inEvidenza: inEvidenza === 'true' || inEvidenza === 'on'
+      }).returning();
+      
+      console.log(`🎯 LAVORO AGGIUNTO: ${titolo} - ${immaginePath}`);
+      res.json(nuovoLavoro);
+      
+    } catch (error) {
+      console.error("❌ Errore aggiunta lavoro:", error);
+      res.status(500).json({ message: "Errore aggiunta lavoro" });
+    }
+  });
+
+  app.put("/api/nostri-lavori/:id", upload.single('immagine'), async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { titolo, descrizione, linkSito, inEvidenza } = req.body;
+      
+      const updateData: any = {
+        titolo,
+        descrizione: descrizione || null,
+        linkSito,
+        inEvidenza: inEvidenza === 'true' || inEvidenza === 'on',
+        aggiornatoIl: new Date().toISOString()
+      };
+      
+      if (req.file) {
+        const immaginePath = `/uploads/${req.file.filename}`;
+        updateData.immaginePath = immaginePath;
+        
+        // 🔒 BACKUP AUTOMATICO IMMEDIATO
+        immediateBackup(req.file.filename);
+        console.log(`✅ BACKUP AGGIORNATO: ${req.file.filename}`);
+      }
+      
+      const [lavoroAggiornato] = await db.update(iNostriLavori)
+        .set(updateData)
+        .where(eq(iNostriLavori.id, id))
+        .returning();
+        
+      if (!lavoroAggiornato) {
+        return res.status(404).json({ message: "Lavoro non trovato" });
+      }
+      
+      console.log(`🔄 LAVORO AGGIORNATO: ${lavoroAggiornato.titolo}`);
+      res.json(lavoroAggiornato);
+      
+    } catch (error) {
+      console.error("❌ Errore aggiornamento lavoro:", error);
+      res.status(500).json({ message: "Errore aggiornamento lavoro" });
+    }
+  });
+
+  app.delete("/api/nostri-lavori/:id", checkAuth, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      // Ottieni info del lavoro prima di eliminarlo
+      const [lavoro] = await db.select().from(iNostriLavori).where(eq(iNostriLavori.id, id));
+      
+      if (!lavoro) {
+        return res.status(404).json({ message: "Lavoro non trovato" });
+      }
+      
+      // Elimina dal database
+      await db.delete(iNostriLavori).where(eq(iNostriLavori.id, id));
+      
+      console.log(`🗑️  LAVORO ELIMINATO: ${lavoro.titolo}`);
+      res.json({ message: "Lavoro eliminato con successo" });
+      
+    } catch (error) {
+      console.error("❌ Errore eliminazione lavoro:", error);
+      res.status(500).json({ message: "Errore eliminazione lavoro" });
     }
   });
 

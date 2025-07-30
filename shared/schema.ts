@@ -95,6 +95,22 @@ export const insertLogoSchema = createInsertSchema(logos)
 export const insertPortfolioItemSchema = createInsertSchema(portfolioItems)
   .omit({ id: true, createdAt: true, sortOrder: true });
 
+// I NOSTRI LAVORI - Sistema Portfolio Permanente
+export const iNostriLavori = pgTable("i_nostri_lavori", {
+  id: serial("id").primaryKey(),
+  titolo: text("titolo").notNull(),
+  descrizione: text("descrizione"),
+  linkSito: text("link_sito").notNull(),
+  immaginePath: text("immagine_path").notNull(),
+  inEvidenza: boolean("in_evidenza").default(false),
+  ordine: integer("ordine").default(0),
+  creatoIl: timestamp("creato_il").defaultNow().notNull(),
+  aggiornatoIl: timestamp("aggiornato_il").defaultNow().notNull(),
+});
+
+export const insertNostriLavoriSchema = createInsertSchema(iNostriLavori)
+  .omit({ id: true, creatoIl: true, aggiornatoIl: true, ordine: true });
+
 export const landingGalleryImages = pgTable("landing_gallery_images", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
@@ -210,3 +226,6 @@ export type SupportTicket = typeof supportTickets.$inferSelect;
 
 export type InsertTicketMessage = z.infer<typeof insertTicketMessageSchema>;
 export type TicketMessage = typeof ticketMessages.$inferSelect;
+
+export type InsertNostriLavori = z.infer<typeof insertNostriLavoriSchema>;
+export type NostriLavori = typeof iNostriLavori.$inferSelect;

@@ -18,6 +18,7 @@ import LandingGalleryManagementNew from "@/components/LandingGalleryManagementNe
 import SchedulerMonitoring from "@/components/SchedulerMonitoring";
 import SEOStrategyDashboard from "@/components/SEOStrategyDashboard";
 import TicketManagement from "@/components/TicketManagement";
+import NostriLavoriManagement from "@/components/NostriLavoriManagement";
 
 interface DateFilterProps {
   startDate: string;
@@ -365,7 +366,7 @@ const Admin = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="lead">
               <Users className="mr-2 h-4 w-4" />
               Contatti
@@ -373,6 +374,10 @@ const Admin = () => {
             <TabsTrigger value="portfolio">
               <Briefcase className="mr-2 h-4 w-4" />
               Portfolio
+            </TabsTrigger>
+            <TabsTrigger value="nostri-lavori">
+              <Eye className="mr-2 h-4 w-4" />
+              I Nostri Lavori
             </TabsTrigger>
             <TabsTrigger value="blog">
               <FileText className="mr-2 h-4 w-4" />
@@ -566,6 +571,10 @@ const Admin = () => {
           {/* Tab Portfolio */}
           <TabsContent value="portfolio">
             <PortfolioManagement />
+          </TabsContent>
+
+          <TabsContent value="nostri-lavori">
+            <NostriLavoriManagement />
           </TabsContent>
           
           {/* Tab Impostazioni */}
