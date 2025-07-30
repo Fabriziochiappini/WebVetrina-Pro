@@ -368,40 +368,47 @@ const Admin = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-7">
-            <TabsTrigger value="lead">
-              <Users className="mr-2 h-4 w-4" />
-              Contatti
-            </TabsTrigger>
-            <TabsTrigger value="nostri-lavori">
-              <Eye className="mr-2 h-4 w-4" />
-              I Nostri Lavori
-            </TabsTrigger>
-            <TabsTrigger value="blog">
-              <FileText className="mr-2 h-4 w-4" />
-              Blog
-            </TabsTrigger>
-            <TabsTrigger value="scheduler">
-              <Calendar className="mr-2 h-4 w-4" />
-              Scheduler
-            </TabsTrigger>
-            <TabsTrigger value="seo-strategy">
-              <FileText className="mr-2 h-4 w-4" />
-              SEO Strategy
-            </TabsTrigger>
-            <TabsTrigger value="gallery">
-              <Image className="mr-2 h-4 w-4" />
-              Galleria Landing
-            </TabsTrigger>
-            <TabsTrigger value="ticket">
-              <Users className="mr-2 h-4 w-4" />
-              Ticket
-            </TabsTrigger>
-            <TabsTrigger value="impostazioni">
-              <Settings className="mr-2 h-4 w-4" />
-              Impostazioni
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="flex w-full min-w-max gap-1">
+              <TabsTrigger value="lead" className="flex-shrink-0 text-xs sm:text-sm">
+                <Users className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Contatti</span>
+                <span className="sm:hidden">Lead</span>
+              </TabsTrigger>
+              <TabsTrigger value="nostri-lavori" className="flex-shrink-0 text-xs sm:text-sm">
+                <Eye className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">I Nostri Lavori</span>
+                <span className="sm:hidden">Lavori</span>
+              </TabsTrigger>
+              <TabsTrigger value="blog" className="flex-shrink-0 text-xs sm:text-sm">
+                <FileText className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                Blog
+              </TabsTrigger>
+              <TabsTrigger value="scheduler" className="flex-shrink-0 text-xs sm:text-sm">
+                <Calendar className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Scheduler</span>
+                <span className="sm:hidden">Sched</span>
+              </TabsTrigger>
+              <TabsTrigger value="seo-strategy" className="flex-shrink-0 text-xs sm:text-sm">
+                <FileText className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                SEO
+              </TabsTrigger>
+              <TabsTrigger value="gallery" className="flex-shrink-0 text-xs sm:text-sm">
+                <Image className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Galleria</span>
+                <span className="sm:hidden">Gall</span>
+              </TabsTrigger>
+              <TabsTrigger value="ticket" className="flex-shrink-0 text-xs sm:text-sm">
+                <Users className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                Ticket
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="flex-shrink-0 text-xs sm:text-sm">
+                <Settings className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">Impostazioni</span>
+                <span className="sm:hidden">Config</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
           
           <TabsContent value="lead">
             <Card>
@@ -679,7 +686,7 @@ const Admin = () => {
             <TicketManagement />
           </TabsContent>
 
-          <TabsContent value="impostazioni">
+          <TabsContent value="settings">
             <Card>
               <CardHeader>
                 <CardTitle>Impostazioni del Sito</CardTitle>

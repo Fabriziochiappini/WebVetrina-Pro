@@ -179,14 +179,14 @@ export default function NostriLavoriManagement() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">I Nostri Lavori</h2>
-          <p className="text-gray-600">Sistema portfolio permanente - Le foto non si perdono mai</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">💼 I Nostri Lavori</h2>
+          <p className="text-sm sm:text-base text-gray-600">Sistema portfolio permanente - Le foto non si perdono mai</p>
         </div>
         <Button
           onClick={() => setIsCreating(true)}
-          className="bg-orange-600 hover:bg-orange-700"
+          className="bg-orange-600 hover:bg-orange-700 w-full sm:w-auto"
           disabled={isCreating}
         >
           <Plus className="w-4 h-4 mr-2" />
@@ -239,20 +239,27 @@ export default function NostriLavoriManagement() {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="immagine">
+              <div className="space-y-2">
+                <Label htmlFor="immagine" className="block text-sm font-medium">
                   Immagine di Copertina {!editingId && '*'}
                 </Label>
-                <Input
-                  id="immagine"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-                  className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-100 file:text-orange-700"
-                />
+                <div className="relative">
+                  <Input
+                    id="immagine"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                    className="w-full file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200 file:cursor-pointer cursor-pointer"
+                  />
+                </div>
                 {editingId && !selectedFile && (
                   <p className="text-sm text-gray-500 mt-1">
-                    Lascia vuoto per mantenere l'immagine attuale
+                    💡 Lascia vuoto per mantenere l'immagine attuale
+                  </p>
+                )}
+                {selectedFile && (
+                  <p className="text-sm text-green-600 mt-1">
+                    ✅ File selezionato: {selectedFile.name}
                   </p>
                 )}
               </div>
