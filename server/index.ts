@@ -64,25 +64,32 @@ app.use((req, res, next) => {
   next();
 });
 
-// Function to restore portfolio images from backup
+// SISTEMA ULTRA-ROBUSTO RESTORE PORTFOLIO IMAGES
 async function restorePortfolioImages() {
   const uploadsDir = path.join(process.cwd(), 'uploads');
   const backupDir = path.join(process.cwd(), 'backup-images');
 
   if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    console.log('✅ Created uploads directory');
   }
 
   if (!fs.existsSync(backupDir)) {
-    console.log('Backup directory does not exist.');
+    console.log('❌ Backup directory does not exist, creating it');
+    fs.mkdirSync(backupDir, { recursive: true });
     return;
   }
 
+  console.log('🔍 PORTFOLIO RESTORE: Checking for missing images...');
+
   fs.readdir(backupDir, (err, files) => {
     if (err) {
-      console.error("Could not list the directory.", err);
+      console.error("❌ Could not list backup directory:", err);
       return;
     }
+
+    console.log(`🔍 Found ${files.length} files in backup-images`);
+    let restoredCount = 0;
 
     files.forEach(file => {
       const backupFilePath = path.join(backupDir, file);
@@ -93,16 +100,19 @@ async function restorePortfolioImages() {
           // File doesn't exist in uploads, so copy it
           fs.copyFile(backupFilePath, uploadFilePath, (err) => {
             if (err) {
-              console.error(`Failed to restore ${file}:`, err);
+              console.error(`❌ Failed to restore ${file}:`, err);
             } else {
-              console.log(`Restored ${file} from backup`);
+              restoredCount++;
+              console.log(`✅ RESTORED: ${file} from backup (${restoredCount} files restored)`);
             }
           });
-        } else {
-          // File already exists in uploads
         }
       });
     });
+    
+    setTimeout(() => {
+      console.log(`🔒 PORTFOLIO RESTORE COMPLETE: ${restoredCount} files restored from backup`);
+    }, 1000);
   });
 }
 
@@ -139,6 +149,17 @@ async function restorePortfolioImages() {
 
     // Restore missing portfolio images on startup
     setTimeout(restorePortfolioImages, 2000);
+    
+    // Verifica e ripristina immagini mancanti del portfolio
+    setTimeout(async () => {
+      try {
+        const { verifyPortfolioImages, createMissingImagePlaceholders } = await import('./imageRecovery');
+        await verifyPortfolioImages();
+        await createMissingImagePlaceholders();
+      } catch (error) {
+        console.error('Error in image recovery:', error);
+      }
+    }, 4000);
     
     // Avvia scheduler per articoli giornalieri
     if (process.env.NODE_ENV === 'production') {

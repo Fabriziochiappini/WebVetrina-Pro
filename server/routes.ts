@@ -42,6 +42,34 @@ const storage_config = multer.diskStorage({
   }
 });
 
+// SISTEMA BACKUP IMMAGINI ULTRA-RINFORZATO
+const backupImagePath = new URL('../backup-images', import.meta.url).pathname;
+
+// Ensure backup directory exists
+if (!fs.existsSync(backupImagePath)) {
+  fs.mkdirSync(backupImagePath, { recursive: true, mode: 0o755 });
+  console.log('✅ Created backup-images directory:', backupImagePath);
+}
+
+// Immediate backup function
+function immediateBackup(filename: string): void {
+  const sourcePath = path.join(uploadsPath, filename);
+  const backupPath = path.join(backupImagePath, filename);
+  
+  // Backup immediately after upload
+  setTimeout(() => {
+    if (fs.existsSync(sourcePath)) {
+      fs.copyFile(sourcePath, backupPath, (err) => {
+        if (err) {
+          console.error(`❌ BACKUP FAILED for ${filename}:`, err);
+        } else {
+          console.log(`✅ BACKUP SUCCESS: ${filename} saved to backup-images`);
+        }
+      });
+    }
+  }, 100); // 100ms delay to ensure file is written
+}
+
 const upload = multer({ 
   storage: storage_config,
   limits: {
@@ -639,6 +667,18 @@ Disallow: /api/
     }
   });
 
+  // Endpoint per verificare integrità immagini portfolio
+  app.get("/api/portfolio/verify-images", checkAuth, async (req, res) => {
+    try {
+      const { verifyPortfolioImages } = await import('./imageRecovery');
+      const result = await verifyPortfolioImages();
+      res.json(result);
+    } catch (error) {
+      console.error("Error verifying images:", error);
+      res.status(500).json({ message: "Errore verifica immagini" });
+    }
+  });
+
   // Portfolio management with improved file handling
   app.post("/api/portfolio", upload.single('coverImage'), async (req, res) => {
     try {
@@ -663,6 +703,10 @@ Disallow: /api/
       }
 
       console.log(`File uploaded successfully: ${file.filename} (${fileStats.size} bytes)`);
+      
+      // 🔒 BACKUP AUTOMATICO IMMEDIATO 🔒
+      immediateBackup(file.filename);
+      console.log(`🔒 PORTFOLIO IMAGE SECURED: ${file.filename}`);
 
       const { title, description, websiteUrl, featured } = req.body;
 
