@@ -16,8 +16,7 @@ import ChiSiamo from "./pages/ChiSiamo";
 import Servizi from "./pages/Servizi";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
-import Portfolio from "./pages/Portfolio";
-import PortfolioPublic from "./pages/PortfolioPublic";
+
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Admin from "./pages/Admin";
 import Offerta197 from "./pages/Offerta197";
@@ -56,8 +55,7 @@ function Router() {
         <Route path="/ticket" component={Assistenza} />
         <Route path="/ticket/:id" component={TicketChat} />
         <Route path="/chi-siamo" component={ChiSiamo} />
-        <Route path="/portfolio" component={PortfolioPublic} />
-        <Route path="/portfolio-public" component={PortfolioPublic} />
+
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={BlogPost} />
         <Route path="/offerta-197" component={Offerta197} />

@@ -12,7 +12,7 @@ import { apiRequest } from "@/lib/queryClient";
 import type { Contact, Logo, PortfolioItem, SiteSettings } from "@shared/schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import PortfolioManagement from "@/components/PortfolioManagement";
+
 import BlogManagement from "@/components/BlogManagement";
 import LandingGalleryManagementNew from "@/components/LandingGalleryManagementNew";
 import SchedulerMonitoring from "@/components/SchedulerMonitoring";
@@ -366,14 +366,10 @@ const Admin = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-8">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="lead">
               <Users className="mr-2 h-4 w-4" />
               Contatti
-            </TabsTrigger>
-            <TabsTrigger value="portfolio">
-              <Briefcase className="mr-2 h-4 w-4" />
-              Portfolio
             </TabsTrigger>
             <TabsTrigger value="nostri-lavori">
               <Eye className="mr-2 h-4 w-4" />
@@ -569,9 +565,7 @@ const Admin = () => {
           </TabsContent>
           
           {/* Tab Portfolio */}
-          <TabsContent value="portfolio">
-            <PortfolioManagement />
-          </TabsContent>
+
 
           <TabsContent value="nostri-lavori">
             <NostriLavoriManagement />
