@@ -708,14 +708,38 @@ Disallow: /api/
         return res.status(400).json({ message: "Il campo 'enabled' deve essere boolean" });
       }
 
+      // Aggiorna il database
       await storage.updateSiteSettings({ autoArticlesEnabled: enabled });
+      
+      // Controlla e aggiorna il scheduler solo in produzione
+      if (process.env.NODE_ENV === 'production') {
+        const { startCustomScheduler, stopAllSchedulers } = await import('./scheduler');
+        
+        if (enabled) {
+          // Avvia il scheduler
+          stopAllSchedulers(); // Ferma eventuali scheduler esistenti
+          startCustomScheduler({
+            article1Time: "09:00",
+            article2Time: "14:00", 
+            article3Time: "18:00",
+            enabled: true
+          });
+          console.log(`🟢 SCHEDULER RIAVVIATO: Pubblicazione automatica ATTIVATA`);
+        } else {
+          // Ferma il scheduler
+          stopAllSchedulers();
+          console.log(`🔴 SCHEDULER FERMATO: Pubblicazione automatica DISATTIVATA`);
+        }
+      }
       
       console.log(`🔄 INTERRUTTORE ARTICOLI: ${enabled ? 'ATTIVATO' : 'DISATTIVATO'}`);
       
       res.json({ 
         success: true, 
         autoArticlesEnabled: enabled,
-        message: enabled ? 'Pubblicazione automatica articoli attivata' : 'Pubblicazione automatica articoli disattivata'
+        message: enabled ? 
+          'Pubblicazione automatica articoli ATTIVATA - scheduler riavviato' : 
+          'Pubblicazione automatica articoli DISATTIVATA - scheduler fermato'
       });
     } catch (error) {
       console.error("Error toggling auto articles:", error);

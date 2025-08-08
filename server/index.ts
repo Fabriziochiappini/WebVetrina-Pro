@@ -165,11 +165,30 @@ async function restorePortfolioImages() {
       }
     }, 4000);
     
-    // Avvia scheduler per articoli giornalieri
+    // Avvia scheduler per articoli giornalieri SOLO se abilitato nel database
     if (process.env.NODE_ENV === 'production') {
-      const { startDailyScheduler } = await import('./scheduler');
-      startDailyScheduler();
-      console.log('🤖 Scheduler articoli giornalieri attivato');
+      try {
+        const { storage } = await import('./storage');
+        const { startCustomScheduler } = await import('./scheduler');
+        
+        const siteSettings = await storage.getSiteSettings();
+        const autoArticlesEnabled = siteSettings?.autoArticlesEnabled ?? false;
+        
+        if (autoArticlesEnabled) {
+          startCustomScheduler({
+            article1Time: "09:00",
+            article2Time: "14:00", 
+            article3Time: "18:00",
+            enabled: true
+          });
+          console.log('🤖 Scheduler articoli giornalieri ATTIVATO (database setting: true)');
+        } else {
+          console.log('⏸️  Scheduler articoli giornalieri DISATTIVATO (database setting: false)');
+        }
+      } catch (error) {
+        console.error('❌ Errore controllo impostazioni scheduler:', error);
+        console.log('⏸️  Scheduler articoli NON AVVIATO per sicurezza');
+      }
     } else {
       console.log('📝 Scheduler articoli in modalità development (disattivato)');
     }
