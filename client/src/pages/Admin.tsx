@@ -156,12 +156,17 @@ const Admin = () => {
   // Mutation specifica per il toggle degli articoli automatici
   const toggleAutoArticles = useMutation({
     mutationFn: async (enabled: boolean) => {
-      const response = await apiRequest('/api/auto-articles/toggle', {
+      const response = await fetch('/api/auto-articles/toggle', {
         method: 'PUT',
         body: JSON.stringify({ enabled }),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include' // Importante per includere i cookie di sessione
       });
-      return response;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Errore sconosciuto' }));
+        throw new Error(errorData.message || `HTTP ${response.status}`);
+      }
+      return response.json();
     },
     onSuccess: (data) => {
       setAutoArticlesEnabled(data.autoArticlesEnabled);
