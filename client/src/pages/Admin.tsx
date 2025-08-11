@@ -155,6 +155,33 @@ const Admin = () => {
     }
   });
   
+  // Mutation specifica per il toggle degli articoli automatici
+  const toggleAutoArticles = useMutation({
+    mutationFn: async (enabled: boolean) => {
+      const response = await apiRequest('/api/auto-articles/toggle', {
+        method: 'PUT',
+        body: JSON.stringify({ enabled }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      return response;
+    },
+    onSuccess: (data) => {
+      setAutoArticlesEnabled(data.autoArticlesEnabled);
+      queryClient.invalidateQueries({ queryKey: ['/api/site-settings'] });
+      toast({
+        title: data.autoArticlesEnabled ? "✅ Articoli Attivati" : "⏸️ Articoli Disattivati",
+        description: data.message,
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Errore Toggle",
+        description: error.message || "Impossibile modificare le impostazioni degli articoli",
+        variant: "destructive",
+      });
+    }
+  });
+
   // Mutation per il salvataggio delle impostazioni del sito
   const saveSettings = useMutation({
     mutationFn: async (data: { metaPixelId?: string, otherTracking?: string, paypalPaymentUrl?: string, autoArticlesEnabled?: boolean }) => {
@@ -183,6 +210,11 @@ const Admin = () => {
       });
     }
   });
+
+  // Funzione per gestire il toggle degli articoli automatici
+  const handleToggleAutoArticles = () => {
+    toggleAutoArticles.mutate(!autoArticlesEnabled);
+  };
 
   // Funzione per il login - Sistema ultra-sicuro con autenticazione server
   const handleLogin = async () => {
@@ -289,28 +321,7 @@ const Admin = () => {
     });
   };
 
-  // Mutation per l'interruttore articoli automatici
-  const toggleAutoArticles = useMutation({
-    mutationFn: async (enabled: boolean) => {
-      const response = await apiRequest('PUT', '/api/auto-articles/toggle', { enabled });
-      return response;
-    },
-    onSuccess: (data: any) => {
-      setAutoArticlesEnabled(data.autoArticlesEnabled);
-      toast({
-        title: data.autoArticlesEnabled ? "Pubblicazione Attivata" : "Pubblicazione Disattivata",
-        description: data.message || "Impostazione aggiornata con successo",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/site-settings'] });
-    },
-    onError: () => {
-      toast({
-        title: "Errore",
-        description: "Errore nell'aggiornamento delle impostazioni articoli",
-        variant: "destructive",
-      });
-    }
-  });
+
 
   // Schermata di login
   if (!isAuthenticated) {
@@ -623,10 +634,20 @@ const Admin = () => {
                       <Button
                         variant={autoArticlesEnabled ? "destructive" : "default"}
                         size="sm"
-                        onClick={() => setAutoArticlesEnabled(!autoArticlesEnabled)}
+                        onClick={handleToggleAutoArticles}
+                        disabled={toggleAutoArticles.isPending}
                         className={autoArticlesEnabled ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}
                       >
-                        {autoArticlesEnabled ? "⏸️ DISATTIVA" : "▶️ ATTIVA"}
+                        {toggleAutoArticles.isPending ? (
+                          <>
+                            <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                            {autoArticlesEnabled ? "Disattivando..." : "Attivando..."}
+                          </>
+                        ) : (
+                          <>
+                            {autoArticlesEnabled ? "⏸️ DISATTIVA" : "▶️ ATTIVA"}
+                          </>
+                        )}
                       </Button>
                     </div>
                   </div>
