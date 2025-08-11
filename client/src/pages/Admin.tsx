@@ -15,8 +15,6 @@ import { Textarea } from "@/components/ui/textarea";
 
 import BlogManagement from "@/components/BlogManagement";
 import LandingGalleryManagementNew from "@/components/LandingGalleryManagementNew";
-import SchedulerMonitoring from "@/components/SchedulerMonitoring";
-import SEOStrategyDashboard from "@/components/SEOStrategyDashboard";
 import TicketManagement from "@/components/TicketManagement";
 
 interface DateFilterProps {
@@ -390,15 +388,6 @@ const Admin = () => {
                 <FileText className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
                 Blog
               </TabsTrigger>
-              <TabsTrigger value="scheduler" className="flex-shrink-0 text-xs sm:text-sm">
-                <Calendar className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
-                <span className="hidden sm:inline">Scheduler</span>
-                <span className="sm:hidden">Sched</span>
-              </TabsTrigger>
-              <TabsTrigger value="seo-strategy" className="flex-shrink-0 text-xs sm:text-sm">
-                <FileText className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
-                SEO
-              </TabsTrigger>
               <TabsTrigger value="gallery" className="flex-shrink-0 text-xs sm:text-sm">
                 <Image className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
                 <span className="hidden sm:inline">Galleria</span>
@@ -579,113 +568,9 @@ const Admin = () => {
             </div>
           </TabsContent>
           
-          {/* Tab Impostazioni */}
-          <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Impostazioni Sito</CardTitle>
-                <CardDescription>
-                  Configura pixel di tracciamento e altre impostazioni del sito
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="metaPixelId">ID Pixel di Meta (Facebook)</Label>
-                  <Input 
-                    id="metaPixelId" 
-                    placeholder="es: 123456789012345" 
-                    value={metaPixelId}
-                    onChange={(e) => setMetaPixelId(e.target.value)}
-                  />
-                  <p className="text-xs text-gray-500">
-                    Inserisci l'ID del tuo pixel Meta per tracciare le conversioni su Facebook e Instagram
-                  </p>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="otherTracking">Altri Codici di Tracciamento</Label>
-                  <Textarea 
-                    id="otherTracking" 
-                    placeholder="<!-- Inserisci qui il codice di altri sistemi di tracciamento -->"
-                    value={otherTracking}
-                    onChange={(e) => setOtherTracking(e.target.value)}
-                    className="min-h-[120px] font-mono text-sm"
-                  />
-                  <p className="text-xs text-gray-500">
-                    Inserisci codici HTML/JavaScript per altri sistemi di tracciamento (Google Analytics, etc.)
-                  </p>
-                </div>
 
-                {/* 🔥 INTERRUTTORE ARTICOLI AUTOMATICI */}
-                <div className="space-y-4 p-4 border border-orange-200 rounded-lg bg-orange-50">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <Label className="text-base font-semibold text-orange-900">
-                        🤖 Pubblicazione Automatica Articoli
-                      </Label>
-                      <p className="text-sm text-orange-700">
-                        Controlla la generazione automatica di articoli AI. Disattiva se Google rileva contenuti meccanici.
-                      </p>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <span className={`text-sm font-medium ${autoArticlesEnabled ? 'text-green-600' : 'text-red-600'}`}>
-                        {autoArticlesEnabled ? '🟢 ATTIVO' : '🔴 DISATTIVO'}
-                      </span>
-                      <Button
-                        variant={autoArticlesEnabled ? "destructive" : "default"}
-                        size="sm"
-                        onClick={handleToggleAutoArticles}
-                        disabled={toggleAutoArticles.isPending}
-                        className={autoArticlesEnabled ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}
-                      >
-                        {toggleAutoArticles.isPending ? (
-                          <>
-                            <Loader2 className="mr-1 h-3 w-3 animate-spin" />
-                            {autoArticlesEnabled ? "Disattivando..." : "Attivando..."}
-                          </>
-                        ) : (
-                          <>
-                            {autoArticlesEnabled ? "⏸️ DISATTIVA" : "▶️ ATTIVA"}
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-                  <div className="text-xs text-orange-600 bg-orange-100 p-2 rounded">
-                    <strong>Info:</strong> Quando disattivato, lo scheduler continua a funzionare ma non pubblica nuovi articoli. 
-                    Riattiva quando necessario per riprendere la pubblicazione automatica.
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  onClick={handleSaveSettings} 
-                  disabled={saveSettings.isPending}
-                  className="w-full"
-                >
-                  {saveSettings.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Salvataggio in corso...
-                    </>
-                  ) : (
-                    <>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Salva Impostazioni
-                    </>
-                  )}
-                </Button>
-              </CardFooter>
-            </Card>
-          </TabsContent>
 
-          <TabsContent value="scheduler">
-            <SchedulerMonitoring />
-          </TabsContent>
 
-          <TabsContent value="seo-strategy">
-            <SEOStrategyDashboard />
-          </TabsContent>
           
           <TabsContent value="gallery">
             <LandingGalleryManagementNew />
@@ -696,23 +581,27 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Impostazioni del Sito</CardTitle>
-                <CardDescription>
-                  Configura i codici di tracciamento, analytics e pagamenti
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
+            <div className="space-y-6">
+              {/* Sezione Tracciamento */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>🔍 Tracciamento e Analytics</CardTitle>
+                  <CardDescription>
+                    Configura Meta Pixel, Google Analytics e altri sistemi di tracciamento
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <div>
-                    <Label htmlFor="metaPixelId">Meta Pixel ID</Label>
+                    <Label htmlFor="metaPixelId">Meta Pixel ID (Facebook/Instagram)</Label>
                     <Input
                       id="metaPixelId"
                       value={metaPixelId}
                       onChange={(e) => setMetaPixelId(e.target.value)}
                       placeholder="123456789012345"
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      ID del pixel Meta per tracciare conversioni su Facebook e Instagram
+                    </p>
                   </div>
                   <div>
                     <Label htmlFor="otherTracking">Altri Codici di Tracciamento</Label>
@@ -720,10 +609,78 @@ const Admin = () => {
                       id="otherTracking"
                       value={otherTracking}
                       onChange={(e) => setOtherTracking(e.target.value)}
-                      placeholder="Inserisci qui altri codici di tracciamento (Google Analytics, etc.)"
-                      rows={5}
+                      placeholder="<!-- Inserisci qui codici Google Analytics, TikTok Pixel, etc. -->"
+                      rows={4}
+                      className="font-mono text-sm"
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Codici HTML/JavaScript per altri sistemi di tracciamento
+                    </p>
                   </div>
+                </CardContent>
+              </Card>
+
+              {/* Sezione Blog Automatico - UNIFICATA */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>🤖 Sistema Blog Automatico</CardTitle>
+                  <CardDescription>
+                    Controllo completo della pubblicazione automatica degli articoli SEO
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Toggle Principale */}
+                  <div className="p-4 border border-orange-200 rounded-lg bg-orange-50">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="space-y-1">
+                        <Label className="text-base font-semibold text-orange-900">
+                          🔄 Pubblicazione Automatica
+                        </Label>
+                        <p className="text-sm text-orange-700">
+                          Attiva/disattiva la generazione automatica di articoli SEO. Spegni se Google rileva contenuti come spam.
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <span className={`text-sm font-medium ${autoArticlesEnabled ? 'text-green-600' : 'text-red-600'}`}>
+                          {autoArticlesEnabled ? '🟢 ATTIVO' : '🔴 DISATTIVO'}
+                        </span>
+                        <Button
+                          variant={autoArticlesEnabled ? "destructive" : "default"}
+                          size="sm"
+                          onClick={handleToggleAutoArticles}
+                          disabled={toggleAutoArticles.isPending}
+                          className={autoArticlesEnabled ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}
+                        >
+                          {toggleAutoArticles.isPending ? (
+                            <>
+                              <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                              {autoArticlesEnabled ? "Fermando..." : "Attivando..."}
+                            </>
+                          ) : (
+                            <>
+                              {autoArticlesEnabled ? "⏸️ FERMA" : "▶️ AVVIA"}
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="text-xs text-orange-600 bg-orange-100 p-2 rounded">
+                      <strong>Come funziona:</strong> In produzione pubblica automaticamente 3 articoli SEO al giorno (ore 9:00, 14:00, 18:00). 
+                      Usa il toggle per fermare/riavviare quando necessario per evitare penalizzazioni Google.
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Sezione Pagamenti */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>💳 Impostazioni Pagamenti</CardTitle>
+                  <CardDescription>
+                    Configura i metodi di pagamento per le offerte del sito
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
                   <div>
                     <Label htmlFor="paypalPaymentUrl">Link Pagamento PayPal</Label>
                     <Input
@@ -731,34 +688,39 @@ const Admin = () => {
                       type="url"
                       value={paypalPaymentUrl}
                       onChange={(e) => setPaypalPaymentUrl(e.target.value)}
-                      placeholder="https://paypal.me/tuoaccount o link personalizzato PayPal"
+                      placeholder="https://paypal.me/tuoaccount"
                     />
-                    <p className="text-sm text-gray-500 mt-1">
-                      Inserisci il tuo link PayPal personalizzato per i pagamenti di €17. Se vuoto, verrà usato WhatsApp.
+                    <p className="text-xs text-gray-500 mt-1">
+                      Link PayPal personalizzato per pagamenti. Se vuoto, viene usato WhatsApp.
                     </p>
                   </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  onClick={handleSaveSettings} 
-                  disabled={saveSettings.isPending}
-                  className="w-full"
-                >
-                  {saveSettings.isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Salvataggio in corso...
-                    </>
-                  ) : (
-                    <>
-                      <Settings className="mr-2 h-4 w-4" />
-                      Salva Impostazioni
-                    </>
-                  )}
-                </Button>
-              </CardFooter>
-            </Card>
+                </CardContent>
+              </Card>
+
+              {/* Pulsante Salva Unificato */}
+              <Card>
+                <CardFooter className="pt-6">
+                  <Button 
+                    onClick={handleSaveSettings} 
+                    disabled={saveSettings.isPending}
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                    size="lg"
+                  >
+                    {saveSettings.isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Salvataggio in corso...
+                      </>
+                    ) : (
+                      <>
+                        <Settings className="mr-2 h-4 w-4" />
+                        Salva Tutte le Impostazioni
+                      </>
+                    )}
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
