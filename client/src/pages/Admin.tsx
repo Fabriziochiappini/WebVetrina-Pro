@@ -399,6 +399,10 @@ const Admin = () => {
                 <span className="hidden sm:inline">Galleria</span>
                 <span className="sm:hidden">Gall</span>
               </TabsTrigger>
+              <TabsTrigger value="mira-leads" className="flex-shrink-0 text-xs sm:text-sm">
+                <Users className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
+                🤖 Mira
+              </TabsTrigger>
               <TabsTrigger value="ticket" className="flex-shrink-0 text-xs sm:text-sm">
                 <Users className="mr-1 h-3 w-3 sm:mr-2 sm:h-4 sm:w-4" />
                 Ticket
