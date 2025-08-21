@@ -14,7 +14,7 @@ const FloatingCta = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 left-6 z-50">
       <Button 
         onClick={scrollToContatti}
         className="flex items-center gap-2 py-3 px-6 bg-secondary text-white font-bold rounded-full shadow-lg hover:bg-secondary/90 hover:translate-y-[-2px] transition-all"
