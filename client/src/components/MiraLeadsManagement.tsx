@@ -30,10 +30,13 @@ export default function MiraLeadsManagement() {
   const [selectedLead, setSelectedLead] = useState<MiraLead | null>(null);
 
   // Fetch dei lead raccolti da Mira
-  const { data: leads, isLoading, error } = useQuery({
+  const { data: leadsData, isLoading, error } = useQuery({
     queryKey: ['/api/mira-leads'],
     queryFn: () => apiRequest('GET', '/api/mira-leads'),
   });
+
+  // Assicuriamoci che leads sia sempre un array
+  const leads = Array.isArray(leadsData) ? leadsData : [];
 
   // Mutation per aggiornare lo stato del lead
   const updateLeadStatus = useMutation({
