@@ -11,8 +11,11 @@ import {
   landingSpots, type LandingSpot, type InsertLandingSpot,
   supportTickets, type SupportTicket, type InsertSupportTicket,
   ticketMessages, type TicketMessage, type InsertTicketMessage,
-  clients, type Client, type InsertClient
+  clients, type Client, type InsertClient,
+  chatbotLeads
 } from "@shared/schema";
+import { insertChatbotLeadSchema } from "@shared/schema";
+import type { z } from "zod";
 import { db } from "./db";
 import { eq, desc, and, gte, lte, sql } from "drizzle-orm";
 
@@ -71,6 +74,11 @@ export interface IStorage {
   createClient(client: InsertClient): Promise<Client>;
   getClientByEmail(email: string): Promise<Client | undefined>;
   getClientTickets(clientEmail: string): Promise<SupportTicket[]>;
+  
+  // Chatbot lead management
+  createChatbotLead(lead: z.infer<typeof insertChatbotLeadSchema>): Promise<any>;
+  getChatbotLeads(): Promise<any[]>;
+  updateChatbotLeadStatus(id: number, status: string): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -325,6 +333,31 @@ export class DatabaseStorage implements IStorage {
     }
     
     return updatedTicket;
+  }
+
+  // Chatbot lead management
+  async createChatbotLead(lead: z.infer<typeof insertChatbotLeadSchema>) {
+    const [createdLead] = await db.insert(chatbotLeads)
+      .values(lead)
+      .returning();
+    return createdLead;
+  }
+
+  async getChatbotLeads() {
+    return await db.select()
+      .from(chatbotLeads)
+      .orderBy(desc(chatbotLeads.createdAt));
+  }
+
+  async updateChatbotLeadStatus(id: number, status: string) {
+    const [updatedLead] = await db.update(chatbotLeads)
+      .set({ 
+        stato: status,
+        updatedAt: new Date()
+      })
+      .where(eq(chatbotLeads.id, id))
+      .returning();
+    return updatedLead;
   }
 }
 

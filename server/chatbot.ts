@@ -281,6 +281,9 @@ IMPORTANTE - RACCOLTA DATI:
       throw new Error('Nessuna risposta dal modello AI');
     }
 
+    // AUTO-RILEVAMENTO E SALVATAGGIO LEAD
+    await detectAndSaveLead(userMessage, botResponse, conversationHistory);
+
     return botResponse;
 
   } catch (error) {
@@ -295,5 +298,44 @@ Per assistenza immediata può:
 🆓 Richiedere una consultazione gratuita
 
 Il nostro team le risponderà entro poche ore per aiutarla con qualsiasi domanda sui nostri servizi di realizzazione siti web professionali! 🚀`;
+  }
+}
+
+// Funzione per rilevare e salvare automaticamente i lead
+async function detectAndSaveLead(userMessage: string, botResponse: string, conversationHistory: any[]) {
+  try {
+    const fullConversation = [...conversationHistory, 
+      { role: "user", content: userMessage }, 
+      { role: "assistant", content: botResponse }
+    ];
+    
+    const conversationText = fullConversation.map(msg => `${msg.role}: ${msg.content}`).join('\n');
+    
+    // Regex per rilevare dati di contatto
+    const nomeMatch = conversationText.match(/(?:mi chiamo|sono|il mio nome è|nome[:\s]+)([a-zA-ZÀ-ÿ\s]{2,30})/i);
+    const telefonoMatch = conversationText.match(/(?:telefono|cellulare|numero)[:\s]*([+]?[0-9\s\-\.]{8,15})/i);
+    const emailMatch = conversationText.match(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/);
+    const attivitaMatch = conversationText.match(/(?:attività|lavoro|azienda|business|settore)[:\s]*([a-zA-ZÀ-ÿ\s]{3,50})/i);
+    
+    // Se trova almeno nome + telefono/email, salva il lead
+    if (nomeMatch && (telefonoMatch || emailMatch)) {
+      const { storage } = await import("./storage");
+      
+      const leadData = {
+        nome: nomeMatch[1]?.trim() || null,
+        telefono: telefonoMatch?.[1]?.replace(/\s/g, '') || null,
+        email: emailMatch?.[1] || null,
+        attivita: attivitaMatch?.[1]?.trim() || null,
+        messaggio: `Lead Mira: Interesse per realizzazione sito web`,
+        conversationData: fullConversation
+      };
+
+      await storage.createChatbotLead(leadData);
+      console.log("🎯 MIRA AUTO-LEAD SALVATO:", leadData.nome, leadData.telefono || leadData.email);
+    }
+    
+  } catch (error) {
+    console.error("Error auto-detecting lead:", error);
+    // Non bloccare la conversazione se il salvataggio fallisce
   }
 }

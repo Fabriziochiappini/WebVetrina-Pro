@@ -1,4 +1,4 @@
-import { pgTable, text, varchar, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -152,6 +152,21 @@ export const ticketMessages = pgTable("ticket_messages", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Tabella per i lead raccolti da Mira (assistente AI)
+export const chatbotLeads = pgTable("chatbot_leads", {
+  id: serial("id").primaryKey(),
+  nome: varchar("nome", { length: 255 }),
+  telefono: varchar("telefono", { length: 50 }),
+  email: varchar("email", { length: 255 }),
+  attivita: varchar("attivita", { length: 255 }), // Tipo di attività/settore
+  messaggio: text("messaggio"), // Dettagli della conversazione
+  conversationData: jsonb("conversation_data"), // Intera conversazione salvata
+  fonte: varchar("fonte", { length: 100 }).default("mira_chatbot"),
+  stato: varchar("stato", { length: 50 }).default("nuovo"), // nuovo, contattato, chiuso
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const updateSiteSettingsSchema = createInsertSchema(siteSettings)
   .omit({ id: true, updatedAt: true });
 
@@ -183,6 +198,9 @@ export const insertSupportTicketSchema = createInsertSchema(supportTickets)
 
 export const insertTicketMessageSchema = createInsertSchema(ticketMessages)
   .omit({ id: true, createdAt: true });
+
+export const insertChatbotLeadSchema = createInsertSchema(chatbotLeads)
+  .omit({ id: true, createdAt: true, updatedAt: true });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;

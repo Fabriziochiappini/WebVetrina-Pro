@@ -1942,6 +1942,68 @@ Disallow: /api/
     }
   });
 
+  // Mira lead management endpoints
+  app.post("/api/mira-leads", async (req, res) => {
+    try {
+      const { nome, telefono, email, attivita, messaggio, conversationData } = req.body;
+      
+      const leadData = {
+        nome: nome || null,
+        telefono: telefono || null,
+        email: email || null,
+        attivita: attivita || null,
+        messaggio: messaggio || null,
+        conversationData: conversationData || null,
+        fonte: "mira_chatbot"
+      };
+
+      const lead = await storage.createChatbotLead(leadData);
+      console.log("🎯 MIRA LEAD SALVATO:", lead.id, lead.nome, lead.telefono);
+      
+      return res.status(201).json({ 
+        success: true, 
+        leadId: lead.id,
+        message: "Lead salvato con successo"
+      });
+    } catch (error) {
+      console.error("Error saving Mira lead:", error);
+      return res.status(500).json({ 
+        message: "Errore nel salvataggio del lead" 
+      });
+    }
+  });
+
+  app.get("/api/mira-leads", async (req, res) => {
+    try {
+      const leads = await storage.getChatbotLeads();
+      return res.status(200).json(leads);
+    } catch (error) {
+      console.error("Error fetching Mira leads:", error);
+      return res.status(500).json({ 
+        message: "Errore nel recupero dei lead" 
+      });
+    }
+  });
+
+  app.put("/api/mira-leads/:id/status", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "ID non valido" });
+      }
+
+      const updatedLead = await storage.updateChatbotLeadStatus(id, status);
+      return res.status(200).json(updatedLead);
+    } catch (error) {
+      console.error("Error updating Mira lead status:", error);
+      return res.status(500).json({ 
+        message: "Errore nell'aggiornamento del lead" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

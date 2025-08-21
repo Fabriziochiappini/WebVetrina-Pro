@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import BlogManagement from "@/components/BlogManagement";
 import LandingGalleryManagementNew from "@/components/LandingGalleryManagementNew";
 import TicketManagement from "@/components/TicketManagement";
+import MiraLeadsManagement from "@/components/MiraLeadsManagement";
 
 interface DateFilterProps {
   startDate: string;
@@ -579,6 +580,10 @@ const Admin = () => {
           
           <TabsContent value="gallery">
             <LandingGalleryManagementNew />
+          </TabsContent>
+
+          <TabsContent value="mira-leads">
+            <MiraLeadsManagement />
           </TabsContent>
 
           <TabsContent value="ticket">
