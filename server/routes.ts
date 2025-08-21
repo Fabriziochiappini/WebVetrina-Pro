@@ -1216,6 +1216,39 @@ Disallow: /api/
     res.json({ apiKey });
   });
 
+  // Chatbot AI endpoint
+  app.post("/api/chatbot", async (req, res) => {
+    try {
+      const { message, conversation } = req.body;
+      
+      if (!message || typeof message !== 'string') {
+        return res.status(400).json({ error: "Messaggio richiesto" });
+      }
+
+      const { generateChatbotResponse } = await import("./chatbot");
+      
+      // Converti formato conversazione se necessario
+      const chatHistory = conversation?.map((msg: any) => ({
+        content: msg.content,
+        role: msg.role
+      })) || [];
+
+      const response = await generateChatbotResponse(message, chatHistory);
+      
+      res.json({ 
+        response,
+        timestamp: new Date().toISOString()
+      });
+      
+    } catch (error) {
+      console.error("Errore chatbot:", error);
+      res.status(500).json({ 
+        error: "Errore interno del server",
+        response: "Mi dispiace, si è verificato un problema tecnico. Per assistenza immediata contattaci su WhatsApp al +39 347 994 2321 o via email a info@webproitalia.com" 
+      });
+    }
+  });
+
   // Landing gallery routes with backup system
   app.get('/api/landing-gallery', async (req, res) => {
     try {
