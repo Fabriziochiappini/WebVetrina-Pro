@@ -21,7 +21,7 @@ export default function ChatBot({ className }: ChatBotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: 'Ciao! Sono l\'assistente virtuale di WebPro Italia. Posso aiutarti con informazioni sui nostri servizi, prezzi, tempi di realizzazione e tutto quello che vuoi sapere sui siti web professionali. Come posso aiutarti?',
+      content: 'Ciao! Sono Mira, assistente AI di WebPro Italia 👋\n\nPosso aiutarla con informazioni sui nostri servizi, prezzi, tempi di realizzazione e tutto quello che desidera sapere sui siti web professionali.\n\nCome posso assisterla oggi?',
       role: 'assistant',
       timestamp: new Date()
     }
@@ -115,9 +115,14 @@ export default function ChatBot({ className }: ChatBotProps) {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Bot className="w-5 h-5" />
-                <CardTitle className="text-sm font-medium">
-                  Assistente WebPro Italia
-                </CardTitle>
+                <div>
+                  <CardTitle className="text-sm font-medium">
+                    Mira - Assistente AI
+                  </CardTitle>
+                  <p className="text-xs opacity-90">
+                    Come posso aiutarla?
+                  </p>
+                </div>
               </div>
               <Button
                 variant="ghost"
@@ -128,8 +133,8 @@ export default function ChatBot({ className }: ChatBotProps) {
                 <X className="w-4 h-4" />
               </Button>
             </div>
-            <p className="text-xs opacity-90">
-              🟢 Online - Rispondiamo in tempo reale
+            <p className="text-xs opacity-90 mt-1">
+              🟢 Online - Risposta immediata
             </p>
           </CardHeader>
           
@@ -237,8 +242,8 @@ export default function ChatBot({ className }: ChatBotProps) {
       
       {/* Notification Badge */}
       {!isOpen && (
-        <div className="absolute -top-2 -left-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
-          <span className="text-white text-xs font-bold">AI</span>
+        <div className="absolute -top-2 -left-2 w-8 h-5 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+          <span className="text-white text-xs font-bold">Mira</span>
         </div>
       )}
     </div>

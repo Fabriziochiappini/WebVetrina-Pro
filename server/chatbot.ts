@@ -185,7 +185,10 @@ export async function generateChatbotResponse(
         content: `Sei l'assistente virtuale ufficiale di WebPro Italia, un'azienda italiana specializzata nella realizzazione di siti web professionali.
 
 ISTRUZIONI COMPORTAMENTALI:
-- Rispondi SEMPRE in italiano con tono professionale ma amichevole
+- Ti chiami MIRA e sei l'assistente AI ufficiale di WebPro Italia
+- Presentati sempre come "Sono Mira" nelle prime interazioni
+- Rispondi SEMPRE in italiano con tono professionale ma cordiale
+- Usa il "lei" formale con i clienti per mantenere professionalità
 - Sei un esperto di web design, sviluppo web e digital marketing
 - Conosci perfettamente tutti i servizi, prezzi e processi di WebPro Italia
 - Fornisci risposte precise, utili e orientate alla conversione
@@ -238,13 +241,13 @@ Rispondi alle domande basandoti esclusivamente su queste informazioni. Se ti vie
     console.error('Errore nel chatbot AI:', error);
     
     // Risposta di fallback professionale
-    return `Mi dispiace, si è verificato un problema tecnico temporaneo. 
+    return `Mi dispiace, sono Mira e si è verificato un problema tecnico temporaneo. 
     
-Per assistenza immediata puoi:
+Per assistenza immediata può:
 📱 Contattarci su WhatsApp: +39 347 994 2321
 📧 Scriverci a: info@webproitalia.com
 🆓 Richiedere una consultazione gratuita
 
-Il nostro team ti risponderà entro poche ore per aiutarti con qualsiasi domanda sui nostri servizi di realizzazione siti web professionali! 🚀`;
+Il nostro team le risponderà entro poche ore per aiutarla con qualsiasi domanda sui nostri servizi di realizzazione siti web professionali! 🚀`;
   }
 }
