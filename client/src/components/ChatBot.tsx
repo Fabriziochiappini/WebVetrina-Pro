@@ -227,7 +227,39 @@ export default function ChatBot({ className }: ChatBotProps) {
                         : "bg-gray-100 text-gray-800 rounded-bl-none"
                     )}
                   >
-                    <p className="whitespace-pre-wrap">{message.content}</p>
+                    <div className="whitespace-pre-wrap">
+                      {message.content.split('\n').map((line, index) => {
+                        // Rileva i link e li rende cliccabili
+                        const urlRegex = /(https?:\/\/[^\s]+)/g;
+                        const parts = line.split(urlRegex);
+                        
+                        return (
+                          <div key={index}>
+                            {parts.map((part, partIndex) => {
+                              if (urlRegex.test(part)) {
+                                return (
+                                  <a
+                                    key={partIndex}
+                                    href={part}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={cn(
+                                      "underline hover:no-underline font-medium",
+                                      message.role === 'user' 
+                                        ? "text-blue-200 hover:text-white" 
+                                        : "text-orange-600 hover:text-orange-800"
+                                    )}
+                                  >
+                                    {part}
+                                  </a>
+                                );
+                              }
+                              return part;
+                            })}
+                          </div>
+                        );
+                      })}
+                    </div>
                     <span className={cn(
                       "text-xs opacity-70 mt-1 block",
                       message.role === 'user' ? "text-blue-100" : "text-gray-500"
