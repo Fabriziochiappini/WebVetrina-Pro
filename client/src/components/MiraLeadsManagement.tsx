@@ -118,7 +118,7 @@ export default function MiraLeadsManagement() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             🤖 Lead Raccolti da Mira
-            <Badge variant="outline">{leads?.length || 0} totali</Badge>
+            <Badge variant="outline">{leads.length} totali</Badge>
           </CardTitle>
           <CardDescription>
             Lead qualificati raccolti automaticamente dall'assistente AI Mira durante le conversazioni
