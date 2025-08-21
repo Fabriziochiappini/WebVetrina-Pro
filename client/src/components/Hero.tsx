@@ -9,10 +9,16 @@ interface HeroProps {
   scrollToSection: (id: string) => void;
 }
 
+interface Message {
+  type: 'bot' | 'user';
+  content: string;
+  timestamp: Date;
+}
+
 const Hero = ({ scrollToSection }: HeroProps) => {
-  const [heroMessages, setHeroMessages] = useState([
+  const [heroMessages, setHeroMessages] = useState<Message[]>([
     {
-      type: 'bot' as const,
+      type: 'bot',
       content: 'Ciao! Sono Mira, la tua assistente AI per siti web. Posso aiutarti con preventivi, design, portfolio del tuo settore e molto altro. Scrivimi pure!',
       timestamp: new Date()
     }
@@ -28,7 +34,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
     
     // Aggiungi messaggio utente
     setHeroMessages(prev => [...prev, {
-      type: 'user' as const,
+      type: 'user',
       content: userMessage,
       timestamp: new Date()
     }]);
@@ -44,15 +50,17 @@ const Hero = ({ scrollToSection }: HeroProps) => {
         }))
       });
 
+      const data = await response.json();
+      
       setHeroMessages(prev => [...prev, {
-        type: 'bot' as const,
-        content: response.response,
+        type: 'bot',
+        content: data.response || 'Mi dispiace, non sono riuscita a generare una risposta.',
         timestamp: new Date()
       }]);
     } catch (error) {
       console.error('Errore invio messaggio:', error);
       setHeroMessages(prev => [...prev, {
-        type: 'bot' as const,
+        type: 'bot',
         content: 'Mi dispiace, si è verificato un errore. Riprova tra poco o contattaci direttamente.',
         timestamp: new Date()
       }]);
@@ -181,7 +189,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                           : 'bg-gradient-to-r from-orange-500 to-purple-600 text-white'
                       }`}>
                         <p className="text-sm leading-relaxed">
-                          {message.content.split('\n').map((line, i) => (
+                          {message.content && message.content.split('\n').map((line, i) => (
                             <span key={i}>
                               {line}
                               {i < message.content.split('\n').length - 1 && <br />}
