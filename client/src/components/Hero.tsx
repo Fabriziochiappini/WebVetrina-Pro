@@ -154,19 +154,6 @@ const Hero = ({ scrollToSection }: HeroProps) => {
         {/* Chat Input Diretto Stile ChatGPT */}
         <div className="mt-16 flex justify-center">
           <div className="bg-white rounded-2xl shadow-2xl max-w-4xl mx-auto w-full">
-            {/* Header Mira */}
-            <div className="bg-gradient-to-r from-orange-500 to-purple-600 text-white p-4 rounded-t-2xl">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">M</span>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold">Mira - Assistente AI</h3>
-                  <p className="text-white/90 text-sm">Specializzata in realizzazione siti web</p>
-                </div>
-              </div>
-            </div>
-
             {/* Area Chat Conversazione */}
             <div className="p-6">
               <div className="space-y-4">
