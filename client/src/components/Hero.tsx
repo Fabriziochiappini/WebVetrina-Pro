@@ -84,69 +84,135 @@ const Hero = ({ scrollToSection }: HeroProps) => {
           </div>
         </div>
         
-        {/* Riquadro dedicato per Mira - Stile ChatGPT */}
+        {/* Chat Input Diretto Stile ChatGPT */}
         <div className="mt-16 flex justify-center">
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 max-w-2xl mx-auto shadow-2xl">
-            <div className="text-center space-y-6">
-              <div className="flex items-center justify-center gap-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-xl">M</span>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-4xl mx-auto w-full">
+            {/* Header Mira */}
+            <div className="bg-gradient-to-r from-orange-500 to-purple-600 text-white p-4 rounded-t-2xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">M</span>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white">Mira</h3>
-                  <p className="text-white/80 text-sm">Assistente AI per realizzazione siti web</p>
+                  <h3 className="text-xl font-bold">Mira - Assistente AI</h3>
+                  <p className="text-white/90 text-sm">Specializzata in realizzazione siti web</p>
                 </div>
               </div>
-              
+            </div>
+
+            {/* Area Chat Input */}
+            <div className="p-6">
               <div className="space-y-4">
-                <p className="text-white/90 text-lg leading-relaxed">
-                  Ciao! Sono Mira, la tua assistente AI specializzata in siti web. Posso aiutarti a:
-                </p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                  <div className="flex items-center gap-3 text-white/90">
-                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                      <i className="fas fa-palette text-white text-xs"></i>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-bold text-sm">M</span>
                     </div>
-                    <span className="text-sm">Scegliere il design perfetto</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-white/90">
-                    <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                      <i className="fas fa-euro-sign text-white text-xs"></i>
+                    <div className="text-gray-700">
+                      <p className="font-medium mb-2">Ciao! Sono Mira, la tua assistente AI per siti web.</p>
+                      <p className="text-sm">Posso aiutarti con preventivi, design, portfolio del tuo settore e molto altro. Scrivimi pure!</p>
                     </div>
-                    <span className="text-sm">Calcolare preventivi personalizzati</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-white/90">
-                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                      <i className="fas fa-eye text-white text-xs"></i>
-                    </div>
-                    <span className="text-sm">Mostrarti portfolio del tuo settore</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-white/90">
-                    <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
-                      <i className="fas fa-headset text-white text-xs"></i>
-                    </div>
-                    <span className="text-sm">Metterti in contatto con un esperto</span>
                   </div>
                 </div>
-                
-                <div className="pt-4">
-                  <Button 
-                    onClick={() => {
-                      // Trigger per aprire la chat di Mira
-                      const chatButton = document.querySelector('[data-chat-toggle]') as HTMLElement;
-                      if (chatButton) {
-                        chatButton.click();
+
+                {/* Input Field Stile ChatGPT */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="hero-chat-input"
+                    placeholder="Dimmi di che tipo di sito web hai bisogno..."
+                    className="w-full p-4 pr-12 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 text-base shadow-sm"
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        const input = e.target as HTMLInputElement;
+                        if (input.value.trim()) {
+                          // Apri la chat e invia il messaggio
+                          const chatButton = document.querySelector('[data-chat-toggle]') as HTMLElement;
+                          if (chatButton) {
+                            chatButton.click();
+                            setTimeout(() => {
+                              // Simula l'invio del messaggio nella chat
+                              const chatInput = document.querySelector('input[placeholder*="Scrivi"]') as HTMLInputElement;
+                              const sendButton = document.querySelector('button[type="submit"]') as HTMLElement;
+                              if (chatInput && sendButton) {
+                                chatInput.value = input.value;
+                                chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+                                setTimeout(() => sendButton.click(), 100);
+                              }
+                            }, 300);
+                            input.value = '';
+                          }
+                        }
                       }
                     }}
-                    className="bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  />
+                  <button 
+                    onClick={() => {
+                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
+                      if (input && input.value.trim()) {
+                        const chatButton = document.querySelector('[data-chat-toggle]') as HTMLElement;
+                        if (chatButton) {
+                          chatButton.click();
+                          setTimeout(() => {
+                            const chatInput = document.querySelector('input[placeholder*="Scrivi"]') as HTMLInputElement;
+                            const sendButton = document.querySelector('button[type="submit"]') as HTMLElement;
+                            if (chatInput && sendButton) {
+                              chatInput.value = input.value;
+                              chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+                              setTimeout(() => sendButton.click(), 100);
+                            }
+                          }, 300);
+                          input.value = '';
+                        }
+                      }
+                    }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-r from-orange-500 to-purple-600 text-white rounded-lg flex items-center justify-center hover:from-orange-600 hover:to-purple-700 transition-all"
                   >
-                    <i className="fas fa-comments mr-2"></i>
-                    Parla con Mira Ora
-                  </Button>
+                    <i className="fas fa-paper-plane text-sm"></i>
+                  </button>
                 </div>
-                
-                <p className="text-white/70 text-xs">
+
+                {/* Suggerimenti rapidi */}
+                <div className="flex flex-wrap gap-2">
+                  <button 
+                    onClick={() => {
+                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
+                      if (input) {
+                        input.value = 'Ho bisogno di un sito web per il mio ristorante';
+                        input.focus();
+                      }
+                    }}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                  >
+                    Sito per ristorante
+                  </button>
+                  <button 
+                    onClick={() => {
+                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
+                      if (input) {
+                        input.value = 'Quanto costa un sito web professionale?';
+                        input.focus();
+                      }
+                    }}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                  >
+                    Preventivo
+                  </button>
+                  <button 
+                    onClick={() => {
+                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
+                      if (input) {
+                        input.value = 'Voglio vedere esempi di siti web per la mia attività';
+                        input.focus();
+                      }
+                    }}
+                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                  >
+                    Portfolio
+                  </button>
+                </div>
+
+                <p className="text-center text-gray-500 text-xs">
                   Risposta istantanea • Consulenza gratuita • Preventivi personalizzati
                 </p>
               </div>
