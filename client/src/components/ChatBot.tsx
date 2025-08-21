@@ -18,6 +18,8 @@ interface ChatBotProps {
 
 export default function ChatBot({ className }: ChatBotProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [hasShownWelcome, setHasShownWelcome] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -37,6 +39,34 @@ export default function ChatBot({ className }: ChatBotProps) {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Mostra il messaggio di benvenuto automatico dopo 5 secondi
+  useEffect(() => {
+    if (!hasShownWelcome) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(true);
+        setHasShownWelcome(true);
+      }, 5000); // 5 secondi dopo il caricamento
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasShownWelcome]);
+
+  // Nascondi il popup dopo 8 secondi se non viene cliccato
+  useEffect(() => {
+    if (showWelcomePopup) {
+      const timer = setTimeout(() => {
+        setShowWelcomePopup(false);
+      }, 8000); // Sparisce dopo 8 secondi
+
+      return () => clearTimeout(timer);
+    }
+  }, [showWelcomePopup]);
+
+  const handleWelcomeClick = () => {
+    setShowWelcomePopup(false);
+    setIsOpen(true);
+  };
 
   const sendMessage = async () => {
     if (!inputMessage.trim() || isLoading) return;
@@ -108,6 +138,40 @@ export default function ChatBot({ className }: ChatBotProps) {
 
   return (
     <div className={cn("fixed bottom-4 right-4 z-50", className)}>
+      {/* Welcome Popup Message */}
+      {showWelcomePopup && !isOpen && (
+        <div 
+          className="mb-4 mr-16 max-w-xs bg-white rounded-lg shadow-2xl border-2 border-orange-200 p-4 cursor-pointer transform animate-bounce"
+          onClick={handleWelcomeClick}
+        >
+          <div className="flex items-start space-x-2">
+            <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <Bot className="w-4 h-4 text-white" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-gray-800 mb-1">
+                Salve! Sono Mira 👋
+              </p>
+              <p className="text-xs text-gray-600">
+                Assistente WebPro Italia. Posso esserle di aiuto con informazioni sui nostri siti web professionali?
+              </p>
+              <p className="text-xs text-orange-600 mt-2 font-medium">
+                Clicca per iniziare →
+              </p>
+            </div>
+            <button 
+              className="text-gray-400 hover:text-gray-600 text-xs"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowWelcomePopup(false);
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Chat Widget */}
       {isOpen && (
         <Card className="w-80 sm:w-96 h-96 mb-4 shadow-2xl border-2 border-orange-200">
