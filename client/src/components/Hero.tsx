@@ -19,7 +19,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
   const [heroMessages, setHeroMessages] = useState<Message[]>([
     {
       type: 'bot',
-      content: 'Ciao! Sono Mira, la tua assistente AI per siti web. Posso aiutarti con preventivi, design, portfolio del tuo settore e molto altro. Scrivimi pure!',
+      content: 'Ciao! Sono Mira, la tua assistente virtuale specializzata in realizzazione siti web aziendali.\n\nSono qui per aiutarti a trovare la soluzione perfetta per la tua attività. Posso:\n\n• Calcolare preventivi personalizzati in base alle tue esigenze specifiche\n• Mostrarti esempi concreti di siti web realizzati per il tuo settore di attività\n• Spiegarti nei dettagli tutti i servizi inclusi nei nostri pacchetti\n• Consigliarti il piano più adatto al tuo budget e obiettivi\n• Metterti in contatto diretto con i nostri specialisti per una consulenza approfondita\n\nDimmi pure di che tipo di attività ti occupi e quali sono le tue necessità. Sono qui per guidarti verso la scelta migliore!',
       timestamp: new Date()
     }
   ]);
@@ -170,19 +170,18 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                           {message.type === 'bot' ? 'M' : 'U'}
                         </span>
                       </div>
-                      <div className={`p-4 rounded-lg max-w-md ${
+                      <div className={`p-6 rounded-lg ${
                         message.type === 'bot' 
-                          ? 'bg-gray-50 text-gray-700' 
-                          : 'bg-gradient-to-r from-orange-500 to-purple-600 text-white'
+                          ? 'bg-gray-50 text-gray-700 flex-1' 
+                          : 'bg-gradient-to-r from-orange-500 to-purple-600 text-white max-w-md'
                       }`}>
-                        <p className="text-sm leading-relaxed">
+                        <div className={`${message.type === 'bot' ? 'text-base' : 'text-sm'} leading-relaxed`}>
                           {message.content && message.content.split('\n').map((line, i) => (
-                            <span key={i}>
+                            <div key={i} className={line.trim() === '' ? 'h-3' : ''}>
                               {line}
-                              {i < message.content.split('\n').length - 1 && <br />}
-                            </span>
+                            </div>
                           ))}
-                        </p>
+                        </div>
                       </div>
                     </div>
                   ))}
