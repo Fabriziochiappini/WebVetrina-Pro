@@ -19,7 +19,7 @@ const Hero = ({ scrollToSection }: HeroProps) => {
   const [heroMessages, setHeroMessages] = useState<Message[]>([
     {
       type: 'bot',
-      content: 'Ciao! Sono Mira, la tua assistente virtuale specializzata in realizzazione siti web aziendali.\n\nSono qui per aiutarti a trovare la soluzione perfetta per la tua attività. Posso:\n\n• Calcolare preventivi personalizzati in base alle tue esigenze specifiche\n• Mostrarti esempi concreti di siti web realizzati per il tuo settore di attività\n• Spiegarti nei dettagli tutti i servizi inclusi nei nostri pacchetti\n• Consigliarti il piano più adatto al tuo budget e obiettivi\n• Metterti in contatto diretto con i nostri specialisti per una consulenza approfondita\n\nDimmi pure di che tipo di attività ti occupi e quali sono le tue necessità. Sono qui per guidarti verso la scelta migliore!',
+      content: 'Ciao sono Mira! Sono l\'assistente AI di Web Pro Italia, come posso aiutarla?',
       timestamp: new Date()
     }
   ]);
@@ -226,20 +226,20 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                 {heroMessages.length === 1 && (
                   <div className="flex flex-wrap gap-2">
                     <button 
-                      onClick={() => setHeroInput('Ho bisogno di un sito web per il mio ristorante')}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                      onClick={() => setHeroInput('Devo fare un sito')}
+                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
                     >
-                      Sito per ristorante
+                      Devo fare un sito
                     </button>
                     <button 
-                      onClick={() => setHeroInput('Quanto costa un sito web professionale?')}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                      onClick={() => setHeroInput('Preventivo')}
+                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
                     >
                       Preventivo
                     </button>
                     <button 
-                      onClick={() => setHeroInput('Voglio vedere esempi di siti web per la mia attività')}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                      onClick={() => setHeroInput('Portfolio')}
+                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
                     >
                       Portfolio
                     </button>
