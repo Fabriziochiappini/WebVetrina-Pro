@@ -1,13 +1,72 @@
 import { Button } from '../components/ui/button';
-import { ArrowRight, Info } from 'lucide-react';
+import { ArrowRight, Info, Send } from 'lucide-react';
 import { Link } from 'wouter';
 import { trackBusinessEvent } from '../lib/analytics';
+import { useState } from 'react';
+import { apiRequest } from '../lib/queryClient';
 
 interface HeroProps {
   scrollToSection: (id: string) => void;
 }
 
 const Hero = ({ scrollToSection }: HeroProps) => {
+  const [heroMessages, setHeroMessages] = useState([
+    {
+      type: 'bot' as const,
+      content: 'Ciao! Sono Mira, la tua assistente AI per siti web. Posso aiutarti con preventivi, design, portfolio del tuo settore e molto altro. Scrivimi pure!',
+      timestamp: new Date()
+    }
+  ]);
+  const [heroInput, setHeroInput] = useState('');
+  const [isHeroLoading, setIsHeroLoading] = useState(false);
+
+  const sendHeroMessage = async () => {
+    if (!heroInput.trim() || isHeroLoading) return;
+
+    const userMessage = heroInput.trim();
+    setHeroInput('');
+    
+    // Aggiungi messaggio utente
+    setHeroMessages(prev => [...prev, {
+      type: 'user' as const,
+      content: userMessage,
+      timestamp: new Date()
+    }]);
+
+    setIsHeroLoading(true);
+
+    try {
+      const response = await apiRequest('POST', '/api/chatbot/message', {
+        message: userMessage,
+        conversationHistory: heroMessages.map(msg => ({
+          role: msg.type === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        }))
+      });
+
+      setHeroMessages(prev => [...prev, {
+        type: 'bot' as const,
+        content: response.response,
+        timestamp: new Date()
+      }]);
+    } catch (error) {
+      console.error('Errore invio messaggio:', error);
+      setHeroMessages(prev => [...prev, {
+        type: 'bot' as const,
+        content: 'Mi dispiace, si è verificato un errore. Riprova tra poco o contattaci direttamente.',
+        timestamp: new Date()
+      }]);
+    }
+
+    setIsHeroLoading(false);
+  };
+
+  const handleHeroKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      sendHeroMessage();
+    }
+  };
+
   return (
     <section className="relative gradient-primary text-white py-20 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary to-accent/80"></div>
@@ -100,117 +159,98 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               </div>
             </div>
 
-            {/* Area Chat Input */}
+            {/* Area Chat Conversazione */}
             <div className="p-6">
               <div className="space-y-4">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-bold text-sm">M</span>
+                {/* Messaggi Chat */}
+                <div className="max-h-80 overflow-y-auto space-y-4">
+                  {heroMessages.map((message, index) => (
+                    <div key={index} className={`flex items-start gap-3 ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        message.type === 'bot' 
+                          ? 'bg-gradient-to-r from-orange-500 to-purple-600' 
+                          : 'bg-gray-400'
+                      }`}>
+                        <span className="text-white font-bold text-sm">
+                          {message.type === 'bot' ? 'M' : 'U'}
+                        </span>
+                      </div>
+                      <div className={`p-4 rounded-lg max-w-md ${
+                        message.type === 'bot' 
+                          ? 'bg-gray-50 text-gray-700' 
+                          : 'bg-gradient-to-r from-orange-500 to-purple-600 text-white'
+                      }`}>
+                        <p className="text-sm leading-relaxed">
+                          {message.content.split('\n').map((line, i) => (
+                            <span key={i}>
+                              {line}
+                              {i < message.content.split('\n').length - 1 && <br />}
+                            </span>
+                          ))}
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-gray-700">
-                      <p className="font-medium mb-2">Ciao! Sono Mira, la tua assistente AI per siti web.</p>
-                      <p className="text-sm">Posso aiutarti con preventivi, design, portfolio del tuo settore e molto altro. Scrivimi pure!</p>
+                  ))}
+                  
+                  {isHeroLoading && (
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-purple-600 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">M</span>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex space-x-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
-                {/* Input Field Stile ChatGPT */}
+                {/* Input Field */}
                 <div className="relative">
                   <input
                     type="text"
-                    id="hero-chat-input"
+                    value={heroInput}
+                    onChange={(e) => setHeroInput(e.target.value)}
+                    onKeyPress={handleHeroKeyPress}
                     placeholder="Dimmi di che tipo di sito web hai bisogno..."
+                    disabled={isHeroLoading}
                     className="w-full p-4 pr-12 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-700 text-base shadow-sm"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        const input = e.target as HTMLInputElement;
-                        if (input.value.trim()) {
-                          // Apri la chat e invia il messaggio
-                          const chatButton = document.querySelector('[data-chat-toggle]') as HTMLElement;
-                          if (chatButton) {
-                            chatButton.click();
-                            setTimeout(() => {
-                              // Simula l'invio del messaggio nella chat
-                              const chatInput = document.querySelector('input[placeholder*="Scrivi"]') as HTMLInputElement;
-                              const sendButton = document.querySelector('button[type="submit"]') as HTMLElement;
-                              if (chatInput && sendButton) {
-                                chatInput.value = input.value;
-                                chatInput.dispatchEvent(new Event('input', { bubbles: true }));
-                                setTimeout(() => sendButton.click(), 100);
-                              }
-                            }, 300);
-                            input.value = '';
-                          }
-                        }
-                      }
-                    }}
                   />
                   <button 
-                    onClick={() => {
-                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
-                      if (input && input.value.trim()) {
-                        const chatButton = document.querySelector('[data-chat-toggle]') as HTMLElement;
-                        if (chatButton) {
-                          chatButton.click();
-                          setTimeout(() => {
-                            const chatInput = document.querySelector('input[placeholder*="Scrivi"]') as HTMLInputElement;
-                            const sendButton = document.querySelector('button[type="submit"]') as HTMLElement;
-                            if (chatInput && sendButton) {
-                              chatInput.value = input.value;
-                              chatInput.dispatchEvent(new Event('input', { bubbles: true }));
-                              setTimeout(() => sendButton.click(), 100);
-                            }
-                          }, 300);
-                          input.value = '';
-                        }
-                      }
-                    }}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-r from-orange-500 to-purple-600 text-white rounded-lg flex items-center justify-center hover:from-orange-600 hover:to-purple-700 transition-all"
+                    onClick={sendHeroMessage}
+                    disabled={isHeroLoading || !heroInput.trim()}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-gradient-to-r from-orange-500 to-purple-600 text-white rounded-lg flex items-center justify-center hover:from-orange-600 hover:to-purple-700 transition-all disabled:opacity-50"
                   >
-                    <i className="fas fa-paper-plane text-sm"></i>
+                    <Send className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Suggerimenti rapidi */}
-                <div className="flex flex-wrap gap-2">
-                  <button 
-                    onClick={() => {
-                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
-                      if (input) {
-                        input.value = 'Ho bisogno di un sito web per il mio ristorante';
-                        input.focus();
-                      }
-                    }}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
-                  >
-                    Sito per ristorante
-                  </button>
-                  <button 
-                    onClick={() => {
-                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
-                      if (input) {
-                        input.value = 'Quanto costa un sito web professionale?';
-                        input.focus();
-                      }
-                    }}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
-                  >
-                    Preventivo
-                  </button>
-                  <button 
-                    onClick={() => {
-                      const input = document.getElementById('hero-chat-input') as HTMLInputElement;
-                      if (input) {
-                        input.value = 'Voglio vedere esempi di siti web per la mia attività';
-                        input.focus();
-                      }
-                    }}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
-                  >
-                    Portfolio
-                  </button>
-                </div>
+                {heroMessages.length === 1 && (
+                  <div className="flex flex-wrap gap-2">
+                    <button 
+                      onClick={() => setHeroInput('Ho bisogno di un sito web per il mio ristorante')}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                    >
+                      Sito per ristorante
+                    </button>
+                    <button 
+                      onClick={() => setHeroInput('Quanto costa un sito web professionale?')}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                    >
+                      Preventivo
+                    </button>
+                    <button 
+                      onClick={() => setHeroInput('Voglio vedere esempi di siti web per la mia attività')}
+                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-orange-100 hover:text-orange-700 transition-colors"
+                    >
+                      Portfolio
+                    </button>
+                  </div>
+                )}
 
                 <p className="text-center text-gray-500 text-xs">
                   Risposta istantanea • Consulenza gratuita • Preventivi personalizzati
