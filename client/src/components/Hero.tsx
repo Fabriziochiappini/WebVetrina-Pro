@@ -49,9 +49,11 @@ const Hero = ({ scrollToSection }: HeroProps) => {
         },
         body: JSON.stringify({
           message: userMessage,
-          conversationHistory: heroMessages.map(msg => ({
+          conversation: heroMessages.map(msg => ({
+            id: Date.now().toString(),
+            content: msg.content,
             role: msg.type === 'user' ? 'user' : 'assistant',
-            content: msg.content
+            timestamp: msg.timestamp
           }))
         })
       });
