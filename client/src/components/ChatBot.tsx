@@ -322,6 +322,7 @@ export default function ChatBot({ className }: ChatBotProps) {
       {/* Chat Toggle Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
+        data-chat-toggle="true"
         className={cn(
           "w-14 h-14 rounded-full shadow-2xl transition-all duration-300",
           "bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700",

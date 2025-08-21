@@ -83,6 +83,76 @@ const Hero = ({ scrollToSection }: HeroProps) => {
             </Link>
           </div>
         </div>
+        
+        {/* Riquadro dedicato per Mira - Stile ChatGPT */}
+        <div className="mt-16 flex justify-center">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 max-w-2xl mx-auto shadow-2xl">
+            <div className="text-center space-y-6">
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-white font-bold text-xl">M</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-white">Mira</h3>
+                  <p className="text-white/80 text-sm">Assistente AI per realizzazione siti web</p>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <p className="text-white/90 text-lg leading-relaxed">
+                  Ciao! Sono Mira, la tua assistente AI specializzata in siti web. Posso aiutarti a:
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                  <div className="flex items-center gap-3 text-white/90">
+                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
+                      <i className="fas fa-palette text-white text-xs"></i>
+                    </div>
+                    <span className="text-sm">Scegliere il design perfetto</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/90">
+                    <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+                      <i className="fas fa-euro-sign text-white text-xs"></i>
+                    </div>
+                    <span className="text-sm">Calcolare preventivi personalizzati</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/90">
+                    <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
+                      <i className="fas fa-eye text-white text-xs"></i>
+                    </div>
+                    <span className="text-sm">Mostrarti portfolio del tuo settore</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/90">
+                    <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+                      <i className="fas fa-headset text-white text-xs"></i>
+                    </div>
+                    <span className="text-sm">Metterti in contatto con un esperto</span>
+                  </div>
+                </div>
+                
+                <div className="pt-4">
+                  <Button 
+                    onClick={() => {
+                      // Trigger per aprire la chat di Mira
+                      const chatButton = document.querySelector('[data-chat-toggle]') as HTMLElement;
+                      if (chatButton) {
+                        chatButton.click();
+                      }
+                    }}
+                    className="bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                  >
+                    <i className="fas fa-comments mr-2"></i>
+                    Parla con Mira Ora
+                  </Button>
+                </div>
+                
+                <p className="text-white/70 text-xs">
+                  Risposta istantanea • Consulenza gratuita • Preventivi personalizzati
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-16 bg-white" style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 0)' }}></div>
     </section>
