@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contatti — Studio Immobiliare Aurora</title>
+    <meta name="description" content="Richiedi una consulenza, una valutazione o maggiori informazioni. Ti rispondiamo entro 24 ore.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="canonical" href="/contatti.html">
+    <meta property="og:title" content="Contatti — Studio Immobiliare Aurora">
+    <meta property="og:description" content="Scrivici per una consulenza o una valutazione gratuita.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/contatti.html">
+    <meta property="og:image" content="/assets/img/og-image.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contatti — Studio Immobiliare Aurora">
+    <meta name="twitter:description" content="Scrivici per una consulenza o una valutazione gratuita.">
+    <meta name="twitter:image" content="/assets/img/og-image.svg">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="logo" href="/"><img src="/assets/img/logo.svg" alt="Studio Immobiliare Aurora" width="28" height="28"> <span>Studio Immobiliare Aurora</span></a>
+        <nav class="main-nav" id="main-nav" aria-label="Navigazione principale">
+          <a href="/servizi.html">Servizi</a>
+          <a href="/chi-siamo.html">Chi siamo</a>
+          <a class="btn btn--primary" aria-current="page" href="/contatti.html">Contatti</a>
+        </nav>
+        <button class="nav-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Apri menu">☰</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>Contattaci</h1>
+            <p>Compila il form: ti ricontattiamo in giornata.</p>
+          </div>
+          <div class="hero-media" role="img" aria-label="Mappa urbana"></div>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="container">
+          <div class="grid" style="grid-template-columns: 1.1fr 0.9fr; gap: 16px;">
+            <form id="contact-form" class="card" action="#" method="post">
+              <h2>Scrivici</h2>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label for="name">Nome e cognome</label>
+                  <input id="name" name="name" type="text" required>
+                </div>
+                <div class="form-field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" required>
+                </div>
+                <div class="form-field">
+                  <label for="phone">Telefono (opzionale)</label>
+                  <input id="phone" name="phone" type="tel" pattern="[0-9 +()-]{6,}">
+                </div>
+                <div class="form-field form-field--full">
+                  <label for="message">Messaggio</label>
+                  <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+              </div>
+              <div style="display:flex; gap:12px; align-items:center;">
+                <button class="btn btn--primary" type="submit">Invia</button>
+                <span class="hint">Oppure scrivi a <a href="mailto:info@studioaurora.it">info@studioaurora.it</a></span>
+              </div>
+            </form>
+            <div class="card">
+              <h2>Dove siamo</h2>
+              <p>Via Esempio 10, 00100 Roma</p>
+              <div class="map-wrap">
+                <iframe title="Mappa sede" src="https://www.google.com/maps?q=Via%20Esempio%2010%20Roma&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+              <p><a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&query=Via+Esempio+10+Roma" target="_blank" rel="noopener">Apri in Google Maps</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <strong>Studio Immobiliare Aurora</strong><br>
+          Via Esempio 10, 00100 Roma<br>
+          P.IVA 00000000000
+        </div>
+        <div>
+          <a href="tel:+390600000000">+39 06 000 0000</a><br>
+          <a href="mailto:info@studioaurora.it">info@studioaurora.it</a>
+        </div>
+        <div class="footer-copy">© <span id="year"></span> Studio Immobiliare Aurora. Tutti i diritti riservati.</div>
+      </div>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+  </body>
+  </html>
+
