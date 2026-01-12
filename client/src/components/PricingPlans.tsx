@@ -16,7 +16,9 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Sito web vetrina",
         "Design responsive",
         "Ottimizzazione base SEO",
-        "Supporto email"
+        "Certificato SSL incluso",
+        "Agente AI che risponde ai clienti",
+        "Assistenza tecnica inclusa"
       ],
       excludes: [],
       buttonText: "VOGLIO IL MIO SITO",
