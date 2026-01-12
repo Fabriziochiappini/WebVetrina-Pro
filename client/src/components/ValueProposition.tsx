@@ -18,7 +18,7 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
           <div className="bg-white/10 p-8 rounded-2xl mb-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="border-b md:border-b-0 md:border-r border-white/20 pb-6 md:pb-0 md:pr-8">
-                <div className="text-3xl md:text-4xl font-bold mb-3 text-secondary font-heading">€197</div>
+                <div className="text-3xl md:text-4xl font-bold mb-3 text-secondary font-heading">€297</div>
                 <h3 className="text-2xl font-bold mb-4 font-heading">La Nostra Offerta</h3>
                 <ul className="space-y-3 text-left">
                   <li className="flex items-start gap-2">

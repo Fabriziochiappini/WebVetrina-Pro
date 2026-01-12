@@ -103,7 +103,7 @@ export default function SimpleLandingForm() {
         </p>
         <div className="bg-orange-100 border border-orange-300 rounded-lg p-4 mt-4">
           <p className="text-orange-800 font-semibold">
-            ⚠️ Solo {remainingSpots} posti rimasti a disposizione a €197!
+            ⚠️ Solo {remainingSpots} posti rimasti a disposizione a €297!
           </p>
         </div>
       </div>
@@ -114,7 +114,7 @@ export default function SimpleLandingForm() {
     <div className="bg-white p-8 rounded-xl shadow-lg">
       <div className="text-center mb-6">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">
-          Richiedi il Tuo Sito Web a €197
+          Richiedi il Tuo Sito Web a €297
         </h3>
         <p className="text-gray-600">
           Compila il form per ricevere un preventivo personalizzato

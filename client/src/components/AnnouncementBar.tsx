@@ -40,7 +40,7 @@ const AnnouncementBar = () => {
           <div>
             <span className="font-bold text-lg">⚡ OFFERTA LIMITATA ⚡</span>
             <span className="mx-3">|</span>
-            <span className="text-yellow-300">Sito Web a soli €197 - Scade tra:</span>
+            <span className="text-yellow-300">Sito Web a soli €297 - Scade tra:</span>
             <span className="mx-2 font-mono text-xl font-bold bg-white/20 px-3 py-1 rounded">
               {formatTime(timeLeft)}
             </span>

@@ -10,7 +10,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
   const plans = [
     {
       name: "LITE",
-      price: "197",
+      price: "297",
       description: "Ideale per piccole attività",
       features: [
         "Sito web vetrina",

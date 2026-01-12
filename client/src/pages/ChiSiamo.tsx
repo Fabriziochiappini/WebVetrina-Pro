@@ -85,12 +85,6 @@ const ChiSiamo = () => {
                 </div>
               </div>
               
-              <Button 
-                onClick={() => scrollToSection('mappa')} 
-                className="mt-8 bg-primary text-white font-bold rounded-full shadow-md hover:bg-primary/90 transition-all"
-              >
-                Vieni a trovarci
-              </Button>
             </div>
             
             <div className="lg:w-1/2">
@@ -128,24 +122,6 @@ const ChiSiamo = () => {
                 durante il nostro orario di lavoro.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Map Section */}
-      <section id="mappa" className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-10 text-primary text-center font-heading">Come Raggiungerci</h2>
-          <div className="rounded-xl overflow-hidden shadow-lg h-[450px]">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2979.1036351872546!2d13.3307564!3d41.6400076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13254dc60e2fddb5%3A0x5a75f7a7c58b503f!2sVia%20Casilina%20Sud%2C%20116%2C%2003100%20Frosinone%20FR!5e0!3m2!1sit!2sit!4v1621954783182!5m2!1sit!2sit" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
           </div>
         </div>
       </section>
