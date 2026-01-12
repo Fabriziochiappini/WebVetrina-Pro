@@ -116,10 +116,6 @@ const Footer = () => {
             <h4 className="font-bold text-lg mb-4 font-heading">Contattaci</h4>
             <ul className="space-y-2">
               <li className="flex items-center gap-2">
-                <i className="fas fa-map-marker-alt text-secondary"></i>
-                <span className="text-gray-400">Via Casilina Sud 116, 03100 Frosinone</span>
-              </li>
-              <li className="flex items-center gap-2">
                 <i className="fas fa-envelope text-secondary"></i>
                 <span className="text-gray-400">info.webproitalia@gmail.com</span>
               </li>
