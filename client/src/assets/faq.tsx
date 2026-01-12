@@ -22,5 +22,9 @@ export const faq = [
   {
     question: 'E se volessi più di 5 pagine?',
     answer: 'Possiamo aggiungere pagine extra a €50 ciascuna, mantenendo lo stesso design e qualità del pacchetto base.'
+  },
+  {
+    question: 'L\'assistenza tecnica è inclusa?',
+    answer: 'Sì, l\'assistenza tecnica è gratuita. Per modifiche strutturali più complesse, si valuta in comune accordo.'
   }
 ];
