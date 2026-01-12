@@ -15,6 +15,7 @@ import ContactForm from '../components/ContactForm';
 import Footer from '../components/Footer';
 import FloatingCta from '../components/FloatingCta';
 import ChatBot from '../components/ChatBot';
+import PerformanceStats from '../components/PerformanceStats';
 
 const Home = () => {
   const scrollToSection = (id: string) => {
@@ -65,6 +66,7 @@ const Home = () => {
       <ValueProposition scrollToSection={scrollToSection} />
       <Process />
       <Testimonials />
+      <PerformanceStats />
       <BlogSection />
       <Faq scrollToSection={scrollToSection} />
       <Cta scrollToSection={scrollToSection} />
