@@ -11,7 +11,7 @@ export const benefits = [
   },
   {
     title: 'Hosting e Dominio',
-    description: 'Un anno di hosting e dominio inclusi senza costi aggiuntivi.',
+    description: 'Gestione di Hosting e Dominio con certificato SSL OMAGGIO.',
     icon: 'fa-server'
   },
   {
