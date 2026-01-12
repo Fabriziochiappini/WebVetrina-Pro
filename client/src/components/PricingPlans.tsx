@@ -24,7 +24,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
     },
     {
       name: "STANDARD",
-      price: "299",
+      price: "397",
       description: "Il più scelto dai nostri clienti",
       features: [
         "Sito web vetrina",
