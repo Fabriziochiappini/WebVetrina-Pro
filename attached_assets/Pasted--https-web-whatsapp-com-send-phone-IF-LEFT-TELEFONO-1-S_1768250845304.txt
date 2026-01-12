@@ -1,0 +1,78 @@
+"https://web.whatsapp.com/send?phone=" &
+IF(
+  LEFT(TELEFONO, 1) = "+",
+  SUBSTITUTE(TELEFONO, " ", ""),
+  "+39" & SUBSTITUTE(TELEFONO, " ", "")
+) &
+"&text=" &
+ENCODE_URL_COMPONENT(
+  "Salve Sig. " &
+  LEFT({NOME E COGNOME}, FIND(" ", {NOME E COGNOME} & " ") - 1) &
+  " 👋" & "\n\n" &
+
+  "Sono Fabrizio di *Web Pro Italia*. Abbiamo ricevuto la sua richiesta per la realizzazione di un sito web *per la Sua Attività*;" & "\n\n" &
+
+  "Offriamo molte soluzioni e possiamo scegliere insieme quella più adatta: dal sito essenziale fino a una vetrina più completa. Le giro alcuni esempi di *siti vetrina professionali* che abbiamo realizzato per altre aziende come la Sua." & "\n\n" &
+
+  "Se vuole possiamo sentirci telefonicamente per capire di che tipo di sito ha bisogno e proporle la formula più adatta 😊" & "\n\n" &
+
+  "📌 Le lascio un *portfolio diviso per categoria* di alcuni lavori realizzati." & "\n\n" &
+
+  "—" & "\n" &
+  "*Portfolio 👇*" & "\n\n" &
+
+  "🏗️ *Edile*" & "\n" &
+  "👉 https://noleggioescavatorisiciliano.com" & "\n" &
+  "👉 https://costruendosrls.it" & "\n" &
+  "👉 https://lacinqueg.it" & "\n\n" &
+
+  "🧰 *Servizi*" & "\n" &
+  "👉 https://lamolesgomberitorino.com" & "\n" &
+  "👉 https://jollypulizie.com" & "\n" &
+  "👉 https://futurservicecaporarello.it" & "\n" &
+  "👉 https://centrostudiimmobiliari.it" & "\n" &
+  "👉 https://soccorsostradaletrasped.com" & "\n" &
+  "👉 https://iosgomberotutto.it" & "\n\n" &
+
+  "🏢 *Agenzie / Immobiliari / Viaggi*" & "\n" &
+  "👉 https://virtusmultiservizi.com" & "\n" &
+  "👉 https://www.refilservizimmobiliari.com" & "\n" &
+  "👉 https://agenzia2acireale.com" & "\n" &
+  "👉 https://escursioniasharmcondesi.com" & "\n" &
+  "👉 https://propatotravel.com" & "\n\n" &
+
+  "🚗 *Concessionarie / Auto*" & "\n" &
+  "👉 https://feudalecars.it" & "\n" &
+  "👉 https://vetrinaauto.com" & "\n" &
+  "👉 https://npmgroup.store" & "\n" &
+  "👉 https://autopmgroup.com" & "\n\n" &
+
+  "💄 *Beauty*" & "\n" &
+  "👉 https://www.mumakeup.it" & "\n" &
+  "👉 https://angelicanailsacademy.it" & "\n" &
+  "👉 https://giambertonebellavia.com" & "\n\n" &
+
+  "🏡 *B&B / Strutture ricettive*" & "\n" &
+  "👉 https://www.villaallombradegliulivi.com" & "\n" &
+  "👉 https://villaariete.it" & "\n" &
+  "👉 https://bbcivico250pescara.it" & "\n" &
+  "👉 https://relaiscalacavallo.it" & "\n" &
+  "👉 https://villabrothershouse.com" & "\n" &
+  "👉 https://thesunsethouse.it" & "\n\n" &
+
+  "🧑‍💼 *Uffici / Liberi professionisti*" & "\n" &
+  "👉 https://chiaraboroni.it" & "\n" &
+  "👉 https://lucamassignan.com" & "\n" &
+  "👉 https://www.studiopanzi.it" & "\n\n" &
+
+  "🎨 *Arte*" & "\n" &
+  "👉 https://inkjuliart.com" & "\n\n" &
+
+  "🍽️ *Ristoranti / Locali*" & "\n" &
+  "👉 https://bistrotdeangelis.com" & "\n" &
+  "👉 https://birrificiolaruota.com" & "\n" &
+  "👉 https://3punto0menu.com" & "\n" &
+
+  "🛒 *E-commerce*" & "\n" &
+  "👉 https://lamagiadelpulito.com"
+)
