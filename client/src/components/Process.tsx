@@ -53,46 +53,6 @@ const Process = () => {
             <p className="text-gray-600 text-center md:text-left">Ricevi il tuo sito web completo in tempi rapidi, pronto all'uso!</p>
           </div>
         </div>
-        
-        <div className="mt-16 p-8 bg-gray-50 rounded-2xl flex flex-col md:flex-row items-center gap-8">
-          <img 
-            src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=400" 
-            alt="Il nostro processo di sviluppo web" 
-            className="w-full md:w-1/3 rounded-xl shadow-md"
-          />
-          <div>
-            <h3 className="text-2xl font-bold mb-4 text-primary font-heading">
-              Cosa include il pacchetto da €297:
-            </h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-2">
-                <i className="fas fa-check text-accent mt-1"></i>
-                <span>Da 5 a 10 pagine di contenuto (Home, Chi siamo, Servizi, Portfolio, Contatti)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <i className="fas fa-check text-accent mt-1"></i>
-                <span>Design professionale personalizzato per il tuo brand</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <i className="fas fa-check text-accent mt-1"></i>
-                <span>Design professionale responsive</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <i className="fas fa-check text-accent mt-1"></i>
-                <span>Ottimizzazione per i motori di ricerca (SEO base)</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <i className="fas fa-check text-accent mt-1"></i>
-                <span>Modulo di contatto funzionante</span>
-              </li>
-
-              <li className="flex items-start gap-2">
-                <i className="fas fa-check text-accent mt-1"></i>
-                <span>Certificato SSL incluso</span>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
     </section>
   );
