@@ -186,7 +186,7 @@ const serviceDetails: ServiceDetails[] = [
       "Campagne che si autofinanziano"
     ],
     price: "€149",
-    setupTime: "Setup in 3-5 giorni"
+    setupTime: "Setup veloce"
   },
   {
     id: "crm-clients",
@@ -207,7 +207,7 @@ const serviceDetails: ServiceDetails[] = [
       "Crescita controllata e scalabile"
     ],
     price: "€149/mese",
-    setupTime: "Setup in 5 giorni"
+    setupTime: "Setup rapido"
   },
   {
     id: "autoblog",

@@ -24,7 +24,7 @@ const Cta = ({ scrollToSection }: CtaProps) => {
             </div>
             <div className="text-left">
               <strong className="block">Consegna Rapida</strong>
-              <span className="text-sm opacity-90">In soli 5 giorni</span>
+              <span className="text-sm opacity-90">Meno di 20 giorni</span>
             </div>
           </div>
           

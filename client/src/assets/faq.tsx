@@ -1,15 +1,15 @@
 export const faq = [
   {
     question: 'Cosa include esattamente il prezzo di €299?',
-    answer: 'Il prezzo include un sito web professionale fino a 5 pagine, design di un logo, ottimizzazione mobile e consegna in 5 giorni lavorativi.'
+    answer: 'Il prezzo include un sito web professionale fino a 5 pagine, design di un logo, ottimizzazione mobile e consegna in tempi rapidi.'
   },
   {
     question: 'Ci sono costi nascosti?',
     answer: 'Assolutamente no. Il prezzo di €299 copre tutto ciò che ti serve per avere un sito web professionale funzionante. Nessun costo aggiuntivo.'
   },
   {
-    question: 'Riuscite davvero a consegnare in 5 giorni?',
-    answer: 'Sì, il nostro team di esperti è in grado di consegnare progetti di alta qualità in soli 5 giorni lavorativi dalla conferma delle specifiche.'
+    question: 'In quanto tempo consegnate il sito?',
+    answer: 'Il nostro team di esperti è in grado di consegnare progetti di alta qualità in meno di 20 giorni lavorativi dalla conferma delle specifiche.'
   },
   {
     question: 'Cosa succede dopo il primo anno?',

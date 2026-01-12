@@ -32,7 +32,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Ottimizzazione SEO completa",
         "Design completamente personalizzabile",
         "Supporto tecnico 1 anno",
-        "Consegna in 5 giorni"
+        "Consegna rapida"
       ],
       excludes: [],
       buttonText: "VOGLIO IL MIO SITO",
@@ -49,7 +49,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Sistema pagamenti integrato",
         "Ottimizzazione SEO avanzata",
         "Supporto prioritario 1 anno",
-        "Consegna in 7 giorni"
+        "Tempi veloci"
       ],
       excludes: [
         "Caricamento prodotti non incluso"
