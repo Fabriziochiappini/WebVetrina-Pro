@@ -124,7 +124,7 @@ const portfolioData: PortfolioCategory[] = [
 
 const Lavori = () => {
   return (
-    <div className="antialiased bg-light text-dark">
+    <div className="antialiased bg-gray-50 text-dark min-h-screen">
       <Navbar />
       
       <section className="bg-primary py-16 text-white">

@@ -56,7 +56,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="antialiased bg-light text-dark">
+    <div className="antialiased bg-gray-50 text-dark min-h-screen">
       <Navbar />
       <Hero scrollToSection={scrollToSection} />
       <OnlineBenefits />

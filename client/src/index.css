@@ -52,11 +52,17 @@
     border-color: hsl(214.3 31.8% 91.4%);
   }
 
-  body {
+  html, body, #root {
+    min-height: 100vh;
     font-family: 'Montserrat', sans-serif;
-    background-color: white;
+    background-color: #f8fafc;
     color: hsl(222.2 84% 4.9%);
     -webkit-font-smoothing: antialiased;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
   }
 }
 
