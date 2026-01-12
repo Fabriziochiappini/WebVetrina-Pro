@@ -25,41 +25,34 @@ SERVIZI PRINCIPALI:
 
 2. PACCHETTI DISPONIBILI:
    
-   PACCHETTO LITE (€197):
-   - Sito web professionale completo
+   PACCHETTO LITE (€297 una tantum):
+   - Ideale per piccole attività
+   - Sito web vetrina
    - Design responsive
-   - Ottimizzazione SEO di base
-   - Integrazione Google Analytics
-   - Modulo contatti funzionale
-   - Galleria immagini
-   - Mappa interattiva
+   - Ottimizzazione base SEO
    - Certificato SSL incluso
-   - 3 revisioni incluse
-   - Consegna in 7-10 giorni lavorativi
+   - Agente AI che risponde ai clienti
+   - Assistenza tecnica inclusa
 
-   PACCHETTO STANDARD (€397):
-   - Tutto del Lite +
-   - Fino a 10 pagine
-   - Blog integrato
+   PACCHETTO STANDARD (€397 una tantum) - PIÙ VENDUTO:
+   - Valore €1200 - Risparmi €803!
+   - Il più scelto dai nostri clienti
+   - Sito web vetrina
+   - Logo professionale incluso
+   - Ottimizzazione SEO completa
+   - Design completamente personalizzabile
+   - Supporto tecnico 1 anno
+   - Consegna rapida
+
+   PACCHETTO E-COMMERCE (€699 una tantum):
+   - Per vendere online
+   - Sito e-commerce completo
+   - Logo professionale incluso
+   - Sistema pagamenti integrato
    - Ottimizzazione SEO avanzata
-   - Integrazione social media
-   - Chat WhatsApp integrata
-   - Area riservata clienti
-   - Backup automatico
-   - 5 revisioni incluse
-   - Supporto 3 mesi
-
-   PACCHETTO PREMIUM (€697):
-   - Tutto dello Standard +
-   - E-commerce completo
-   - Gestione inventario
-   - Pagamenti online (Stripe/PayPal)
-   - Dashboard amministrativa avanzata
-   - Automazioni marketing
-   - Integrazione CRM
-   - Report analytics avanzati
-   - Revisioni illimitate
-   - Supporto 6 mesi
+   - Supporto prioritario 1 anno
+   - Tempi veloci
+   - Caricamento prodotti non incluso
 
 3. SERVIZI AGGIUNTIVI:
    - AutoBlog AI (€79/mese): Sistema automatico di generazione articoli SEO
@@ -150,7 +143,7 @@ FRASI TIPO PER RACCOLTA DATI:
 DOMANDE FREQUENTI:
 
 Q: Quanto tempo ci vuole per realizzare un sito?
-A: Il pacchetto Lite viene consegnato in 7-10 giorni, Standard in 15-20 giorni, Premium in 30-45 giorni.
+A: Tutti i nostri pacchetti vengono consegnati in meno di 20 giorni lavorativi.
 
 Q: Il sito sarà ottimizzato per Google?
 A: Sì, tutti i nostri siti includono ottimizzazione SEO di base, con possibilità di upgrade a SEO avanzato.
