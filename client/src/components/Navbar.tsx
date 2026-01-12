@@ -49,6 +49,12 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </span>
           </Link>
+          <Link href="/lavori">
+            <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group flex items-center h-10">
+              Lavori
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+            </span>
+          </Link>
 
           <Link href="/servizi">
             <span className="px-3 py-2 rounded-lg hover:bg-primary/10 hover:text-primary transition-all duration-300 cursor-pointer relative group flex items-center h-10">
@@ -87,6 +93,11 @@ const Navbar = () => {
               <Link href="/chi-siamo">
                 <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
                   Chi Siamo
+                </span>
+              </Link>
+              <Link href="/lavori">
+                <span className="text-left px-4 py-2 hover:bg-gray-100 rounded-md block">
+                  Lavori
                 </span>
               </Link>
 

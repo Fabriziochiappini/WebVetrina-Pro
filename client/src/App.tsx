@@ -26,6 +26,7 @@ import Assistenza from "./pages/Assistenza";
 import TicketChat from "./pages/TicketChat";
 import ClientLogin from "./pages/ClientLogin";
 import ClientDashboard from "./pages/ClientDashboard";
+import Lavori from "./pages/Lavori";
 
 
 import CookieBanner from "./components/CookieBanner";
@@ -55,6 +56,7 @@ function Router() {
         <Route path="/ticket" component={Assistenza} />
         <Route path="/ticket/:id" component={TicketChat} />
         <Route path="/chi-siamo" component={ChiSiamo} />
+        <Route path="/lavori" component={Lavori} />
 
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:slug" component={BlogPost} />
