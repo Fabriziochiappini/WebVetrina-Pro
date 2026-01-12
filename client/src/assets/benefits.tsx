@@ -1,7 +1,7 @@
 export const benefits = [
   {
     title: 'Consegna Rapida',
-    description: 'Il tuo sito web sarà pronto in soli 7 giorni lavorativi, garantito.',
+    description: 'Sito web pronto in meno di 20 giorni lavorativi.',
     icon: 'fa-rocket'
   },
   {
