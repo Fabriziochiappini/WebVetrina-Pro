@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Button } from '../components/ui/button';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 
 const ChiSiamo = () => {
   const scrollToSection = (id: string) => {
@@ -37,7 +37,7 @@ const ChiSiamo = () => {
                 accessibile a tutte le piccole e medie imprese italiane.
               </p>
               <p className="text-lg text-gray-700 mb-6">
-                Fondata nel 2018, WebProItalia è cresciuta rapidamente grazie al nostro approccio 
+                Fondata nel 2023, WebProItalia è cresciuta rapidamente grazie al nostro approccio 
                 trasparente e alla qualità impeccabile dei nostri progetti. Abbiamo aiutato centinaia 
                 di aziende a stabilire una forte presenza online, aumentando la loro visibilità e 
                 le opportunità di business.
@@ -49,14 +49,6 @@ const ChiSiamo = () => {
               </p>
               
               <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className="text-primary w-5 h-5 mt-1" />
-                  <div>
-                    <h4 className="font-bold">Indirizzo</h4>
-                    <p className="text-gray-600">Via Casilina Sud 116, 03100 Frosinone, Italia</p>
-                  </div>
-                </div>
-                
                 <div className="flex items-start gap-3">
                   <Mail className="text-primary w-5 h-5 mt-1" />
                   <div>
