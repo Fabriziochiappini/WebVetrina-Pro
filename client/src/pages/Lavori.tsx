@@ -35,7 +35,6 @@ const portfolioData: PortfolioCategory[] = [
       { name: "Jolly Pulizie", url: "https://jollypulizie.com", image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop" },
       { name: "Futur Service Caporarello", url: "https://futurservicecaporarello.it", image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=400&fit=crop" },
       { name: "Centro Studi Immobiliari", url: "https://centrostudiimmobiliari.it", image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop" },
-      { name: "Soccorso Stradale Trasped", url: "https://soccorsostradaletrasped.com", image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&h=400&fit=crop" },
       { name: "Io Sgombero Tutto", url: "https://iosgomberotutto.it", image: "https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600&h=400&fit=crop" }
     ]
   },
@@ -90,7 +89,7 @@ const portfolioData: PortfolioCategory[] = [
     title: "Uffici / Liberi professionisti",
     emoji: "🧑‍💼",
     items: [
-      { name: "Chiara Boroni", url: "https://chiaraboroni.it", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop" },
+      { name: "Chiara Boroni", url: "https://chiaraboroni.it", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=400&fit=crop" },
       { name: "Luca Massignan", url: "https://lucamassignan.com", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&h=400&fit=crop" },
       { name: "Studio Panzi", url: "https://www.studiopanzi.it", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop" }
     ]
