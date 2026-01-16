@@ -31,7 +31,7 @@ export async function sendContactNotification(formData: ContactFormData): Promis
         email: formData.email,
         name: `${formData.firstName} ${formData.lastName}`
       },
-      subject: `Landing €197 - ${formData.firstName} ${formData.lastName} (${formData.businessType})`,
+      subject: `Richiesta informazioni realizzazione sito web - ${formData.firstName} ${formData.lastName} (${formData.businessType})`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">
