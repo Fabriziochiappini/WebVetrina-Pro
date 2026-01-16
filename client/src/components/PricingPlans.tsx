@@ -17,7 +17,6 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
         "Design responsive",
         "Ottimizzazione base SEO",
         "Certificato SSL incluso",
-        "Agente AI che risponde ai clienti",
         "Assistenza tecnica inclusa"
       ],
       excludes: [],

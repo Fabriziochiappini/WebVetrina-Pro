@@ -106,8 +106,8 @@ const ContactForm = () => {
                   <div className="flex items-start gap-3">
                     <div className="text-primary mt-1"><i className="fas fa-map-marker-alt"></i></div>
                     <div>
-                      <h4 className="font-bold">Indirizzo</h4>
-                      <p className="text-gray-600">Via Roma 123, Milano, Italia</p>
+                      <h4 className="font-bold">Sede principale</h4>
+                      <p className="text-gray-600">Frosinone</p>
                     </div>
                   </div>
                   

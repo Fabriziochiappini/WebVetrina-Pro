@@ -48,10 +48,6 @@ const ValueProposition = ({ scrollToSection }: ValuePropositionProps) => {
                   </li>
                   <li className="flex items-start gap-2">
                     <i className="fas fa-check-circle text-accent mt-1"></i>
-                    <span>Agente AI che risponde ai clienti con le info della tua attività</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <i className="fas fa-check-circle text-accent mt-1"></i>
                     <span>Nessun costo nascosto</span>
                   </li>
                 </ul>
