@@ -366,6 +366,43 @@ Disallow: /api/
         });
       }
 
+      // Rate limiting: max 2 tickets per month per website URL
+      const websiteUrl = result.data.websiteUrl;
+      if (websiteUrl) {
+        // Normalize URL (remove protocol, www, trailing slash)
+        const normalizeUrl = (url: string) => {
+          return url.toLowerCase()
+            .replace(/^https?:\/\//, '')
+            .replace(/^www\./, '')
+            .replace(/\/$/, '');
+        };
+        const normalizedUrl = normalizeUrl(websiteUrl);
+        
+        // Get current month's start and end dates
+        const now = new Date();
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+        
+        // Count tickets from this URL in current month
+        const allTickets = await storage.getSupportTickets();
+        const ticketsThisMonth = allTickets.filter(ticket => {
+          if (!ticket.websiteUrl) return false;
+          const ticketNormalizedUrl = normalizeUrl(ticket.websiteUrl);
+          const ticketDate = new Date(ticket.createdAt);
+          return ticketNormalizedUrl === normalizedUrl && 
+                 ticketDate >= monthStart && 
+                 ticketDate <= monthEnd;
+        });
+
+        if (ticketsThisMonth.length >= 2) {
+          console.log(`Rate limit exceeded for ${normalizedUrl}: ${ticketsThisMonth.length} tickets this month`);
+          return res.status(429).json({
+            success: false,
+            message: "Hai raggiunto il limite massimo di 2 richieste al mese per questo sito web. Per ulteriori richieste contattaci via email o WhatsApp."
+          });
+        }
+      }
+
       const ticket = await storage.createSupportTicket({
         ...result.data
       });

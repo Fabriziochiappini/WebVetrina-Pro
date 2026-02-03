@@ -118,10 +118,11 @@ export default function Assistenza() {
         }, 2000);
       }
     },
-    onError: () => {
+    onError: (error: any) => {
+      const errorMessage = error?.message || "Riprova tra qualche minuto o contattaci via WhatsApp.";
       toast({
         title: "Errore nell'invio",
-        description: "Riprova tra qualche minuto o contattaci via WhatsApp.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
