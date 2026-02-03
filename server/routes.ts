@@ -340,7 +340,21 @@ Disallow: /api/
 
 
 
-  // Support Tickets Routes
+  // Support Tickets Routes - Upload endpoint for ticket images
+  app.post("/api/upload-ticket-image", upload.single("image"), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "Nessuna immagine caricata" });
+      }
+      const imageUrl = `/uploads/${req.file.filename}`;
+      console.log('Ticket image uploaded:', imageUrl);
+      return res.status(200).json({ url: imageUrl });
+    } catch (error) {
+      console.error("Error uploading ticket image:", error);
+      return res.status(500).json({ message: "Errore nel caricamento dell'immagine" });
+    }
+  });
+
   app.post("/api/tickets", async (req, res) => {
     try {
       const result = insertSupportTicketSchema.safeParse(req.body);
@@ -356,26 +370,83 @@ Disallow: /api/
         ...result.data
       });
 
-      // Invia email di notifica per il ticket
+      // Invia email di notifica per il ticket a entrambi gli indirizzi
       console.log('Nuovo ticket di supporto:', result.data.clientName);
 
-      const notificationSent = await sendContactNotification({
-        firstName: result.data.clientName.split(' ')[0],
-        lastName: result.data.clientName.split(' ').slice(1).join(' ') || '',
-        email: result.data.email,
-        phone: result.data.phone,
-        company: result.data.websiteUrl,
-        businessType: result.data.requestType,
-        message: `TICKET SUPPORTO - ${result.data.subject}\n\nCategoria: ${result.data.requestType}\nPriorità: ${result.data.priority}\nSito web: ${result.data.websiteUrl}\n\nDescrizione:\n${result.data.description}`
-      });
+      const ticketEmailContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #f97316; border-bottom: 2px solid #f97316; padding-bottom: 10px;">
+            🎫 Nuovo Ticket di Supporto #${ticket.id}
+          </h2>
+          
+          <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #334155;">Informazioni Cliente</h3>
+            <p><strong>Nome:</strong> ${result.data.clientName}</p>
+            <p><strong>Email:</strong> <a href="mailto:${result.data.email}">${result.data.email}</a></p>
+            <p><strong>Telefono:</strong> <a href="tel:${result.data.phone}">${result.data.phone}</a></p>
+            <p><strong>Sito Web:</strong> <a href="${result.data.websiteUrl}" target="_blank">${result.data.websiteUrl}</a></p>
+            ${result.data.referencePage ? `<p><strong>Pagina di riferimento:</strong> ${result.data.referencePage}</p>` : ''}
+          </div>
+          
+          <div style="background: #fff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #334155;">Dettagli Ticket</h3>
+            <p><strong>Categoria:</strong> ${result.data.requestType}</p>
+            <p><strong>Priorità:</strong> ${result.data.priority}</p>
+            <p><strong>Oggetto:</strong> ${result.data.subject}</p>
+          </div>
+          
+          <div style="background: #fff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <h3 style="margin-top: 0; color: #334155;">Descrizione</h3>
+            <p style="white-space: pre-wrap;">${result.data.description}</p>
+          </div>
+          
+          ${result.data.imageUrl ? `
+          <div style="background: #fff; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; margin-top: 20px;">
+            <h3 style="margin-top: 0; color: #334155;">Immagine Allegata</h3>
+            <p><a href="${result.data.imageUrl}" target="_blank">Visualizza immagine allegata</a></p>
+          </div>
+          ` : ''}
+          
+          <div style="margin-top: 30px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f97316;">
+            <p style="margin: 0; font-size: 14px; color: #92400e;">
+              <strong>Azione Richiesta:</strong> Rispondi al cliente il prima possibile.
+            </p>
+          </div>
+        </div>
+      `;
 
-      console.log(`Ticket email notification sent: ${notificationSent}`);
+      // Invia email a info@webproitalia.com
+      try {
+        const sgMail = await import('@sendgrid/mail');
+        sgMail.default.setApiKey(process.env.SENDGRID_API_KEY!);
+        
+        await sgMail.default.send({
+          to: 'info@webproitalia.com',
+          from: { email: 'seofibra@gmail.com', name: 'WebPro Italia - Ticket System' },
+          replyTo: { email: result.data.email, name: result.data.clientName },
+          subject: `🎫 Ticket #${ticket.id} - ${result.data.subject} (${result.data.priority})`,
+          html: ticketEmailContent
+        });
+        console.log('Ticket email sent to info@webproitalia.com');
+
+        // Invia anche a seofibra@gmail.com
+        await sgMail.default.send({
+          to: 'seofibra@gmail.com',
+          from: { email: 'seofibra@gmail.com', name: 'WebPro Italia - Ticket System' },
+          replyTo: { email: result.data.email, name: result.data.clientName },
+          subject: `🎫 Ticket #${ticket.id} - ${result.data.subject} (${result.data.priority})`,
+          html: ticketEmailContent
+        });
+        console.log('Ticket email sent to seofibra@gmail.com');
+      } catch (emailError) {
+        console.error('Error sending ticket email:', emailError);
+      }
 
       return res.status(200).json({
         success: true,
         message: "Ticket creato con successo! Ti contatteremo presto.",
         ticket,
-        emailSent: notificationSent
+        emailSent: true
       });
     } catch (error) {
       console.error("Error creating support ticket:", error);

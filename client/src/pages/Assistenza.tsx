@@ -10,16 +10,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { Send, User, Bot, MessageSquare, Globe, AlertCircle, Clock, CheckCircle2, Terminal } from "lucide-react";
+import { Send, User, Bot, MessageSquare, Globe, Clock, CheckCircle2, Terminal, Upload, FileImage } from "lucide-react";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import FloatingCta from '../components/FloatingCta';
 
 const ticketSchema = z.object({
-  clientName: z.string().min(2, "Il nome deve avere almeno 2 caratteri"),
-  email: z.string().email("Email non valida"),
+  clientName: z.string().min(2, "Il nome è obbligatorio (almeno 2 caratteri)"),
+  email: z.string().email("Email obbligatoria e valida"),
   phone: z.string().min(10, "Numero di telefono non valido"),
-  websiteUrl: z.string().url("URL del sito non valido").optional().or(z.literal("")),
+  websiteUrl: z.string().url("URL del sito obbligatorio e valido"),
+  referencePage: z.string().optional(),
   requestType: z.enum(["modifica", "aggiornamento", "problema", "acquisto", "altro"], {
     required_error: "Seleziona il tipo di richiesta"
   }),
@@ -35,6 +36,9 @@ type TicketFormData = z.infer<typeof ticketSchema>;
 export default function Assistenza() {
   const { toast } = useToast();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const form = useForm<TicketFormData>({
     resolver: zodResolver(ticketSchema),
@@ -43,6 +47,7 @@ export default function Assistenza() {
       email: "",
       phone: "",
       websiteUrl: "",
+      referencePage: "",
       requestType: undefined,
       priority: undefined,
       subject: "",
@@ -50,23 +55,70 @@ export default function Assistenza() {
     }
   });
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File troppo grande",
+          description: "L'immagine deve essere inferiore a 5MB",
+          variant: "destructive",
+        });
+        return;
+      }
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const mutation = useMutation({
     mutationFn: async (data: TicketFormData) => {
-      return await apiRequest("POST", "/api/tickets", data);
+      let imageUrl = "";
+      
+      if (selectedImage) {
+        setIsUploading(true);
+        const formData = new FormData();
+        formData.append("image", selectedImage);
+        
+        try {
+          const uploadResponse = await fetch("/api/upload-ticket-image", {
+            method: "POST",
+            body: formData,
+          });
+          
+          if (uploadResponse.ok) {
+            const uploadResult = await uploadResponse.json();
+            imageUrl = uploadResult.url;
+          }
+        } catch (error) {
+          console.error("Error uploading image:", error);
+        }
+        setIsUploading(false);
+      }
+      
+      return await apiRequest("POST", "/api/tickets", {
+        ...data,
+        imageUrl
+      });
     },
-    onSuccess: (response) => {
-      const newTicket = response.ticket;
+    onSuccess: (response: any) => {
       setIsSubmitted(true);
       toast({
-        title: "Ticket creato con successo! 🎫",
-        description: "Reindirizzamento alla chat di supporto...",
+        title: "Ticket creato con successo!",
+        description: "Ti contatteremo al più presto.",
       });
-      // Reindirizza alla chat del ticket dopo 2 secondi
-      setTimeout(() => {
-        window.location.href = `/ticket/${newTicket.id}`;
-      }, 2000);
+      const ticketId = response?.ticket?.id;
+      if (ticketId) {
+        setTimeout(() => {
+          window.location.href = `/ticket/${ticketId}`;
+        }, 2000);
+      }
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         title: "Errore nell'invio",
         description: "Riprova tra qualche minuto o contattaci via WhatsApp.",
@@ -91,14 +143,14 @@ export default function Assistenza() {
                   <CheckCircle2 className="w-10 h-10 text-green-600" />
                 </div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                  Ticket Creato! 🎉
+                  Ticket Creato!
                 </h1>
                 <p className="text-lg text-gray-600 mb-6">
                   Il tuo ticket è stato creato con successo. Stai per essere reindirizzato alla chat di supporto.
                 </p>
                 <div className="bg-orange-50 p-4 rounded-lg mb-6 border border-orange-200">
                   <p className="text-orange-800 font-semibold">
-                    💬 Apertura chat di supporto in corso...
+                    Apertura chat di supporto in corso...
                   </p>
                   <p className="text-orange-600 text-sm mt-1">
                     Potrai chattare direttamente con il nostro team di supporto
@@ -123,7 +175,6 @@ export default function Assistenza() {
     <>
       <Navbar />
       <div className="min-h-screen bg-gray-50 pt-20">
-        {/* Hero Section */}
         <div className="bg-gradient-to-br from-orange-600 to-purple-600 text-white py-16">
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-4xl mx-auto">
@@ -156,12 +207,10 @@ export default function Assistenza() {
           </div>
         </div>
 
-        {/* Ticket Interface */}
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-3 gap-8">
               
-              {/* Left Sidebar - Status & Info */}
               <div className="lg:col-span-1">
                 <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
@@ -195,7 +244,6 @@ export default function Assistenza() {
                 </div>
               </div>
 
-              {/* Main Ticket Form */}
               <div className="lg:col-span-2">
                 <div className="bg-white rounded-xl shadow-sm border">
                   <div className="p-6 border-b bg-gray-50 rounded-t-xl">
@@ -212,14 +260,13 @@ export default function Assistenza() {
                     <Form {...form}>
                       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                         
-                        {/* Client Info Row */}
                         <div className="grid md:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
                             name="clientName"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-gray-700 font-medium">Cliente</FormLabel>
+                                <FormLabel className="text-gray-700 font-medium">Nome e Cognome *</FormLabel>
                                 <FormControl>
                                   <Input 
                                     placeholder="Nome Cognome" 
@@ -237,7 +284,7 @@ export default function Assistenza() {
                             name="email"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-gray-700 font-medium">Email</FormLabel>
+                                <FormLabel className="text-gray-700 font-medium">Email *</FormLabel>
                                 <FormControl>
                                   <Input 
                                     type="email" 
@@ -252,14 +299,13 @@ export default function Assistenza() {
                           />
                         </div>
 
-                        {/* Contact & Website Row */}
                         <div className="grid md:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
                             name="phone"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-gray-700 font-medium">Telefono</FormLabel>
+                                <FormLabel className="text-gray-700 font-medium">Telefono *</FormLabel>
                                 <FormControl>
                                   <Input 
                                     type="tel" 
@@ -280,7 +326,7 @@ export default function Assistenza() {
                               <FormItem>
                                 <FormLabel className="text-gray-700 font-medium flex items-center gap-2">
                                   <Globe className="w-4 h-4" />
-                                  URL Sito Web
+                                  URL Sito Web *
                                 </FormLabel>
                                 <FormControl>
                                   <Input 
@@ -296,14 +342,31 @@ export default function Assistenza() {
                           />
                         </div>
 
-                        {/* Request Type & Priority Row */}
+                        <FormField
+                          control={form.control}
+                          name="referencePage"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-gray-700 font-medium">Pagina di riferimento della modifica</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Es: Homepage, Chi Siamo, Contatti, Shop, Blog..." 
+                                  {...field} 
+                                  className="h-11"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
                         <div className="grid md:grid-cols-2 gap-4">
                           <FormField
                             control={form.control}
                             name="requestType"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-gray-700 font-medium">Categoria</FormLabel>
+                                <FormLabel className="text-gray-700 font-medium">Categoria *</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
                                     <SelectTrigger className="h-11">
@@ -311,11 +374,11 @@ export default function Assistenza() {
                                     </SelectTrigger>
                                   </FormControl>
                                   <SelectContent>
-                                    <SelectItem value="modifica">🔧 Modifica al sito</SelectItem>
-                                    <SelectItem value="aggiornamento">📝 Aggiornamento contenuti</SelectItem>
-                                    <SelectItem value="problema">🚨 Problema tecnico</SelectItem>
-                                    <SelectItem value="acquisto">🛒 Servizio aggiuntivo</SelectItem>
-                                    <SelectItem value="altro">❓ Altro</SelectItem>
+                                    <SelectItem value="modifica">Modifica al sito</SelectItem>
+                                    <SelectItem value="aggiornamento">Aggiornamento contenuti</SelectItem>
+                                    <SelectItem value="problema">Problema tecnico</SelectItem>
+                                    <SelectItem value="acquisto">Servizio aggiuntivo</SelectItem>
+                                    <SelectItem value="altro">Altro</SelectItem>
                                   </SelectContent>
                                 </Select>
                                 <FormMessage />
@@ -328,7 +391,7 @@ export default function Assistenza() {
                             name="priority"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-gray-700 font-medium">Priorità</FormLabel>
+                                <FormLabel className="text-gray-700 font-medium">Priorità *</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                   <FormControl>
                                     <SelectTrigger className="h-11">
@@ -336,10 +399,10 @@ export default function Assistenza() {
                                     </SelectTrigger>
                                   </FormControl>
                                   <SelectContent>
-                                    <SelectItem value="bassa">🟢 Bassa</SelectItem>
-                                    <SelectItem value="media">🟡 Media</SelectItem>
-                                    <SelectItem value="alta">🟠 Alta</SelectItem>
-                                    <SelectItem value="urgente">🔴 Urgente</SelectItem>
+                                    <SelectItem value="bassa">Bassa</SelectItem>
+                                    <SelectItem value="media">Media</SelectItem>
+                                    <SelectItem value="alta">Alta</SelectItem>
+                                    <SelectItem value="urgente">Urgente</SelectItem>
                                   </SelectContent>
                                 </Select>
                                 <FormMessage />
@@ -348,13 +411,12 @@ export default function Assistenza() {
                           />
                         </div>
 
-                        {/* Subject */}
                         <FormField
                           control={form.control}
                           name="subject"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="text-gray-700 font-medium">Oggetto</FormLabel>
+                              <FormLabel className="text-gray-700 font-medium">Oggetto *</FormLabel>
                               <FormControl>
                                 <Input 
                                   placeholder="Es: Problema con form di contatto, aggiornamento testi homepage..." 
@@ -367,16 +429,15 @@ export default function Assistenza() {
                           )}
                         />
 
-                        {/* Description */}
                         <FormField
                           control={form.control}
                           name="description"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="text-gray-700 font-medium">Descrizione Tecnica</FormLabel>
+                              <FormLabel className="text-gray-700 font-medium">Descrizione *</FormLabel>
                               <FormControl>
                                 <Textarea 
-                                  placeholder="Descrivi dettagliatamente il problema o la richiesta. Includi:&#10;- Cosa stava succedendo quando si è verificato l'errore&#10;- Passi per riprodurre il problema&#10;- Browser e dispositivo utilizzato&#10;- Screenshot se utili"
+                                  placeholder="Descrivi dettagliatamente il problema o la richiesta..."
                                   className="min-h-[120px] resize-none"
                                   {...field}
                                 />
@@ -386,17 +447,51 @@ export default function Assistenza() {
                           )}
                         />
 
-                        {/* Submit Button */}
+                        <div>
+                          <label className="text-gray-700 font-medium text-sm block mb-2">
+                            <FileImage className="w-4 h-4 inline mr-2" />
+                            Allega immagine (opzionale)
+                          </label>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-orange-400 transition-colors">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageChange}
+                              className="hidden"
+                              id="image-upload"
+                            />
+                            <label htmlFor="image-upload" className="cursor-pointer">
+                              {imagePreview ? (
+                                <div className="space-y-2">
+                                  <img 
+                                    src={imagePreview} 
+                                    alt="Preview" 
+                                    className="max-h-32 mx-auto rounded-lg"
+                                  />
+                                  <p className="text-sm text-gray-600">{selectedImage?.name}</p>
+                                  <p className="text-xs text-orange-600">Clicca per cambiare immagine</p>
+                                </div>
+                              ) : (
+                                <div className="space-y-2">
+                                  <Upload className="w-8 h-8 mx-auto text-gray-400" />
+                                  <p className="text-sm text-gray-600">Clicca per caricare un'immagine</p>
+                                  <p className="text-xs text-gray-400">PNG, JPG fino a 5MB</p>
+                                </div>
+                              )}
+                            </label>
+                          </div>
+                        </div>
+
                         <div className="pt-4 border-t">
                           <Button 
                             type="submit" 
                             className="w-full bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-semibold py-3 h-12 text-base"
-                            disabled={mutation.isPending}
+                            disabled={mutation.isPending || isUploading}
                           >
-                            {mutation.isPending ? (
+                            {mutation.isPending || isUploading ? (
                               <div className="flex items-center gap-2">
                                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                Invio in corso...
+                                {isUploading ? "Caricamento immagine..." : "Invio in corso..."}
                               </div>
                             ) : (
                               <div className="flex items-center gap-2">
