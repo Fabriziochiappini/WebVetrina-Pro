@@ -18,10 +18,10 @@ const Hero = ({ scrollToSection }: HeroProps) => {
               OFFERTA LIMITATA
             </span>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
-              Realizzazione Siti Web Aziendali Professionali a Soli <span className="text-gradient-orange">€297</span>
+              Realizzazione Siti Web Aziendali Professionali a Soli <span className="text-gradient-orange">€897</span>
             </h1>
             <h2 className="text-xl md:text-2xl font-medium opacity-95 leading-relaxed">
-              Creazione siti web per la tua attività • Valore reale €1200 • Consegna rapida
+              Creazione siti web per la tua attività • Valore reale €1800 • Consegna rapida
             </h2>
             <ul className="space-y-4 text-lg slide-up">
               <li className="flex items-center gap-3">
@@ -76,8 +76,8 @@ const Hero = ({ scrollToSection }: HeroProps) => {
                 className="absolute -bottom-5 -left-5 bg-white text-primary p-4 rounded-lg shadow-lg font-bold cursor-pointer hover:scale-105 transition-transform"
                 onClick={() => trackBusinessEvent.ctaClick('hero_price_badge', 'landing_197')}
               >
-                <span className="text-xl line-through text-gray-500">€1200</span>
-                <span className="text-3xl ml-2 text-secondary">€297</span>
+                <span className="text-xl line-through text-gray-500">€1800</span>
+                <span className="text-3xl ml-2 text-secondary">€897</span>
                 <div className="text-xs text-center text-gray-600 mt-1">Clicca qui!</div>
               </div>
             </Link>

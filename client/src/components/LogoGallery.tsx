@@ -9,7 +9,7 @@ const LogoGallery = () => {
             Logo Professionali Inclusi
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Ecco alcuni esempi di logo che abbiamo creato per i nostri clienti, inclusi nel pacchetto da €299.
+            Ecco alcuni esempi di logo che abbiamo creato per i nostri clienti, inclusi nel pacchetto da €899.
           </p>
         </div>
         

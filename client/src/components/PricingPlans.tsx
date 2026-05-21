@@ -10,7 +10,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
   const plans = [
     {
       name: "LITE",
-      price: "297",
+      price: "897",
       description: "Ideale per piccole attività",
       features: [
         "Sito web vetrina",
@@ -25,7 +25,7 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
     },
     {
       name: "STANDARD",
-      price: "397",
+      price: "997",
       description: "Il più scelto dai nostri clienti",
       features: [
         "Sito web vetrina",
@@ -38,11 +38,11 @@ const PricingPlans = ({ scrollToSection }: PricingPlansProps) => {
       excludes: [],
       buttonText: "VOGLIO IL MIO SITO",
       popular: true,
-      originalValue: "1200"
+      originalValue: "1800"
     },
     {
       name: "E-COMMERCE",
-      price: "699",
+      price: "1299",
       description: "Per vendere online",
       features: [
         "Sito e-commerce completo",

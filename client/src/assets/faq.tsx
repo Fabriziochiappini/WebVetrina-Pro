@@ -1,11 +1,11 @@
 export const faq = [
   {
-    question: 'Cosa include esattamente il prezzo di €299?',
+    question: 'Cosa include esattamente il prezzo di €899?',
     answer: 'Il prezzo include un sito web professionale fino a 5 pagine, design di un logo, ottimizzazione mobile e consegna in tempi rapidi.'
   },
   {
     question: 'Ci sono costi nascosti?',
-    answer: 'Assolutamente no. Il prezzo di €299 copre tutto ciò che ti serve per avere un sito web professionale funzionante. Nessun costo aggiuntivo.'
+    answer: 'Assolutamente no. Il prezzo di €899 copre tutto ciò che ti serve per avere un sito web professionale funzionante. Nessun costo aggiuntivo.'
   },
   {
     question: 'In quanto tempo consegnate il sito?',

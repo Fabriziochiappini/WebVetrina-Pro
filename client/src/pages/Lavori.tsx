@@ -188,7 +188,7 @@ const Lavori = () => {
             Vuoi un sito come questi?
           </h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Realizziamo il tuo sito web professionale a partire da €297
+            Realizziamo il tuo sito web professionale a partire da €897
           </p>
           <a 
             href="/#contatti"

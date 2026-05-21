@@ -92,7 +92,7 @@ const ContactForm = () => {
               Contattaci Ora
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Compila il modulo sottostante per richiedere il tuo sito web professionale a soli €299.
+              Compila il modulo sottostante per richiedere il tuo sito web professionale a soli €899.
             </p>
           </div>
           
