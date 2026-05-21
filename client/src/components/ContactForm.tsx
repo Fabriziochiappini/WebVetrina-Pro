@@ -2,9 +2,6 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { apiRequest } from '../lib/queryClient';
-import { Loader2 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 import { trackBusinessEvent } from '../lib/analytics';
 
@@ -55,32 +52,32 @@ const ContactForm = () => {
     },
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: FormValues) => {
-      return apiRequest('POST', '/api/contact', data);
-    },
-    onSuccess: () => {
-      setSubmitted(true);
-      toast({
-        title: "Richiesta inviata con successo!",
-        description: "Ti contatteremo al più presto.",
-        variant: "default",
-      });
-      form.reset();
-    },
-    onError: (error) => {
-      toast({
-        title: "Errore nell'invio del modulo",
-        description: error.message || "Si è verificato un errore. Riprova più tardi.",
-        variant: "destructive",
-      });
-    },
-  });
+  const WHATSAPP_NUMBER = '393272572513';
 
   const onSubmit = (data: FormValues) => {
     // Track form submission with business type
     trackBusinessEvent.contactFormSubmit(data.businessType);
-    mutate(data);
+
+    // Costruisce un messaggio WhatsApp precompilato con i dati del modulo
+    const message =
+      `Ciao! Vorrei richiedere un sito web professionale.\n\n` +
+      `👤 Nome: ${data.firstName} ${data.lastName}\n` +
+      `✉️ Email: ${data.email}\n` +
+      `📞 Telefono: ${data.phone}\n` +
+      `🏢 Azienda: ${data.company?.trim() ? data.company : '-'}\n` +
+      `🏷️ Tipo di attività: ${data.businessType}\n` +
+      `📝 Requisiti: ${data.message?.trim() ? data.message : '-'}`;
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+
+    setSubmitted(true);
+    toast({
+      title: "Apertura di WhatsApp…",
+      description: "Invia il messaggio precompilato per completare la richiesta.",
+      variant: "default",
+    });
+    form.reset();
   };
 
   return (
@@ -328,19 +325,12 @@ const ContactForm = () => {
                       )}
                     />
                     
-                    <Button 
-                      type="submit" 
-                      disabled={isPending} 
-                      className="w-full py-3 px-6 bg-secondary text-white font-bold rounded-lg shadow-md hover:bg-secondary/90 transition-all"
+                    <Button
+                      type="submit"
+                      className="w-full py-3 px-6 bg-green-500 text-white font-bold rounded-lg shadow-md hover:bg-green-600 transition-all"
                     >
-                      {isPending ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Invio in corso...
-                        </>
-                      ) : (
-                        "Richiedi Subito la Tua Offerta"
-                      )}
+                      <i className="fab fa-whatsapp mr-2"></i>
+                      Richiedi Subito su WhatsApp
                     </Button>
                   </form>
                 </Form>

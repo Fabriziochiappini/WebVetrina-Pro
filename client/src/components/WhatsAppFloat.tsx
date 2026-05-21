@@ -4,8 +4,8 @@ import { trackEvent } from '../lib/analytics';
 const WhatsAppFloat = () => {
   const handleWhatsAppClick = () => {
     trackEvent('whatsapp_click', 'engagement', 'floating_button');
-    const message = "Ciao, siamo qui per aiutarvi";
-    const whatsappUrl = `https://wa.me/393479942321?text=${encodeURIComponent(message)}`;
+    const message = "Ciao! Vorrei avere informazioni sulla realizzazione del mio sito web.";
+    const whatsappUrl = `https://wa.me/393272572513?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

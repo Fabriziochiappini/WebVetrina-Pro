@@ -13,7 +13,7 @@ import Cta from '../components/Cta';
 import ContactForm from '../components/ContactForm';
 import Footer from '../components/Footer';
 import FloatingCta from '../components/FloatingCta';
-import ChatBot from '../components/ChatBot';
+import WhatsAppFloat from '../components/WhatsAppFloat';
 import PerformanceStats from '../components/PerformanceStats';
 
 const Home = () => {
@@ -71,7 +71,8 @@ const Home = () => {
       <ContactForm />
       <Footer />
       <FloatingCta />
-      <ChatBot />
+      {/* Mira (assistente AI) temporaneamente disattivata: floating WhatsApp */}
+      <WhatsAppFloat />
     </div>
   );
 };
