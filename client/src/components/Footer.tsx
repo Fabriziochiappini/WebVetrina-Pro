@@ -149,7 +149,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-center md:text-left">
               <p>&copy; {new Date().getFullYear()} WebProItalia. Tutti i diritti riservati.</p>
-              <p className="text-sm mt-1">WebProItalia è un marchio di IDEALCAR SRLS</p>
+              <p className="text-sm mt-1">WEB PRO ITALIA S.R.L. · P.IVA IT03333370603 · 03020 Frosinone</p>
             </div>
             <a 
               href="/admin" 
