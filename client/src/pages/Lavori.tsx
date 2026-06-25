@@ -17,6 +17,14 @@ interface PortfolioCategory {
 
 const portfolioData: PortfolioCategory[] = [
   {
+    id: "ai",
+    title: "Assistenti vocali AI",
+    emoji: "🤖",
+    items: [
+      { name: "Assistente Vocale AI", url: "https://www.assistentevocaleai.com", image: "https://www.assistentevocaleai.com/logo-512.png" }
+    ]
+  },
+  {
     id: "edile",
     title: "Edile",
     emoji: "🏗️",
