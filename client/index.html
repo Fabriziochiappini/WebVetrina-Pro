@@ -140,7 +140,9 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!-- note legali statiche: visibili ai crawler senza JavaScript, React le sostituisce al montaggio (requisito TWINT/P24/iDEAL, 14/09/2026) -->
+      <footer style="font:14px Arial,sans-serif;padding:24px;color:#444">WEB PRO ITALIA S.R.L. · Via Papa Giovanni Paolo II 6, 03020 Torrice (FR), Italia · P.IVA IT03333370603 · REA FR-334843 · PEC webproitalia@pec.it · info@webproitalia.com · +39 347 9942321</footer>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
