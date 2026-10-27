@@ -2,6 +2,15 @@
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      /* 27/10/2026: domini estranei (es. shokuninjp.pro) riprendono il sito in diretta: chi lo apre da lì torna sul sito vero */
+      (function () {
+        var h = location.hostname;
+        if (!/(^|\.)webproitalia\.com$/.test(h) && !/\.vercel\.app$/.test(h) && h !== 'localhost' && h !== '127.0.0.1') {
+          location.replace('https://www.webproitalia.com' + location.pathname + location.search + location.hash);
+        }
+      })();
+    </script>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>WebPro Italia - Realizzazione Siti Web Aziendali Professionali</title>
